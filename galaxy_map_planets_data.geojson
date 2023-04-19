@@ -1,0 +1,101 @@
+{
+   "type": "FeatureCollection",
+   "features": [
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 9.558,6.638 ]
+    },
+    "properties": {
+    "OBJECT":"Pantolomin",
+    "TYPE":"Planet",
+    "X":"K",
+    "Y":9,
+    "REGION_1":"Core",
+    "REGION_2":"unknown",
+    "SECTOR":"Dolomar",
+    "SYSTEM":"Panto",
+    "HYPERLANES":"Namadii Corridor",
+    "PLACEMENT_CERT":"exact",
+    "PLACEMENT_SOURCES":"Essential Atlas",
+    "NATIVE_SPECIES":"",
+    "KNOWN_ENVIRONMENTS":"tropical jungles, oceans, coral reefs",
+    "NOTES":"",
+    "INTERESTING":"tropical tourism, resorts"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 9.626,6.558 ]
+    },
+    "properties": {
+    "OBJECT":"Wor Tandell",
+    "TYPE":"Planet",
+    "X":"K",
+    "Y":9,
+    "REGION_1":"Core",
+    "REGION_2":"unknown",
+    "SECTOR":"Dolomar",
+    "SYSTEM":"",
+    "HYPERLANES":"",
+    "PLACEMENT_CERT":"exact",
+    "PLACEMENT_SOURCES":"Essential Atlas",
+    "NATIVE_SPECIES":"",
+    "KNOWN_ENVIRONMENTS":"urban, jungles, oceans",
+    "NOTES":"",
+    "INTERESTING":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 9.999,7.000 ]
+    },
+    "properties": {
+    "OBJECT":"Coruscant",
+    "TYPE":"Planet (4 moons)",
+    "X":"L",
+    "Y":9,
+    "REGION_1":"Core",
+    "REGION_2":"unknown",
+    "SECTOR":"Coruscant",
+    "SYSTEM":"Coruscant",
+    "HYPERLANES":"Perlemian Trade Route, Corellian Run, Koros Trunk Line, Shawken Spur, Namadii Corridor",
+    "PLACEMENT_CERT":"exact",
+    "PLACEMENT_SOURCES":"Essential Atlas, TFA RPG Beginner Game",
+    "NATIVE_SPECIES":"",
+    "KNOWN_ENVIRONMENTS":"ecumenopolis",
+    "NOTES":"",
+    "INTERESTING":"capital of governments; nicknamed \"Queen of the Core\" or \"City of Spires\", also variously known as Republic Center and Imperial Center; 5,127 city levels built up from the crust by time of CW, divided into megablocks, blocks and subblocks; planet divided into blocks, which were divided into zones; once mostly covered in oceans, later drained; artificial Western Sea was tourist hotspot"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 130.000,-111.190 ]
+    },
+    "properties": {
+    "OBJECT":"Skako",
+    "TYPE":"Planet",
+    "X":"L",
+    "Y":9,
+    "REGION_1":"Core",
+    "REGION_2":"Arrowhead",
+    "SECTOR":"unknown",
+    "SYSTEM":"Skako",
+    "HYPERLANES":"Hydian Way",
+    "PLACEMENT_CERT":"exact",
+    "PLACEMENT_SOURCES":"Essential Atlas, TFA RPG Beginner Game",
+    "NATIVE_SPECIES":"Skakoan",
+    "KNOWN_ENVIRONMENTS":"urban ecumenopolis, vine fields",
+    "NOTES":"",
+    "INTERESTING":"high-pressure methane atmosphere; discovered before Republic's formation; ecumenopolis comparable in population and scale to Coruscant, but lacked its charm, aesthetics; some examples of planet's ecosystem were preserved (vast fields of sprawling vines); HQ of Techno Union, which joined CIS under Wat Tambor; Skako was then expelled from Republic; home to Octuparras"
+    }
+  }
+]
+}
