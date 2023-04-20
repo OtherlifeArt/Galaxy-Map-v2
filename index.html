@@ -7,6 +7,7 @@
 
 	<link rel="stylesheet" href="scripts/leaflet.css">
 	<script src="scripts/leaflet.js"></script>
+	<script src="scrips/Leaflet.Quadtree.js"></script>
 
 	<!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
 		integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
@@ -3573,76 +3574,44 @@
 		const Kathol = L.marker([-186.50, 137.44], { icon: planetIcon }).bindTooltip("Kathol", { permanent: true, direction: 'right', offset: [0, 0], className: 'leaflet-tooltip    ' }).addTo(map);
 		const Ertrax = L.marker([-183.67, 138.25], { icon: planetIcon }).bindTooltip("Ertrax", { permanent: true, direction: 'right', offset: [0, 0], className: 'leaflet-tooltip    ' }); zoom05.addLayer(Ertrax);
 
+		let prevZoom, postZoom;
+		let zoomLevels = [zoom04,zoom05,zoom06,zoom07,zoom08,zoom09,zoom10,zoom11]
+
+		function getZoomLevel(zoomLevel) {
+			return zoomLevels[zoomLevel-4];
+		}
+
+		map.on('zoomstart', function () {
+			prevZoom = map.getZoom();
+			console.log("Prev zoom level: " + prevZoom);
+		})
 
 		map.on('zoomend', function () {
-			if (map.getZoom() < 4) {
-				map.removeLayer(zoom04);
-			}
-			else {
-				map.addLayer(zoom04);
-			}
-		});
+			postZoom = map.getZoom();
+			console.log("Post zoom level: " + postZoom);
 
-		map.on('zoomend', function () {
-			if (map.getZoom() < 5) {
-				map.removeLayer(zoom05);
-			}
-			else {
-				map.addLayer(zoom05);
-			}
-		});
+			// Return if zoom level stayed the same
+			if(prevZoom == postZoom) return;
 
-		map.on('zoomend', function () {
-			if (map.getZoom() < 6) {
-				map.removeLayer(zoom06);
-			}
-			else {
-				map.addLayer(zoom06);
-			}
-		});
+			// Boolean to determine if we're adding [true] or removing [false] layers in the loop
+			let adding = prevZoom < postZoom
 
-		map.on('zoomend', function () {
-			if (map.getZoom() < 7) {
-				map.removeLayer(zoom07);
-			}
-			else {
-				map.addLayer(zoom07);
-			}
-		});
+			// If zoom level increased => show layers up to zoom level
+			// If zoom level decreased => hide layers exceeding zoom level
+			for(i = Math.min(postZoom,prevZoom)+1; i<=Math.max(postZoom,prevZoom); i++) {
+				startTime = performance.now();
 
-		map.on('zoomend', function () {
-			if (map.getZoom() < 8) {
-				map.removeLayer(zoom08);
-			}
-			else {
-				map.addLayer(zoom08);
-			}
-		});
+				if(adding) {
+					console.log("Showing layer " + i);
+					map.addLayer(getZoomLevel(i));
+				}
+				else {
+					console.log("Hiding layer " + i);
+					map.removeLayer(getZoomLevel(i));
+				}
 
-		map.on('zoomend', function () {
-			if (map.getZoom() < 9) {
-				map.removeLayer(zoom09);
-			}
-			else {
-				map.addLayer(zoom09);
-			}
-		});
-
-		map.on('zoomend', function () {
-			if (map.getZoom() < 10) {
-				map.removeLayer(zoom10);
-			}
-			else {
-				map.addLayer(zoom10);
-			}
-		});
-
-		map.on('zoomend', function () {
-			if (map.getZoom() < 11) {
-				map.removeLayer(zoom11);
-			}
-			else {
-				map.addLayer(zoom11);
+				endTime = performance.now();
+				console.log(`Layer ${i} took ${endTime-startTime}ms`);
 			}
 		});
 
