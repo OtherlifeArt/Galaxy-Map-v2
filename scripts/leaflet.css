@@ -761,42 +761,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	content: "";
 	}
 
-/* Level 6+ Subsectors   (Styles for the element that has a tooltip) */
-.leaflet-tooltip-sub {
-	position: absolute;
-	padding: 1px;
-	background-color: #000;
-	border: transparent;
-	border-radius: 3px;
-	color: #6D60AD;
-	font-size: 1.3em;
-	font-weight: bold;
-	text-align: center;
-	white-space: nowrap;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	pointer-events: none;
-	background: transparent; /*FINALLY got tooltip transparent*/
-	text-shadow: 2px 2px #000000;
-	box-shadow: 0 0px 0px rgba(0,0,0,0);
-	}
-.leaflet-tooltip2.leaflet-clickable {
-	cursor: pointer;
-	pointer-events: auto;
-	}
-.leaflet-tooltip2-top:before,
-.leaflet-tooltip2-bottom:before,
-.leaflet-tooltip2-left:before,
-.leaflet-tooltip2-right:before {
-	position: absolute;
-	pointer-events: none;
-	border: 0px solid transparent; /*removed white tooltip triangle*/
-	background: transparent;
-	content: "";
-	}
-
 /* Directions */
 
 .leaflet-tooltip-bottom {
