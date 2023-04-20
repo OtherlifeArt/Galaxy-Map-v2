@@ -7,7 +7,7 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 
 ### Map Fixes (Top Priority)
 - [x] Identify core performance issues
-- [ ] Upload map tiles/finish repo setup
+- [x] Upload map tiles/finish repo setup
 - [ ] Extract all data into separate files
 - [ ] Make file loading process asynchronous to make the initial loading more responsive
 - [ ] Rework zoom layer culling
@@ -28,6 +28,7 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
   - [ ] Sidebar search bar (above matching planet info?)
   - [ ] If a match is found, map zooms to topmost level that displays matching location & centers/drops pin (similar to Google Maps?) 
 - [ ] Make hyperlanes akin to streets on Google Maps such that routes can be followed or planned
+- [ ] Display grid square labels (1,2,3...), (A,B,C...) dynamically, so they are visible even when the map is zoomed in
 
 ### To Consider
 - [ ] Determine best way to display star system info/planet info
