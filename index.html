@@ -57,7 +57,10 @@
 
 		// Adds tiles to map, Sets zoom limits, Sets where map view starts out centered
 		//var map = L.map('map', {crs: L.CRS.Simple}).setView([-121.75, 124.625], 0);
-		var map = L.map('map', { crs: L.CRS.Simple }).setView([-108.063, 147.797], 6);
+		var map = L.map('map', {
+			 crs: L.CRS.Simple ,
+			 preferCanvas: true
+		}).setView([-108.063, 147.797], 6);
 		L.tileLayer('map/{z}/{x}/{y}.png', {
 			continuousWorld: false,
 			//maxBounds: bounds
@@ -3583,14 +3586,13 @@
 
 		map.on('zoomstart', function () {
 			prevZoom = map.getZoom();
-			console.log("Prev zoom level: " + prevZoom);
 		})
 
 		map.on('zoomend', function () {
 			postZoom = map.getZoom();
-			console.log("Post zoom level: " + postZoom);
+			console.log(`Zoom level changed: ${prevZoom}->${postZoom}`);
 
-			// Return if zoom level stayed the same
+			// Skip if zoom level stayed the same
 			if(prevZoom == postZoom) return;
 
 			// Boolean to determine if we're adding [true] or removing [false] layers in the loop
@@ -3600,18 +3602,19 @@
 			// If zoom level decreased => hide layers exceeding zoom level
 			for(i = Math.min(postZoom,prevZoom)+1; i<=Math.max(postZoom,prevZoom); i++) {
 				startTime = performance.now();
-
+				
+				let layer = getZoomLevel(i);
 				if(adding) {
 					console.log("Showing layer " + i);
-					map.addLayer(getZoomLevel(i));
+					map.addLayer(layer);
 				}
 				else {
 					console.log("Hiding layer " + i);
-					map.removeLayer(getZoomLevel(i));
+					map.removeLayer(layer);
 				}
 
 				endTime = performance.now();
-				console.log(`Layer ${i} took ${endTime-startTime}ms`);
+				console.log(`Layer ${i} took ${endTime-startTime}ms for ${layer.getLayers().length} Elements`);
 			}
 		});
 
