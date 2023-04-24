@@ -31,14 +31,15 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 
 ### At-A-Glance Info to Display about Locations
 
-| TYPE                 | VALUES                                                  | METHOD              | NOTES                               |
-| -------------------- | ------------------------------------------------------- | ------------------- | ----------------------------------- |
-| CANONICITY           | Canon,Legends                                           | Layers (show/hide)  | separate icons no longer needed?    |
-| LOCATION TYPE        | Star,System,Planet,Moon,Nebula,Blk Hole,Space Sta,Other | Icon                |                                     |
-| PLACEMENT CERTAINTY  | none,region,grid sq,sector,proximity,exact              | Icon color?         | alternative values: low,medium,high |
+| TYPE                 | VALUES                                                  | METHOD                 | NOTES                               |
+| -------------------- | ------------------------------------------------------- | ---------------------- | ----------------------------------- |
+| CANONICITY           | Canon,Legends                                           | Layers (show/hide)     | separate icons no longer needed?    |
+| MEDIA TYPE           | live-action,other visual media,non-visual media         | Icon?                  | currently: 3D icon for live-action  |
+| LOCATION TYPE        | Star,System,Planet,Moon,Nebula,Blk Hole,Space Sta,Other | Icon?                  |                                     |
+| PLACEMENT CERTAINTY  | none,region,grid sq,sector,proximity,exact              | Icon color?            | alternative values: low,medium,high |
+| HIGHLIGHTS           | ecumenopoli,tourist,fortress worlds,uninhabited         | Highlight (show/hide)? | bonus feature (low priority)        |
 
 ### To Consider
-- [ ] Determine best way to display star system info/planet info
 - [ ] Fanmade content
   - [ ] Would fanmade content on a separate layer "taint" the quality of the map, or would it be better to create a completely separate version of the map?
   
