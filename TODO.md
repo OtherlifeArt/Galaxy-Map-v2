@@ -22,23 +22,20 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 
 ### Desired Features (Front End)
 - [ ] Determine best license for map (Creative Commons with attribution?)
-- [ ] Display at-a-glance: certainty of planet placement (determine how to show visually?)
-- [ ] Scrolling sidebar (minimizable?) to display location info
+- [ ] Scrolling sidebar (minimizable?) to display in-depth info about locations
 - [ ] Search function
   - [ ] Sidebar search bar (above matching planet info?)
   - [ ] If a match is found, map zooms to topmost level that displays matching location & centers/drops pin (similar to Google Maps?) 
 - [ ] Make hyperlanes akin to streets on Google Maps such that routes can be followed or planned
 - [ ] Display grid square labels (1,2,3...), (A,B,C...) dynamically, so they are visible even when the map is zoomed in
 
-### Info to Display
-TYPE                  VALUES             METHOD                  NOTES
-Canonicity            Canon, Legends     Layers (show/hide)      (no longer need separate Canon/Legends icons?)
-Placement certainty   
+### At-A-Glance Info to Display about Locations
 
-| TYPE          | VALUES        | METHOD        | NOTES         |
-| ------------- | ------------- | ------------- | ------------- |
-| Content Cell  | Content Cell  | Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  | Content Cell  | Content Cell  |
+| TYPE                 | VALUES                                                  | METHOD              | NOTES                               |
+| -------------------- | ------------------------------------------------------- | ------------------- | ----------------------------------- |
+| CANONICITY           | Canon,Legends                                           | Layers (show/hide)  | separate icons no longer needed?    |
+| LOCATION TYPE        | Star,System,Planet,Moon,Nebula,Blk Hole,Space Sta,Other | Icon                |                                     |
+| PLACEMENT CERTAINTY  | none,region,grid sq,sector,proximity,exact              | Icon color?         | alternative values: low,medium,high |
 
 ### To Consider
 - [ ] Determine best way to display star system info/planet info
