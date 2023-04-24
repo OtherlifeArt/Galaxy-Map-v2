@@ -35,7 +35,7 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 | -------------------- | ------------------------------------------------------- | ---------------------- | ----------------------------------- |
 | CANONICITY           | Canon,Legends                                           | Layers (show/hide)     | separate icons no longer needed?    |
 | MEDIA TYPE           | live-action,other visual media,non-visual media         | Icon?                  | currently: 3D icon for live-action  |
-| LOCATION TYPE        | Star,System,Planet,Moon,Nebula,Blk Hole,Space Sta,Other | Icon?                  |                                     |
+| LOCATION TYPE        | Star,System,Planet,Moon,Nebula,Blk Hole,Space Sta,Other | Icon?                  | currently: distinct icons for each  |
 | PLACEMENT CERTAINTY  | none,region,grid sq,sector,proximity,exact              | Icon color?            | alternative values: low,medium,high |
 | HIGHLIGHTS           | ecumenopoli,tourist,fortress worlds,uninhabited         | Highlight (show/hide)? | bonus feature (low priority)        |
 
