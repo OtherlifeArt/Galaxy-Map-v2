@@ -35,6 +35,11 @@ TYPE                  VALUES             METHOD                  NOTES
 Canonicity            Canon, Legends     Layers (show/hide)      (no longer need separate Canon/Legends icons?)
 Placement certainty   
 
+| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
+
 ### To Consider
 - [ ] Determine best way to display star system info/planet info
 - [ ] Fanmade content
