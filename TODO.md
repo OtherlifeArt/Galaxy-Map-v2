@@ -48,5 +48,5 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
   - [ ] Would fanmade content on a separate layer "taint" the quality of the map, or would it be better to create a completely separate version of the map?
   
 ### Miscellaneous
-- [ ] Pin roadmap to Discord channel?
+- [X] Pin roadmap to Discord channel?
 - [ ] https://github.com/domoritz/leaflet-maskcanvas (high performance plugin which doesn't suit our exact use case, but can be a valuable resource for optimization ideas)
