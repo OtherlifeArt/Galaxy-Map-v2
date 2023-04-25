@@ -29,17 +29,18 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 - [ ] Make hyperlanes akin to streets on Google Maps such that routes can be followed or planned
 - [ ] Display grid square labels (1,2,3...), (A,B,C...) dynamically, so they are visible even when the map is zoomed in
 - [ ] Make regions "coded" filled polyline areas rather than part of the background tile images? Perhaps there could be a timeline slider to show how regions or faction territories grow, shrink, or evolve over time
+  - [ ] Make an option to show/hide "classic" Essential Atlas-style regions versus _Mandalorian_-style "chunky" regions
 - [ ] Z-axis info ("elevation") for locations? Probably impossible, but a "Google Earth"-style tilt view would be very interesting 
 
 ### At-A-Glance Info to Display about Locations
 
-| TYPE                 | VALUES                                                  | METHOD                 | NOTES                               |
-| -------------------- | ------------------------------------------------------- | ---------------------- | ----------------------------------- |
-| CANONICITY           | Canon,Legends                                           | Layers (show/hide)     | separate icons no longer needed?    |
-| MEDIA TYPE           | live-action,other visual media,non-visual media         | Icon?                  | currently: 3D icon for live-action  |
-| LOCATION TYPE        | Star,System,Planet,Moon,Nebula,Blk Hole,Space Sta,Other | Icon?                  | currently: distinct icons for each  |
-| PLACEMENT CERTAINTY  | none,region,grid sq,sector,proximity,exact              | Icon color?            | alternative values: low,medium,high |
-| HIGHLIGHTS           | ecumenopoli,tourist,fortress worlds,mining,uninhabited  | Highlight (show/hide)? | bonus feature (low priority)        |
+| TYPE                 | VALUES                                                      | METHOD                 | NOTES                               |
+| -------------------- | ----------------------------------------------------------- | ---------------------- | ----------------------------------- |
+| CANONICITY           | Canon,Legends                                               | Layers (show/hide)     | separate icons no longer needed?    |
+| MEDIA TYPE           | live-action,other visual media,non-visual media             | Icon?                  | currently: 3D icon for live-action  |
+| LOCATION TYPE        | Star,System,Planet,Moon,Nebula,Blk Hole,Space Station,Other | Icon?                  | currently: distinct icons for each  |
+| PLACEMENT CERTAINTY  | none,region,grid sq,sector,proximity,exact                  | Icon color?            | alternative values: low,medium,high |
+| HIGHLIGHTS           | ecumenopoli,tourist,fortress worlds,mining,uninhabited,etc  | Highlight (show/hide)? | bonus feature (low priority)        |
 | REGIONS
 
 ### To Consider
