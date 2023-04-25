@@ -29,7 +29,7 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 - [ ] Make hyperlanes akin to streets on Google Maps such that routes can be followed or planned
 - [ ] Display grid square labels (1,2,3...), (A,B,C...) dynamically, so they are visible even when the map is zoomed in
 - [ ] Make regions/sectors "coded" polyline areas rather than part of the background tile images?
-  - [ ] Perhaps there could be a timeline slider to show how regions or faction territories grow, shrink, or evolve over time? (see example 2 below)
+  - [ ] Perhaps there could be a timeline slider to show how regions or faction territories grow, shrink, or evolve over time? (see example 3 below)
   - [ ] Make an option to show/hide "classic" Essential Atlas-style regions versus _Mandalorian_-style "chunky" regions (see example 1 below)
 - [ ] Z-axis info ("elevation") for locations? Probably impossible, but a "Google Earth"-style tilt view would be very interesting 
 
@@ -54,4 +54,5 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 ### For Reference
 Current WIP: https://otherlife.davidcanavese.com/galaxymap2/
 Example 1: Dynamic map by Henry Bernberg: http://www.swgalaxymap.com/
-Example 2: Dynamic map by Crow-Strict (Reddit): https://map.fantasymaps.org/sw/2061.061580514486/18.42060365971122/0.00007286969622555262/0.00008967323265096638
+Example 2: Dynamic map by Henry Bernberg: https://hbernberg.carto.com/viz/76e286d4-fbab-11e3-b014-0e73339ffa50/embed_map
+Example 3: Dynamic map by Crow-Strict (Reddit): https://map.fantasymaps.org/sw/2061.061580514486/18.42060365971122/0.00007286969622555262/0.00008967323265096638
