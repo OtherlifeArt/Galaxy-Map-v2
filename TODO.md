@@ -15,6 +15,7 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 - [ ] Fix scale of map and/or coordinate system to correspond to "Essential Atlas" grid system
 - [ ] Write script to translate existing coords to new coord system?
 - [ ] Update to a newer version of leaflet
+- [ ] Many planets without Canon/Legends color rings currently redirect to the tooltip for Christophsis (probably a C&P error).
   
 ### Desired Features (Back End)
 - [ ] Create easy data entry system to add new planets/locations
