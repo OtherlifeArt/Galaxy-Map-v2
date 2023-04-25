@@ -41,6 +41,7 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 | MEDIA TYPE           | live-action,other visual media,non-visual media             | Icon?                  | currently: 3D icon for live-action  |
 | LOCATION TYPE        | Star,System,Planet,Moon,Nebula,Blk Hole,Space Station,Other | Icon?                  | currently: distinct icons for each  |
 | PLACEMENT CERTAINTY  | none,region,grid sq,sector,proximity,exact                  | Icon color?            | alternative values: low,medium,high |
+| HIGHLIGHTS           | desert,icy,swamp,jungle,aquatic,mountainous                 | Highlight (show/hide)? | bonus feature (low priority)        |
 | HIGHLIGHTS           | ecumenopoli,tourist,fortress worlds,mining,uninhabited,etc  | Highlight (show/hide)? | bonus feature (low priority)        |
 
 ### To Consider
