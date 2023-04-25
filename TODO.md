@@ -26,7 +26,8 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 - [ ] Scrolling sidebar (minimizable?) to display in-depth info about locations
 - [ ] Search function
   - [ ] Sidebar search bar (above matching planet info?)
-  - [ ] If a match is found, map zooms to topmost level that displays matching location & centers/drops pin (similar to Google Maps?) 
+  - [ ] If a match is found, map zooms to topmost level that displays matching location & centers/drops pin (similar to Google Maps?)
+  - [ ] It would be helpful to somehow tag worlds by what movie, TV show, or other media they appeared in in case someone can't remember the name of a planet
 - [ ] Make hyperlanes akin to streets on Google Maps such that routes can be followed or planned
 - [ ] Display grid square labels (1,2,3...), (A,B,C...) dynamically, so they are visible even when the map is zoomed in
 - [ ] Make regions/sectors "coded" polyline areas rather than part of the background tile images?
