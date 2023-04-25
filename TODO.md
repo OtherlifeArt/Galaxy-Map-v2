@@ -28,7 +28,8 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
   - [ ] If a match is found, map zooms to topmost level that displays matching location & centers/drops pin (similar to Google Maps?) 
 - [ ] Make hyperlanes akin to streets on Google Maps such that routes can be followed or planned
 - [ ] Display grid square labels (1,2,3...), (A,B,C...) dynamically, so they are visible even when the map is zoomed in
-- [ ] Make regions "coded" filled polyline areas rather than part of the background tile images? Perhaps there could be a timeline slider to show how regions or faction territories grow, shrink, or evolve over time
+- [ ] Make regions/sectors "coded" polyline areas rather than part of the background tile images?
+  - [ ] Perhaps there could be a timeline slider to show how regions or faction territories grow, shrink, or evolve over time?
   - [ ] Make an option to show/hide "classic" Essential Atlas-style regions versus _Mandalorian_-style "chunky" regions
 - [ ] Z-axis info ("elevation") for locations? Probably impossible, but a "Google Earth"-style tilt view would be very interesting 
 
@@ -41,7 +42,6 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 | LOCATION TYPE        | Star,System,Planet,Moon,Nebula,Blk Hole,Space Station,Other | Icon?                  | currently: distinct icons for each  |
 | PLACEMENT CERTAINTY  | none,region,grid sq,sector,proximity,exact                  | Icon color?            | alternative values: low,medium,high |
 | HIGHLIGHTS           | ecumenopoli,tourist,fortress worlds,mining,uninhabited,etc  | Highlight (show/hide)? | bonus feature (low priority)        |
-| REGIONS
 
 ### To Consider
 - [ ] Fanmade content
