@@ -53,5 +53,5 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 
 ### For Reference
 Current WIP: https://otherlife.davidcanavese.com/galaxymap2/
-Example 1: SWGalaxyMap.com: http://www.swgalaxymap.com/
+Example 1: Dynamic map by Henry Bernberg: http://www.swgalaxymap.com/
 Example 2: Dynamic map by Crow-Strict (Reddit): https://map.fantasymaps.org/sw/2061.061580514486/18.42060365971122/0.00007286969622555262/0.00008967323265096638
