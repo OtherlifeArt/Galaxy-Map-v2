@@ -57,3 +57,5 @@ Current WIP: https://otherlife.davidcanavese.com/galaxymap2/
 Example 1: Dynamic map by Henry Bernberg: http://www.swgalaxymap.com/
 Example 2: Dynamic map by Henry Bernberg: https://hbernberg.carto.com/viz/76e286d4-fbab-11e3-b014-0e73339ffa50/embed_map
 Example 3: Dynamic map by Crow-Strict (Reddit): https://map.fantasymaps.org/sw/2061.061580514486/18.42060365971122/0.00007286969622555262/0.00008967323265096638
+Example 4: Static map on SW Combine (has fanmade inner region sectors): https://www.swcombine.com/rules/?Galaxy_Map
+Timelines Map Breakdown: https://numidianprime.wordpress.com/2022/06/10/star-wars-timelines-galaxy-map-breakdown/
