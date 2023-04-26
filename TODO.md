@@ -30,6 +30,7 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
   - [ ] It would be helpful to somehow tag worlds by what movie, TV show, or other media they appeared in in case someone can't remember the name of a planet
 - [ ] Make hyperlanes akin to streets on Google Maps such that routes can be followed or planned
 - [ ] Display grid square labels (1,2,3...), (A,B,C...) dynamically, so they are visible even when the map is zoomed in
+- [ ] Display region labels (Core Worlds, Colonies, Inner Rim...) dynamically? or color-code regions
 - [ ] Make regions/sectors "coded" polyline areas rather than part of the background tile images?
   - [ ] Perhaps there could be a timeline slider to show how regions or faction territories grow, shrink, or evolve over time? (see example 3 below)
   - [ ] Make an option to show/hide "classic" Essential Atlas-style regions versus _Mandalorian_-style "chunky" regions (see example 1 below)
