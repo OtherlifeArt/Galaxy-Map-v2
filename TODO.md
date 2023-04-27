@@ -24,6 +24,7 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 ### Desired Features (Front End)
 - [ ] Determine best license for map (Creative Commons with attribution?)
 - [ ] Scrolling sidebar (minimizable?) to display in-depth info about locations
+- [ ] Showing a subdivided grid beyond a certain zoom point (a manually created grid currently exists, but only for the Hapes Cluster in grid O-9)
 - [ ] Search function
   - [ ] Sidebar search bar (above matching planet info?)
   - [ ] If a match is found, map zooms to topmost level that displays matching location & centers/drops pin (similar to Google Maps?)
