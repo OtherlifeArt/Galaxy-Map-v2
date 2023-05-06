@@ -3,11 +3,12 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 
 ### Website
 - [ ] Create "splash page" for the Galaxy Map and related projects @David
-  - [ ] Attribution page to credit collaborators
-
+  - [ ] Attribution page to credit collaborators @David
+|
+|
 ### Map Fixes (Top Priority)
-- [x] Identify core performance issues
-- [x] Upload map tiles/finish repo setup
+- [x] Identify core performance issues @Lahusa
+- [x] Upload map tiles/finish repo setup @David
 - [ ] Extract all data into separate files
 - [ ] Make file loading process asynchronous to make the initial loading more responsive
 - [ ] Rework zoom layer culling
@@ -16,13 +17,13 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 - [ ] Write script to translate existing coords to new coord system?
 - [ ] Update to a newer version of leaflet
 - [ ] Many planets without Canon/Legends color rings currently redirect to the tooltip for Christophsis (probably a C&P error).
-
-
+|
+|
 ### Desired Features (Back End)
 - [ ] Create easy data entry system to add new planets/locations
 - [ ] Is it feasible to create a graphical entry system for hyperroutes instead of manual point-by-point entry?
-
-
+|
+|
 ### Desired Features (Front End)
 - [ ] Determine best license for map (Creative Commons with attribution?)
 - [ ] Scrolling sidebar (minimizable?) to display in-depth info about locations
@@ -38,8 +39,8 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
   - [ ] Perhaps there could be a timeline slider to show how regions or faction territories grow, shrink, or evolve over time? (see example 3 below)
   - [ ] Make an option to show/hide "classic" Essential Atlas-style regions versus _Mandalorian_-style "chunky" regions (see example 1 below)
 - [ ] Z-axis info ("elevation") for locations? Probably impossible, but a "Google Earth"-style tilt view would be very interesting 
-
-
+|
+|
 ### At-A-Glance Info to Display about Locations
 
 | TYPE                 | VALUES                                                      | METHOD                 | NOTES                               |
@@ -50,18 +51,18 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 | PLACEMENT CERTAINTY  | none,region,grid sq,sector,proximity,exact                  | Icon color?            | alternative values: low,medium,high |
 | HIGHLIGHTS           | desert,icy,swamp,jungle,aquatic,mountainous                 | Highlight (show/hide)? | bonus feature (low priority)        |
 | HIGHLIGHTS           | ecumenopoli,tourist,fortress worlds,mining,uninhabited,etc  | Highlight (show/hide)? | bonus feature (low priority)        |
-
-
+|
+|
 ### To Consider
 - [ ] Fanmade content
   - [ ] Would fanmade content on a separate layer "taint" the quality of the map, or would it be better to create a completely separate version of the map?
-  
-  
+|
+| 
 ### Miscellaneous
 - [X] Pin roadmap to Discord channel?
 - [ ] https://github.com/domoritz/leaflet-maskcanvas (high performance plugin which doesn't suit our exact use case, but can be a valuable resource for optimization ideas)
-
-
+|
+|
 ### For Reference
 Current WIP: https://otherlife.davidcanavese.com/galaxymap2/
 Example 1: Dynamic map by Henry Bernberg: http://www.swgalaxymap.com/
