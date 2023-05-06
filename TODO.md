@@ -17,8 +17,8 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 - [ ] Write script to translate existing coords to new coord system?
 - [ ] Update to a newer version of leaflet
 - [ ] Many planets without Canon/Legends color rings currently redirect to the tooltip for Christophsis (probably a C&P error).
-|
-|
+
+
 ### Desired Features (Back End)
 - [ ] Create easy data entry system to add new planets/locations
 - [ ] Is it feasible to create a graphical entry system for hyperroutes instead of manual point-by-point entry?
@@ -56,13 +56,13 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 ### To Consider
 - [ ] Fanmade content
   - [ ] Would fanmade content on a separate layer "taint" the quality of the map, or would it be better to create a completely separate version of the map?
-.
-.
+
+
 ### Miscellaneous
 - [X] Pin roadmap to Discord channel?
 - [ ] https://github.com/domoritz/leaflet-maskcanvas (high performance plugin which doesn't suit our exact use case, but can be a valuable resource for optimization ideas)
-.
-.
+
+
 ### For Reference
 Current WIP: https://otherlife.davidcanavese.com/galaxymap2/
 Example 1: Dynamic map by Henry Bernberg: http://www.swgalaxymap.com/
