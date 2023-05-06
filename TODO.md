@@ -16,10 +16,12 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 - [ ] Write script to translate existing coords to new coord system?
 - [ ] Update to a newer version of leaflet
 - [ ] Many planets without Canon/Legends color rings currently redirect to the tooltip for Christophsis (probably a C&P error).
-  
+
+
 ### Desired Features (Back End)
 - [ ] Create easy data entry system to add new planets/locations
 - [ ] Is it feasible to create a graphical entry system for hyperroutes instead of manual point-by-point entry?
+
 
 ### Desired Features (Front End)
 - [ ] Determine best license for map (Creative Commons with attribution?)
@@ -37,6 +39,7 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
   - [ ] Make an option to show/hide "classic" Essential Atlas-style regions versus _Mandalorian_-style "chunky" regions (see example 1 below)
 - [ ] Z-axis info ("elevation") for locations? Probably impossible, but a "Google Earth"-style tilt view would be very interesting 
 
+
 ### At-A-Glance Info to Display about Locations
 
 | TYPE                 | VALUES                                                      | METHOD                 | NOTES                               |
@@ -48,13 +51,16 @@ The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (b
 | HIGHLIGHTS           | desert,icy,swamp,jungle,aquatic,mountainous                 | Highlight (show/hide)? | bonus feature (low priority)        |
 | HIGHLIGHTS           | ecumenopoli,tourist,fortress worlds,mining,uninhabited,etc  | Highlight (show/hide)? | bonus feature (low priority)        |
 
+
 ### To Consider
 - [ ] Fanmade content
   - [ ] Would fanmade content on a separate layer "taint" the quality of the map, or would it be better to create a completely separate version of the map?
   
+  
 ### Miscellaneous
 - [X] Pin roadmap to Discord channel?
 - [ ] https://github.com/domoritz/leaflet-maskcanvas (high performance plugin which doesn't suit our exact use case, but can be a valuable resource for optimization ideas)
+
 
 ### For Reference
 Current WIP: https://otherlife.davidcanavese.com/galaxymap2/
