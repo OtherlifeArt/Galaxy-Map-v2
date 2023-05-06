@@ -2,8 +2,8 @@
 The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (both Canon and Legends).
 
 ### Website
-- [ ] Create "splash page" for the Galaxy Map and related projects 2023-04-19 
-  - [ ] Attribution page
+- [ ] Create "splash page" for the Galaxy Map and related projects @David
+  - [ ] Attribution page to credit collaborators
 
 ### Map Fixes (Top Priority)
 - [x] Identify core performance issues
