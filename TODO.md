@@ -2,13 +2,13 @@
 The most complete dynamic, zoomable map ever compiled of the Star Wars Galaxy (both Canon and Legends).
 
 ### Website
-- [ ] Create "splash page" for the Galaxy Map and related projects @David
-  - [ ] Attribution page to credit collaborators @David
+- [ ] Create "splash page" for the Galaxy Map and related projects **@David**
+  - [ ] Attribution page to credit collaborators **@David**
 
 
 ### Map Fixes (Top Priority)
-- [x] Identify core performance issues @Lahusa
-- [x] Upload map tiles/finish repo setup @David
+- [x] Identify core performance issues **@Lahusa**
+- [x] Upload map tiles/finish repo setup **@David**
 - [ ] Extract all data into separate files
 - [ ] Make file loading process asynchronous to make the initial loading more responsive
 - [ ] Rework zoom layer culling
