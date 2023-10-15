@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CSV to JSON parser for Galaxy map v2</title>
+    <link rel="stylesheet" href="./csv-to-json.css">
+    <!-- <link rel="icon" href="./favicon.ico" type="image/x-icon"> -->
+  </head>
+  <body>
+    <main>
+        <h1>CSV To JSON parser for Galaxy map V2</h1>
+        
+        <label for="astro-object-input-file">Select CSV files:</label>
+        <input type="file" id="astro-object-input-file" name="astro-object-input-file" accept="text/csv" multiple/>
+        
+        <div>
+          <output id="notification"></output>
+          <output id="totalTime"></output>
+        </div><br/>
+
+        <div id="copyBlock" hidden>
+          <button id="copyButton">Copy to clipboard</button>
+          <output id="copyNotification"></output>
+        </div><br/>
+
+        <div>
+          <output id="output"></output>
+        </div>
+    </main>
+	<script src="./csv-to-json.js"></script>
+  </body>
+</html>
