@@ -1,9 +1,6 @@
 //<div id="map" style="width: 100%; height: 100%; background: #000000;"></div>
 //<script>
 
-// Parsing data
-parseAstronomicalObjectCSV();
-
 //Creating the Map
 L.CRS.MySimple = L.extend({}, L.CRS.Simple, {
   transformation: new L.Transformation(0, 2000, -1 / 75, 134)
