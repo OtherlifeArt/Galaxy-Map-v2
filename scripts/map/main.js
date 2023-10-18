@@ -111,7 +111,8 @@ var zoom10CIL = null;
 var zoom11CIL = null;
 // Any zoom level
 var anyZoomCIL = new L.canvasIconLayer({}).addTo(map).addLayers(anyZoomLocationMarkers);
-
+// Open tooltips (labels)
+anyZoomLocationMarkers.forEach((marker) => marker.openTooltip());
 
 var zoomLevelCILs = [zoom04CIL,zoom05CIL,zoom06CIL,zoom07CIL,zoom08CIL,zoom09CIL,zoom10CIL,zoom11CIL];
 var zoomLevelLocationMarkers = [
@@ -148,6 +149,7 @@ function addCanvasIconLayer(zoomLevel) {
   if(window.zoomLevelLocationMarkers[index].length > 0) { // Trick : check for array not empty to avoid error (library lacks control)
     window.zoomLevelCILs[index] = new L.canvasIconLayer({}).addTo(map); // Trick : creating canvasIconLayer at the last moment to avoid empty layer array error (library lacks control)
     window.zoomLevelCILs[index].addLayers(window.zoomLevelLocationMarkers[index]);
+    window.zoomLevelLocationMarkers[index].forEach((marker) => marker.openTooltip()); // Open tooltips
   }
 }
 
@@ -157,7 +159,11 @@ function addCanvasIconLayer(zoomLevel) {
 function removeCanvasIconLayer(zoomLevel) {
   let index = zoomLevel - 4;
   if(window.zoomLevelCILs[index] !== null && window.zoomLevelLocationMarkers[index].length > 0) { // Trick : check for array not empty and canvasIconLayer existence to avoid error (library lacks control)
-    window.zoomLevelLocationMarkers[index].forEach((marker) => window.zoomLevelCILs[index].removeLayer(marker)); // Library lacks batch layer removal
+    window.zoomLevelLocationMarkers[index].forEach((marker) => 
+    {
+      marker.closeTooltip();
+      window.zoomLevelCILs[index].removeLayer(marker); // Library lacks batch layer removal
+    }); 
     window.zoomLevelCILs[index] = null; // Trick : destroys canvasIconLayer to avoid error on empty markerArray (library lacks control)
   }
 }
