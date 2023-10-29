@@ -100,27 +100,6 @@ var fg = L.featureGroup().addTo(map);
 
 function createLabel(layer, text, count) { }*/
 
-// CanvasIconLayers for locations with icons and zoom levels
-var zoom04CIL = null;
-var zoom05CIL = null;
-var zoom06CIL = null;
-var zoom07CIL = null;
-var zoom08CIL = null;
-var zoom09CIL = null;
-var zoom10CIL = null;
-var zoom11CIL = null;
-// Display any zoom level astro objects and current zoomlevel ones
-var anyZoomCIL = new L.canvasIconLayer({}).addTo(map).addLayers(anyZoomLocationMarkers);
-// Open tooltips (labels)
-//anyZoomLocationMarkers.forEach((marker) => marker.openTooltip());
-
-var zoomLevelCILs = [zoom04CIL,zoom05CIL,zoom06CIL,zoom07CIL,zoom08CIL,zoom09CIL,zoom10CIL,zoom11CIL];
-var zoomLevelLocationMarkers = [
-  zoom04LocationMarkers, zoom05LocationMarkers, zoom06LocationMarkers, zoom07LocationMarkers,
-  zoom08LocationMarkers, zoom09LocationMarkers, zoom10LocationMarkers, zoom11LocationMarkers
-];
-
-
 //FeatureGroups for other locations without icons and zoom levels
 var zoom04 = new L.FeatureGroup();
 var zoom05 = new L.FeatureGroup();
@@ -130,7 +109,6 @@ var zoom08 = new L.FeatureGroup();
 var zoom09 = new L.FeatureGroup();
 var zoom10 = new L.FeatureGroup();
 var zoom11 = new L.FeatureGroup();
-
 
 let prevZoom, postZoom;
 let zoomLevels = [zoom04,zoom05,zoom06,zoom07,zoom08,zoom09,zoom10,zoom11];
@@ -149,7 +127,9 @@ function addCanvasIconLayer(zoomLevel) {
   if(window.zoomLevelLocationMarkers[index].length > 0) { // Trick : check for array not empty to avoid error (library lacks control)
     window.zoomLevelCILs[index] = new L.canvasIconLayer({}).addTo(map); // Trick : creating canvasIconLayer at the last moment to avoid empty layer array error (library lacks control)
     window.zoomLevelCILs[index].addLayers(window.zoomLevelLocationMarkers[index]);
-    //window.zoomLevelLocationMarkers[index].forEach((marker) => marker.openTooltip()); // Open tooltips
+    // window.zoomLevelLocationMarkers[index].forEach((marker) => { 
+    //   marker.openTooltip(); // Open tooltips
+    // }); 
   }
 }
 
@@ -161,20 +141,12 @@ function removeCanvasIconLayer(zoomLevel) {
   if(window.zoomLevelCILs[index] !== null && window.zoomLevelLocationMarkers[index].length > 0) { // Trick : check for array not empty and canvasIconLayer existence to avoid error (library lacks control)
     window.zoomLevelLocationMarkers[index].forEach((marker) => 
     {
-      //marker.closeTooltip();
+      // marker.closeTooltip();
       window.zoomLevelCILs[index].removeLayer(marker); // Library lacks batch layer removal
     }); 
     window.zoomLevelCILs[index] = null; // Trick : destroys canvasIconLayer to avoid error on empty markerArray (library lacks control)
   }
 }
-
-/*
-* Display labels only permanently
-*/
-
-/*
-* Hide labels only
-*/
 
 /*
 * Manage current zoom level
@@ -221,7 +193,6 @@ function manageCurrentZoomLevel(init=false) {
 
 // Display object for current zoom level
 prevZoom = map.getZoom();
-manageCurrentZoomLevel(true);
 
 /** EVENTS **/
 
@@ -232,7 +203,6 @@ map.on('zoomstart', function () {
 map.on('zoomend', function () {
   manageCurrentZoomLevel();
 });
-
 
 
 //Sidebar
