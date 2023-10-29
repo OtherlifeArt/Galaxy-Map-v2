@@ -26,3 +26,9 @@ var zoomLevelLocationMarkers = [
 
 /** INIT **/
 manageCurrentZoomLevel(true);
+
+/** DEBUG/TEST **/
+
+// Independant tooltip try
+L.tooltip().setLatLng([-58.86, 128.86]).setContent("Belkadan", { permanent: true, direction: 'right', offset: [2, 0], className: 'leaflet-tooltip    ' }).addTo(map);
+L.tooltip().setLatLng([-111.67, 124.73]).setContent("Coruscant (Notron)", { permanent: true, direction: 'left', offset: [-5, 3], className: 'leaflet-tooltip-mov' }).addTo(map);
