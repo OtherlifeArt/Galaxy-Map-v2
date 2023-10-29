@@ -204,7 +204,6 @@ map.on('zoomend', function () {
   manageCurrentZoomLevel();
 });
 
-
 //Sidebar
 /*function onEachFeature(feature, layer) {
   layer.on({
