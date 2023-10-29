@@ -109,10 +109,10 @@ var zoom08CIL = null;
 var zoom09CIL = null;
 var zoom10CIL = null;
 var zoom11CIL = null;
-// Any zoom level
+// Display any zoom level astro objects and current zoomlevel ones
 var anyZoomCIL = new L.canvasIconLayer({}).addTo(map).addLayers(anyZoomLocationMarkers);
 // Open tooltips (labels)
-anyZoomLocationMarkers.forEach((marker) => marker.openTooltip());
+//anyZoomLocationMarkers.forEach((marker) => marker.openTooltip());
 
 var zoomLevelCILs = [zoom04CIL,zoom05CIL,zoom06CIL,zoom07CIL,zoom08CIL,zoom09CIL,zoom10CIL,zoom11CIL];
 var zoomLevelLocationMarkers = [
@@ -149,7 +149,7 @@ function addCanvasIconLayer(zoomLevel) {
   if(window.zoomLevelLocationMarkers[index].length > 0) { // Trick : check for array not empty to avoid error (library lacks control)
     window.zoomLevelCILs[index] = new L.canvasIconLayer({}).addTo(map); // Trick : creating canvasIconLayer at the last moment to avoid empty layer array error (library lacks control)
     window.zoomLevelCILs[index].addLayers(window.zoomLevelLocationMarkers[index]);
-    window.zoomLevelLocationMarkers[index].forEach((marker) => marker.openTooltip()); // Open tooltips
+    //window.zoomLevelLocationMarkers[index].forEach((marker) => marker.openTooltip()); // Open tooltips
   }
 }
 
@@ -161,12 +161,67 @@ function removeCanvasIconLayer(zoomLevel) {
   if(window.zoomLevelCILs[index] !== null && window.zoomLevelLocationMarkers[index].length > 0) { // Trick : check for array not empty and canvasIconLayer existence to avoid error (library lacks control)
     window.zoomLevelLocationMarkers[index].forEach((marker) => 
     {
-      marker.closeTooltip();
+      //marker.closeTooltip();
       window.zoomLevelCILs[index].removeLayer(marker); // Library lacks batch layer removal
     }); 
     window.zoomLevelCILs[index] = null; // Trick : destroys canvasIconLayer to avoid error on empty markerArray (library lacks control)
   }
 }
+
+/*
+* Display labels only permanently
+*/
+
+/*
+* Hide labels only
+*/
+
+/*
+* Manage current zoom level
+*/
+function manageCurrentZoomLevel(init=false) {
+  postZoom = map.getZoom();
+  console.log(`Zoom level changed: ${prevZoom}->${postZoom}`);
+
+  // Map initalisation : displaying all current zoom layers
+  if(init) {
+    prevZoom = 0;
+  }
+
+  // Skip if zoom level stayed the same
+  if(prevZoom == postZoom) return;
+
+  // Boolean to determine if we're adding [true] or removing [false] layers in the loop
+  let adding = prevZoom < postZoom;
+
+  // If zoom level increased => show layers up to zoom level
+  // If zoom level decreased => hide layers exceeding zoom level
+  for(i = Math.min(postZoom,prevZoom)+1; i<=Math.max(postZoom,prevZoom); i++) {
+    let startTime = performance.now();
+    
+    let layer = getZoomLevel(i);
+    if(layer !== undefined) {
+      if(adding) {
+        console.log("Showing layer " + i);
+        map.addLayer(layer);
+        addCanvasIconLayer(i);
+      }
+      else {
+        console.log("Hiding layer " + i);
+        map.removeLayer(layer);
+        removeCanvasIconLayer(i);
+      }
+  
+      let endTime = performance.now();
+      let elementNumber = layer.getLayers().length + (window.zoomLevelLocationMarkers[i-4].length > 0 ? window.zoomLevelLocationMarkers[i-4].length : 0);
+      console.log(`Layer ${i} took ${endTime-startTime}ms for ${elementNumber} Elements`);
+    }
+  }
+}
+
+// Display object for current zoom level
+prevZoom = map.getZoom();
+manageCurrentZoomLevel(true);
 
 /** EVENTS **/
 
@@ -175,36 +230,7 @@ map.on('zoomstart', function () {
 })
 
 map.on('zoomend', function () {
-  postZoom = map.getZoom();
-  console.log(`Zoom level changed: ${prevZoom}->${postZoom}`);
-
-  // Skip if zoom level stayed the same
-  if(prevZoom == postZoom) return;
-
-  // Boolean to determine if we're adding [true] or removing [false] layers in the loop
-  let adding = prevZoom < postZoom
-
-  // If zoom level increased => show layers up to zoom level
-  // If zoom level decreased => hide layers exceeding zoom level
-  for(i = Math.min(postZoom,prevZoom)+1; i<=Math.max(postZoom,prevZoom); i++) {
-    let startTime = performance.now();
-    
-    let layer = getZoomLevel(i);
-    if(adding) {
-      console.log("Showing layer " + i);
-      map.addLayer(layer);
-      addCanvasIconLayer(i);
-    }
-    else {
-      console.log("Hiding layer " + i);
-      map.removeLayer(layer);
-      removeCanvasIconLayer(i);
-    }
-
-    let endTime = performance.now();
-    let elementNumber = layer.getLayers().length + (window.zoomLevelLocationMarkers[i-4].length > 0 ? window.zoomLevelLocationMarkers[i-4].length : 0);
-    console.log(`Layer ${i} took ${endTime-startTime}ms for ${elementNumber} Elements`);
-  }
+  manageCurrentZoomLevel();
 });
 
 
