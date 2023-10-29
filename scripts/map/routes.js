@@ -10,6 +10,7 @@ var tyt006 = new L.LatLng(-116.23, 124.70); //near Tython 1
 var tyt007 = new L.LatLng(-116.47, 124.77); //near Tython 2
 var tyt008 = new L.LatLng(-116.81, 124.86); //Tython
 
+var tythonTrailPopup = "<div style='width:130px;height:100%;float:right;padding-left:10px'><a href='https://starwars.fandom.com/wiki/Koros-Tython_hyperlane' target='_blank'><img src='images/t-legends2.png' width='65px'></a><br><br><img src='images/SmLocationImages/SmNoImage.png' alt='Tython trail' width='120px' align='left'/><br><br><br><br><br><br><br><br>Type: Hyperroute<br>Start: Koros Major<br>End: Tython<br><hr></div><p><b>Koros-Tython hyperlane</b></p><br>&emsp;&emsp;A hyperlane ran from Koros Major to Tython in the Deep Core.";
 var pointList = [tyt001, tyt002, tyt003, tyt004, tyt005, tyt006, tyt007, tyt008];
 var tythonTrail = new L.Polyline(pointList, {
   color: "#262673",
@@ -17,6 +18,7 @@ var tythonTrail = new L.Polyline(pointList, {
   opacity: .9,
   smoothFactor: 1
 });
+tythonTrail.bindPopup(tythonTrailPopup, customOptions);
 tythonTrail.addTo(map);
 
 //Byss Run [apricot polyline]
