@@ -11,7 +11,14 @@ html, body, #leaflet {
   padding: 2px;
   background-color: #000;
   border-radius: 4px;
-  
+}
+
+.route-tooltip {
+  color:rgb(205, 4, 212);
+  font-style: italic;
+  padding: 2px;
+  background-color: #000;
+  border-radius: 4px;
 }
 
 .transparent-tooltip {
