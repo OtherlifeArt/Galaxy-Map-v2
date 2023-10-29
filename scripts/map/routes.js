@@ -966,93 +966,6 @@ var hydianWay = new L.Polyline(pointList, {
 hydianWay.addTo(map);
 
 //Hydian Way [glow outline]
-var hyd001 = new L.LatLng(-72.45, 173.31); //Bonadan
-var hyd002 = new L.LatLng(-72.33, 172.81); //D'ian
-var hyd003 = new L.LatLng(-71.99, 171.38); //Lythos
-var hyd004 = new L.LatLng(-71.80, 169.94); //Mall'ordian
-var hyd005 = new L.LatLng(-71.69, 168.97); //Reltooine
-var hyd006 = new L.LatLng(-71.63, 168.06); //Cadomai
-var hyd007 = new L.LatLng(-71.63, 167.09); //near Cadomai
-var hyd008 = new L.LatLng(-71.66, 165.80); //near Cadomai 2
-var hyd009 = new L.LatLng(-71.73, 164.49); //near Oshetti
-var hyd010 = new L.LatLng(-71.83, 163.69); //near Ruuria
-var hyd011 = new L.LatLng(-72.00, 162.81); //Ruuria
-var hyd012 = new L.LatLng(-72.30, 161.89); //near Ruuria 2
-var hyd013 = new L.LatLng(-72.55, 161.00); //near Teagan
-var hyd014 = new L.LatLng(-72.84, 160.26); //near Teagan 2
-var hyd015 = new L.LatLng(-73.08, 159.81); //Teagan
-var hyd016 = new L.LatLng(-73.14, 159.70); //Listehol
-var hyd017 = new L.LatLng(-73.59, 159.00); //Tantive
-var hyd018 = new L.LatLng(-73.91, 158.54); //Doniphon
-var hyd019 = new L.LatLng(-74.44, 158.03); //Telos
-var hyd020 = new L.LatLng(-77.97, 154.94); //Praadost
-var hyd021 = new L.LatLng(-80.80, 152.83); //Pho Ph'eah
-var hyd022 = new L.LatLng(-82.86, 151.47); //Toprawa
-var hyd023 = new L.LatLng(-86.34, 148.94); //Celanon
-var hyd024 = new L.LatLng(-90.70, 145.73); //Bandomeer
-var hyd025 = new L.LatLng(-93.25, 142.88); //near Taris
-var hyd026 = new L.LatLng(-95.23, 139.52); //Skorrupon
-var hyd027 = new L.LatLng(-96.43, 137.17); //Corsin
-var hyd028 = new L.LatLng(-97.25, 135.56); //Chennis
-var hyd029 = new L.LatLng(-97.63, 134.86); //Adin
-var hyd030 = new L.LatLng(-97.83, 134.41); //Draria
-var hyd031 = new L.LatLng(-98.25, 133.73); //Viga
-var hyd032 = new L.LatLng(-98.61, 133.19); //near Viga
-var hyd033 = new L.LatLng(-99.13, 132.56); //Kidriff
-var hyd034 = new L.LatLng(-99.52, 132.13); //Nessem
-var hyd035 = new L.LatLng(-100.20, 131.45); //Bogden
-var hyd036 = new L.LatLng(-100.90, 130.88); //Paqualis
-var hyd037 = new L.LatLng(-101.69, 130.35); //Per Lupelo
-var hyd038 = new L.LatLng(-102.48, 129.87); //Drearia
-var hyd039 = new L.LatLng(-103.22, 129.37); //Champala
-var hyd040 = new L.LatLng(-103.56, 129.16); //near Champala
-var hyd041 = new L.LatLng(-104.16, 128.86); //Nierport
-var hyd042 = new L.LatLng(-104.46, 128.68); //near Nierport
-var hyd043 = new L.LatLng(-104.71, 128.61); //near Nierport 2
-var hyd044 = new L.LatLng(-105.86, 128.28); //Uvuiy Exen
-var hyd045 = new L.LatLng(-106.28, 128.24); //near Coronar
-var hyd046 = new L.LatLng(-107.11, 128.21); //Wakeelmui
-var hyd047 = new L.LatLng(-107.75, 128.19); //near Tentator
-var hyd048 = new L.LatLng(-108.12, 128.21); //near Adamastor
-var hyd049 = new L.LatLng(-108.40, 128.30); //near Adamastor 2
-var hyd050 = new L.LatLng(-108.80, 128.45); //Bormea
-var hyd051 = new L.LatLng(-109.40, 128.79); //Brentaal
-var hyd052 = new L.LatLng(-111.19, 130.00); //Skako
-var hyd053 = new L.LatLng(-111.92, 130.57); //Nakadia
-var hyd054 = new L.LatLng(-113.83, 132.50); //Demophon
-var hyd055 = new L.LatLng(-114.35, 133.05); //Glithnos
-var hyd056 = new L.LatLng(-115.05, 133.67); //Fedalle
-var hyd057 = new L.LatLng(-115.46, 133.90); //Badfellow
-var hyd058 = new L.LatLng(-116.58, 134.58); //Talravin
-var hyd059 = new L.LatLng(-117.33, 134.98); //Ruul
-var hyd060 = new L.LatLng(-118.13, 135.41); //Trellen
-var hyd061 = new L.LatLng(-118.91, 135.76); //Mawan
-var hyd062 = new L.LatLng(-120.28, 136.31); //Loretto
-var hyd063 = new L.LatLng(-126.64, 138.16); //Besnia
-var hyd064 = new L.LatLng(-128.63, 138.69); //Aquilae
-var hyd065 = new L.LatLng(-132.28, 139.54); //Denon
-var hyd066 = new L.LatLng(-138.05, 139.91); //Babbadod
-var hyd067 = new L.LatLng(-138.52, 140.06); //near Itani N.
-var hyd068 = new L.LatLng(-139.42, 139.94); //Nordra
-var hyd069 = new L.LatLng(-144.94, 139.94); //Gacerian
-var hyd070 = new L.LatLng(-148.06, 139.66); //Ramordia
-var hyd071 = new L.LatLng(-151.47, 139.38); //Arrgaw
-var hyd072 = new L.LatLng(-153.47, 138.94); //Tyus Cl.
-var hyd073 = new L.LatLng(-156.53, 138.34); //Malastare
-var hyd074 = new L.LatLng(-161.03, 136.91); //Darkknell
-var hyd075 = new L.LatLng(-162.34, 136.41); //Ord Simres
-var hyd076 = new L.LatLng(-165.69, 134.84); //Eriadu
-var hyd077 = new L.LatLng(-167.28, 134.06); //near Averam
-var hyd078 = new L.LatLng(-170.09, 131.97); //Black Stall Sta.
-var hyd079 = new L.LatLng(-172.55, 130.20); //Ogoth Tiir
-var hyd080 = new L.LatLng(-176.22, 126.66); //Tosste
-var hyd081 = new L.LatLng(-178.06, 125.31); //Rutan
-var hyd082 = new L.LatLng(-183.00, 120.00); //Terminus
-
-var pointList = [hyd001, hyd002, hyd003, hyd004, hyd005, hyd006, hyd007, hyd008, hyd009, hyd010, hyd011, hyd012, hyd013, hyd014, hyd015, hyd016, hyd017, hyd018, hyd019, hyd020, hyd021, hyd022, hyd023, hyd024,
-  hyd025, hyd026, hyd027, hyd028, hyd029, hyd030, hyd031, hyd032, hyd033, hyd034, hyd035, hyd036, hyd037, hyd038, hyd039, hyd040, hyd041, hyd042, hyd043, hyd044, hyd045, hyd046, hyd047, hyd048, hyd049, hyd050,
-  hyd051, hyd052, hyd053, hyd054, hyd055, hyd056, hyd057, hyd058, hyd059, hyd060, hyd061, hyd062, hyd063, hyd064, hyd065, hyd066, hyd067, hyd068, hyd069, hyd070, hyd071, hyd072, hyd073, hyd074, hyd075, hyd076,
-  hyd077, hyd078, hyd079, hyd080, hyd081, hyd082];
 var hydianWayGlow = new L.Polyline(pointList, {
   color: 'red',
   weight: 12,
@@ -1113,47 +1026,6 @@ var perlemian = new L.Polyline(pointList, {
 perlemian.addTo(map);
 
 //Perlemian Trade Route [glow outline]
-var prl001 = new L.LatLng(-111.67, 124.73); //Coruscant
-var prl002 = new L.LatLng(-108.19, 130.70); //Delle
-var prl003 = new L.LatLng(-106.35, 133.80); //Castell
-var prl004 = new L.LatLng(-105.44, 135.67); //Vurdon Ka
-var prl005 = new L.LatLng(-104.64, 137.72); //Chazwa
-var prl006 = new L.LatLng(-104.13, 139.41); //Relatta
-var prl007 = new L.LatLng(-103.80, 140.98); //near Nolar
-var prl008 = new L.LatLng(-103.83, 141.83); //Tirahn
-var prl009 = new L.LatLng(-104.38, 146.42); //near Avenel
-var prl010 = new L.LatLng(-104.41, 147.08); //Avenel
-var prl011 = new L.LatLng(-104.42, 147.77); //Taanab
-var prl012 = new L.LatLng(-104.41, 148.97); //Sermeria
-var prl013 = new L.LatLng(-104.38, 149.31); //Carcel
-var prl014 = new L.LatLng(-104.38, 150.13); //Pirin
-var prl015 = new L.LatLng(-104.37, 151.25); //near Gizer
-var prl016 = new L.LatLng(-104.30, 151.48); //Gizer
-var prl017 = new L.LatLng(-103.66, 153.27); //near Lantillies
-var prl018 = new L.LatLng(-103.41, 154.06); //near Lantillies 2
-var prl019 = new L.LatLng(-103.75, 152.97); //Lantillies
-var prl020 = new L.LatLng(-102.80, 156.13); //near Rearqu
-var prl021 = new L.LatLng(-102.34, 157.59); //near Pothor
-var prl022 = new L.LatLng(-102.05, 158.31); //Jeyell
-var prl023 = new L.LatLng(-101.64, 159.31); //Roche
-var prl024 = new L.LatLng(-101.14, 160.20); //near Quilan
-var prl025 = new L.LatLng(-99.13, 162.48); //Talcene
-var prl026 = new L.LatLng(-97.27, 164.41); //near Zuliria
-var prl027 = new L.LatLng(-96.25, 165.22); //Abhean
-var prl028 = new L.LatLng(-95.44, 165.73); //The Wheel
-var prl029 = new L.LatLng(-94.55, 166.45); //Centares
-var prl030 = new L.LatLng(-90.36, 168.86); //Columex
-var prl031 = new L.LatLng(-87.47, 170.64); //Lianna
-var prl032 = new L.LatLng(-85.70, 171.89); //Desevro
-var prl033 = new L.LatLng(-83.84, 172.74); //Janodral Mizar
-var prl034 = new L.LatLng(-83.59, 172.97); //Ank Ki'Shor
-var prl035 = new L.LatLng(-83.11, 173.17); //Estaria
-var prl036 = new L.LatLng(-82.39, 173.63); //Makem Te
-var prl037 = new L.LatLng(-81.47, 174.30); //Quermia
-var prl038 = new L.LatLng(-79.19, 175.83); //near Simus Minor
-
-var pointList = [prl001, prl002, prl003, prl004, prl005, prl006, prl007, prl008, prl009, prl010, prl011, prl012, prl013, prl014, prl015, prl016, prl017, prl018, prl019, prl020, prl021, prl022, prl023, prl024,
-  prl025, prl026, prl027, prl028, prl029, prl030, prl031, prl032, prl033, prl034, prl035, prl036, prl037, prl038];
 var perlemianGlow = new L.Polyline(pointList, {
   color: "#b09cc8",
   weight: 12,
@@ -1217,51 +1089,6 @@ var corellRun = new L.Polyline(pointList, {
 corellRun.addTo(map);
 
 //Corellian Run [glow outline]
-var cru001 = new L.LatLng(-111.67, 124.73); //Coruscant
-var cru002 = new L.LatLng(-111.73, 125.85); //near Carlem
-var cru003 = new L.LatLng(-111.95, 127.09); //Ixtlar
-var cru004 = new L.LatLng(-112.69, 128.77); //Wukkar
-var cru005 = new L.LatLng(-113.50, 130.08); //Xorth
-var cru006 = new L.LatLng(-114.17, 130.84); //near Xorth
-var cru007 = new L.LatLng(-114.82, 131.49); //Refgar
-var cru008 = new L.LatLng(-115.52, 132.06); //Vuma
-var cru009 = new L.LatLng(-116.58, 132.70); //Bar'leth
-var cru010 = new L.LatLng(-117.07, 132.95); //Leria Kerlsil
-var cru011 = new L.LatLng(-118.58, 133.51); //Perma
-var cru012 = new L.LatLng(-119.31, 133.76); //Lolnar
-var cru013 = new L.LatLng(-120.13, 134.04); //near Columus
-var cru014 = new L.LatLng(-121.52, 134.42); //Rehemsa
-var cru015 = new L.LatLng(-122.24, 134.59); //Sedratis
-var cru016 = new L.LatLng(-122.62, 134.68); //near Sedratis
-var cru017 = new L.LatLng(-123.08, 134.90); //Rydonni Prime
-var cru018 = new L.LatLng(-123.33, 135.14); //near Saberhing
-var cru019 = new L.LatLng(-123.86, 135.19); //Corellia
-var cru020 = new L.LatLng(-124.36, 135.36); //Nubia
-var cru021 = new L.LatLng(-125.63, 135.75); //Tinnel
-var cru022 = new L.LatLng(-127.84, 136.66); //Loronar
-var cru023 = new L.LatLng(-128.82, 137.15); //Byblos
-var cru024 = new L.LatLng(-129.56, 137.62); //Pencael
-var cru025 = new L.LatLng(-130.66, 138.37); //Havricus
-var cru026 = new L.LatLng(-131.28, 138.75); //Abednedo
-var cru027 = new L.LatLng(-131.80, 139.09); //Iseno
-var cru028 = new L.LatLng(-132.06, 139.31); //near Denon
-var cru029 = new L.LatLng(-132.28, 139.54); //Denon
-var cru030 = new L.LatLng(-135.41, 142.97); //Rhommamool / Osarian
-var cru031 = new L.LatLng(-137.42, 144.73); //Tlactehon
-var cru032 = new L.LatLng(-138.36, 145.48); //Allanteen
-var cru033 = new L.LatLng(-142.81, 149.78); //Thaere
-var cru034 = new L.LatLng(-146.44, 153.39); //Druckenwell
-var cru035 = new L.LatLng(-150.45, 157.00); //Andosha
-var cru036 = new L.LatLng(-154.44, 161.00); //Radnor
-var cru037 = new L.LatLng(-156.03, 162.41); //Christophsis
-var cru038 = new L.LatLng(-156.56, 163.13); //Savareen
-var cru039 = new L.LatLng(-160.00, 167.08); //Dalchon
-var cru040 = new L.LatLng(-161.34, 168.69); //Ryloth
-var cru041 = new L.LatLng(-163.42, 171.17); //Wrea
-var cru042 = new L.LatLng(-165.61, 175.38); //near Gertafuu
-
-var pointList = [cru001, cru002, cru003, cru004, cru005, cru006, cru007, cru008, cru009, cru010, cru011, cru012, cru013, cru014, cru015, cru016, cru017, cru018, cru019, cru020, cru021, cru022, cru023, cru024,
-  cru025, cru026, cru027, cru028, cru029, cru030, cru031, cru032, cru033, cru034, cru035, cru036, cru037, cru038, cru039, cru040, cru041, cru042];
 var corellRunGlow = new L.Polyline(pointList, {
   color: "#93e98e",
   weight: 12,
@@ -1324,50 +1151,6 @@ var corTrade = new L.Polyline(pointList, {
 corTrade.addTo(map);
 
 //Corellian Trade Spine [glow outline]
-var ctr001 = new L.LatLng(-123.86, 135.19); //Corellia
-var ctr002 = new L.LatLng(-124.01, 135.12); //Plympto
-var ctr003 = new L.LatLng(-124.14, 135.07); //New Plympto
-var ctr004 = new L.LatLng(-124.34, 135.00); //Duro
-var ctr005 = new L.LatLng(-124.94, 134.88); //near Zarsteck
-var ctr006 = new L.LatLng(-125.42, 134.89); //near Zarsteck 2
-var ctr007 = new L.LatLng(-127.47, 135.06); //near Gailea
-var ctr008 = new L.LatLng(-127.93, 135.08); //Chasin
-var ctr009 = new L.LatLng(-128.28, 135.05); //near Chasin
-var ctr010 = new L.LatLng(-128.62, 134.96); //near Arat Fraca
-var ctr011 = new L.LatLng(-129.59, 134.55); //Condular
-var ctr012 = new L.LatLng(-130.08, 134.35); //Gandeal
-var ctr013 = new L.LatLng(-131.86, 133.45); //Belazura
-var ctr014 = new L.LatLng(-133.47, 132.84); //Enisca
-var ctr015 = new L.LatLng(-134.59, 132.52); //Kelada
-var ctr016 = new L.LatLng(-142.13, 130.72); //Mechis
-var ctr017 = new L.LatLng(-143.55, 130.27); //Yag'Dhul
-var ctr018 = new L.LatLng(-144.48, 130.01); //Harrin
-var ctr019 = new L.LatLng(-148.10, 127.82); //Borkyne
-var ctr020 = new L.LatLng(-148.32, 127.68); //near KyLessia
-var ctr021 = new L.LatLng(-153.51, 122.26); //near Edatha
-var ctr022 = new L.LatLng(-156.42, 120.78); //near Boomis Koori
-var ctr023 = new L.LatLng(-159.69, 120.03); //near Kaal
-var ctr024 = new L.LatLng(-163.66, 119.86); //Quamar
-var ctr025 = new L.LatLng(-164.81, 119.25); //Aztubek
-var ctr026 = new L.LatLng(-165.31, 119.33); //near High Chunah
-var ctr027 = new L.LatLng(-165.84, 118.95); //Kirtarkin
-var ctr028 = new L.LatLng(-166.56, 118.88); //Gerrenthum
-var ctr029 = new L.LatLng(-166.77, 118.80); //Indellian
-var ctr030 = new L.LatLng(-167.73, 119.00); //Ione
-var ctr031 = new L.LatLng(-169.18, 119.07); //Orn Kios
-var ctr032 = new L.LatLng(-169.53, 118.99); //Ozu
-var ctr033 = new L.LatLng(-169.70, 119.29); //near Isde Naha
-var ctr034 = new L.LatLng(-170.23, 119.35); //near Togominda
-var ctr035 = new L.LatLng(-170.53, 119.55); //near Tamboon
-var ctr036 = new L.LatLng(-171.14, 119.20); //near Berrol's Donn
-var ctr037 = new L.LatLng(-174.85, 119.34); //Sil'Lume
-var ctr038 = new L.LatLng(-177.86, 119.56); //Manpha
-var ctr039 = new L.LatLng(-181.48, 119.94); //Katchan
-var ctr040 = new L.LatLng(-183.00, 120.00); //Terminus
-var ctr041 = new L.LatLng(-186.18, 120.36); //near Terminus
-
-var pointList = [ctr001, ctr002, ctr003, ctr004, ctr005, ctr006, ctr007, ctr008, ctr009, ctr010, ctr011, ctr012, ctr013, ctr014, ctr015, ctr016, ctr017, ctr018, ctr019, ctr020, ctr021, ctr022, ctr023, ctr024,
-  ctr025, ctr026, ctr027, ctr028, ctr029, ctr030, ctr031, ctr032, ctr033, ctr034, ctr035, ctr036, ctr037, ctr038, ctr039, ctr040, ctr041];
 var corTradeGlow = new L.Polyline(pointList, {
   color: "#FCB001",
   weight: 12,
@@ -1411,31 +1194,6 @@ var rimmaTrRt = new L.Polyline(pointList, {
 rimmaTrRt.addTo(map);
 
 //Rimma Trade Route [glow outline]
-var rtr001 = new L.LatLng(-132.28, 124.47); //Abregado-rae
-var rtr002 = new L.LatLng(-134.13, 124.78); //Rimma
-var rtr003 = new L.LatLng(-134.81, 124.86); //Giju
-var rtr004 = new L.LatLng(-135.94, 125.30); //near Kooda
-var rtr005 = new L.LatLng(-137.64, 126.55); //Ghorman
-var rtr006 = new L.LatLng(-139.84, 128.34); //near Kedra
-var rtr007 = new L.LatLng(-140.72, 129.12); //Thyferra
-var rtr008 = new L.LatLng(-141.73, 129.70); //near Tauber
-var rtr009 = new L.LatLng(-145.48, 130.95); //Wroona
-var rtr010 = new L.LatLng(-151.86, 133.16); //Woostri
-var rtr011 = new L.LatLng(-153.07, 133.37); //Daemen
-var rtr012 = new L.LatLng(-154.74, 133.77); //Alakatha
-var rtr013 = new L.LatLng(-156.89, 134.27); //Vondarc
-var rtr014 = new L.LatLng(-157.74, 134.38); //near Nymalia
-var rtr015 = new L.LatLng(-160.63, 134.64); //near Tshindral
-var rtr016 = new L.LatLng(-167.91, 134.88); //near Rimma 18
-var rtr017 = new L.LatLng(-170.27, 135.16); //near Almar Prime
-var rtr018 = new L.LatLng(-171.50, 135.06); //Sluis Van
-var rtr019 = new L.LatLng(-172.75, 135.01); //Denab
-var rtr020 = new L.LatLng(-175.63, 135.20); //Tarabba
-var rtr021 = new L.LatLng(-176.59, 135.09); //near Tantra
-var rtr022 = new L.LatLng(-178.23, 135.14); //near Osirrag
-var rtr023 = new L.LatLng(-181.48, 135.30); //Karideph
-
-var pointList = [rtr001, rtr002, rtr003, rtr004, rtr005, rtr006, rtr007, rtr008, rtr009, rtr010, rtr011, rtr012, rtr013, rtr014, rtr015, rtr016, rtr017, rtr018, rtr019, rtr020, rtr021, rtr022, rtr023];
 var rimmaTrRtGlow = new L.Polyline(pointList, {
   color: "#00bfff",
   weight: 12,
