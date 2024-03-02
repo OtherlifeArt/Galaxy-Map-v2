@@ -1,0 +1,19 @@
+/* Select2 */
+#object-search {
+  width: 100%;
+}
+#object-type {
+  width: 30%;
+}
+#object-parent {
+  width: 40%;
+}
+
+/* Form */
+#form {
+  width: 50%;
+}
+
+input[readonly] {
+  background-color: lightgray;
+}
