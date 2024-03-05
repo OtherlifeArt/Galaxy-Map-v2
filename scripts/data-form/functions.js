@@ -250,7 +250,7 @@ async function loadObjectForm(objectID) {
       });
       document.getElementById('object-type-classes').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.TYPE_CLASSES]); // Type classes
       document.getElementById('object-conjectural-name').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.CONJECTURAL_NAME] === "YES"; // Conjectural name
-      document.getElementById('object-conjectural-type').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.CONJECTURAl_TYPE] === "YES"; // Conjectural type
+      document.getElementById('object-conjectural-type').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.CONJECTURAL_TYPE] === "YES"; // Conjectural type
       document.getElementById('object-orbital-rank').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.ORBITAL_RANK]); // Orbital rank
       // document.getElementById('object-parent').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.PARENT]); // Parent
       $(document).ready(function() { // Parent
@@ -461,7 +461,7 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.TYPE] = sanitizeText(document.getElementById('object-type').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.TYPE_CLASSES] = sanitizeText(document.getElementById('object-type-classes').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.CONJECTURAL_NAME] = document.getElementById('object-conjectural-name').checked  ? "YES" : "";
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.CONJECTURAl_TYPE] = document.getElementById('object-conjectural-type').checked  ? "YES" : "";
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.CONJECTURAL_TYPE] = document.getElementById('object-conjectural-type').checked  ? "YES" : "";
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.ORBITAL_RANK] = orbitalRank;
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.PARENT_ID] = sanitizeText(document.getElementById('object-parent').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.PARENT_HUMAN] = window.fromJQuery.humanParent;
