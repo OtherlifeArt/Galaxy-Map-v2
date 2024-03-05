@@ -152,7 +152,7 @@ async function listObjects() {
     const dateString = prettifyDateFromDateTo([rowValues[SPREADSHEET_HEADERS.OBJECTS.columns.DATE_FROM],rowValues[SPREADSHEET_HEADERS.OBJECTS.columns.DATE_TO]]);
     astronomicalObjectSearchArray.push({
       id: rowValues[SPREADSHEET_HEADERS.OBJECTS.columns.ID],
-      text: `${namesString} (${typeString}) [${canonLegendsString}] ${dateString === "" ? "" : " ("+(dateString)+")"}`
+      text: `${namesString} (${typeString}) [${canonLegendsString}] ${dateString === "" ? "" : "("+(dateString)+")"}`
     });
   }
   console.log(astronomicalObjectSearchArray);
@@ -406,4 +406,164 @@ function loadTypeSelect2() {
       allowClear: true
     });
   });
+}
+
+/**
+ * Update object
+ */
+function updateObjectData() {
+  console.log("TODO : update object in spreadsheet");
+}
+
+/**
+ * Show data changes before update
+ */
+async function showObjectDataChange () {
+  // Get form data
+  let formData = new FormData(document.getElementById("form"));
+  console.log(formData, selectedAstronomicalObject);
+  // Convertion work
+  await convertFormValuesToData();
+  // Populate Validation Table
+  await populateValidationTable(window.selectedAstronomicalObject, window.dataToUpdate);
+  // Display modal
+  displayModal();
+}
+
+/**
+ * Convert form (human readable) values to technical values
+*/
+async function convertFormValuesToData() {
+  // Data formating
+  window.dataToUpdate.length = 0; // reset array
+  let orbitalRank = sanitizeText(document.getElementById('object-orbital-rank').value);
+  let name = sanitizeText(document.getElementById('object-name').value);
+  let humanName = (orbitalRank !== "" ? "  "+orbitalRank.toString()+". " : "") + name;
+  
+  // Making sure document.ready is ready before continuing....
+  // Create a Promise that resolves when the document is ready
+  let documentReadyPromise = new Promise(function(resolve) {
+    $(document).ready(resolve);
+  });
+  // Use the Promise to execute code after the document is ready
+  await documentReadyPromise.then(function() {
+    console.log($('#object-parent option:selected').text());
+    window.fromJQuery.humanParent = sanitizeText($('#object-parent option:selected').text());
+    // Below will only run after document is ready
+
+    // Data array populating
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.ID] = sanitizeText(document.getElementById('object-tech-id').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.HUMAN_ID] = sanitizeText(document.getElementById('object-human-id').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.HUMAN_NAME] = humanName;
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.NAME] = name;
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.ALT_NAMES] = sanitizeText(document.getElementById('object-alt-name').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.IS_CAPITAL] = document.getElementById('object-capital').checked ? "YES" : "";
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.TYPE] = sanitizeText(document.getElementById('object-type').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.TYPE_CLASSES] = sanitizeText(document.getElementById('object-type-classes').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.CONJECTURAL_NAME] = document.getElementById('object-conjectural-name').checked  ? "YES" : "";
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.CONJECTURAl_TYPE] = document.getElementById('object-conjectural-type').checked  ? "YES" : "";
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.ORBITAL_RANK] = orbitalRank;
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.PARENT_ID] = sanitizeText(document.getElementById('object-parent').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.PARENT_HUMAN] = window.fromJQuery.humanParent;
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.DATE_FROM] = sanitizeText(document.getElementById('object-datefrom').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.DATE_TO] = sanitizeText(document.getElementById('object-dateto').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.CANON] = document.getElementById('object-canon').checked ? "YES" : "";
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.LEGENDS] = document.getElementById('object-legends').checked  ? "YES" : "";
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.IN_MOVIES] = document.getElementById('object-inmovies').checked  ? "YES" : "";
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.X_GRID] = sanitizeText(document.getElementById('object-grid-x').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.Y_GRID] = sanitizeText(document.getElementById('object-grid-y').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.X_COORD] = sanitizeText(document.getElementById('object-coord-x').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.Y_COORD] = sanitizeText(document.getElementById('object-coord-y').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.Z_COORD] = sanitizeText(document.getElementById('object-coord-z').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.DESC] = sanitizeText(document.getElementById('object-desc').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.PLACEMENT_CERTITUDE] = sanitizeText(document.getElementById('object-placement-certitude').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.PLACEMENT_LOGIC] = sanitizeText(document.getElementById('object-placement-logic').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.NATIVE_SPECIES] = sanitizeText(document.getElementById('object-native-species').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.KNOWN_ENVIRONMENTS] = sanitizeText(document.getElementById('object-known-environments').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.NOTES] = sanitizeText(document.getElementById('object-notes').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.INTERESTING] = sanitizeText(document.getElementById('object-interesting').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.URL] = sanitizeText(document.getElementById('object-sources').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.ZOOM_LEVEL] = sanitizeText(document.getElementById('object-zoom-level').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.tooltip_permanent] = sanitizeText(document.getElementById('object-tooltip-permanent').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.tooltip_direction] = sanitizeText(document.getElementById('object-tooltip-direction').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.className] = sanitizeText(document.getElementById('object-class-name').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.index_geo] = sanitizeText(document.getElementById('object-index-geo').value);
+  });
+}
+
+/**
+ * Populate modal table with data from spreadsheet and form to check changes before spreadsheet update
+ */
+async function populateValidationTable(currentData, newData) {
+  console.log(currentData, newData);
+  let tableBody = document.getElementById('modal-table-body');
+  tableBody.innerHTML = '';
+  // console.log(tableBody);
+  for (let index=0; index <= SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_INDEX_NUMBER; index++) {
+    let tr = document.createElement('tr');
+    
+    let td1 = document.createElement('td');
+    td1.textContent = getKeyByObjectValue(SPREADSHEET_HEADERS.OBJECTS.columns, index);
+    tr.appendChild(td1);
+    
+    let td2 = document.createElement('td');
+    td2.textContent = currentData[index];
+    tr.appendChild(td2);
+
+    let td3 = document.createElement('td');
+    td3.textContent = newData[index];
+    tr.appendChild(td3);
+
+    // Update color
+    if(currentData[index] !== newData[index]) {
+      td3.style.backgroundColor = "lightblue";
+    }
+    
+    tableBody.appendChild(tr);
+    // console.log(tr);
+  }
+  // console.log(tableBody);
+}
+
+/**
+ * Return key of object searching value
+ */
+function getKeyByObjectValue(object, value) {
+  return Object.keys(object).find(key =>
+    object[key] === value);
+}
+
+/**********/
+/* MODALS */
+/**********/
+
+// Get the modal
+var modal = document.getElementById("validationModal");
+// Get the <span> element that closes the modal
+var modalSpan = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+function displayModal() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+modalSpan.onclick = function() {
+  modal.style.display = "none";
+}
+
+// // When the user clicks anywhere outside of the modal, close it
+// window.onclick = function(event) {
+//   if (event.target == modal) {
+//     modal.style.display = "none";
+//   }
+// }
+
+/**********/
+/* EVENTS */
+/**********/
+
+function onValidationUpdate() {
+  showObjectDataChange();
+  updateObjectData();
 }

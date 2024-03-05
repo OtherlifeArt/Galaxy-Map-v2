@@ -46,12 +46,13 @@
                 <!-- Object Name -->
                 <label for="object-name">Object Name</label>
                 <input type="text" name="object-name" id="object-name" required>
-                <!-- Object Alternative Names -->
-                <label for="object-alt-name">Object Alt Names (/ separated)</label>
-                <input type="text" name="object-alt-name" id="object-alt-name">
                 <!-- Capital object within its hierarchy level -->
                 <label for="object-capital">Capital</label>
                 <input type="checkbox" name="object-capital" id="object-capital">
+                <!-- Object Alternative Names -->
+                <br/>
+                <label for="object-alt-name">Object Alt Names (/ separated)</label>
+                <input type="text" name="object-alt-name" id="object-alt-name">
               </div>
               <div>
                 <!-- Type -->
@@ -174,11 +175,37 @@
               </div>
             </fieldset>
           </form>
+          <button id="validation-update" onclick="onValidationUpdate();">Update Astronomical Object With Visual Validation</button>
           <button disabled>Update Astronomical Object</button>
           <button disabled>Save As New Object</button>
           <button disabled>Delete selected object</button>
         </div>
       </main>
+    <!-- The Modal -->
+    <div id="validationModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>
+          <!-- Modal inner content -->
+          <table id="modal-table">
+            <caption>
+              Data change
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">From</th>
+                <th scope="col">To</th>
+              </tr>
+            </thead>
+            <tbody id="modal-table-body"></tbody>
+          </table>
+        </p>
+      </div>
+
+    </div>
     <!--  -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

@@ -12,6 +12,7 @@ const SPREADSHEET_HEADERS = {
   "OBJECTS": {
     FIRST_COLUMN_REF: 'A',
     LAST_COLUMN_REF: 'AJ',
+    LAST_COLUMN_INDEX_NUMBER: 35,
     columns : {
       ID: 0,
       HUMAN_ID: 1,
@@ -83,6 +84,12 @@ let selectedAstronomicalObject;
 let astronomicalObjectTypes = [];
 let astronomicalObjectTypeClasses = [];
 
+// Trick to export some values from other scopes
+window.dataToUpdate = [];
+window.fromJQuery = {
+  humanParent: "",
+};
+
 /* MAIN */
 
 /* EVENTS */
@@ -90,3 +97,4 @@ let astronomicalObjectTypeClasses = [];
 
 // Authenticate
 SEARCH_INPUT.addEventListener('select2:select', loadObjectForm);
+
