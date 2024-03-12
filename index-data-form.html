@@ -41,6 +41,9 @@
                 <input type="text" name="object-tech-id" id="object-tech-id" required readonly>
                 <label for="object-human-id">ID (for spreadsheet sorting)</label>
                 <input type="text" name="object-human-id" id="object-human-id" readonly>
+                <!-- Updated At -->
+                <label for="object-updated-at">Updated at</label>
+                <input type="text" name="object-updated-at" id="object-updated-at" readonly>
               </div>
               <div>
                 <!-- Object Name -->
@@ -175,10 +178,10 @@
               </div>
             </fieldset>
           </form>
-          <button id="validation-update" onclick="onValidationUpdate();">Update Astronomical Object With Visual Validation</button>
-          <button disabled>Update Astronomical Object</button>
-          <button disabled>Save As New Object</button>
-          <button disabled>Delete selected object</button>
+          <button id="validation-update" onclick="showDataAndUpdate();">Update Astronomical Object With Visual Validation</button>
+          <button id="data-update-button" onclick="updateData();">Update Astronomical Object</button>
+          <button id="data-new-button" onclick="addNewData();">Save As New Object</button>
+          <button id="data-delete-button" onclick="deleteData();">Delete selected object</button>
         </div>
       </main>
     <!-- The Modal -->
@@ -202,6 +205,11 @@
             </thead>
             <tbody id="modal-table-body"></tbody>
           </table>
+        </p>
+        <p>
+          <!-- Buttons -->
+          <button id="data-update-button" onclick="updateData();">Save DATA</button>
+          <button id="close-modal-button" onclick="closeModal();">Close without saving</button>
         </p>
       </div>
 

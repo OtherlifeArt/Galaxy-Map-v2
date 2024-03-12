@@ -118,6 +118,7 @@ async function listMajors() {
     });
   } catch (err) {
     document.getElementById('content').innerText = err.message;
+    alert(err.message);
     return;
   }
   const range = response.result;
@@ -239,6 +240,8 @@ async function loadObjectForm(objectID) {
       window.selectedAstronomicalObject = rowValues;
       document.getElementById('object-tech-id').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.ID]); // Tech ID
       document.getElementById('object-human-id').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.HUMAN_ID]); // Human ID
+      let updateDate = new Date(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.updated_at]).toLocaleString();
+      document.getElementById('object-updated-at').value = updateDate; // Updated At
       document.getElementById('object-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.NAME]); // Name
       document.getElementById('object-alt-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.ALT_NAMES]); // Alt Names
       document.getElementById('object-capital').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.IS_CAPITAL] === "YES"; // Capital
@@ -298,6 +301,7 @@ async function getSpreadSheetData(spreadsheetId, sheetName, sheetRange) {
     });
   } catch (err) {
     document.getElementById('content').innerText = err.message;
+    alert(err.message);
     return;
   }
   console.log("Astronomical objects :", response.result);
@@ -322,6 +326,7 @@ async function getSpreadSheetRowFromColumnValues(spreadsheetId, sheetName, sheet
     });
   } catch (err) {
     document.getElementById('content').innerText = err.message;
+    alert(err.message);
     return;
   }
   console.log("Astronomical objects :", response.result);
@@ -329,6 +334,7 @@ async function getSpreadSheetRowFromColumnValues(spreadsheetId, sheetName, sheet
   const values = range.values;
   if (!range || !values || values.length == 0) {
     document.getElementById('content').innerText = 'No values found.';
+    alert(err.message);
     return;
   }
 
@@ -344,6 +350,62 @@ async function getSpreadSheetRowFromColumnValues(spreadsheetId, sheetName, sheet
     return values[rowIndex];
   }
 }
+
+/**
+ * Update spreadsheet data
+ */
+async function updateSpreadSheetRowData(spreadsheetId, sheetName, sheetRange, dataRowToUpdate) {
+  let response;
+  try {
+    // Fetch first 10 files
+    response = await gapi.client.sheets.spreadsheets.values.get({
+      spreadsheetId: spreadsheetId,
+      range: sheetName + sheetRange,
+    });
+  } catch (err) {
+    document.getElementById('content').innerText = err.message;
+    alert(err.message);
+    return;
+  }
+  console.log("Astronomical objects :", response.result);
+  const range = response.result;
+  const values = range.values;
+  if (!range || !values || values.length == 0) {
+    document.getElementById('content').innerText = 'No values found.';
+    return false;
+  }
+
+  // Find row number matching technical ID and return it
+  const rowIndex = values.findIndex((row) => row[SPREADSHEET_HEADERS.OBJECTS.columns.ID] === dataRowToUpdate[0]);
+
+  if (rowIndex === -1) {
+    console.log('Value not found.');
+    alert('Value not found in spreadsheet.');
+  } else {
+    console.log(`Row number where the value is found: ${rowIndex + 1}`);
+    console.log(values[rowIndex]);
+
+    let valuesToUpdate = [];
+    valuesToUpdate[rowIndex] = dataRowToUpdate;
+    // Update row
+    try {
+      response = await gapi.client.sheets.spreadsheets.values.update({
+        spreadsheetId: spreadsheetId,
+        range: sheetName + sheetRange,
+        valueInputOption: "RAW",
+        majorDimension: "ROWS",
+        values: valuesToUpdate
+      });
+    } catch (err) {
+      document.getElementById('content').innerText = err.message;
+      alert(err.message);
+      return false;
+    }
+    console.log("Astronomical object updated :", response.result);
+    return true;
+  }
+}
+
 
 /**
  * Translate canon/legends YES values to "Canon / Legends" text
@@ -412,7 +474,7 @@ function loadTypeSelect2() {
  * Update object
  */
 function updateObjectData() {
-  console.log("TODO : update object in spreadsheet");
+  
 }
 
 /**
@@ -488,6 +550,7 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.tooltip_direction] = sanitizeText(document.getElementById('object-tooltip-direction').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.className] = sanitizeText(document.getElementById('object-class-name').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.index_geo] = sanitizeText(document.getElementById('object-index-geo').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.updated_at] = new Date().toUTCString();
   });
 }
 
@@ -547,9 +610,13 @@ function displayModal() {
   modal.style.display = "block";
 }
 
+function closeModal() {
+  modal.style.display = "none";
+}
+
 // When the user clicks on <span> (x), close the modal
 modalSpan.onclick = function() {
-  modal.style.display = "none";
+  closeModal();
 }
 
 // // When the user clicks anywhere outside of the modal, close it
@@ -563,7 +630,38 @@ modalSpan.onclick = function() {
 /* EVENTS */
 /**********/
 
-function onValidationUpdate() {
+function showDataAndUpdate() {
   showObjectDataChange();
-  updateObjectData();
+}
+
+async function updateData() {
+  const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF}`;
+  let returnCode = await updateSpreadSheetRowData(SPREADSHEET_ID, SHEET_NAMES.OBJECTS, sheetRange, window.dataToUpdate);
+  if(returnCode) {
+    alert("Object has been successfully updated !")
+  } else {
+    alert("Error encoutered ! See console for more details")
+  }
+}
+
+function addNewData() {
+  // Confirm dialog
+  // Add data
+  // Confirmation and instruction dialog
+  if(returnCode) {
+    alert("Object has been successfully created ! Add/reorganize human index manually ")
+  } else {
+    alert("Error encoutered ! See console for more details")
+  }
+}
+
+function deleteData() {
+  // Confirm dialog
+  // Delete data
+  // Confirmation and instruction dialog
+  if(returnCode) {
+    alert("Object has been successfully deleted ! Add/reorganize human index manually ")
+  } else {
+    alert("Error encoutered ! See console for more details")
+  }
 }

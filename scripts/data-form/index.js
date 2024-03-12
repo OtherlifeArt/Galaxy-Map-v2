@@ -11,8 +11,8 @@ const SHEET_NAMES = {
 const SPREADSHEET_HEADERS = {
   "OBJECTS": {
     FIRST_COLUMN_REF: 'A',
-    LAST_COLUMN_REF: 'AJ',
-    LAST_COLUMN_INDEX_NUMBER: 35,
+    LAST_COLUMN_REF: 'AK',
+    LAST_COLUMN_INDEX_NUMBER: 36,
     columns : {
       ID: 0,
       HUMAN_ID: 1,
@@ -50,6 +50,7 @@ const SPREADSHEET_HEADERS = {
       tooltip_direction: 33,
       className: 34,
       index_geo: 35,
+      updated_at: 36,
     },
   },
 }
