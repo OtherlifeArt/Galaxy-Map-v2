@@ -245,7 +245,7 @@ async function loadObjectForm(objectID) {
       document.getElementById('object-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.NAME]); // Name
       document.getElementById('object-alt-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.ALT_NAMES]); // Alt Names
       document.getElementById('object-capital').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.IS_CAPITAL] === "YES"; // Capital
-      // document.getElementById('object-type').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.TYPE]); // Type
+      document.getElementById('object-type-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.TYPE]); // Type RAW DATA
       $(document).ready(function() { // Type
         $('#object-type').select2().val(sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.TYPE]));
         $('#object-type').select2().trigger('change');
@@ -255,7 +255,7 @@ async function loadObjectForm(objectID) {
       document.getElementById('object-conjectural-name').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.CONJECTURAL_NAME] === "YES"; // Conjectural name
       document.getElementById('object-conjectural-type').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.CONJECTURAL_TYPE] === "YES"; // Conjectural type
       document.getElementById('object-orbital-rank').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.ORBITAL_RANK]); // Orbital rank
-      // document.getElementById('object-parent').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.PARENT]); // Parent
+      document.getElementById('object-parent-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.PARENT_HUMAN]); // Parent RAW DATA
       $(document).ready(function() { // Parent
         $('#object-parent').select2().val(sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.PARENT_ID]));
         $('#object-parent').select2().trigger('change');

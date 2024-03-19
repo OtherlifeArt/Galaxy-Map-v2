@@ -4,14 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>SW Galaxy Map FORM</title>
+    <title>SW Galaxy Map TOOLS</title>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles/data-form/style.css">
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
   </head>
   <body>
     <main>
-        <h1>SW Galaxy Map FORM</h1>
+        <h1>SW Galaxy Map TOOLS</h1>
         <div>
           <label for="api-key">API Key</label>
           <input type="text" name="api-key" id="api-key">
@@ -22,6 +22,7 @@
           <button id="authorize-button" onclick="handleAuthClick()">Authorize</button>
           <button id="signout-button" onclick="handleSignoutClick()">Sign Out</button>
         </div>
+        <h2>Astronomical Object FORM</h2>
         <pre id="content" style="white-space: pre-wrap;"></pre>
         <!-- Search -->
         <div>
@@ -59,8 +60,9 @@
               </div>
               <div>
                 <!-- Type -->
+                <label for="object-type">Type (Displayed DATA)</label>
+                <input type="text" name="object-type-raw" id="object-type-raw" readonly>
                 <label for="object-type">Type</label>
-                <!-- <input type="text" name="object-type" id="object-type"> -->
                 <select name="object-type" id="object-type">
                   <option></option>
                 </select>
@@ -81,8 +83,9 @@
                 <label for="object-orbital-rank">Orbital rank</label>
                 <input type="text" name="object-orbital-rank" id="object-orbital-rank">
                 <!-- Parent -->
+                <label for="object-parent">Parent (Displayed DATA)</label>
+                <input type="text" name="object-parent-raw" id="object-parent-raw" readonly>
                 <label for="object-parent">Parent</label>
-                <!-- <input type="text" name="object-parent" id="object-parent"> -->
                 <select name="object-parent" id="object-parent">
                   <option></option>
                 </select>
