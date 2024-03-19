@@ -134,4 +134,48 @@ input[readonly] {
   padding: 6px 12px;
   border: 1px solid #ccc;
   border-top: none;
-} 
+}
+
+
+/************/
+/* TOOLTIPS */
+/************/
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  /* margin:10rem; */
+  /* border-bottom: 1px dotted black; */
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 300px;
+  min-width: 350px;
+  background-color: #292929;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: .5rem;
+  position: absolute;
+  z-index: 1;
+  bottom: 115%;
+  left: 50%;
+  margin-left: -60px;
+  font-family:sans-serif;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 10%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #292929 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
