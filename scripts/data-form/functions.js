@@ -279,6 +279,13 @@ async function loadObjectForm(objectID) {
       document.getElementById('object-notes').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.NOTES]); // Notes
       document.getElementById('object-interesting').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.INTERESTING]); // Interesting      document.getElementById('object-').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.]); // 
       document.getElementById('object-sources').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.URL]); // Sources
+      let urlList = separateStringToLinkList(sanitizeText(document.getElementById('object-sources').value), ",");
+      console.log(urlList);
+      let urlDisplayerSpan = document.getElementById('url-displayer')
+      urlDisplayerSpan.innerHTML = "";
+      for (const element of urlList) {
+        urlDisplayerSpan.appendChild(element);
+      }
       document.getElementById('object-zoom-level').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.ZOOM_LEVEL]); // Zoom level
       document.getElementById('object-tooltip-permanent').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.tooltip_permanent]); // Tooltip permanent
       document.getElementById('object-tooltip-direction').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.tooltip_direction]); // Tooltip direction
@@ -594,6 +601,22 @@ async function populateValidationTable(currentData, newData) {
 function getKeyByObjectValue(object, value) {
   return Object.keys(object).find(key =>
     object[key] === value);
+}
+
+/**
+ * Parse data separated by char to html url link list
+ */
+function separateStringToLinkList(string, separator) {
+  let urls = string.split(separator);
+  let urlList = [];
+  for (const url of urls) {
+    let a = document.createElement("a");
+    a.href =  url;
+    a.target = "_blank";
+    a.innerText = url;
+    urlList.push(a);
+  }
+  return urlList;
 }
 
 /**********/

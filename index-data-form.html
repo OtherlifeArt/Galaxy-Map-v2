@@ -102,7 +102,7 @@
                     <span class="tooltiptext">Type as displayed in spreadsheet (readonly)</span>
                   </span>
                   <!-- Type -->
-                  <span class="tooltip">
+                  <span class="tooltip" id="object-type-span">
                     <label for="object-type">Type</label>
                     <select name="object-type" id="object-type">
                       <option></option>
@@ -128,12 +128,12 @@
                 </div>
                 <div>
                   <!-- Parent -->
-                  <span class="tooltip">
+                  <span class="tooltip"
                     <label for="object-parent">Parent (Displayed DATA)</label>
                     <input type="text" name="object-parent-raw" id="object-parent-raw" readonly>
                     <span class="tooltiptext">Object's parent as displayed in spreadsheet (readonly)</span>
                   </span>
-                  <span class="tooltip">
+                  <span class="tooltip" id="object-parent-span">
                     <label for="object-parent">Parent</label>
                     <select name="object-parent" id="object-parent">
                       <option></option>
@@ -261,15 +261,19 @@
                   </span>
                   <!-- Interesting -->
                   <span class="tooltip">
-                  <label for="object-interesting">Interesting</label>
-                  <textarea name="object-interesting" id="object-interesting"></textarea>
-                </span>
+                    <label for="object-interesting">Interesting</label>
+                    <textarea name="object-interesting" id="object-interesting"></textarea>
+                  </span>
                   <br/>
                   <!-- Sources -->
                   <span class="tooltip">
                     <label for="object-sources">Source URLS</label>
                     <textarea name="object-sources" id="object-sources"></textarea>
                     <span class="tooltiptext">URLS "," (comma) separated</span>
+                  </span>
+                  <br/>
+                  <!-- Sources Display -->
+                  <span id="url-displayer">
                   </span>
                 </div>
                 <div>

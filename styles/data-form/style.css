@@ -22,11 +22,20 @@ body {
 #object-search {
   width: 100%;
 }
-#object-type {
+#object-type-span {
   width: 30%;
 }
+
+#object-type {
+  width: 87%;
+}
+
+#object-parent-span {
+  width: 100%;
+}
+
 #object-parent {
-  width: 40%;
+  width: 87%;
 }
 
 /* Form */
