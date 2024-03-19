@@ -1,3 +1,23 @@
+body {
+  padding: 0px;
+  margin: 0px;
+}
+
+.flex-parent-element {
+  display: flex;
+  width: 100%;
+}
+
+.flex-child-element {
+  flex: 1;
+  /* border: 1px solid lightgrey; */
+  margin: 5px;
+}
+
+.flex-child-element:first-child {
+  margin-right: 10px;
+}
+
 /* Select2 */
 #object-search {
   width: 100%;
@@ -18,7 +38,7 @@ input[readonly] {
   background-color: lightgray;
 }
 
-button {
+.verbose-button {
   height: 50px;
 }
 
@@ -79,3 +99,39 @@ button {
 /* #modal-table tr td:last-child {
   border-right: 0;
 } */
+
+ /* Style the tab */
+ .tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+} 

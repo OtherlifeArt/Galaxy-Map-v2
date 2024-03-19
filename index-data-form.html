@@ -10,8 +10,9 @@
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
   </head>
   <body>
-    <main>
-        <h1>SW Galaxy Map TOOLS</h1>
+    <main class="flex-parent-element">
+      <div id="tool-div" class="flex-child-element">
+        <h3>SW Galaxy Map TOOLS</h3>
         <div>
           <label for="api-key">API Key</label>
           <input type="text" name="api-key" id="api-key">
@@ -22,170 +23,195 @@
           <button id="authorize-button" onclick="handleAuthClick()">Authorize</button>
           <button id="signout-button" onclick="handleSignoutClick()">Sign Out</button>
         </div>
-        <h2>Astronomical Object FORM</h2>
-        <pre id="content" style="white-space: pre-wrap;"></pre>
-        <!-- Search -->
-        <div>
-          <label for="object-search">Search Object</label>
-          <select name="object-search" id="object-search">
-            <option></option>
-          </select>
+        <br/>
+        <!-- Tab links -->
+        <div class="tab">
+          <button id="default-tab" class="tablinks" onclick="openSection(event, 'astro-object-tab')">Astronomical Object</button>
+          <button class="tablinks" onclick="openSection(event, 'hyper-route-tab')">Hyperroute Ploting</button>
         </div>
-        <!-- FORM -->
-        <div>
-          <form id="form">
-            <fieldset>
-              <legend>Astronomical object Form</legend>
-              <div>
-                <!-- IDs -->
-                <label for="object-tech-id">Technical ID (do not change)</label>
-                <input type="text" name="object-tech-id" id="object-tech-id" required readonly>
-                <label for="object-human-id">ID (for spreadsheet sorting)</label>
-                <input type="text" name="object-human-id" id="object-human-id" readonly>
-                <!-- Updated At -->
-                <label for="object-updated-at">Updated at</label>
-                <input type="text" name="object-updated-at" id="object-updated-at" readonly>
-              </div>
-              <div>
-                <!-- Object Name -->
-                <label for="object-name">Object Name</label>
-                <input type="text" name="object-name" id="object-name" required>
-                <!-- Capital object within its hierarchy level -->
-                <label for="object-capital">Capital</label>
-                <input type="checkbox" name="object-capital" id="object-capital">
-                <!-- Object Alternative Names -->
-                <br/>
-                <label for="object-alt-name">Object Alt Names (/ separated)</label>
-                <input type="text" name="object-alt-name" id="object-alt-name">
-              </div>
-              <div>
-                <!-- Type -->
-                <label for="object-type">Type (Displayed DATA)</label>
-                <input type="text" name="object-type-raw" id="object-type-raw" readonly>
-                <label for="object-type">Type</label>
-                <select name="object-type" id="object-type">
-                  <option></option>
-                </select>
-                <!-- Type Classes -->
-                <label for="object-type-classes">Type classes (, separated)</label>
-                <input type="text" name="object-type-classes" id="object-type-classes">
-              </div>
-              <div>
-                <!-- Conjectural name -->
-                <label for="object-conjectural-name">Conjectural name</label>
-                <input type="checkbox" name="object-conjectural-name" id="object-conjectural-name">
-                <!-- Conjectural type -->
-                <label for="object-conjectural-type">Conjectural type</label>
-                <input type="checkbox" name="object-conjectural-type" id="object-conjectural-type">
-              </div>
-              <div>
-                <!-- Orbital rank -->
-                <label for="object-orbital-rank">Orbital rank</label>
-                <input type="text" name="object-orbital-rank" id="object-orbital-rank">
-                <!-- Parent -->
-                <label for="object-parent">Parent (Displayed DATA)</label>
-                <input type="text" name="object-parent-raw" id="object-parent-raw" readonly>
-                <label for="object-parent">Parent</label>
-                <select name="object-parent" id="object-parent">
-                  <option></option>
-                </select>
-              </div>
-              <div>
-                <!-- Date From -->
-                <label for="object-datefrom">Date (Year) : From</label>
-                <input type="number" name="object-datefrom" id="object-datefrom">
-                <!-- Date To -->
-                <label for="object-dateto">To</label>
-                <input type="number" name="object-dateto" id="object-dateto">
-              </div>
-              <div>
-                <!-- Canon -->
-                <label for="object-canon">Canon</label>
-                <input type="checkbox" name="object-canon" id="object-canon">
-                <!-- Legends -->
-                <label for="object-legends">Legends</label>
-                <input type="checkbox" name="object-legends" id="object-legends">
-                <!-- In Movies -->
-                <label for="object-inmovies">In Movies</label>
-                <input type="checkbox" name="object-inmovies" id="object-inmovies">
-              </div>
-              <div>
-                <!-- Grid : X -->
-                <label for="object-grid-x">Grid : X</label>
-                <input type="text" name="object-grid-x" id="object-grid-x">
-                <!-- Grid : Y -->
-                <label for="object-grid-y">Y</label>
-                <input type="number" name="object-grid-y" id="object-grid-y">
-              </div>
-              <div>
-                <!-- Coordinates : X -->
-                <label for="object-coord-x">Coordinates : X</label>
-                <input type="number" name="object-coord-x" id="object-coord-x">
-                <!-- Coordinates : Y -->
-                <label for="object-coord-y">Y</label>
-                <input type="number" name="object-coord-y" id="object-coord-y">
-                <!-- Coordinates : X -->
-                <label for="object-coord-z">Z</label>
-                <input type="number" name="object-coord-z" id="object-coord-z">
-              </div>
-              <div>
-                <!-- Desc -->
-                <label for="object-desc">Description</label>
-                <textarea id="object-desc" name="object-desc"></textarea>
-              </div>
-              <div>
-                <!-- Placement certitude -->
-                <label for="object-placement-certitude">Placement certitude</label>
-                <input type="text" name="object-placement-certitude" id="object-placement-certitude">
-                <!-- Placement logic -->
-                <label for="object-placement-logic">Placement logic</label>
-                <textarea id="object-placement-logic" name="object-placement-logic"></textarea>
-              </div>
-              <div>
-                <!-- Native species -->
-                <label for="object-native-species">Native species</label>
-                <input type="text" name="object-native-species" id="object-native-species">
-                <!-- Known environments -->
-                <label for="object-known-environments">Known environments</label>
-                <input type="text" name="object-known-environments" id="object-known-environments">
-              </div>
-              <div>
-                <!-- Notes -->
-                <label for="object-notes">Notes</label>
-                <textarea name="object-notes" id="object-notes"></textarea>
-                <!-- Interesting -->
-                <label for="object-interesting">Interesting</label>
-                <textarea name="object-interesting" id="object-interesting"></textarea>
-                <!-- Sources -->
-                <br/>
-                <label for="object-sources">URLS (, separated)</label>
-                <textarea name="object-sources" id="object-sources"></textarea>
-              </div>
-              <div>
-                <!-- Zoom level -->
-                <label for="object-zoom-level">Zoom level</label>
-                <input type="text" name="object-zoom-level" id="object-zoom-level">
-                <!-- Tooltip permanent -->
-                <label for="object-tooltip-permanent">Tooltip permanent</label>
-                <input type="text" name="object-tooltip-permanent" id="object-tooltip-permanent">
-                <!-- Tooltip direction -->
-                <label for="object-tooltip-direction">Tooltip direction</label>
-                <input type="text" name="object-tooltip-direction" id="object-tooltip-direction">
-                <!-- Tooltip Class Name -->
-                <br/>
-                <label for="object-class-name">Tooltip Class Name</label>
-                <input type="text" name="object-class-name" id="object-class-name">
-                <!-- Index Geo -->
-                <label for="object-index-geo">Geo index</label>
-                <input type="text" name="object-index-geo" id="object-index-geo">
-              </div>
-            </fieldset>
-          </form>
-          <button id="validation-update" onclick="showDataAndUpdate();">Update Astronomical Object With Visual Validation</button>
-          <button id="data-update-button" onclick="updateData();">Update Astronomical Object</button>
-          <button id="data-new-button" onclick="addNewData();">Save As New Object</button>
-          <button id="data-delete-button" onclick="deleteData();">Delete selected object</button>
+
+        <!-- Astronomical Object Tab -->
+        <div id="astro-object-tab" class="tabcontent">
+          <h3>Astronomical Object FORM</h3>
+          <pre id="content" style="white-space: pre-wrap;"></pre>
+          <!-- Search -->
+          <div>
+            <label for="object-search">Search Object</label>
+            <select name="object-search" id="object-search">
+              <option></option>
+            </select>
+          </div>
+          <!-- Astro Object FORM -->
+          <div>
+            <form id="astro-object-form">
+              <fieldset>
+                <legend>Astronomical object Form</legend>
+                <div>
+                  <!-- IDs -->
+                  <label for="object-tech-id">Technical ID (do not change)</label>
+                  <input type="text" name="object-tech-id" id="object-tech-id" required readonly>
+                  <label for="object-human-id">ID (for spreadsheet sorting)</label>
+                  <input type="text" name="object-human-id" id="object-human-id" readonly>
+                  <!-- Updated At -->
+                  <label for="object-updated-at">Updated at</label>
+                  <input type="text" name="object-updated-at" id="object-updated-at" readonly>
+                </div>
+                <div>
+                  <!-- Object Name -->
+                  <label for="object-name">Object Name</label>
+                  <input type="text" name="object-name" id="object-name" required>
+                  <!-- Capital object within its hierarchy level -->
+                  <label for="object-capital">Capital</label>
+                  <input type="checkbox" name="object-capital" id="object-capital">
+                  <!-- Object Alternative Names -->
+                  <br/>
+                  <label for="object-alt-name">Object Alt Names (/ separated)</label>
+                  <input type="text" name="object-alt-name" id="object-alt-name">
+                </div>
+                <div>
+                  <!-- Type -->
+                  <label for="object-type">Type (Displayed DATA)</label>
+                  <input type="text" name="object-type-raw" id="object-type-raw" readonly>
+                  <label for="object-type">Type</label>
+                  <select name="object-type" id="object-type">
+                    <option></option>
+                  </select>
+                  <!-- Type Classes -->
+                  <label for="object-type-classes">Type classes (, separated)</label>
+                  <input type="text" name="object-type-classes" id="object-type-classes">
+                </div>
+                <div>
+                  <!-- Conjectural name -->
+                  <label for="object-conjectural-name">Conjectural name</label>
+                  <input type="checkbox" name="object-conjectural-name" id="object-conjectural-name">
+                  <!-- Conjectural type -->
+                  <label for="object-conjectural-type">Conjectural type</label>
+                  <input type="checkbox" name="object-conjectural-type" id="object-conjectural-type">
+                </div>
+                <div>
+                  <!-- Orbital rank -->
+                  <label for="object-orbital-rank">Orbital rank</label>
+                  <input type="text" name="object-orbital-rank" id="object-orbital-rank">
+                  <!-- Parent -->
+                  <label for="object-parent">Parent (Displayed DATA)</label>
+                  <input type="text" name="object-parent-raw" id="object-parent-raw" readonly>
+                  <label for="object-parent">Parent</label>
+                  <select name="object-parent" id="object-parent">
+                    <option></option>
+                  </select>
+                </div>
+                <div>
+                  <!-- Date From -->
+                  <label for="object-datefrom">Date (Year) : From</label>
+                  <input type="number" name="object-datefrom" id="object-datefrom">
+                  <!-- Date To -->
+                  <label for="object-dateto">To</label>
+                  <input type="number" name="object-dateto" id="object-dateto">
+                </div>
+                <div>
+                  <!-- Canon -->
+                  <label for="object-canon">Canon</label>
+                  <input type="checkbox" name="object-canon" id="object-canon">
+                  <!-- Legends -->
+                  <label for="object-legends">Legends</label>
+                  <input type="checkbox" name="object-legends" id="object-legends">
+                  <!-- In Movies -->
+                  <label for="object-inmovies">In Movies</label>
+                  <input type="checkbox" name="object-inmovies" id="object-inmovies">
+                </div>
+                <div>
+                  <!-- Grid : X -->
+                  <label for="object-grid-x">Grid : X</label>
+                  <input type="text" name="object-grid-x" id="object-grid-x">
+                  <!-- Grid : Y -->
+                  <label for="object-grid-y">Y</label>
+                  <input type="number" name="object-grid-y" id="object-grid-y">
+                </div>
+                <div>
+                  <!-- Coordinates : X -->
+                  <label for="object-coord-x">Coordinates : X</label>
+                  <input type="number" name="object-coord-x" id="object-coord-x">
+                  <!-- Coordinates : Y -->
+                  <label for="object-coord-y">Y</label>
+                  <input type="number" name="object-coord-y" id="object-coord-y">
+                  <!-- Coordinates : X -->
+                  <label for="object-coord-z">Z</label>
+                  <input type="number" name="object-coord-z" id="object-coord-z">
+                </div>
+                <div>
+                  <!-- Desc -->
+                  <label for="object-desc">Description</label>
+                  <textarea id="object-desc" name="object-desc"></textarea>
+                </div>
+                <div>
+                  <!-- Placement certitude -->
+                  <label for="object-placement-certitude">Placement certitude</label>
+                  <input type="text" name="object-placement-certitude" id="object-placement-certitude">
+                  <!-- Placement logic -->
+                  <label for="object-placement-logic">Placement logic</label>
+                  <textarea id="object-placement-logic" name="object-placement-logic"></textarea>
+                </div>
+                <div>
+                  <!-- Native species -->
+                  <label for="object-native-species">Native species</label>
+                  <input type="text" name="object-native-species" id="object-native-species">
+                  <!-- Known environments -->
+                  <label for="object-known-environments">Known environments</label>
+                  <input type="text" name="object-known-environments" id="object-known-environments">
+                </div>
+                <div>
+                  <!-- Notes -->
+                  <label for="object-notes">Notes</label>
+                  <textarea name="object-notes" id="object-notes"></textarea>
+                  <!-- Interesting -->
+                  <label for="object-interesting">Interesting</label>
+                  <textarea name="object-interesting" id="object-interesting"></textarea>
+                  <!-- Sources -->
+                  <br/>
+                  <label for="object-sources">URLS (, separated)</label>
+                  <textarea name="object-sources" id="object-sources"></textarea>
+                </div>
+                <div>
+                  <!-- Zoom level -->
+                  <label for="object-zoom-level">Zoom level</label>
+                  <input type="text" name="object-zoom-level" id="object-zoom-level">
+                  <!-- Tooltip permanent -->
+                  <label for="object-tooltip-permanent">Tooltip permanent</label>
+                  <input type="text" name="object-tooltip-permanent" id="object-tooltip-permanent">
+                  <!-- Tooltip direction -->
+                  <label for="object-tooltip-direction">Tooltip direction</label>
+                  <input type="text" name="object-tooltip-direction" id="object-tooltip-direction">
+                  <!-- Tooltip Class Name -->
+                  <br/>
+                  <label for="object-class-name">Tooltip Class Name</label>
+                  <input type="text" name="object-class-name" id="object-class-name">
+                  <!-- Index Geo -->
+                  <label for="object-index-geo">Geo index</label>
+                  <input type="text" name="object-index-geo" id="object-index-geo">
+                </div>
+              </fieldset>
+            </form>
+            <button id="validation-update" class="verbose-button" onclick="showDataAndUpdate();">Update Astronomical Object With Visual Validation</button>
+            <button id="data-update-button" class="verbose-button" onclick="updateData();">Update Astronomical Object</button>
+            <button id="data-new-button" class="verbose-button" onclick="addNewData();">Save As New Object</button>
+            <button id="data-delete-button" class="verbose-button" onclick="deleteData();">Delete selected object</button>
+          </div>
         </div>
+        <!-- Astro object tab end -->
+
+        <!-- Hyper route tab -->
+        <div id="hyper-route-tab" class="tabcontent">
+          <h3>Hyper Route Ploting</h3>
+          <p>Coming soon</p>
+        </div>
+        <!-- Hyper route tab end -->
+      </div>
+      <!-- Tool div end -->
+      <!-- Map div -->
+      <div id="map-div" class="flex-child-element">
+        <p>MAP - Coming soon</p>
+      </div>
+      <!-- Map div end -->
       </main>
     <!-- The Modal -->
     <div id="validationModal" class="modal">

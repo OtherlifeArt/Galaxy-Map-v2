@@ -93,6 +93,11 @@ window.fromJQuery = {
 
 /* MAIN */
 
+// Activate object tab
+openSection(undefined, 'astro-object-tab');
+document.querySelector("#default-tab").className += " active";
+
+
 /* EVENTS */
 // Called directly in webpage : handleAuthClick(), handleSignoutClick(), gapiLoaded(), gisLoaded()
 
