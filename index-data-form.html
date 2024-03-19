@@ -48,7 +48,7 @@
                 <legend>Astronomical object Form</legend>
                 <div>
                   <!-- IDs -->
-                  <label for="object-tech-id">Technical ID (do not change)</label>
+                  <label for="object-tech-id">Technical ID (not to change)</label>
                   <input type="text" name="object-tech-id" id="object-tech-id" required readonly>
                   <label for="object-human-id">ID (for spreadsheet sorting)</label>
                   <input type="text" name="object-human-id" id="object-human-id" readonly>
@@ -63,8 +63,11 @@
                   <!-- Capital object within its hierarchy level -->
                   <label for="object-capital">Capital</label>
                   <input type="checkbox" name="object-capital" id="object-capital">
-                  <!-- Object Alternative Names -->
+                  <!-- Conjectural name -->
+                  <label for="object-conjectural-name">Conjectural name</label>
+                  <input type="checkbox" name="object-conjectural-name" id="object-conjectural-name">
                   <br/>
+                  <!-- Object Alternative Names -->
                   <label for="object-alt-name">Object Alt Names (/ separated)</label>
                   <input type="text" name="object-alt-name" id="object-alt-name">
                 </div>
@@ -76,22 +79,18 @@
                   <select name="object-type" id="object-type">
                     <option></option>
                   </select>
-                  <!-- Type Classes -->
-                  <label for="object-type-classes">Type classes (, separated)</label>
-                  <input type="text" name="object-type-classes" id="object-type-classes">
-                </div>
-                <div>
-                  <!-- Conjectural name -->
-                  <label for="object-conjectural-name">Conjectural name</label>
-                  <input type="checkbox" name="object-conjectural-name" id="object-conjectural-name">
                   <!-- Conjectural type -->
                   <label for="object-conjectural-type">Conjectural type</label>
                   <input type="checkbox" name="object-conjectural-type" id="object-conjectural-type">
                 </div>
                 <div>
-                  <!-- Orbital rank -->
-                  <label for="object-orbital-rank">Orbital rank</label>
-                  <input type="text" name="object-orbital-rank" id="object-orbital-rank">
+                  <!-- Type Classes -->
+                  <label for="object-type-classes">Type classes (, separated)</label>
+                  <input type="text" name="object-type-classes" id="object-type-classes">
+                  <!-- Type classes helper -->
+                  <button id="type-classes-helper-button" type="button" onclick="showTypeClassesHelper();"">Type Classes Helper (coming soon)</button>
+                </div>
+                <div>
                   <!-- Parent -->
                   <label for="object-parent">Parent (Displayed DATA)</label>
                   <input type="text" name="object-parent-raw" id="object-parent-raw" readonly>
@@ -99,6 +98,10 @@
                   <select name="object-parent" id="object-parent">
                     <option></option>
                   </select>
+                  <br/>
+                  <!-- Orbital rank -->
+                  <label for="object-orbital-rank">Orbital rank</label>
+                  <input type="text" name="object-orbital-rank" id="object-orbital-rank">
                 </div>
                 <div>
                   <!-- Date From -->
@@ -130,13 +133,13 @@
                 <div>
                   <!-- Coordinates : X -->
                   <label for="object-coord-x">Coordinates : X</label>
-                  <input type="number" name="object-coord-x" id="object-coord-x">
+                  <input type="number" step="0.00000001" name="object-coord-x" id="object-coord-x">
                   <!-- Coordinates : Y -->
                   <label for="object-coord-y">Y</label>
-                  <input type="number" name="object-coord-y" id="object-coord-y">
+                  <input type="number" step="0.00000001" name="object-coord-y" id="object-coord-y">
                   <!-- Coordinates : X -->
                   <label for="object-coord-z">Z</label>
-                  <input type="number" name="object-coord-z" id="object-coord-z">
+                  <input type="number" step="0.00000001" name="object-coord-z" id="object-coord-z">
                 </div>
                 <div>
                   <!-- Desc -->
