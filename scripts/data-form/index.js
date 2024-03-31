@@ -89,7 +89,6 @@ let astronomicalObjectTypeClasses = [];
 // Trick to export some values from other scopes
 window.dataToUpdate = [];
 window.fromJQuery = {
-  humanParent: "",
 };
 
 /* MAIN */

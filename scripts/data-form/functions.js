@@ -523,8 +523,8 @@ async function convertFormValuesToData() {
   });
   // Use the Promise to execute code after the document is ready
   await documentReadyPromise.then(function() {
-    console.log($('#object-parent option:selected').text());
-    window.fromJQuery.humanParent = sanitizeText($('#object-parent option:selected').text());
+    // console.log($('#object-parent option:selected').text());
+    // window.fromJQuery.humanParent = sanitizeText($('#object-parent option:selected').text());
     // Below will only run after document is ready
 
     // Data array populating
@@ -541,7 +541,7 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.CONJECTURAL_TYPE] = document.getElementById('object-conjectural-type').checked  ? "YES" : "";
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.ORBITAL_RANK] = orbitalRank;
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.PARENT_ID] = sanitizeText(document.getElementById('object-parent').value);
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.PARENT_HUMAN] = window.fromJQuery.humanParent;
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.PARENT_HUMAN] = sanitizeText(document.getElementById('object-parent-raw').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.DATE_FROM] = sanitizeText(document.getElementById('object-datefrom').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.DATE_TO] = sanitizeText(document.getElementById('object-dateto').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.CANON] = document.getElementById('object-canon').checked ? "YES" : "";
