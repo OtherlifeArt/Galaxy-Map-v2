@@ -47,6 +47,13 @@ input[readonly] {
   background-color: lightgray;
 }
 
+#object-parent-raw-span {
+  width: 100%
+}
+#object-parent-raw {
+  width: 80%;
+}
+
 .verbose-button {
   height: 50px;
 }

@@ -173,7 +173,7 @@ async function listTypes() {
   for(i=0; i<spreadSheetData.values.length; i++){
     const rowValues = spreadSheetData.values[i];
     const labelString = rowValues[0];
-    const typeString = rowValues[1];
+    const typeString = rowValues[2];
     astronomicalObjectTypes.push({
       id: labelString,
       text: `${labelString} (${typeString})`
@@ -202,10 +202,15 @@ function loadAstroObjectsSelect2() {
       placeholder: 'Parent ....',
       allowClear: true
     });
-    // Populate form on select
+    // Populate search form on select
     $("#object-search").on('change', function() {
       console.log('Selected value:', $("#object-search").val());
       loadObjectForm($("#object-search").val());
+    });
+    // Populate (human) parent on parent select
+    $("#object-parent").on('change', async function() {
+      console.log('Selected value:', $("#object-parent").val());
+      document.getElementById('object-parent-raw').value = await getParentHierarchy($("#object-search").val());
     });
   });
 }
@@ -242,6 +247,7 @@ async function loadObjectForm(objectID) {
       document.getElementById('object-human-id').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.HUMAN_ID]); // Human ID
       let updateDate = new Date(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.updated_at]).toLocaleString();
       document.getElementById('object-updated-at').value = updateDate; // Updated At
+      document.getElementById('object-data-certified').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.is_certified] === "YES"; // Data certified ?
       document.getElementById('object-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.NAME]); // Name
       document.getElementById('object-alt-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.ALT_NAMES]); // Alt Names
       document.getElementById('object-capital').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.IS_CAPITAL] === "YES"; // Capital
@@ -508,6 +514,7 @@ async function convertFormValuesToData() {
   let orbitalRank = sanitizeText(document.getElementById('object-orbital-rank').value);
   let name = sanitizeText(document.getElementById('object-name').value);
   let humanName = (orbitalRank !== "" ? "  "+orbitalRank.toString()+". " : "") + name;
+  let humanParent = getParentHierarchy(window.selectedAstronomicalObject[SPREADSHEET_HEADERS.ID]);
   
   // Making sure document.ready is ready before continuing....
   // Create a Promise that resolves when the document is ready
@@ -526,6 +533,7 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.HUMAN_NAME] = humanName;
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.NAME] = name;
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.ALT_NAMES] = sanitizeText(document.getElementById('object-alt-name').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.is_certified] = document.getElementById('object-data-certified').checked ? "YES" : "";
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.IS_CAPITAL] = document.getElementById('object-capital').checked ? "YES" : "";
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.TYPE] = sanitizeText(document.getElementById('object-type').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.TYPE_CLASSES] = sanitizeText(document.getElementById('object-type-classes').value);
@@ -617,6 +625,36 @@ function separateStringToLinkList(string, separator) {
     urlList.push(a);
   }
   return urlList;
+}
+
+/**
+ * Return formatted string of parent hierarchy from higher parent to object
+ * Example : 
+ * @param {UUID} objectID 
+ */
+async function getParentHierarchy(objectID) {
+  const previousParentValue = document.getElementById('object-parent-raw').value;
+  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEET_NAMES.OBJECTS, '!A2:F');
+  const data = spreadSheetData.values;
+  // Get parents recursively
+  let parentString = "";
+  let currentObjectID = objectID;
+  // console.log("data : ", data  ,"objectid : ", currentObjectID ,"object row : ", data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.columns.ID] === currentObjectID));
+  let currentDataRow = data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.columns.ID] === currentObjectID);
+  while(currentDataRow !== undefined && currentDataRow !== null) {
+    currentDataRow = data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.columns.ID] === currentDataRow[SPREADSHEET_HEADERS.OBJECTS.columns.PARENT_ID]); // parentID
+    if(currentDataRow !== undefined && currentDataRow !== null) {
+      if(parentString !== "") {
+        parentString += " < ";
+      }
+      parentString += currentDataRow[SPREADSHEET_HEADERS.OBJECTS.columns.NAME];
+    }
+  }
+  if(parentString === undefined || parentString === null || parentString === "") {
+    return previousParentValue;
+  } else {
+    return parentString;
+  }
 }
 
 /**********/

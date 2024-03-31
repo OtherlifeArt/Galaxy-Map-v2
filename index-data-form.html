@@ -55,6 +55,7 @@
                     <input type="text" name="object-tech-id" id="object-tech-id" required readonly>
                     <span class="tooltiptext">Readonly ID, created automaticly at object creation, stay the same from object creation to deletion - not to change even in spreadsheet</span>
                   </span>
+                  <!-- Sorting/Human ID -->
                   <span class="tooltip">
                     <label for="object-human-id">Sorting ID</label>
                     <input type="text" name="object-human-id" id="object-human-id" readonly>
@@ -66,6 +67,11 @@
                     <input type="text" name="object-updated-at" id="object-updated-at" readonly>
                     <span class="tooltiptext">Last time updated - no data means never updated, object may need to be cheched</span>
                   </span>
+                  <!-- Are Data certified ? -->
+                  <span class="tooltip">
+                    <label for="object-data-certified">Data certified ?</label>
+                    <input type="checkbox" name="object-data-certified" id="object-data-certified">
+                    <span class="tooltiptext">Are data not fully checked or insufficient ?</span>
                 </div>
                 <div>
                   <!-- Object Name -->
@@ -76,13 +82,13 @@
                   </span>
                   <span class="tooltip">
                     <!-- Capital object within its hierarchy level -->
-                    <label for="object-capital">Capital</label>
+                    <label for="object-capital">Capital ?</label>
                     <input type="checkbox" name="object-capital" id="object-capital">
                     <span class="tooltiptext">Is this object main or capital related to its neighbours (same hierarchy level.)</span>
                   </span>
                   <!-- Conjectural name -->
                   <span class="tooltip">
-                    <label for="object-conjectural-name">Conjectural name</label>
+                    <label for="object-conjectural-name">Conjectural name ?</label>
                     <input type="checkbox" name="object-conjectural-name" id="object-conjectural-name">
                     <span class="tooltiptext">Name isn't known/definite (yet)</span>
                   </span>
@@ -111,7 +117,7 @@
                   </span>
                   <!-- Conjectural type -->
                   <span class="tooltip">
-                  <label for="object-conjectural-type">Conjectural type</label>
+                  <label for="object-conjectural-type">Conjectural type ?</label>
                   <input type="checkbox" name="object-conjectural-type" id="object-conjectural-type">
                   <span class="tooltiptext">Type isn't known/definite (yet)</span>
                 </span>
@@ -128,8 +134,8 @@
                 </div>
                 <div>
                   <!-- Parent -->
-                  <span class="tooltip"
-                    <label for="object-parent">Parent (Displayed DATA)</label>
+                  <span class="tooltip"  id="object-parent-raw-span">
+                    <label for="object-parent-raw">Parents (Displayed DATA)</label>
                     <input type="text" name="object-parent-raw" id="object-parent-raw" readonly>
                     <span class="tooltiptext">Object's parent as displayed in spreadsheet (readonly)</span>
                   </span>
@@ -165,19 +171,19 @@
                 <div>
                   <!-- Canon -->
                   <span class="tooltip">
-                    <label for="object-canon">Canon</label>
+                    <label for="object-canon">Canon ?</label>
                     <input type="checkbox" name="object-canon" id="object-canon">
                     <span class="tooltiptext">Is object Canon ("© Disney" canon) ?</span>
                   </span>
                   <!-- Legends -->
                   <span class="tooltip">
-                    <label for="object-legends">Legends</label>
+                    <label for="object-legends">Legends ?</label>
                     <input type="checkbox" name="object-legends" id="object-legends">
                     <span class="tooltiptext">Is object Legends (original/old canon) ?</span>
                   </span>
                   <!-- In Movies -->
                   <span class="tooltip">
-                    <label for="object-inmovies">In Movies</label>
+                    <label for="object-inmovies">In Movies ?</label>
                     <input type="checkbox" name="object-inmovies" id="object-inmovies">
                     <span class="tooltiptext">Is object present in movies ?</span>
                   </span>
@@ -200,19 +206,19 @@
                   <!-- Coordinates : X -->
                   <span class="tooltip">
                     <label for="object-coord-x">Coordinates : X</label>
-                    <input type="number" step="0.00000001" name="object-coord-x" id="object-coord-x">
+                    <input type="number" step="0.0000000001" name="object-coord-x" id="object-coord-x">
                     <span class="tooltiptext">Map X (abscissa) coordinates</span>
                   </span>
                   <!-- Coordinates : Y -->
                   <span class="tooltip">
                     <label for="object-coord-y">Y</label>
-                    <input type="number" step="0.00000001" name="object-coord-y" id="object-coord-y">
+                    <input type="number" step="0.0000000001" name="object-coord-y" id="object-coord-y">
                     <span class="tooltiptext">Map Y (ordinate) coordinates</span>
                   </span>
                   <!-- Coordinates : Z -->
                   <span class="tooltip">
                     <label for="object-coord-z">Z</label>
-                    <input type="number" step="0.00000001" name="object-coord-z" id="object-coord-z">
+                    <input type="number" step="0.0000000001" name="object-coord-z" id="object-coord-z">
                     <span class="tooltiptext">Map Z (height) coordinates</span>
                   </span>
                 </div>
@@ -263,6 +269,7 @@
                   <span class="tooltip">
                     <label for="object-interesting">Interesting</label>
                     <textarea name="object-interesting" id="object-interesting"></textarea>
+                    <span class="tooltiptext">Additionnal elements of interest</span>
                   </span>
                   <br/>
                   <!-- Sources -->
