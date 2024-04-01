@@ -293,7 +293,8 @@ async function loadObjectForm(objectID) {
       let urlDisplayerSpan = document.getElementById('url-displayer')
       urlDisplayerSpan.innerHTML = "";
       for (const element of urlList) {
-        urlDisplayerSpan.appendChild(element);
+        let div = urlDisplayerSpan.appendChild(document.createElement("div"));
+        div.appendChild(element);
       }
       document.getElementById('object-zoom-level').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.ZOOM_LEVEL]); // Zoom level
       document.getElementById('object-tooltip-permanent').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.tooltip_permanent]); // Tooltip permanent
