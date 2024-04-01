@@ -226,9 +226,11 @@ async function loadObjectForm(objectID) {
   if(foundObjects > 1) {
     alert(`Same ID ${objectID} for multiple object !!! Must be corrected manually in spreadsheet `);
     return;
-  }
-  if(foundObjects == 0) {
+  } else if(foundObjects == 0 && objectID) {
     alert(`Bug alert - ID ${objectID} doesn't exist !!! Fix source code`);
+    return;
+  } else if (!objectID) {
+    console.log("No object selected !");
     return;
   }
   if(objectID !== undefined) {
@@ -500,7 +502,7 @@ function loadTypeSelect2() {
     $("#object-type").select2({
       data: astronomicalObjectTypes,
       placeholder: 'Astronomical Type ...',
-      allowClear: true
+      allowClear: false
     });
   });
 }
