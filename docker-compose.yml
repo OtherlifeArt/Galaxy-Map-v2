@@ -1,16 +1,17 @@
 version: '3.9'
 
 networks:
-  main:
-    name: sw-galaxy-form
+  frontend:
+    name: ${APP_NAME}-frontend
 
 services:
-  apache:
-    image: httpd:latest
-    container_name: sw-galaxy-form
+  web:
+    image: ${IMAGE_NAME}
+    container_name: ${APP_NAME}-web
+    restart: ${RESTART_POLICY}
     ports:
-    - '8080:80'
+    - '${HOST_PORT}:${CONTAINER_PORT}'
     volumes:
     - ./:/usr/local/apache2/htdocs
     networks:
-      - main
+      - frontend
