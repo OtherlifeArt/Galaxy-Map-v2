@@ -494,11 +494,6 @@ function updateObjectData() {
  * Show data changes before update
  */
 async function showObjectDataChange () {
-  // Get form data
-  let formData = new FormData(document.getElementById("astro-object-form"));
-  console.log(formData, selectedAstronomicalObject);
-  // Convertion work
-  await convertFormValuesToData();
   // Populate Validation Table
   await populateValidationTable(window.selectedAstronomicalObject, window.dataToUpdate);
   // Display modal
@@ -509,12 +504,15 @@ async function showObjectDataChange () {
  * Convert form (human readable) values to technical values
 */
 async function convertFormValuesToData() {
+  // Get form data
+  let formData = new FormData(document.getElementById("astro-object-form"));
+  console.log(formData, selectedAstronomicalObject);
   // Data formating
   window.dataToUpdate.length = 0; // reset array
   let orbitalRank = sanitizeText(document.getElementById('object-orbital-rank').value);
   let name = sanitizeText(document.getElementById('object-name').value);
   let humanName = (orbitalRank !== "" ? "  "+orbitalRank.toString()+". " : "") + name;
-  let humanParent = getParentHierarchy(window.selectedAstronomicalObject[SPREADSHEET_HEADERS.ID]);
+  // let humanParent = getParentHierarchy(window.selectedAstronomicalObject[SPREADSHEET_HEADERS.ID]);
   
   // Making sure document.ready is ready before continuing....
   // Create a Promise that resolves when the document is ready
@@ -718,29 +716,34 @@ modalSpan.onclick = function() {
 /* EVENTS */
 /**********/
 
-function showDataAndUpdate() {
+async function showDataAndUpdate() {
+  // Convertion work
+  await convertFormValuesToData();
   showObjectDataChange();
 }
 
 async function updateData() {
+  await convertFormValuesToData();
   const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF}`;
   let returnCode = await updateSpreadSheetRowData(SPREADSHEET_ID, SHEET_NAMES.OBJECTS, sheetRange, window.dataToUpdate);
   if(returnCode) {
     alert("Object has been successfully updated !");
     closeModal();
   } else {
-    alert("Error encoutered ! See console for more details");
+    alert("Error encoutered ! Check console (F12) for more details");
   }
 }
 
-function addNewData() {
+async function addNewData() {
+  const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF}`;
+  let returnCode = await addSpreadSheetRowData(SPREADSHEET_ID, SHEET_NAMES.OBJECTS, sheetRange, window.dataToUpdate);
   // Confirm dialog
   // Add data
   // Confirmation and instruction dialog
   if(returnCode) {
     alert("Object has been successfully created ! Add/reorganize human index manually ")
   } else {
-    alert("Error encoutered ! See console for more details")
+    alert("Error encoutered ! Check console (F12) for more details")
   }
 }
 
@@ -751,6 +754,6 @@ function deleteData() {
   if(returnCode) {
     alert("Object has been successfully deleted ! Add/reorganize human index manually ")
   } else {
-    alert("Error encoutered ! See console for more details")
+    alert("Error encoutered ! Check console (F12) for more details")
   }
 }
