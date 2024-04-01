@@ -404,7 +404,7 @@ async function updateSpreadSheetRowData(spreadsheetId, sheetName, sheetRange, da
     try {
       response = await gapi.client.sheets.spreadsheets.values.update({
         spreadsheetId: spreadsheetId,
-        range: sheetName + sheetRange,
+        range: sheetName + `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}${rowIndex + 1}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF}${rowIndex + 1}`,
         valueInputOption: "RAW",
         majorDimension: "ROWS",
         values: valuesToUpdate
