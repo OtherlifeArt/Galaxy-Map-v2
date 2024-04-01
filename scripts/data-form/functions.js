@@ -209,8 +209,9 @@ function loadAstroObjectsSelect2() {
     });
     // Populate (human) parent on parent select
     $("#object-parent").on('change', async function() {
-      console.log('Selected value:', $("#object-parent").val());
-      document.getElementById('object-parent-raw').value = await getParentHierarchy($("#object-search").val());
+      let selectedValue = $("#object-parent").val();
+      console.log('Selected value:', selectedValue);
+      document.getElementById('object-parent-raw').value = await getParentHierarchy(selectedValue);
     });
   });
 }
@@ -680,20 +681,22 @@ async function getParentHierarchy(objectID) {
   const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEET_NAMES.OBJECTS, '!A2:F');
   const data = spreadSheetData.values;
   // Get parents recursively
-  let parentString = "";
   let currentObjectID = objectID;
+  console.log("objectID : ", objectID);
   // console.log("data : ", data  ,"objectid : ", currentObjectID ,"object row : ", data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.columns.ID] === currentObjectID));
   let currentDataRow = data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.columns.ID] === currentObjectID);
+  let parentString = "";
   while(currentDataRow !== undefined && currentDataRow !== null) {
-    currentDataRow = data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.columns.ID] === currentDataRow[SPREADSHEET_HEADERS.OBJECTS.columns.PARENT_ID]); // parentID
     if(currentDataRow !== undefined && currentDataRow !== null) {
       if(parentString !== "") {
         parentString += " < ";
       }
       parentString += currentDataRow[SPREADSHEET_HEADERS.OBJECTS.columns.NAME];
     }
+    currentDataRow = data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.columns.ID] === currentDataRow[SPREADSHEET_HEADERS.OBJECTS.columns.PARENT_ID]); // parentID
   }
-  if(parentString === undefined || parentString === null || parentString === "") {
+  if(parentString === undefined || parentString === null) {
+    console.log("parent string : ", parentString);
     return previousParentValue;
   } else {
     return parentString;
