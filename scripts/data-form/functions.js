@@ -173,10 +173,10 @@ async function listTypes() {
   for(i=0; i<spreadSheetData.values.length; i++){
     const rowValues = spreadSheetData.values[i];
     const labelString = rowValues[0];
-    const typeString = rowValues[2];
+    const typeString = rowValues[2] ? `(${rowValues[2]})` : "";
     astronomicalObjectTypes.push({
       id: labelString,
-      text: `${labelString} (${typeString})`
+      text: `${labelString} ${typeString}`
     });
   }
   console.log(astronomicalObjectTypes);
@@ -688,20 +688,20 @@ function openSection(evt, sectionName) {
 /* MODALS */
 /**********/
 
-// Get the modal
-var modal = document.getElementById("validationModal");
-// Get the <span> element that closes the modal
-var modalSpan = document.getElementsByClassName("close")[0];
-
 // When the user clicks on the button, open the modal
 function displayModal() {
+  // Get the modal
+  let modal = document.getElementById("validationModal");
   modal.style.display = "block";
 }
 
 function closeModal() {
+  let modal = document.getElementById("validationModal");
   modal.style.display = "none";
 }
 
+// Get the <span> element that closes the modal
+var modalSpan = document.getElementsByClassName("close")[0];
 // When the user clicks on <span> (x), close the modal
 modalSpan.onclick = function() {
   closeModal();
@@ -726,9 +726,10 @@ async function updateData() {
   const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF}`;
   let returnCode = await updateSpreadSheetRowData(SPREADSHEET_ID, SHEET_NAMES.OBJECTS, sheetRange, window.dataToUpdate);
   if(returnCode) {
-    alert("Object has been successfully updated !")
+    alert("Object has been successfully updated !");
+    closeModal();
   } else {
-    alert("Error encoutered ! See console for more details")
+    alert("Error encoutered ! See console for more details");
   }
 }
 
