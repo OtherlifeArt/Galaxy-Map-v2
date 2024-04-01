@@ -398,8 +398,6 @@ async function updateSpreadSheetRowData(spreadsheetId, sheetName, sheetRange, da
     console.log(`Row number where the value is found: ${rowIndex + 1}`);
     console.log(values[rowIndex]);
 
-    let valuesToUpdate = [];
-    valuesToUpdate[rowIndex] = dataRowToUpdate;
     // Update row
     try {
       response = await gapi.client.sheets.spreadsheets.values.update({
@@ -407,7 +405,7 @@ async function updateSpreadSheetRowData(spreadsheetId, sheetName, sheetRange, da
         range: sheetName + `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}${rowIndex + 1}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF}${rowIndex + 1}`,
         valueInputOption: "RAW",
         majorDimension: "ROWS",
-        values: valuesToUpdate
+        values: [dataRowToUpdate]
       });
     } catch (err) {
       document.getElementById('content').innerText = err.message;
@@ -417,6 +415,29 @@ async function updateSpreadSheetRowData(spreadsheetId, sheetName, sheetRange, da
     console.log("Astronomical object updated :", response.result);
     return true;
   }
+}
+
+/**
+ * Add new spreadsheet line with data from form
+ */
+async function addSpreadSheetRowData(spreadsheetId, sheetName, sheetRange, dataRowToAppend) {
+  // Add row
+  let response;
+  try {
+    response = await gapi.client.sheets.spreadsheets.values.append({
+      spreadsheetId: spreadsheetId,
+      range: sheetName + sheetRange,
+      valueInputOption: "RAW",
+      majorDimension: "ROWS",
+      values: [dataRowToAppend]
+    });
+  } catch (err) {
+    document.getElementById('content').innerText = err.message;
+    alert(err.message);
+    return false;
+  }
+  console.log("Astronomical object added :", response.result);
+  return true;
 }
 
 
@@ -566,6 +587,30 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.updated_at] = new Date().toUTCString();
   });
 }
+
+/**
+ * Set some form data in order to append them as new line in spreadsheet
+ */
+function setNewDataFormValues() {
+  window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.ID] = generateUUIDv5();
+  window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.HUMAN_ID] = "";
+}
+
+/**
+ * Generate UUID v7
+ */
+function generateUUIDv5() {
+  // from https://gist.github.com/fabiolimace/c0c11c5ea013d4ec54cf6b0d43d366c6
+  return 'tttttttt-tttt-7xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.trunc(Math.random() * 16);
+    const v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  }).replace(/^[t]{8}-[t]{4}/, function() {
+    const unixtimestamp = Date.now().toString(16).padStart(12, '0');
+    return unixtimestamp.slice(0, 8) + '-' + unixtimestamp.slice(8);
+  });
+}
+
 
 /**
  * Populate modal table with data from spreadsheet and form to check changes before spreadsheet update
@@ -735,6 +780,8 @@ async function updateData() {
 }
 
 async function addNewData() {
+  await convertFormValuesToData();
+  setNewDataFormValues();
   const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF}`;
   let returnCode = await addSpreadSheetRowData(SPREADSHEET_ID, SHEET_NAMES.OBJECTS, sheetRange, window.dataToUpdate);
   // Confirm dialog
