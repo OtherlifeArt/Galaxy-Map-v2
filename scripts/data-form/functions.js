@@ -794,7 +794,7 @@ async function addNewData() {
   // Add data
   // Confirmation and instruction dialog
   if(returnCode) {
-    alert("Object has been successfully created ! Add/reorganize human index manually ")
+    alert("Object has been successfully created at the end of the spreadsheet ! Add/reorganize human index manually ")
   } else {
     alert("Error encoutered ! Check console (F12) for more details")
   }
