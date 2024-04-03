@@ -74,7 +74,6 @@ function handleAuthClick() {
     }
     document.getElementById('signout-button').style.visibility = 'visible';
     document.getElementById('authorize-button').innerText = 'Refresh';
-    //await listMajors();
     // List objects
     await listObjects();
     await listTypes();
@@ -102,35 +101,6 @@ function handleSignoutClick() {
     document.getElementById('authorize-button').innerText = 'Authorize';
     document.getElementById('signout-button').style.visibility = 'hidden';
   }
-}
-
-/**
- * Print the names and majors of students in a sample spreadsheet:
- * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
- */
-async function listMajors() {
-  let response;
-  try {
-    // Fetch first 10 files
-    response = await gapi.client.sheets.spreadsheets.values.get({
-      spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
-      range: 'Class Data!A2:E',
-    });
-  } catch (err) {
-    document.getElementById('content').innerText = err.message;
-    alert(err.message);
-    return;
-  }
-  const range = response.result;
-  if (!range || !range.values || range.values.length == 0) {
-    document.getElementById('content').innerText = 'No values found.';
-    return;
-  }
-  // Flatten to string to display
-  const output = range.values.reduce(
-      (str, row) => `${str}${row[0]}, ${row[4]}\n`,
-      'Name, Major:\n');
-  document.getElementById('content').innerText = output;
 }
 
 /**
@@ -182,6 +152,33 @@ async function listTypes() {
   console.log(astronomicalObjectTypes);
   // Load select2
   loadTypeSelect2();
+}
+
+/**
+ * List Astronomical type classes
+ */
+async function listTypeClasses() {
+  // Get data
+  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEET_NAMES.OBJECT_TYPE_CLASSES, '!A2:G');
+  // Populate select2 search array
+  astronomicalObjectTypesClasses = [];
+  console.log(spreadSheetData.values[0]);
+  for(i=0; i<spreadSheetData.values.length; i++){
+    const rowValues = spreadSheetData.values[i];
+    
+    astronomicalObjectTypes.push({
+      name: rowValues[0],
+      typeClass: rowValues[1],
+      subClass: rowValues[2],
+      classLevel: rowValues[3],
+      classIndex: rowValues[4],
+      desc: rowValues[5],
+      relationWithObjectType: rowValues[6],
+    });
+  }
+  console.log(astronomicalObjectTypes);
+  // // Load select2
+  // loadTypeSelect2();
 }
 
 /**

@@ -68,6 +68,8 @@ const DISCOVERY_DOC = 'https://sheets.googleapis.com/$discovery/rest?version=v4'
 // const SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly';
 const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
 
+/* FORM */
+
 // Element shortcuts
 const SEARCH_INPUT = document.getElementById('object-search');
 
