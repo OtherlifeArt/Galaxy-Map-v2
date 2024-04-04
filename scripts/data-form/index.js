@@ -109,3 +109,5 @@ document.querySelector("#default-tab").className += " active";
 SEARCH_INPUT.addEventListener('select2:select', loadObjectForm);
 
 
+
+

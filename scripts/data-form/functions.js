@@ -518,10 +518,8 @@ function loadTypeClasses(astroObjectType) {
   const astroObjectTypeEntry = astronomicalObjectTypes.find(type => type.id === astroObjectType);
   const matchingType = astroObjectTypeEntry.parentId !== "" ? astroObjectTypeEntry.parentId : astroObjectTypeEntry.id;
   let typeClassSelects = CLASS_TYPE_SELECT_CONTAINER.getElementsByTagName('select');
-  for (let index = 0; index < typeClassSelects.length; index++) {
-    if(index !== 0) {
-      typeClassSelects[index].remove();
-    }  
+  while(typeClassSelects[1]) { // Remove all level 1+ elements and their event listeners
+    typeClassSelects[1].remove();
   }
   populateTypeClassSelect(matchingType, 0);
 }
