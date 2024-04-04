@@ -517,7 +517,7 @@ function loadTypeSelect2() {
 function loadTypeClasses(astroObjectType) {
   const astroObjectTypeEntry = astronomicalObjectTypes.find(type => type.id === astroObjectType);
   const matchingType = astroObjectTypeEntry.parentId !== "" ? astroObjectTypeEntry.parentId : astroObjectTypeEntry.id;
-  let typeClassSelects = CLASS_TYPE_SELECT_CONTAINER.getElementsByTagName('select');
+  const typeClassSelects = CLASS_TYPE_SELECT_CONTAINER.getElementsByTagName('select');
   while(typeClassSelects[1]) { // Remove all level 1+ elements and their event listeners
     typeClassSelects[1].remove();
   }
@@ -539,6 +539,18 @@ function populateTypeClassSelect(matchingType, classLevel) {
       typeClassesSelects[classLevel].appendChild(option);
     }
   }
+  // Add event listener
+  typeClassesSelects[classLevel].addEventListener('change', function(event) {
+    const typeClassesSelects = CLASS_TYPE_SELECT_CONTAINER.getElementsByTagName('select');
+    let indexFromWhereToRemoveElements = typeClassesSelects.findIndex(select => select === event.target);
+    // Remove next level elements
+    while (typeClassesSelects[indexFromWhereToRemoveElements]) {
+      typeClassesSelects[indexFromWhereToRemoveElements].remove();
+    }
+    // Add new next level elements
+    matchingType ??????
+    populateTypeClassSelect(matchingType, indexFromWhereToRemoveElements);
+  });
 }
 
 
