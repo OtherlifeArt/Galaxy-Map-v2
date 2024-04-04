@@ -103,7 +103,7 @@
                 <div>
                   <!-- Displayed Type -->
                   <span class="tooltip">
-                    <label for="object-type">Displayed Type</label>
+                    <label for="object-type-raw">Displayed Type</label>
                     <input type="text" name="object-type-raw" id="object-type-raw" readonly>
                     <span class="tooltiptext">Type as displayed in spreadsheet (readonly)</span>
                   </span>
@@ -122,14 +122,21 @@
                 </span>
                 </div>
                 <div>
+                  <!-- Displayed Type Classes -->
+                  <span class="tooltip">
+                    <label for="object-type-classes-raw">Displayed Type Classes</label>
+                    <input type="text" name="object-type-classes-raw" id="object-type-classes-raw" readonly>
+                    <span class="tooltiptext">Type classes as displayed in spreadsheet (readonly)</span>
+                  </span>
                   <!-- Type Classes -->
                   <span class="tooltip">
                   <label for="object-type-classes">Type classes</label>
-                  <input type="text" name="object-type-classes" id="object-type-classes">
+                  <span id="object-type-classes" name="object-type-classes">
+                    <select>
+                    </select>
+                  </span>
                   <span class="tooltiptext">Subtypes - "," (comma) separated</span>
                 </span>
-                  <!-- Type classes helper -->
-                  <button id="type-classes-helper-button" type="button" onclick="showTypeClassesHelper();" disabled>Type Classes Helper (coming soon)</button>
                 </div>
                 <div>
                   <!-- Parent -->
