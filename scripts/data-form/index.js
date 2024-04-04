@@ -72,6 +72,7 @@ const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
 
 // Element shortcuts
 const SEARCH_INPUT = document.getElementById('object-search');
+const CLASS_TYPE_SELECT_CONTAINER = document.getElementById('object-type-classes');
 
 /* VARIABLES */
 let tokenClient;
@@ -106,4 +107,5 @@ document.querySelector("#default-tab").className += " active";
 
 // Authenticate
 SEARCH_INPUT.addEventListener('select2:select', loadObjectForm);
+
 

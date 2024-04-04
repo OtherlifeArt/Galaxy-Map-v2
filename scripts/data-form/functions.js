@@ -507,26 +507,38 @@ function loadTypeSelect2() {
   // Populate class type on type select
   $("#object-type").on('change', function() {
     console.log('Selected value:', $("#object-type").val());
-    loadTypeClassesSelect($("#object-type").val());
+    loadTypeClasses($("#object-type").val());
   });
 }
 
 /**
  * Load type class selects function of type
  */
-function loadTypeClassesSelect(astroObjectType) {
-  const typeClassSpan = document.getElementById("object-type-classes");
-  let typeClassesSelects = typeClassSpan.getElementsByTagName('select');
-  typeClassesSelects[0].innerHTML = "<option><option/>"
+function loadTypeClasses(astroObjectType) {
   const astroObjectTypeEntry = astronomicalObjectTypes.find(type => type.id === astroObjectType);
   const matchingType = astroObjectTypeEntry.parentId !== "" ? astroObjectTypeEntry.parentId : astroObjectTypeEntry.id;
+  let typeClassSelects = CLASS_TYPE_SELECT_CONTAINER.getElementsByTagName('select');
+  for (let index = 0; index < typeClassSelects.length; index++) {
+    if(index !== 0) {
+      typeClassSelects[index].remove();
+    }  
+  }
+  populateTypeClassSelect(matchingType, 0);
+}
+
+function populateTypeClassSelect(matchingType, classLevel) {
+  const typeClassesSelects = CLASS_TYPE_SELECT_CONTAINER.getElementsByTagName('select');
+  if(typeClassesSelects[classLevel] === undefined) {
+    CLASS_TYPE_SELECT_CONTAINER.appendChild(document.createElement("select"));
+  }
+  typeClassesSelects[classLevel].innerHTML = "<option><option/>"
   for(let typeClass of astronomicalObjectTypeClasses) {
     // Load first level select   
-    if(matchingType === typeClass.typeClass && parseInt(typeClass.classLevel) === 0) {
+    if(matchingType === typeClass.typeClass && parseInt(typeClass.classLevel) === classLevel) {
       let option = document.createElement("option");
       option.value = typeClass.subClass;
       option.text = typeClass.name;
-      typeClassesSelects[0].appendChild(option);
+      typeClassesSelects[classLevel].appendChild(option);
     }
   }
 }
@@ -835,3 +847,4 @@ function deleteData() {
     alert("Error encoutered ! Check console (F12) for more details")
   }
 }
+
