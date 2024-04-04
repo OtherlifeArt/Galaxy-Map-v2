@@ -166,7 +166,7 @@ async function listTypeClasses() {
   for(i=0; i<spreadSheetData.values.length; i++){
     const rowValues = spreadSheetData.values[i];
     
-    astronomicalObjectTypes.push({
+    astronomicalObjectTypesClasses.push({
       name: rowValues[0],
       typeClass: rowValues[1],
       subClass: rowValues[2],
@@ -176,7 +176,7 @@ async function listTypeClasses() {
       relationWithObjectType: rowValues[6],
     });
   }
-  console.log(astronomicalObjectTypes);
+  console.log(astronomicalObjectTypesClasses);
   // // Load select2
   // loadTypeSelect2();
 }
