@@ -75,6 +75,7 @@ function handleAuthClick() {
     document.getElementById('signout-button').style.visibility = 'visible';
     document.getElementById('authorize-button').innerText = 'Refresh';
     // List objects
+    listTypeClasses();
     await listObjects();
     await listTypes();
   };
@@ -111,7 +112,7 @@ async function listObjects() {
   const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEET_NAMES.OBJECTS, '!A2:Z');
   // Populate select2 search array
   astronomicalObjectSearchArray = [];
-  console.log(spreadSheetData.values[0]);
+  // console.log(spreadSheetData.values[0]);
   for(i=0; i<spreadSheetData.values.length; i++){
     const rowValues = spreadSheetData.values[i];
     const namesString = `${rowValues[SPREADSHEET_HEADERS.OBJECTS.columns.NAME]}${rowValues[SPREADSHEET_HEADERS.OBJECTS.columns.ALT_NAMES] === "" ? "" : "/"+rowValues[SPREADSHEET_HEADERS.OBJECTS.columns.ALT_NAMES]}`;
@@ -139,7 +140,7 @@ async function listTypes() {
   const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEET_NAMES.OBJECT_TYPES, '!A2:D');
   // Populate select2 search array
   astronomicalObjectTypes = [];
-  console.log(spreadSheetData.values[0]);
+  // console.log(spreadSheetData.values[0]);
   for(i=0; i<spreadSheetData.values.length; i++){
     const rowValues = spreadSheetData.values[i];
     const labelString = rowValues[0];
@@ -162,7 +163,7 @@ async function listTypeClasses() {
   const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEET_NAMES.OBJECT_TYPE_CLASSES, '!A2:G');
   // Populate select2 search array
   astronomicalObjectTypesClasses = [];
-  console.log(spreadSheetData.values[0]);
+  // console.log(spreadSheetData.values[0]);
   for(i=0; i<spreadSheetData.values.length; i++){
     const rowValues = spreadSheetData.values[i];
     
