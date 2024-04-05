@@ -535,7 +535,7 @@ function populateTypeClassSelect(matchingType, classLevel) {
   typeClassesSelects[classLevel].appendChild(option);
   for(let typeClass of astronomicalObjectTypeClasses) {
     // Load first level select   
-    if(matchingType === typeClass.typeClass && parseInt(typeClass.classLevel) === classLevel) {
+    if(matchingType.includes(typeClass.typeClass) && parseInt(typeClass.classLevel) === classLevel) {
       let option = document.createElement("option");
       option.value = typeClass.subClass;
       option.text = typeClass.name;
@@ -553,7 +553,8 @@ function populateTypeClassSelect(matchingType, classLevel) {
         typeClassesSelects[parseInt(indexFromWhereToRemoveElements)+1].remove();
       }
       // Add new next level elements
-      matchingType = matchingType + " " + typeClassesSelects[indexFromWhereToRemoveElements].value;
+      // matchingType = (matchingType + " " + typeClassesSelects[indexFromWhereToRemoveElements].value).replace("  ", " ");
+      matchingType = typeClassesSelects[indexFromWhereToRemoveElements][CLASS_TYPE_SELECT_CONTAINER.selectedIndex].text;
       populateTypeClassSelect(matchingType, parseInt(indexFromWhereToRemoveElements)+1);
     });
   } else { // select has no content
