@@ -518,8 +518,8 @@ function loadTypeClasses(astroObjectType) {
   const astroObjectTypeEntry = astronomicalObjectTypes.find(type => type.id === astroObjectType);
   const matchingType = astroObjectTypeEntry.parentId !== "" ? astroObjectTypeEntry.parentId : astroObjectTypeEntry.id;
   const typeClassSelects = CLASS_TYPE_SELECT_CONTAINER.getElementsByTagName('select');
-  while(typeClassSelects[1]) { // Remove all level 1+ elements and their event listeners
-    typeClassSelects[1].remove();
+  while(typeClassSelects[0]) { // Remove all level 1+ elements and their event listeners
+    typeClassSelects[0].remove();
   }
   populateTypeClassSelect(matchingType, 0);
 }
@@ -529,7 +529,10 @@ function populateTypeClassSelect(matchingType, classLevel) {
   if(typeClassesSelects[classLevel] === undefined) {
     CLASS_TYPE_SELECT_CONTAINER.appendChild(document.createElement("select"));
   }
-  typeClassesSelects[classLevel].innerHTML = "<option><option/>"
+  let option = document.createElement("option");
+  option.value = "";
+  option.text = "";
+  typeClassesSelects[classLevel].appendChild(option);
   for(let typeClass of astronomicalObjectTypeClasses) {
     // Load first level select   
     if(matchingType === typeClass.typeClass && parseInt(typeClass.classLevel) === classLevel) {
@@ -539,18 +542,23 @@ function populateTypeClassSelect(matchingType, classLevel) {
       typeClassesSelects[classLevel].appendChild(option);
     }
   }
-  // Add event listener
-  typeClassesSelects[classLevel].addEventListener('change', function(event) {
-    const typeClassesSelects = CLASS_TYPE_SELECT_CONTAINER.getElementsByTagName('select');
-    let indexFromWhereToRemoveElements = typeClassesSelects.findIndex(select => select === event.target);
-    // Remove next level elements
-    while (typeClassesSelects[indexFromWhereToRemoveElements]) {
-      typeClassesSelects[indexFromWhereToRemoveElements].remove();
-    }
-    // Add new next level elements
-    matchingType ??????
-    populateTypeClassSelect(matchingType, indexFromWhereToRemoveElements);
-  });
+  // 
+  if(typeClassesSelects[classLevel].length > 1) { // Select has content
+    // Add event listener
+    typeClassesSelects[classLevel].addEventListener('change', function(event) {
+      const typeClassesSelects = CLASS_TYPE_SELECT_CONTAINER.getElementsByTagName('select');
+      let indexFromWhereToRemoveElements = Object.keys(typeClassesSelects).find(key => typeClassesSelects[key] === event.target);
+      // Remove next level elements
+      while (typeClassesSelects[parseInt(indexFromWhereToRemoveElements)+1]) {
+        typeClassesSelects[parseInt(indexFromWhereToRemoveElements)+1].remove();
+      }
+      // Add new next level elements
+      matchingType = matchingType + " " + typeClassesSelects[indexFromWhereToRemoveElements].value;
+      populateTypeClassSelect(matchingType, parseInt(indexFromWhereToRemoveElements)+1);
+    });
+  } else { // select has no content
+    typeClassesSelects[classLevel].remove();
+  }
 }
 
 
@@ -643,14 +651,14 @@ async function convertFormValuesToData() {
  * Set some form data in order to append them as new line in spreadsheet
  */
 function setNewDataFormValues() {
-  window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.ID] = generateUUIDv5();
+  window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.ID] = generateUUIDv7();
   window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.HUMAN_ID] = "";
 }
 
 /**
  * Generate UUID v7
  */
-function generateUUIDv5() {
+function generateUUIDv7() {
   // from https://gist.github.com/fabiolimace/c0c11c5ea013d4ec54cf6b0d43d366c6
   return 'tttttttt-tttt-7xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     const r = Math.trunc(Math.random() * 16);
