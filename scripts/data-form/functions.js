@@ -554,7 +554,9 @@ function populateTypeClassSelect(matchingType, classLevel) {
       }
       // Add new next level elements
       // matchingType = (matchingType + " " + typeClassesSelects[indexFromWhereToRemoveElements].value).replace("  ", " ");
-      matchingType = typeClassesSelects[indexFromWhereToRemoveElements][CLASS_TYPE_SELECT_CONTAINER.selectedIndex].text;
+      const classTypeSelectedIndex = typeClassesSelects[indexFromWhereToRemoveElements].selectedIndex;
+      matchingType = typeClassesSelects[indexFromWhereToRemoveElements][classTypeSelectedIndex].text;
+      // matchingType = typeClassesSelects[indexFromWhereToRemoveElements][CLASS_TYPE_SELECT_CONTAINER.selectedIndex].text;
       populateTypeClassSelect(matchingType, parseInt(indexFromWhereToRemoveElements)+1);
     });
   } else { // select has no content
