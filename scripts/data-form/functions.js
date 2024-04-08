@@ -546,6 +546,9 @@ function populateTypeClassSelect(matchingType, classLevel) {
   if(typeClassesSelects[classLevel].length > 1) { // Select has content
     // Add event listener
     typeClassesSelects[classLevel].addEventListener('change', function(event) {
+      // Generate form readable typeclass
+      generateReadableTypeClass();
+      // Add new select dropdown
       const typeClassesSelects = CLASS_TYPE_SELECT_CONTAINER.getElementsByTagName('select');
       let indexFromWhereToRemoveElements = Object.keys(typeClassesSelects).find(key => typeClassesSelects[key] === event.target);
       // Remove next level elements
@@ -564,13 +567,23 @@ function populateTypeClassSelect(matchingType, classLevel) {
   }
 }
 
+/**
+ * Generate type class for (human reading form)
+ */
+function generateReadableTypeClass() {
+  const typeClassesSelects = CLASS_TYPE_SELECT_CONTAINER.getElementsByTagName('select');
+  let readableTypeClass = "";
+  for (let index = 0; index < typeClassesSelects.length; index++) {
+    readableTypeClass += typeClassesSelects[index].value;
+  }
+}
 
 
 /**
  * Update object
  */
 function updateObjectData() {
-  
+  console.log("TODO");
 }
 
 /**
