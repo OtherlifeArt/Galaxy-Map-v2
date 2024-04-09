@@ -256,9 +256,8 @@ async function loadObjectForm(objectID) {
       $(document).ready(function() { // Type
         $('#object-type').select2().val(sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.TYPE]));
         $('#object-type').select2().trigger('change');
-
+        document.getElementById('object-type-classes-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.TYPE_CLASSES]); // Type classes
       });
-      document.getElementById('object-type-classes').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.TYPE_CLASSES]); // Type classes
       document.getElementById('object-conjectural-name').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.CONJECTURAL_NAME] === "YES"; // Conjectural name
       document.getElementById('object-conjectural-type').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.CONJECTURAL_TYPE] === "YES"; // Conjectural type
       document.getElementById('object-orbital-rank').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.ORBITAL_RANK]); // Orbital rank
@@ -266,7 +265,6 @@ async function loadObjectForm(objectID) {
       $(document).ready(function() { // Parent
         $('#object-parent').select2().val(sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.PARENT_ID]));
         $('#object-parent').select2().trigger('change');
-
       });
       document.getElementById('object-datefrom').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.DATE_FROM]); // Date from
       document.getElementById('object-dateto').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.DATE_TO]); // Date to
@@ -508,6 +506,7 @@ function loadTypeSelect2() {
   $("#object-type").on('change', function() {
     console.log('Selected value:', $("#object-type").val());
     loadTypeClasses($("#object-type").val());
+    document.getElementById("object-type-classes-raw").value = ""; // reset type classes value
   });
 }
 
@@ -572,18 +571,13 @@ function populateTypeClassSelect(matchingType, classLevel) {
  */
 function generateReadableTypeClass() {
   const typeClassesSelects = CLASS_TYPE_SELECT_CONTAINER.getElementsByTagName('select');
+  document.getElementById("object-type-classes-raw").value = "";
   let readableTypeClass = "";
   for (let index = 0; index < typeClassesSelects.length; index++) {
-    readableTypeClass += typeClassesSelects[index].value;
+    readableTypeClass += " " + typeClassesSelects[index].value;
+    readableTypeClass = readableTypeClass.trim();
   }
-}
-
-
-/**
- * Update object
- */
-function updateObjectData() {
-  console.log("TODO");
+  document.getElementById("object-type-classes-raw").value = readableTypeClass;
 }
 
 /**
@@ -630,7 +624,7 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.is_certified] = document.getElementById('object-data-certified').checked ? "YES" : "";
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.IS_CAPITAL] = document.getElementById('object-capital').checked ? "YES" : "";
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.TYPE] = sanitizeText(document.getElementById('object-type').value);
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.TYPE_CLASSES] = sanitizeText(document.getElementById('object-type-classes').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.TYPE_CLASSES] = sanitizeText(document.getElementById('object-type-classes-raw').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.CONJECTURAL_NAME] = document.getElementById('object-conjectural-name').checked  ? "YES" : "";
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.CONJECTURAL_TYPE] = document.getElementById('object-conjectural-type').checked  ? "YES" : "";
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.ORBITAL_RANK] = orbitalRank;
