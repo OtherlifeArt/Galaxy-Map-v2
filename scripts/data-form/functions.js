@@ -440,6 +440,68 @@ async function addSpreadSheetRowData(spreadsheetId, sheetName, sheetRange, dataR
   return true;
 }
 
+async function deleteSpreadSheetRowData (spreadsheetId, sheetName, sheetRange, objectIDToDelete) {
+  try {
+    // Fetch first 10 files
+    response = await gapi.client.sheets.spreadsheets.values.get({
+      spreadsheetId: spreadsheetId,
+      range: sheetName + sheetRange,
+    });
+  } catch (err) {
+    document.getElementById('content').innerText = err.message;
+    alert(err.message);
+    return;
+  }
+  console.log("Astronomical objects :", response.result);
+  const range = response.result;
+  const values = range.values;
+  if (!range || !values || values.length == 0) {
+    document.getElementById('content').innerText = 'No values found.';
+    return false;
+  }
+
+  // Find row number matching technical ID and return it
+  const rowIndex = values.findIndex((row) => row[SPREADSHEET_HEADERS.OBJECTS.columns.ID] === objectIDToDelete);
+
+  if (rowIndex === -1) {
+    console.log('Value not found.');
+    alert('Value not found in spreadsheet.');
+  } else {
+    console.log(`Row number where the value is found: ${rowIndex + 1}`);
+    console.log(values[rowIndex]);
+
+    // Delete row
+    try {
+    // Delete the row using the sheet ID
+      response = await gapi.client.sheets.spreadsheets.batchUpdate({
+        spreadsheetId: spreadsheetId,
+        resource: {
+          requests: [
+            {
+              deleteDimension: {
+                range: {
+                  sheetId: SHEET_IDS.OBJECTS,
+                  dimension: 'ROWS',
+                  startIndex: rowIndex,
+                  endIndex: rowIndex + 1,
+                },
+              },
+            },
+          ],
+        },
+      });
+      console.log(response.data);
+
+    } catch (err) {
+      document.getElementById('content').innerText = err.message;
+      alert(err.message);
+      return false;
+    }
+    console.log("Astronomical object deleted :", response.result);
+    return true;
+  }
+}
+
 
 /**
  * Translate canon/legends YES values to "Canon / Legends" text
@@ -865,14 +927,20 @@ async function addNewData() {
   }
 }
 
-function deleteData() {
-  // Confirm dialog
-  // Delete data
-  // Confirmation and instruction dialog
-  if(returnCode) {
-    alert("Object has been successfully deleted ! Add/reorganize human index manually ")
-  } else {
-    alert("Error encoutered ! Check console (F12) for more details")
+async function deleteData() {
+  const objectIDToDelete = document.getElementById('object-tech-id').value;
+  if(confirm("Are you sure you want to delete object "+ document.getElementById('object-name').value + " with ID "+ objectIDToDelete +"?")) {
+    const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF}`;
+    let returnCode = await deleteSpreadSheetRowData(SPREADSHEET_ID, SHEET_NAMES.OBJECTS, sheetRange, objectIDToDelete);
+    // Confirm dialog
+    // Confirm dialog
+    // Delete data
+    // Confirmation and instruction dialog
+    if(returnCode) {
+      alert("Object has been successfully deleted ! Add/reorganize human index manually ")
+    } else {
+      alert("Error encoutered ! Check console (F12) for more details")
+    }
   }
 }
 
