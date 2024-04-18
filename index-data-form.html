@@ -6,8 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>SW Galaxy Map TOOLS</title>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="styles/data-form/style.css">
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
+    <!--Leaflet-->
+    <link rel="stylesheet" href="scripts/vendor/leaflet/leaflet.css" />
+    <!-- Leaflet Additions -->
+    <link rel="stylesheet" href="scripts/vendor/leaflet-panel-layers-1.3.1/dist/leaflet-panel-layers.min.css"/>  <!-- Controls-->
+    <link rel="stylesheet" href="scripts/vendor/leaflet.fullscreen-3.0.1/Control.FullScreen.css" /> <!-- FullScreen-->
+    <link rel="stylesheet" href="scripts/vendor/leaflet-search-4.0.0/dist/leaflet-search.min.css" /> <!-- Search -->
+    <!-- Custom -->
+    <link rel="stylesheet" href="styles/data-form/style.css">
   </head>
   <body>
     <main class="flex-parent-element">
@@ -354,7 +361,24 @@
       <!-- Tool div end -->
       <!-- Map div -->
       <div id="map-div" class="flex-child-element">
-        <p>MAP - Coming soon</p>
+        <h3>MAP by Solenn !</h3>
+        <div class="gridsearch">
+          <form action="" method="get" class="form-grid">
+            <div class="form-grid">
+              <label for="col">Column</label>
+              <input type="text" name="col_letter" id="col_letter" placeholder="Letter from F to U" required>
+            </div>
+            <div class="form-grid">
+              <label for="line">Line</label>
+              <input type="text" name="line_num" id="line_num" placeholder="Number from 2 to 21" required>
+            </div>
+          </form>
+          <button id="gridsearchbut" class="w3-button w3-blue button-margin">Go to grid area</button>
+        </div>
+        <!-- Map -->
+        <div id="map"></div>
+        <!-- Map Controls -->
+        <div class="map-controls"></div>
       </div>
       <!-- Map div end -->
       </main>
@@ -388,12 +412,22 @@
       </div>
 
     </div>
-    <!--  -->
+    <!-- Jquery select2 -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- Leaflet -->
+    <script src="scripts/vendor/leaflet/leaflet.js"></script>
+    <!-- Leaflet Additions -->
+    <script src="scripts/vendor/leaflet-panel-layers-1.3.1/dist/leaflet-panel-layers.min.js"></script> <!-- Controls -->
+    <!-- <script src="../libs/leaflet.ajax.min.js"></script> AJAX -->
+    <script src="scripts/vendor/leaflet.fullscreen-3.0.1/Control.FullScreen.js"></script> <!-- FullScreen -->
+    <script src="scripts/vendor/leaflet-search-4.0.0/dist/leaflet-search.min.js"></script> <!-- Search -->
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Website -->
-    <script src="scripts/data-form/functions.js"></script>
+    <script src="scripts/data-form/object-form.js"></script>
     <script src="scripts/data-form/index.js"></script>
+    <script src="scripts/data-form/map.js"></script>  <!-- Map by Solenn Tual -->
     <!-- Google API -->
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
     <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>

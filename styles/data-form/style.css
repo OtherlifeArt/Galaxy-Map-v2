@@ -195,3 +195,10 @@ input[readonly] {
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+/*******/
+/* MAP */
+/*******/
+#map {
+  height: 85%;
+}
