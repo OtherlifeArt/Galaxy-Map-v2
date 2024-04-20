@@ -364,6 +364,8 @@
       <div id="map-div" class="flex-child-element">
         <h3>SW Galaxy Map Editor</h3>
         <div class="xyedit">
+          <fieldset>
+          <legend>X-Y coordinates editor</legend>
           <p>Warning : X and Y coordinates have to be added to ponctual objects only (planet, star).</br>Sectors, regions (areas in general) doesn't have X-Y coordinates.</p>
           <p>Move the marker to edit X-Y coordinates of a <b>ponctual</b> astronomical object.</br>
           <span id="backupXY"></span></p>
@@ -374,9 +376,13 @@
             <button id="xytoform">Send X-Y coordinates to form</button>
             <button id="xygetinitialvalues">Retrieve previous form values</button>
           </div>
+        </fieldset>
         </div>
-        <h4>Grid search tool</h4>
+        
+        <h4>Map toolbox</h4>
         <div class="gridsearch">
+          <fieldset>
+          <legend>Grid search</legend>
           <form action="" method="get" class="form-grid-f">
             <div class="form-grid">
               <label id="col_label" for="col">Column</label>
@@ -389,6 +395,7 @@
           </form>
           <button id="gridsearchbut">Go to grid area</button>
           <button id="gridsearchreset">Reset grid search tool</button>
+        </fieldset>
         </div>
         <!-- Map -->
         <div id="map"></div>
