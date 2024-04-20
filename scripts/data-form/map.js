@@ -95,10 +95,10 @@ function chooseMarkerLocation(){
   var ycoord = document.getElementById('object-coord-y').value.trim();
 
   if (xcoord === "" && ycoord === "") {
-    document.getElementById('backupXY').innerText = "Initial X: EMPTY - Initial Y: EMPTY"
+    document.getElementById('backupXY').innerHTML = "Initial X: <span id=backupX></span>EMPTY - Initial Y: <span id=backupY></span>EMPTY"
     return markercoords = [0, 0]
   } else {
-    document.getElementById('backupXY').innerText = "Initial X: " + document.getElementById('object-coord-x').value.toString() + ' - Initial Y: ' + document.getElementById('object-coord-y').value.toString()
+    document.getElementById('backupXY').innerHTML = "Initial X: <span id=backupX>" + document.getElementById('object-coord-x').value.toString() + '</span> - Initial Y: <span id=backupY>' + document.getElementById('object-coord-y').value.toString() + '</span>'
     return markercoords = [xcoord, ycoord]
   }
 }
@@ -138,6 +138,12 @@ function updateXYCoordsInForm() {
   }
 }
 
+function resetXYCoordsInForm() {
+  // Send the coordinate of the marker to the HTML form (X and X inputs)
+  document.getElementById('object-coord-x').value = document.getElementById('backupX').innerText;
+  document.getElementById('object-coord-y').value = document.getElementById('backupY').innerText;
+}
+
 function updateButtonState() {
   // Enable/Disable Add marker and Remove marker button, to never have more than one marker on the map
   var addButton = document.getElementById('xyaddmarker');
@@ -152,4 +158,5 @@ function updateButtonState() {
 document.getElementById('xyaddmarker').addEventListener('click', addMarker);
 document.getElementById('xytoform').addEventListener('click', updateXYCoordsInForm);
 document.getElementById('xyremovemarker').addEventListener('click', removeMarker);
+document.getElementById('xygetinitialvalues').addEventListener('click', resetXYCoordsInForm);
 updateButtonState(); // Call initially to set button state
