@@ -99,7 +99,7 @@ function chooseMarkerLocation(){
     return markercoords = [0, 0]
   } else {
     document.getElementById('backupXY').innerHTML = "Initial X: <span id=backupX>" + document.getElementById('object-coord-x').value.toString() + '</span> - Initial Y: <span id=backupY>' + document.getElementById('object-coord-y').value.toString() + '</span>'
-    return markercoords = [xcoord, ycoord]
+    return markercoords = [ycoord,xcoord]
   }
 }
 
@@ -122,6 +122,7 @@ function addMarker() {
 function removeMarker() {
   if (marker !== null) {
     map.removeLayer(marker);
+    document.getElementById('backupXY').innerHTML = ""
     marker = null;
     markerAdded = false; // Update markerAdded to false
     updateButtonState(); // Update button state
@@ -142,6 +143,15 @@ function resetXYCoordsInForm() {
   // Send the coordinate of the marker to the HTML form (X and X inputs)
   document.getElementById('object-coord-x').value = document.getElementById('backupX').innerText;
   document.getElementById('object-coord-y').value = document.getElementById('backupY').innerText;
+
+  var xcoord = document.getElementById('backupX').innerText;
+  var ycoord = document.getElementById('backupY').innerText;
+  
+  if (xcoord === "" && ycoord === "") {
+    marker.setLatLng([0, 0]);
+  } else {
+    marker.setLatLng([ycoord,xcoord])
+  }
 }
 
 function updateButtonState() {
@@ -149,10 +159,12 @@ function updateButtonState() {
   var addButton = document.getElementById('xyaddmarker');
   var removeButton = document.getElementById('xyremovemarker');
   var sendValueButton = document.getElementById('xytoform');
-  
+  var retrievePreviousValue = document.getElementById('xygetinitialvalues')
+
   addButton.disabled = markerAdded; // Disable add marker button if marker is added
   removeButton.disabled = !markerAdded; // Disable remove marker button if marker is not added
   sendValueButton.disabled = !markerAdded; // Disable send data to form button if marker is not added
+  retrievePreviousValue.disabled = !markerAdded;
 }
 
 document.getElementById('xyaddmarker').addEventListener('click', addMarker);
