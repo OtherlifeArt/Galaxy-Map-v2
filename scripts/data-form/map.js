@@ -95,8 +95,10 @@ function chooseMarkerLocation(){
   var ycoord = document.getElementById('object-coord-y').value.trim();
 
   if (xcoord === "" && ycoord === "") {
+    document.getElementById('backupXY').innerText = "Initial X: EMPTY - Initial Y: EMPTY"
     return markercoords = [0, 0]
   } else {
+    document.getElementById('backupXY').innerText = "Initial X: " + document.getElementById('object-coord-x').value.toString() + ' - Initial Y: ' + document.getElementById('object-coord-y').value.toString()
     return markercoords = [xcoord, ycoord]
   }
 }
