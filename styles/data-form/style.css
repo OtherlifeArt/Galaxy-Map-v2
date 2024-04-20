@@ -196,9 +196,21 @@ input[readonly] {
   visibility: visible;
 }
 
-/*******/
-/* MAP */
-/*******/
+/***************/
+/***** MAP *****/
+/***************/
+
 #map {
   height: 85%;
 }
+
+/*Style of grid search tool*/
+.form-f  { display: table;}
+.form-grid { display: table-row; }
+#col_label { display: table-cell; }
+#line_label { display: table-cell; }
+#col_letter { display: table-cell; 
+              margin-left: 10px;}
+#line_num { display: table-cell; 
+            margin-left: 10px;}
+#gridsearchbut{margin-top:5px}
