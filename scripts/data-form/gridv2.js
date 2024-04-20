@@ -87,11 +87,14 @@ function zoomOn(){
     });
     $.getJSON(url_grid, function(data) {
         select.addData(data);
+        console.log(select.getBounds().getCenter());
+        map.fitBounds(select.getBounds());
     });
     select.addTo(map)
-
+    
     map.on('click', function() {
         map.fitBounds(select.getBounds());
+        map.setView([-250.0,0], -2);
     });
   };
 
@@ -102,5 +105,8 @@ function removeGridPointer(geoJsonMain, responseJson) {
     if(select){
       select.removeFrom(map);
     }
+    document.getElementById("line_num").value = ""
+    document.getElementById("col_letter").value = ""
+    map.setView([-250.0,0], -2);
 }
 document.getElementById("gridsearchreset").addEventListener("click", e => removeGridPointer());
