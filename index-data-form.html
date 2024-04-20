@@ -363,7 +363,17 @@
       <!-- Map div -->
       <div id="map-div" class="flex-child-element">
         <h3>SW Galaxy Map Editor</h3>
-        <p>Move the marker to edit X-Y coordinates of a ponctual astronomical object. TO ADD</p>
+        <div class="xyedit">
+          <p>Warning : X and Y coordinates have to be added to ponctual objects only (planet, star).</br>Sectors, regions (areas in general) doesn't have X-Y coordinates.</p>
+          <p>Move the marker to edit X-Y coordinates of a <b>ponctual</b> astronomical object.</p>
+          </span>
+          <div class="xyeditbtn">
+            <button id="xyaddmarker">Add movable marker</button>
+            <button id="xyremovemarker">Remove movable marker</button>
+            <button id="xytoform">Send X-Y coordinates to form</button>
+          </div>
+        </div>
+        <h4>Grid search tool</h4>
         <div class="gridsearch">
           <form action="" method="get" class="form-grid-f">
             <div class="form-grid">
