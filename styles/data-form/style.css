@@ -214,3 +214,9 @@ input[readonly] {
 #line_num { display: table-cell; 
             margin-left: 10px;}
 #gridsearchbut{margin-top:5px}
+
+/*Style button to edit X and Y*/
+.xyeditbtn{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
