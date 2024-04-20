@@ -10,7 +10,7 @@
     <!--Leaflet-->
     <link rel="stylesheet" href="scripts/vendor/leaflet/leaflet.css" />
     <!-- Leaflet Additions -->
-    <link rel="stylesheet" href="scripts/vendor/leaflet-panel-layers-1.3.1/dist/leaflet-panel-layers.min.css"/>  <!-- Controls-->
+    <link rel="stylesheet" href="scripts/vendor/Leaflet.Control.Layers.Tree/L.Control.Layers.Tree.css"/>  <!-- Controls-->
     <link rel="stylesheet" href="scripts/vendor/leaflet.fullscreen-3.0.1/Control.FullScreen.css" /> <!-- FullScreen-->
     <link rel="stylesheet" href="scripts/vendor/leaflet-search-4.0.0/dist/leaflet-search.min.css" /> <!-- Search -->
     <!-- Custom -->
@@ -361,19 +361,21 @@
       <!-- Tool div end -->
       <!-- Map div -->
       <div id="map-div" class="flex-child-element">
-        <h3>MAP by Solenn !</h3>
+        <h3>SW Galaxy Map Editor</h3>
+        <p>Move the marker to edit X-Y coordinates of a ponctual astronomical object. TO ADD</p>
         <div class="gridsearch">
-          <form action="" method="get" class="form-grid">
+          <form action="" method="get" class="form-grid-f">
             <div class="form-grid">
-              <label for="col">Column</label>
-              <input type="text" name="col_letter" id="col_letter" placeholder="Letter from F to U" required>
+              <label id="col_label" for="col">Column</label>
+              <input type="text" maxlength=1 name="col_letter" id="col_letter" placeholder="Letter from A to W" required>
             </div>
             <div class="form-grid">
-              <label for="line">Line</label>
-              <input type="text" name="line_num" id="line_num" placeholder="Number from 2 to 21" required>
+              <label id="line_label" for="line">Line</label>
+              <input type="number" maxlength=1 name="line_num" id="line_num" placeholder="Number from 1 to 23" required>
             </div>
           </form>
-          <button id="gridsearchbut" class="w3-button w3-blue button-margin">Go to grid area</button>
+          <button id="gridsearchbut">Go to grid area</button>
+          <button id="gridsearchreset">Reset grid search tool</button>
         </div>
         <!-- Map -->
         <div id="map"></div>
@@ -418,7 +420,7 @@
     <!-- Leaflet -->
     <script src="scripts/vendor/leaflet/leaflet.js"></script>
     <!-- Leaflet Additions -->
-    <script src="scripts/vendor/leaflet-panel-layers-1.3.1/dist/leaflet-panel-layers.min.js"></script> <!-- Controls -->
+    <script src="scripts/vendor/Leaflet.Control.Layers.Tree/L.Control.Layers.Tree.js"></script> <!-- Controls -->
     <!-- <script src="../libs/leaflet.ajax.min.js"></script> AJAX -->
     <script src="scripts/vendor/leaflet.fullscreen-3.0.1/Control.FullScreen.js"></script> <!-- FullScreen -->
     <script src="scripts/vendor/leaflet-search-4.0.0/dist/leaflet-search.min.js"></script> <!-- Search -->
@@ -427,6 +429,8 @@
     <!-- Website -->
     <script src="scripts/data-form/object-form.js"></script>
     <script src="scripts/data-form/index.js"></script>
+    <script src="scripts/data-form/gridv2.js"></script>  <!-- Map by Solenn Tual -->
+    <script src="scripts/data-form/overlays.js"></script>  <!-- Map by Solenn Tual -->
     <script src="scripts/data-form/map.js"></script>  <!-- Map by Solenn Tual -->
     <!-- Google API -->
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
