@@ -2,21 +2,19 @@
 
 Our goal is to display a complete 2D map of star wars Galaxy in both Legends and Canon continuity.
 
-## Launch application
+## Prerequisites before launching application
 
-### Prerequisites
-
-#### Unix/Linux
+### Unix/Linux
 
 - install docker and docker compose : https://docs.docker.com/engine/install/
 
-#### Windows
+### Windows
 
 - install docker desktop : https://docs.docker.com/desktop/install/windows-install/
 
-# Run application
+## Run application
 
-## Unix/Linux
+### Unix/Linux
 
 - Copy source code in chosen directory: `git clone https://github.com/OtherlifeArt/Galaxy-Map-v2.git`
 - Go to source code directory : `cd Galaxy-Map-v2`
@@ -26,7 +24,7 @@ Our goal is to display a complete 2D map of star wars Galaxy in both Legends and
 
 Application should be now available at http://localhost:8080 with default environment (.env) values
 
-## Windows
+### Windows
 
 - Start docker desktop and let it run
 - Download and extract sources or pull sources using git
