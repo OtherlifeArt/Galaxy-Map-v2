@@ -12,7 +12,8 @@ var DeepCoreOverlay = L.imageOverlay(DeepCoreUrl, DeepCoreBounds, {
     opacity: 1,
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
-    interactive: true
+    interactive: true,
+    pane:"deep_core_EA"
 });
 
 var CoreUrl = EApath + 'Core_14.png';
@@ -22,7 +23,7 @@ var CoreOverlay = L.imageOverlay(CoreUrl, CoreBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    
+    pane:"core_EA"
 });
 
 var ColoniesUrl = EApath + 'Colonies_13.png';
@@ -32,7 +33,7 @@ var ColoniesOverlay = L.imageOverlay(ColoniesUrl, ColoniesBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    
+    pane:"colonies_EA"
 });
 
 var InnerRimUrl = EApath + 'InnerRim_12.png';
@@ -102,8 +103,38 @@ var ClientsOverlay = L.imageOverlay(ClientsUrl, ClientsBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    
 });
+
+var ArkanisUrl = EApath + 'arkanis_p2_18.png';
+var ArkanisBounds = L.latLngBounds([[-729.690,598.232], [-622.432,678.126]]);
+var ArkanisOverlay = L.imageOverlay(ArkanisUrl, ArkanisBounds, {
+    opacity: 1,
+    errorOverlayUrl: errorOverlayUrl,
+    alt: altText,
+    interactive: true,
+    pane:'arkanis_EA'
+});
+
+var KashyyykUrl = EApath + 'Kashyyyk_17.png';
+var KashyyykBounds = L.latLngBounds([[-115.664,388.567], [153.638,743.252]]);
+var KashyyykOverlay = L.imageOverlay(KashyyykUrl, KashyyykBounds, {
+    opacity: 1,
+    errorOverlayUrl: errorOverlayUrl,
+    alt: altText,
+    interactive: true,
+    pane:'kashyyyk_EA'
+});
+
+var YavinUrl = EApath + 'YavinandtheGordianReach_16.png';
+var YavinBounds = L.latLngBounds([[327.447,377.600], [502.030,606.396]]);
+var YavinOverlay = L.imageOverlay(YavinUrl, YavinBounds, {
+    opacity: 1,
+    errorOverlayUrl: errorOverlayUrl,
+    alt: altText,
+    interactive: true,
+    pane:'yavin_EA'
+});
+
 /******** The Essential Atlas Extra parts*******/
 
 var ExpensionRegionSUrl = EApath + 'ExpansionRegionS_6.png';
@@ -144,8 +175,7 @@ var GalaxyTimelinesOverlay = L.imageOverlay(GalaxyTimelinesUrl, GalaxyTimelinesB
     opacity: 1,
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
-    interactive: true,
-    
+    interactive: true
 });
 
 var GalaxyModiUrl = Otherspath + 'GalaxyModi2006_1.png';

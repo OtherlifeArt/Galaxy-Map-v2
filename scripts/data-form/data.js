@@ -41,21 +41,6 @@ map.getPane("grid").style.zIndex = "597";
 map.createPane("grid_labels");
 map.getPane("grid_labels").style.zIndex = "597";
 
-/******** OVERLAYS PANES *********/
-
-map.createPane("arkanis_EA");
-map.getPane("arkanis_EA").style.zIndex = "551";
-map.createPane("yavin_EA");
-map.getPane("yavin_EA").style.zIndex = "551";
-map.createPane("kashyyyk_EA");
-map.getPane("kashyyyk_EA").style.zIndex = "551";
-map.createPane("deep_core_EA");
-map.getPane("deep_core_EA").style.zIndex = "451";
-map.createPane("core_EA");
-map.getPane("core_EA").style.zIndex = "450";
-map.createPane("colonies_EA");
-map.getPane("colonies_EA").style.zIndex = "449";
-
 /******** LAYERS CONTROL *********/
 
 completegrid.addTo(map)
@@ -68,13 +53,6 @@ var overLayers = [
     children: [
       {label: 'Essential Atlas', collapsed:true, 
        children: [
-          {label: 'Sector scale maps',collapsed:true,
-            children: [
-              {label: "Arkanis", layer: ArkanisOverlay},
-              {label: "Kashyyyk", layer: KashyyykOverlay},
-              //{label:"Yavin and the Gordian Reach",layer:YavinOverlay} //OVERLAY NEED more transformations
-            ]
-          },
           {label: "Deep Core", layer: DeepCoreOverlay},
           {label: "Core", layer: CoreOverlay},
           {label: "Colonies", layer: ColoniesOverlay},
@@ -106,35 +84,6 @@ L.control.layers.tree(baseLayers, overLayers, {
   collapsed:false
 }).addTo(map);
 
-
-/******** OPACITY CONTROL *********/
-const Map_AddLayer = {
-  "Arkanis": ArkanisOverlay,
-  "Kashyyyk":KashyyykOverlay,
-  //"Yavin and the Gordian Reach":YavinOverlay, //OVERLAY NEED more transformations
-  "Deep Core": DeepCoreOverlay,
-  "Core": CoreOverlay,
-  "Colonies": ColoniesOverlay,
-  "Inner Rim": InnerRimOverlay,
-  "Expansion Region": ExpansionRegionOverlay,
-  "Expansion Region - Sectors": ExpensionRegionSOverlay,
-  "Mid Rim": MidRimOverlay,
-  "Mid Rim - Sectors": MidRimSOverlay,
-  "Hutt Space": HuttSpaceOverlay,
-  "Outer Rim": OuterRimOverlay,
-  "Outer Rim - Sectors": OuterRimSOverlay,
-  "Other regions": ClientsOverlay,
-  "Galaxy (FR)": GalaxyFROverlay,
-  "Galaxy (Timelines Book)": GalaxyTimelinesOverlay,
-  "Galaxy (Modi, 2006)": GalaxyModiOverlay,
-  "Galaxy (TFA Roleplay)": GalaxyTFARPOverlay
-};
-
-L.control.opacity(Map_AddLayer, {
-        label: 'Layers Opacity    ',
-        collapsed: true
-    })
-    .addTo(map);
 
 ////////// FORM COMPLETION PART //////////////
 
