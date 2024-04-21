@@ -30,3 +30,12 @@ html, body, #leaflet {
 .transparent-tooltip::before {
   border: none;
 }
+
+/*Legend specific*/
+.popupdiv .p{
+  font-size: 10px;
+}
+
+.hide-point-layer .point-layer {
+  display: none;
+}
