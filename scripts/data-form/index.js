@@ -18,8 +18,8 @@ const SHEET_IDS = {
 const SPREADSHEET_HEADERS = {
   "OBJECTS": {
     FIRST_COLUMN_REF: 'A',
-    LAST_COLUMN_REF: 'AL',
-    LAST_COLUMN_INDEX_NUMBER: 37,
+    LAST_COLUMN_REF: 'AN',
+    LAST_COLUMN_INDEX_NUMBER: 39,
     columns : {
       ID: 0,
       HUMAN_ID: 1,
@@ -59,9 +59,12 @@ const SPREADSHEET_HEADERS = {
       index_geo: 35,
       updated_at: 36,
       is_certified: 37,
+      WIKI_DATA_ID: 38,
+      GEOM: 39,
     },
   },
 }
+
 
 // API AUTH
 const API_KEY_INPUT = document.getElementById("api-key");
@@ -75,7 +78,11 @@ const DISCOVERY_DOC = 'https://sheets.googleapis.com/$discovery/rest?version=v4'
 // const SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly';
 const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
 
-/* FORM */
+// OTHER STATIC VALUES
+
+const WIKIDATA_PAGE_PREFIX = 'https://www.wikidata.org/wiki/';
+
+// FORM
 
 // Element shortcuts
 const SEARCH_INPUT = document.getElementById('object-search');

@@ -287,15 +287,23 @@ async function loadObjectForm(objectID) {
       console.log(urlList);
       let urlDisplayerSpan = document.getElementById('url-displayer')
       urlDisplayerSpan.innerHTML = "";
+      // Source URL displayer
       for (const element of urlList) {
         let div = urlDisplayerSpan.appendChild(document.createElement("div"));
         div.appendChild(element);
       }
+
+      document.getElementById('object-wikidata-id').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.WIKI_DATA_ID]); // WikidataID
+      // Wiki DATA display
+      let div = urlDisplayerSpan.appendChild(document.createElement("div"));
+      div.appendChild(separateStringToLinkList(WIKIDATA_PAGE_PREFIX + sanitizeText(document.getElementById('object-wikidata-id').value), ",")[0]);
+
       document.getElementById('object-zoom-level').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.ZOOM_LEVEL]); // Zoom level
       document.getElementById('object-tooltip-permanent').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.tooltip_permanent]); // Tooltip permanent
       document.getElementById('object-tooltip-direction').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.tooltip_direction]); // Tooltip direction
       document.getElementById('object-class-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.className]); // Tooltip Class Name
       document.getElementById('object-index-geo').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.index_geo]); // Index Geo
+      document.getElementById('object-geom').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.columns.GEOM]); // Index Geo
     }
   }
 }
@@ -714,6 +722,9 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.tooltip_direction] = sanitizeText(document.getElementById('object-tooltip-direction').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.className] = sanitizeText(document.getElementById('object-class-name').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.index_geo] = sanitizeText(document.getElementById('object-index-geo').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.WIKI_DATA_ID] = sanitizeText(document.getElementById('object-wikidata-id').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.GEOM] = sanitizeText(document.getElementById('object-geom').value);
+    // Auto values
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.columns.updated_at] = new Date().toUTCString();
   });
 }
