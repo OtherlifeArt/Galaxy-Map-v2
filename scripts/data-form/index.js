@@ -1,26 +1,31 @@
 /* CONSTANTS */
+
+// Main spreadheet
 const SPREADSHEET_ID = "1roSF9J7vqFq7rOswCIXv7Htw0_nL9FxANDzqZxfZyDY";
-const SHEET_NAMES = {
-  OBJECTS: "Objects",
-  HYPERROUTES: "Hyperroutes",
-  HYPERROUTE_SECTIONS: "Hyperroute sections",
-  OBJECT_TYPES: "Object types",
-  OBJECT_TYPE_CLASSES: "Object type classes",
+// Spreadsheet tabs
+const SHEETS = {
+  OBJECTS: {
+    ID: "219651912", NAME: "Objects",
+  },
+  HYPERROUTES: {
+    ID: "591513308", NAME: "Hyperroutes",
+  },
+  HYPERROUTE_SECTIONS: {
+    ID: "1856049918", NAME: "Hyperroute sections",
+  },
+  OBJECT_TYPES: {
+    ID: "0", NAME: "Object types",
+  },
+  OBJECT_TYPE_CLASSES: {
+    ID: "209526164", NAME: "Object type classes",
+  },
 }
-const SHEET_IDS = {
-  OBJECTS: "219651912",
-  HYPERROUTES: "591513308",
-  HYPERROUTE_SECTIONS: "1856049918",
-  OBJECT_TYPES: "0",
-  OBJECT_TYPE_CLASSES: "209526164",
-}
+
+// SPREADSHEET COLUMNS
 
 const SPREADSHEET_HEADERS = {
   "OBJECTS": {
-    FIRST_COLUMN_REF: 'A',
-    LAST_COLUMN_REF: 'AN',
-    LAST_COLUMN_INDEX_NUMBER: 39,
-    columns : {
+    COLUMNS : {
       ID: 0,
       HUMAN_ID: 1,
       HUMAN_NAME: 2,
@@ -62,8 +67,20 @@ const SPREADSHEET_HEADERS = {
       WIKI_DATA_ID: 38,
       GEOM: 39,
     },
+    FIRST_COLUMN_REF: 'A',
+    LAST_COLUMN_REF: () => {
+      // Search of column index (2 letters limit - 676 columns should be enough) 
+      const COLUMN_NUMBER = SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_INDEX_NUMBER();
+      const FIRST_CHAR = String.fromCharCode(64 + parseInt(COLUMN_NUMBER / 26));
+      const LAST_CHAR = String.fromCharCode(65 + COLUMN_NUMBER % 26);
+      return FIRST_CHAR + LAST_CHAR;
+    },
+    LAST_COLUMN_INDEX_NUMBER: () => { return Object.keys(SPREADSHEET_HEADERS.OBJECTS.COLUMNS).length -1},
   },
 }
+
+// console.log(SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF());
+// console.log(SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_INDEX_NUMBER());
 
 
 // API AUTH
