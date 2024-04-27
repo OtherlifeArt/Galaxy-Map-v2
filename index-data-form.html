@@ -79,14 +79,14 @@
                   <span class="tooltip">
                     <label for="object-data-certified">Data certified ?</label>
                     <input type="checkbox" name="object-data-certified" id="object-data-certified">
-                    <span class="tooltiptext">Are data not fully checked or insufficient ?</span>
+                    <span class="tooltiptext">Are data fully checked or sufficient, and ready for publication ?</span>
                 </div>
                 <div>
                   <!-- Object Name -->
                   <span class="tooltip">
                     <label for="object-name">Object Name</label>
                     <input type="text" name="object-name" id="object-name" required/><!-- Trick : This comment removes space between elements
-                      --><button class="entry-source">S</button>
+                      --><button class="entry-source" disabled>S</button>
                     <span class="tooltiptext">Full name of astronomical object (No alternate names)</span>
                   </span>
                   <span class="tooltip">
@@ -462,7 +462,12 @@
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Website -->
+    <script src="scripts/data-form/form-modals.js"></script>
+    <script src="scripts/data-form/form-tabs.js"></script>
+    <script src="scripts/data-form/form-utils.js"></script>
+    <script src="scripts/data-form/spreadsheet.js"></script>
     <script src="scripts/data-form/object-form.js"></script>
+    <script src="scripts/data-form/gapi.js"></script>
     <script src="scripts/data-form/automatedtools.js"></script>
     <script src="scripts/data-form/index.js"></script>
     <script src="scripts/data-form/gridv2.js"></script>  <!-- Map by Solenn Tual -->
