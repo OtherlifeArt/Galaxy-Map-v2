@@ -134,15 +134,23 @@ async function initFormSelect2() {
 /**
  * Reload select2 content and display it
  */
-// Doesn't work
-// TODO make it works
-// async function refreshFormSelect2() {
-//   $(document).ready(async function() {
-//     $("#object-search").empty().trigger('change');
-//     $("#object-parent").empty().trigger('change');
-//     initFormSelect2();
-//   });
-// }
+async function refreshFormSelect2() {
+  await loadAstronomicalObjectArray();
+  $(document).ready(function() {
+    // Object
+    $('#object-search').empty();
+    loadAstroObjectsSelect2();
+    // $('#object-search').select2({
+    //     data: astronomicalObjectSearchArray
+    // });
+    // Parent
+    $('#object-parent').empty();
+    loadAstroObjectParentsSelect2();
+    // $('#object-parent').select2({
+    //     data: astronomicalObjectSearchArray
+    // });
+  });
+}
 
 /**
  * Load astronomical object select2
