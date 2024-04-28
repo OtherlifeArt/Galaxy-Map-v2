@@ -225,7 +225,7 @@ function addNewEmptyLineOnSourceModalTable() {
 async function deleteDataLineFromSourceModal(tableRowElement) {
   // console.log(tableRowElement);
   // Delete Spreadsheet data if exists
-  let objectSourceID = tableRowElement.querySelector(".modal-object-source-id").innerHTML;
+  const objectSourceID = tableRowElement.querySelector(".modal-object-source-id").innerHTML;
   // console.log(objectSourceID);
   if(confirm("Are you sure you want to delete object source line with ID "+ objectSourceID +" ?")) {
     const sheetRange = `!${SPREADSHEET_HEADERS.OBJECT_SOURCES.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECT_SOURCES.LAST_COLUMN_REF()}`;
@@ -237,6 +237,7 @@ async function deleteDataLineFromSourceModal(tableRowElement) {
     }
   }
   // Delete modal table line
+  tableRowElement.remove();
 }
 
 /**
