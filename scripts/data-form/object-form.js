@@ -131,7 +131,11 @@ async function initFormSelect2() {
   loadAstroObjectParentsSelect2();
 }
 
+/**
+ * Reload select2 content and display it
+ */
 // Doesn't work
+// TODO make it works
 // async function refreshFormSelect2() {
 //   $(document).ready(async function() {
 //     $("#object-search").empty().trigger('change');
@@ -545,7 +549,7 @@ async function updateData() {
     alert("Object has been successfully updated !");
     closeModal();
     // Reload object array
-    // refreshFormSelect2();
+    refreshFormSelect2();
   } else {
     alert("Error encoutered ! Check console (F12) for more details");
   }
@@ -562,7 +566,7 @@ async function addNewData() {
   if(returnCode) {
     alert("Object has been successfully created at the end of the spreadsheet ! Add/reorganize human index manually ");
     // Reload select 2 arrays
-    // refreshFormSelect2();
+    refreshFormSelect2();
   } else {
     alert("Error encoutered ! Check console (F12) for more details");
   }
@@ -578,7 +582,7 @@ async function deleteData() {
     if(returnCode) {
       alert("Object has been successfully deleted ! Add/reorganize human index manually");
       // Reload object array
-      // refreshFormSelect2();
+      refreshFormSelect2();
     } else {
       alert("Error encoutered ! Check console (F12) for more details");
     }
