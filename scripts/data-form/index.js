@@ -19,6 +19,12 @@ const SHEETS = {
   OBJECT_TYPE_CLASSES: {
     ID: "209526164", NAME: "Object type classes",
   },
+  OBJECT_SOURCES: {
+    ID: "288489171", NAME: "Object Sources",
+  },
+  SOURCES: {
+    ID: "1968171245", NAME: "Sources",
+  }
 }
 
 // SPREADSHEET COLUMNS
@@ -71,12 +77,49 @@ const SPREADSHEET_HEADERS = {
     LAST_COLUMN_REF: () => {
       // Search of column index (2 letters limit - 676 columns should be enough) 
       const COLUMN_NUMBER = SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_INDEX_NUMBER();
-      const FIRST_CHAR = String.fromCharCode(64 + parseInt(COLUMN_NUMBER / 26));
+      const FIRST_CHAR = COLUMN_NUMBER / 26 >= 1 ? String.fromCharCode(64 + parseInt(COLUMN_NUMBER / 26)) : "";
       const LAST_CHAR = String.fromCharCode(65 + COLUMN_NUMBER % 26);
       return FIRST_CHAR + LAST_CHAR;
     },
     LAST_COLUMN_INDEX_NUMBER: () => { return Object.keys(SPREADSHEET_HEADERS.OBJECTS.COLUMNS).length -1},
   },
+  "OBJECT_SOURCES": {
+    COLUMNS : {
+      ID: 0,
+      OBJECT_ID: 1,
+      SOURCE_ID: 2,
+      NOTE: 3,
+      SOURCE_PATH: 4,
+      TARGET_COLUMN: 5,
+      URL: 6,
+    },
+    FIRST_COLUMN_REF: 'A',
+    LAST_COLUMN_REF: () => {
+      // Search of column index (2 letters limit - 676 columns should be enough) 
+      const COLUMN_NUMBER = SPREADSHEET_HEADERS.OBJECT_SOURCES.LAST_COLUMN_INDEX_NUMBER();
+      const FIRST_CHAR = COLUMN_NUMBER / 26 >= 1 ? String.fromCharCode(64 + parseInt(COLUMN_NUMBER / 26)) : "";
+      const LAST_CHAR = String.fromCharCode(65 + COLUMN_NUMBER % 26);
+      return FIRST_CHAR + LAST_CHAR;
+    },
+    LAST_COLUMN_INDEX_NUMBER: () => { return Object.keys(SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS).length -1},
+  },
+  "SOURCE": {
+    COLUMNS : {
+      ID: 0,
+      NAME: 1,
+      CONTINUITY: 2,
+      URL: 3,
+    },
+    FIRST_COLUMN_REF: 'A',
+    LAST_COLUMN_REF: () => {
+      // Search of column index (2 letters limit - 676 columns should be enough) 
+      const COLUMN_NUMBER = SPREADSHEET_HEADERS.OBJECT_SOURCES.LAST_COLUMN_INDEX_NUMBER();
+      const FIRST_CHAR = COLUMN_NUMBER / 26 >= 1 ? String.fromCharCode(64 + parseInt(COLUMN_NUMBER / 26)) : "";
+      const LAST_CHAR = String.fromCharCode(65 + COLUMN_NUMBER % 26);
+      return FIRST_CHAR + LAST_CHAR;
+    },
+    LAST_COLUMN_INDEX_NUMBER: () => { return Object.keys(SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS).length -1},
+  }
 }
 
 // console.log(SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF());
@@ -120,6 +163,7 @@ let astronomicalObjectSearchArray = [];
 let selectedAstronomicalObject;
 let astronomicalObjectTypes = [];
 let astronomicalObjectTypeClasses = [];
+let astronomicalObjectSourceSearchArray = [];
 
 // Trick to export some values from other scopes
 window.dataToUpdate = [];
@@ -139,6 +183,14 @@ document.querySelector("#default-tab").className += " active";
 // Authenticate
 SEARCH_INPUT.addEventListener('select2:select', loadObjectForm);
 
-
+/**
+ * Sources button click
+ */
+document.querySelectorAll('.object-source-entry-button').forEach(button => {
+  button.addEventListener('click', function(e) {
+    e.preventDefault(); // Skip form default action
+    openDataFieldSourceModal(e.target);
+  });
+});
 
 

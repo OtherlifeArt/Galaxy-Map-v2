@@ -62,7 +62,7 @@ input[readonly] {
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 1000; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -96,7 +96,7 @@ input[readonly] {
   cursor: pointer;
 }
 
-/* Modal Table */
+/* Validation Modal Table */
 #modal-table {
   border-collapse: collapse;
 }
@@ -115,6 +115,25 @@ input[readonly] {
 /* #modal-table tr td:last-child {
   border-right: 0;
 } */
+
+/* Source Modal Table */
+
+#source-modal-table {
+  border: 1px solid grey; 
+  border-collapse: collapse;
+}
+
+#source-modal-table th {
+  background-color: #ddd;
+}
+
+#source-modal-table td, #source-modal-table th {
+  border: 1px solid grey; 
+}
+
+/********/
+/* TABS */
+/********/
 
  /* Style the tab */
  .tab {

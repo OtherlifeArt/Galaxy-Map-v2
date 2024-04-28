@@ -14,7 +14,7 @@ async function getSpreadSheetData(spreadsheetId, sheetName, sheetRange) {
     alert(err.message);
     return;
   }
-  console.log("Astronomical objects :", response.result);
+  console.log("Results :", response.result);
   const range = response.result;
   if (!range || !range.values || range.values.length == 0) {
     document.getElementById('content').innerText = 'No values found.';
@@ -24,9 +24,9 @@ async function getSpreadSheetData(spreadsheetId, sheetName, sheetRange) {
 }
 
 /**
- * Get spreadsheet row from column values
+ * Get spreadsheet row from column value (key/value pairs)
  */
-async function getSpreadSheetRowFromColumnValues(spreadsheetId, sheetName, sheetRange, columnToSearch, searchValue) {
+async function getSpreadSheetRowFromColumnKeyValuePairs(spreadsheetId, sheetName, sheetRange, keyValueObjectArray) {
   let response;
   try {
     // Fetch first 10 files
@@ -39,7 +39,7 @@ async function getSpreadSheetRowFromColumnValues(spreadsheetId, sheetName, sheet
     alert(err.message);
     return;
   }
-  console.log("Astronomical objects :", response.result);
+  console.log("Results :", response.result);
   const range = response.result;
   const values = range.values;
   if (!range || !values || values.length == 0) {
@@ -49,15 +49,15 @@ async function getSpreadSheetRowFromColumnValues(spreadsheetId, sheetName, sheet
   }
 
   // Find row number and return it
-  const rowIndex = values.findIndex((row) => row[columnToSearch] === searchValue);
+  //const rowIndex = values.findIndex((row) => row[columnToSearch] === searchValue);
+  const filteredValues = findArrayOfObjectIndexByKeyValuePairs(values, keyValueObjectArray);
 
-  if (rowIndex === -1) {
-    console.log('Value not found.');
-    alert('Value not found in spreadsheet.');
+  if (filteredValues.length === 0) {
+    console.log(keyValueObjectArray, 'Values not found in spreadsheet.');
   } else {
-    console.log(`Row number where the value is found: ${rowIndex + 1}`);
-    console.log(values[rowIndex]);
-    return values[rowIndex];
+    console.log(`Number of results found: ${filteredValues.length}`);
+    console.log('Results : ', filteredValues);
+    return filteredValues;
   }
 }
 
@@ -77,7 +77,7 @@ async function updateSpreadSheetRowData(spreadsheetId, sheetName, sheetRange, da
     alert(err.message);
     return;
   }
-  console.log("Astronomical objects :", response.result);
+  console.log("Results :", response.result);
   const range = response.result;
   const values = range.values;
   if (!range || !values || values.length == 0) {
@@ -133,7 +133,7 @@ async function addSpreadSheetRowData(spreadsheetId, sheetName, sheetRange, dataR
     alert(err.message);
     return false;
   }
-  console.log("Astronomical object added :", response.result);
+  console.log("DATA added :", response.result);
   return true;
 }
 
@@ -149,7 +149,7 @@ async function deleteSpreadSheetRowData (spreadsheetId, sheetName, sheetRange, o
     alert(err.message);
     return;
   }
-  console.log("Astronomical objects :", response.result);
+  console.log("Result :", response.result);
   const range = response.result;
   const values = range.values;
   if (!range || !values || values.length == 0) {
@@ -194,7 +194,7 @@ async function deleteSpreadSheetRowData (spreadsheetId, sheetName, sheetRange, o
       alert(err.message);
       return false;
     }
-    console.log("Astronomical object deleted :", response.result);
+    console.log("DATA deleted :", response.result);
     return true;
   }
 }

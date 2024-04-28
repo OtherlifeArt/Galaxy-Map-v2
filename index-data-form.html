@@ -86,7 +86,7 @@
                   <span class="tooltip">
                     <label for="object-name">Object Name</label>
                     <input type="text" name="object-name" id="object-name" required/><!-- Trick : This comment removes space between elements
-                      --><button class="entry-source" disabled>S</button>
+                      --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Full name of astronomical object (No alternate names)</span>
                   </span>
                   <span class="tooltip">
@@ -417,19 +417,17 @@
         <div class="map-controls"></div>
       </div>
       <!-- Map div end -->
-      </main>
-    <!-- The Modal -->
-    <div id="validationModal" class="modal">
+    </main>
+    <!-- The Data ValidationModal -->
+    <div id="validation-modal" class="modal">
 
       <!-- Modal content -->
       <div class="modal-content">
-        <span class="close">&times;</span>
+        <span id="close-validation-modal" class="close">&times;</span>
         <p>
           <!-- Modal inner content -->
           <table id="modal-table">
-            <caption>
-              Data change
-            </caption>
+            <caption>Data change</caption>
             <thead>
               <tr>
                 <th scope="col">Name</th>
@@ -446,8 +444,66 @@
           <button id="close-modal-button" onclick="closeModal();">Close without saving</button>
         </p>
       </div>
-
     </div>
+    <!-- Source Modal -->
+    <div id="source-modal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="close-source-modal" class="close">&times;</span>
+        <div>
+          <!-- Modal inner content -->
+          <span>Sources</span>
+          <br/>
+          <br/>
+          <!-- Column Index -->
+          <input type="hidden" id="object-column-source-column-index" />
+          <!-- Object ID -->
+          <input type="hidden" id="object-column-source-object-id" />
+          <!-- Sources ID -->
+          <!-- <span class="tooltip">
+            <label for="object-column-source-id">Reference</label>
+            <select><option>TODO</option></select>
+            <span class="tooltiptext">Source reference from database</span>
+          </span> -->
+          <!-- Sources Path -->
+          <!-- <span class="tooltip">
+            <label for="object-column-source-path">Path</label>
+            <input type="text" name="object-column-source-path" id="object-column-source-path" />
+            <span class="tooltiptext">????</span>
+          </span> -->
+          <!-- Sources URL -->
+          <!-- <span class="tooltip">
+            <label for="object-column-source-url">Url</label>
+            <input type="text" name="object-column-source-url" id="object-column-source-url" />
+            <span class="tooltiptext">Source URL</span>
+          </span> -->
+          <!-- Sources Notes -->
+          <!-- <span class="tooltip">
+            <label for="object-column-source-note">Note</label>
+            <textarea name="object-column-source-note" id="object-column-source-note"></textarea>
+            <span class="tooltiptext">Side notes</span>
+          </span> -->
+          <table id="source-modal-table">
+            <thead>
+              <tr>
+                <th scope="col">Actions</th>
+                <th scope="col">Source</th>
+                <th scope="col">Source Path</th>
+                <th scope="col">URL</th>
+                <th scope="col">Notes</th>
+              </tr>
+            </thead>
+            <tbody id="source-modal-table-body"></tbody>
+          </table>
+          <button>Add line</button>
+          <br>
+          <button>Save DATA</button>
+        </div>
+        <!-- Button -->
+        <!-- <button id="object-column-source-save-button" onclick="saveDataFromSourceModal();">Save DATA</button> -->
+      </div>
+    </div>
+
     <!-- Jquery select2 -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

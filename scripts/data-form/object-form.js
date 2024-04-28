@@ -74,6 +74,29 @@ async function listTypeClasses() {
   console.log(astronomicalObjectTypeClasses);
 }
 
+/**
+ * List Sources
+ */
+async function listSources() {
+  // Get data
+  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.SOURCES.NAME, '!A2:G');
+  // Populate select2 search array
+  astronomicalObjectSourceSearchArray = [];
+  for(i=0; i<spreadSheetData.values.length; i++){
+    const rowValues = spreadSheetData.values[i];
+    
+    astronomicalObjectSourceSearchArray.push({
+      id: rowValues[SPREADSHEET_HEADERS.SOURCE.COLUMNS.ID],
+      name: rowValues[SPREADSHEET_HEADERS.SOURCE.COLUMNS.NAME],
+      continuity: rowValues[SPREADSHEET_HEADERS.SOURCE.COLUMNS.CONTINUITY],
+      url: rowValues[SPREADSHEET_HEADERS.SOURCE.COLUMNS.URL],
+      // Select 2 display
+      text: `${rowValues[SPREADSHEET_HEADERS.SOURCE.COLUMNS.NAME]} [${rowValues[SPREADSHEET_HEADERS.SOURCE.COLUMNS.CONTINUITY]}]`
+    });
+  }
+  console.log(astronomicalObjectSourceSearchArray);
+}
+
 
 /**
  * Load search and parent Select2
@@ -127,78 +150,78 @@ async function loadObjectForm(objectID) {
   if(objectID !== undefined) {
     // Search matching row
     const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}`;
-    const rowValues = await getSpreadSheetRowFromColumnValues(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, sheetRange, SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID, objectID);
-    console.log(rowValues);
-    // Get data
-    // const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}${2+parseInt(objectID)}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}${2+parseInt(objectID)}`;
-    // const range = await getSpreadSheetData(SPREADSHEET_ID, SHEETS..NAME.OBJECTS, sheetRange);
-    // console.log(range.values);
-    // Populate form
-    if(rowValues !== undefined) {
-      let astroObject = rowValues;
-      window.selectedAstronomicalObject = rowValues;
-      document.getElementById('object-tech-id').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]); // Tech ID
-      document.getElementById('object-human-id').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_ID]); // Human ID
-      let updateDate = new Date(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.updated_at]).toLocaleString();
-      document.getElementById('object-updated-at').value = updateDate; // Updated At
-      document.getElementById('object-data-certified').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.is_certified] === "YES"; // Data certified ?
-      document.getElementById('object-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]); // Name
-      document.getElementById('object-alt-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES]); // Alt Names
-      document.getElementById('object-capital').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IS_CAPITAL] === "YES"; // Capital
-      document.getElementById('object-type-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE]); // Type RAW DATA
-      $(document).ready(function() { // Type
-        $('#object-type').select2().val(sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE]));
-        $('#object-type').select2().trigger('change');
-        document.getElementById('object-type-classes-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES]); // Type classes
-      });
-      document.getElementById('object-conjectural-name').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_NAME] === "YES"; // Conjectural name
-      document.getElementById('object-conjectural-type').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_TYPE] === "YES"; // Conjectural type
-      document.getElementById('object-orbital-rank').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ORBITAL_RANK]); // Orbital rank
-      document.getElementById('object-parent-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN]); // Parent RAW DATA
-      $(document).ready(function() { // Parent
-        $('#object-parent').select2().val(sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]));
-        $('#object-parent').select2().trigger('change');
-      });
-      document.getElementById('object-datefrom').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM]); // Date from
-      document.getElementById('object-dateto').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO]); // Date to
-      document.getElementById('object-canon').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON] === "YES"; // Canon
-      document.getElementById('object-legends').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS] === "YES"; // Legends
-      document.getElementById('object-inmovies').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IN_MOVIES] === "YES"; // In movies
-      document.getElementById('object-grid-x').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_GRID]); // Grid X
-      document.getElementById('object-grid-y').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID]); // Grid Y
-      document.getElementById('object-coord-x').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD]); // X Coordinate
-      document.getElementById('object-coord-y').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]); // Y Coordinate
-      document.getElementById('object-coord-z').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD]); // Z Coordinate
-      document.getElementById('object-desc').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DESC]); // Description
-      document.getElementById('object-placement-certitude').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_CERTITUDE]); // Placement certitude
-      document.getElementById('object-placement-logic').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_LOGIC]); // Placement logic
-      document.getElementById('object-native-species').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NATIVE_SPECIES]); // Native species
-      document.getElementById('object-known-environments').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ENVIRONMENTS]); // Known Environment
-      document.getElementById('object-notes').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES]); // Notes
-      document.getElementById('object-interesting').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING]); // Interesting      document.getElementById('object-').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.]); // 
-      document.getElementById('object-sources').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL]); // Sources
-      let urlList = separateStringToLinkList(sanitizeText(document.getElementById('object-sources').value), ",");
-      console.log(urlList);
-      let urlDisplayerSpan = document.getElementById('url-displayer')
-      urlDisplayerSpan.innerHTML = "";
-      // Source URL displayer
-      for (const element of urlList) {
-        let div = urlDisplayerSpan.appendChild(document.createElement("div"));
-        div.appendChild(element);
-      }
-
-      document.getElementById('object-wikidata-id').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.WIKI_DATA_ID]); // WikidataID
-      // Wiki DATA display
-      let div = urlDisplayerSpan.appendChild(document.createElement("div"));
-      div.appendChild(separateStringToLinkList(WIKIDATA_PAGE_PREFIX + sanitizeText(document.getElementById('object-wikidata-id').value), ",")[0]);
-
-      document.getElementById('object-zoom-level').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ZOOM_LEVEL]); // Zoom level
-      document.getElementById('object-tooltip-permanent').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.tooltip_permanent]); // Tooltip permanent
-      document.getElementById('object-tooltip-direction').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.tooltip_direction]); // Tooltip direction
-      document.getElementById('object-class-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.className]); // Tooltip Class Name
-      document.getElementById('object-index-geo').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.index_geo]); // Index Geo
-      document.getElementById('object-geom').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GEOM]); // Index Geo
+    const results = await getSpreadSheetRowFromColumnKeyValuePairs(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, sheetRange, [{key:SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID, value:objectID}]);
+    console.log(results);
+    // ID must be unique
+    if(results.length > 1) {
+      alert("ID must be unique ! Check console (F12)");
+      return;
     }
+    const rowValues = results[0];
+    // Populate form
+    let astroObject = rowValues;
+    window.selectedAstronomicalObject = rowValues;
+    document.getElementById('object-tech-id').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]); // Tech ID
+    document.getElementById('object-human-id').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_ID]); // Human ID
+    let updateDate = new Date(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.updated_at]).toLocaleString();
+    document.getElementById('object-updated-at').value = updateDate; // Updated At
+    document.getElementById('object-data-certified').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.is_certified] === "YES"; // Data certified ?
+    document.getElementById('object-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]); // Name
+    document.getElementById('object-alt-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES]); // Alt Names
+    document.getElementById('object-capital').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IS_CAPITAL] === "YES"; // Capital
+    document.getElementById('object-type-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE]); // Type RAW DATA
+    $(document).ready(function() { // Type
+      $('#object-type').select2().val(sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE]));
+      $('#object-type').select2().trigger('change');
+      document.getElementById('object-type-classes-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES]); // Type classes
+    });
+    document.getElementById('object-conjectural-name').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_NAME] === "YES"; // Conjectural name
+    document.getElementById('object-conjectural-type').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_TYPE] === "YES"; // Conjectural type
+    document.getElementById('object-orbital-rank').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ORBITAL_RANK]); // Orbital rank
+    document.getElementById('object-parent-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN]); // Parent RAW DATA
+    $(document).ready(function() { // Parent
+      $('#object-parent').select2().val(sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]));
+      $('#object-parent').select2().trigger('change');
+    });
+    document.getElementById('object-datefrom').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM]); // Date from
+    document.getElementById('object-dateto').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO]); // Date to
+    document.getElementById('object-canon').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON] === "YES"; // Canon
+    document.getElementById('object-legends').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS] === "YES"; // Legends
+    document.getElementById('object-inmovies').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IN_MOVIES] === "YES"; // In movies
+    document.getElementById('object-grid-x').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_GRID]); // Grid X
+    document.getElementById('object-grid-y').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID]); // Grid Y
+    document.getElementById('object-coord-x').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD]); // X Coordinate
+    document.getElementById('object-coord-y').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]); // Y Coordinate
+    document.getElementById('object-coord-z').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD]); // Z Coordinate
+    document.getElementById('object-desc').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DESC]); // Description
+    document.getElementById('object-placement-certitude').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_CERTITUDE]); // Placement certitude
+    document.getElementById('object-placement-logic').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_LOGIC]); // Placement logic
+    document.getElementById('object-native-species').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NATIVE_SPECIES]); // Native species
+    document.getElementById('object-known-environments').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ENVIRONMENTS]); // Known Environment
+    document.getElementById('object-notes').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES]); // Notes
+    document.getElementById('object-interesting').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING]); // Interesting      document.getElementById('object-').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.]); // 
+    document.getElementById('object-sources').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL]); // Sources
+    let urlList = separateStringToLinkList(sanitizeText(document.getElementById('object-sources').value), ",");
+    console.log(urlList);
+    let urlDisplayerSpan = document.getElementById('url-displayer')
+    urlDisplayerSpan.innerHTML = "";
+    // Source URL displayer
+    for (const element of urlList) {
+      let div = urlDisplayerSpan.appendChild(document.createElement("div"));
+      div.appendChild(element);
+    }
+
+    document.getElementById('object-wikidata-id').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.WIKI_DATA_ID]); // WikidataID
+    // Wiki DATA display
+    let div = urlDisplayerSpan.appendChild(document.createElement("div"));
+    div.appendChild(separateStringToLinkList(WIKIDATA_PAGE_PREFIX + sanitizeText(document.getElementById('object-wikidata-id').value), ",")[0]);
+
+    document.getElementById('object-zoom-level').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ZOOM_LEVEL]); // Zoom level
+    document.getElementById('object-tooltip-permanent').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.tooltip_permanent]); // Tooltip permanent
+    document.getElementById('object-tooltip-direction').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.tooltip_direction]); // Tooltip direction
+    document.getElementById('object-class-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.className]); // Tooltip Class Name
+    document.getElementById('object-index-geo').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.index_geo]); // Index Geo
+    document.getElementById('object-geom').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GEOM]); // Index Geo
   }
 }
 
@@ -478,9 +501,11 @@ async function addNewData() {
   // Add data
   // Confirmation and instruction dialog
   if(returnCode) {
-    alert("Object has been successfully created at the end of the spreadsheet ! Add/reorganize human index manually ")
+    alert("Object has been successfully created at the end of the spreadsheet ! Add/reorganize human index manually ");
+    // Reload object select
+    listObjects();
   } else {
-    alert("Error encoutered ! Check console (F12) for more details")
+    alert("Error encoutered ! Check console (F12) for more details");
   }
 }
 
