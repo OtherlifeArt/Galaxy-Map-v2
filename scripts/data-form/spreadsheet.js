@@ -90,7 +90,8 @@ async function updateSpreadSheetRowData(spreadsheetId, sheetName, sheetRange, da
 
   if (rowIndex === -1) {
     console.log('Value not found.');
-    alert('Value not found in spreadsheet.');
+    console.error('Value not found in spreadsheet.');
+    return false;
   } else {
     console.log(`Row number where the value is found: ${rowIndex + 1}`);
     console.log(values[rowIndex]);
@@ -163,7 +164,8 @@ async function deleteSpreadSheetRowData (spreadsheetId, sheetIdNameEntry, sheetR
 
   if (rowIndex === -1) {
     console.log('Value not found.');
-    alert('Value not found in spreadsheet.');
+    console.error('Value not found in spreadsheet.');
+    return false;
   } else {
     console.log(`Row number where the value is found: ${rowIndex + 1}`);
     console.log(values[rowIndex]);

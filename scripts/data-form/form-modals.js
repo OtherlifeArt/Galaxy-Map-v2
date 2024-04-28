@@ -245,7 +245,23 @@ async function deleteDataLineFromSourceModal(tableRowElement) {
  * Save source modal content to spreadsheet
  */
 function saveDataFromSourceModal() {
+  console.log("Object source save");
+  const sourceModalTableBody = document.getElementById("source-modal-table-body");
+  const columnEntryName = document.getElementById('object-column-source-column-index').value;
+  const objectId = document.getElementById('object-column-source-object-id').value;
+  sourceModalTableBody.childNodes.forEach(objectSourceLine => {
+    // For each line check if it exists and update it
+    const objectSourceId = objectSourceLine.querySelector(".modal-object-source-id").innerHTML;
+    if(objectSourceId) {
+      // TODO : Make update spreadsheet more generic as delete operation
+      // TODO : Externalize search data in spreadsheet out of delete/update sheet dans use the same code inside those 2 functions
+    } else { // Or create it as new line
 
+    }
+    
+  });
+  // TODO
+  // TODO
 }
 
 /** EVENTS **/
