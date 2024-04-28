@@ -1,7 +1,7 @@
 /**
- * List Astronomical objects
+ * Create or recreate astromical array
  */
-async function listObjects() {
+async function loadAstronomicalObjectArray() {
   // Get data
   const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, '!A2:Z');
   // Populate select2 search array
@@ -21,8 +21,15 @@ async function listObjects() {
       text: `${namesString} (${typeString}) [${canonLegendsString}] ${dateString === "" ? "" : "("+(dateString)+")"}`
     });
   }
-  // Load select2
-  loadAstroObjectsSelect2();
+}
+
+/**
+ * List Astronomical objects
+ */
+async function listObjects() {
+  await loadAstronomicalObjectArray();
+  // Load select2 and bind events
+  await initAstroObjectsSelect2AndLinkedEvents();
 }
 
 /**
@@ -98,35 +105,85 @@ async function listSources() {
 }
 
 
+
 /**
- * Load search and parent Select2
+ * Init search and parent Select2
+ * Bind events when element are selected
+ */
+async function initAstroObjectsSelect2AndLinkedEvents() {
+  $(document).ready(async function() {
+    // Create select 2
+    initFormSelect2();
+    // Populate search form on select
+    loadFormOnAstroObjectSelect();
+    // Populate (human) parent on parent select
+    generateHierarchicalStringOnAstroObjectParentSelect();
+  });
+}
+
+/**
+ * Init form select2
+ */
+async function initFormSelect2() {
+  // Astro object search
+  loadAstroObjectsSelect2();
+  // Astro object Parents
+  loadAstroObjectParentsSelect2();
+}
+
+// Doesn't work
+// async function refreshFormSelect2() {
+//   $(document).ready(async function() {
+//     $("#object-search").empty().trigger('change');
+//     $("#object-parent").empty().trigger('change');
+//     initFormSelect2();
+//   });
+// }
+
+/**
+ * Load astronomical object select2
  */
 function loadAstroObjectsSelect2() {
-  $(document).ready(function() {
-    // Create select 2
-    // Astro object search
-    $("#object-search").select2({
-      data: astronomicalObjectSearchArray,
-      placeholder: 'Astronomical object search....',
-      allowClear: true
-    });
-    // Astro object Parents
-    $("#object-parent").select2({
-      data: astronomicalObjectSearchArray,
-      placeholder: 'Parent ....',
-      allowClear: true
-    });
-    // Populate search form on select
-    $("#object-search").on('change', function() {
-      console.log('Selected value:', $("#object-search").val());
-      loadObjectForm($("#object-search").val());
-    });
-    // Populate (human) parent on parent select
-    $("#object-parent").on('change', async function() {
-      let selectedValue = $("#object-parent").val();
-      console.log('Selected value:', selectedValue);
-      document.getElementById('object-parent-raw').value = await getParentHierarchy(selectedValue);
-    });
+  // Create select 2
+  // Astro object search
+  $("#object-search").select2({
+    data: astronomicalObjectSearchArray,
+    placeholder: 'Astronomical object search....',
+    allowClear: true
+  });
+}
+
+/**
+ * Load astronomical object parents select2
+ */
+function loadAstroObjectParentsSelect2() {
+  // Create select 2
+  // Astro object parent search
+  $("#object-parent").select2({
+    data: astronomicalObjectSearchArray,
+    placeholder: 'Parent ....',
+    allowClear: true
+  });
+}
+
+/**
+ * Populate search form on astro object select
+ */
+function loadFormOnAstroObjectSelect() {
+  $("#object-search").on('change', function() {
+    console.log('Selected value:', $("#object-search").val());
+    loadObjectForm($("#object-search").val());
+  });
+}
+
+/**
+ * Populate (human) parent on parent select
+ */
+function generateHierarchicalStringOnAstroObjectParentSelect() {
+  $("#object-parent").on('change', async function() {
+    let selectedValue = $("#object-parent").val();
+    console.log('Selected value:', selectedValue);
+    document.getElementById('object-parent-raw').value = await getParentHierarchy(selectedValue);
   });
 }
 
@@ -487,6 +544,8 @@ async function updateData() {
   if(returnCode) {
     alert("Object has been successfully updated !");
     closeModal();
+    // Reload object array
+    // refreshFormSelect2();
   } else {
     alert("Error encoutered ! Check console (F12) for more details");
   }
@@ -502,8 +561,8 @@ async function addNewData() {
   // Confirmation and instruction dialog
   if(returnCode) {
     alert("Object has been successfully created at the end of the spreadsheet ! Add/reorganize human index manually ");
-    // Reload object select
-    listObjects();
+    // Reload select 2 arrays
+    // refreshFormSelect2();
   } else {
     alert("Error encoutered ! Check console (F12) for more details");
   }
@@ -511,17 +570,17 @@ async function addNewData() {
 
 async function deleteData() {
   const objectIDToDelete = document.getElementById('object-tech-id').value;
-  if(confirm("Are you sure you want to delete object "+ document.getElementById('object-name').value + " with ID "+ objectIDToDelete +"?")) {
+  // Confirm dialog
+  if(confirm("Are you sure you want to delete object "+ document.getElementById('object-name').value + " with ID "+ objectIDToDelete +" ?")) {
     const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}`;
-    let returnCode = await deleteSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, sheetRange, objectIDToDelete);
-    // Confirm dialog
-    // Confirm dialog
+    let returnCode = await deleteSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECTS, sheetRange, SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID, objectIDToDelete);
     // Delete data
-    // Confirmation and instruction dialog
     if(returnCode) {
-      alert("Object has been successfully deleted ! Add/reorganize human index manually ")
+      alert("Object has been successfully deleted ! Add/reorganize human index manually");
+      // Reload object array
+      // refreshFormSelect2();
     } else {
-      alert("Error encoutered ! Check console (F12) for more details")
+      alert("Error encoutered ! Check console (F12) for more details");
     }
   }
 }

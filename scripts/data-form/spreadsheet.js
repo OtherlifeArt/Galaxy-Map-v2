@@ -137,12 +137,13 @@ async function addSpreadSheetRowData(spreadsheetId, sheetName, sheetRange, dataR
   return true;
 }
 
-async function deleteSpreadSheetRowData (spreadsheetId, sheetName, sheetRange, objectIDToDelete) {
+async function deleteSpreadSheetRowData (spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, objectIDToDelete) {
+  console.log("Sheet Name : " + sheetIdNameEntry.NAME, "Sheet ID : " + sheetIdNameEntry.ID);
   try {
     // Fetch first 10 files
     response = await gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: spreadsheetId,
-      range: sheetName + sheetRange,
+      range: sheetIdNameEntry.NAME + sheetRange,
     });
   } catch (err) {
     document.getElementById('content').innerText = err.message;
@@ -158,7 +159,7 @@ async function deleteSpreadSheetRowData (spreadsheetId, sheetName, sheetRange, o
   }
 
   // Find row number matching technical ID and return it
-  const rowIndex = values.findIndex((row) => row[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] === objectIDToDelete);
+  const rowIndex = values.findIndex((row) => row[objectIdColumnNumber] === objectIDToDelete);
 
   if (rowIndex === -1) {
     console.log('Value not found.');
@@ -177,7 +178,7 @@ async function deleteSpreadSheetRowData (spreadsheetId, sheetName, sheetRange, o
             {
               deleteDimension: {
                 range: {
-                  sheetId: SHEETS.OBJECTS.ID,
+                  sheetId: sheetIdNameEntry.ID,
                   dimension: 'ROWS',
                   startIndex: rowIndex,
                   endIndex: rowIndex + 1,
