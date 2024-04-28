@@ -78,13 +78,6 @@ function getKeyByObjectValue(object, value) {
  * Find array of objects by key/value pairs
  */
 function findArrayOfObjectIndexByKeyValuePairs(arrayOfObjects, keyValueObjectArray) {
-  // let matchingIndexes = [];
-  // for (let index = 0; index < arrayOfObjects.length; index++) {
-  //   if(objectCheckKeyValuePairs(arrayOfObjects[index], keyValueObjectArray)) {
-  //     matchingIndexes.push(index);
-  //   }  
-  // }
-  // return matchingIndexes;
   return arrayOfObjects.filter(object => {
     for (let i = 0; i < keyValueObjectArray.length; i++) {
       const {key, value} = keyValueObjectArray[i];
@@ -95,19 +88,6 @@ function findArrayOfObjectIndexByKeyValuePairs(arrayOfObjects, keyValueObjectArr
     return true;
   });
 }
-
-/**
- * Check whether key/values pair are found in object
- */
-// function objectCheckKeyValuePairs(object, keyValueObjectArray) {
-//   for (let i = 0; i < keyValueObjectArray.length; i++) {
-//     const {key, value} = keyValueObjectArray[i];
-//     if(object[key] !== value) {
-//       return false;
-//     }
-//   }
-//   return true;
-// }
 
 /**
  * Parse data separated by char to html url link list
