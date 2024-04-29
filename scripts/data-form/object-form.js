@@ -552,7 +552,7 @@ async function showDataAndUpdate() {
 async function updateData() {
   await convertFormValuesToData();
   const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}`;
-  let returnCode = await updateSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, sheetRange, window.dataToUpdate);
+  let returnCode = await updateSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECTS, sheetRange, SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID, window.dataToUpdate);
   if(returnCode) {
     alert("Object has been successfully updated !");
     closeModal();
@@ -567,7 +567,7 @@ async function addNewData() {
   await convertFormValuesToData();
   setNewDataFormValues();
   const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}`;
-  let returnCode = await addSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, sheetRange, window.dataToUpdate);
+  let returnCode = await addSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECTS, sheetRange, window.dataToUpdate);
   // Confirm dialog
   // Add data
   // Confirmation and instruction dialog

@@ -43,7 +43,8 @@ async function getSpreadSheetRowFromColumnKeyValuePairs(spreadsheetId, sheetName
   const range = response.result;
   const values = range.values;
   if (!range || !values || values.length == 0) {
-    document.getElementById('content').innerText = 'No values found.';
+    // document.getElementById('content').innerText = 'No values found.';
+    console.error('No values found.');
     alert(err.message);
     return;
   }
@@ -57,20 +58,28 @@ async function getSpreadSheetRowFromColumnKeyValuePairs(spreadsheetId, sheetName
   } else {
     console.log(`Number of results found: ${filteredValues.length}`);
     console.log('Results : ', filteredValues);
-    return filteredValues;
+    // return filteredValues;
   }
+  return filteredValues;
+}
+
+/**
+ * Search for spreadsheet element by ID
+ */
+async function searchForSpreadSheetValueByElementID(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, objectID) {
+ return await getSpreadSheetRowFromColumnKeyValuePairs(spreadsheetId, sheetIdNameEntry.NAME, sheetRange, [{key: objectIdColumnNumber, value: objectID}]);
 }
 
 /**
  * Update spreadsheet data
  */
-async function updateSpreadSheetRowData(spreadsheetId, sheetName, sheetRange, dataRowToUpdate) {
+async function updateSpreadSheetRowData(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, dataRowToUpdate) {
   let response;
   try {
     // Fetch first 10 files
     response = await gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: spreadsheetId,
-      range: sheetName + sheetRange,
+      range: sheetIdNameEntry.NAME + sheetRange,
     });
   } catch (err) {
     document.getElementById('content').innerText = err.message;
@@ -81,12 +90,12 @@ async function updateSpreadSheetRowData(spreadsheetId, sheetName, sheetRange, da
   const range = response.result;
   const values = range.values;
   if (!range || !values || values.length == 0) {
-    document.getElementById('content').innerText = 'No values found.';
+    console.err('No data/spreadsheet found.');
     return false;
   }
 
   // Find row number matching technical ID and return it
-  const rowIndex = values.findIndex((row) => row[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] === dataRowToUpdate[0]);
+  const rowIndex = values.findIndex((row) => row[objectIdColumnNumber] === dataRowToUpdate[objectIdColumnNumber]);
 
   if (rowIndex === -1) {
     console.log('Value not found.');
@@ -100,17 +109,17 @@ async function updateSpreadSheetRowData(spreadsheetId, sheetName, sheetRange, da
     try {
       response = await gapi.client.sheets.spreadsheets.values.update({
         spreadsheetId: spreadsheetId,
-        range: sheetName + `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}${rowIndex + 1}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}${rowIndex + 1}`,
+        range: sheetIdNameEntry.NAME + `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}${rowIndex + 1}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}${rowIndex + 1}`,
         valueInputOption: "RAW",
         majorDimension: "ROWS",
         values: [dataRowToUpdate]
       });
     } catch (err) {
       document.getElementById('content').innerText = err.message;
-      alert(err.message);
+      // alert(err.message);
       return false;
     }
-    console.log("Astronomical object updated :", response.result);
+    console.log("Object updated :", response.result);
     return true;
   }
 }
@@ -118,13 +127,13 @@ async function updateSpreadSheetRowData(spreadsheetId, sheetName, sheetRange, da
 /**
  * Add new spreadsheet line with data from form
  */
-async function addSpreadSheetRowData(spreadsheetId, sheetName, sheetRange, dataRowToAppend) {
+async function addSpreadSheetRowData(spreadsheetId, sheetIdNameEntry, sheetRange, dataRowToAppend) {
   // Add row
   let response;
   try {
     response = await gapi.client.sheets.spreadsheets.values.append({
       spreadsheetId: spreadsheetId,
-      range: sheetName + sheetRange,
+      range: sheetIdNameEntry.NAME + sheetRange,
       valueInputOption: "RAW",
       majorDimension: "ROWS",
       values: [dataRowToAppend]

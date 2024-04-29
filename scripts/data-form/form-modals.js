@@ -126,13 +126,13 @@ async function openDataFieldSourceModal(eventTarget) {
       // Source Row ID
       addHiddenTextCellToSourceModalTable(row, sourceRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.ID], "modal-object-source-id");
       // Source from list
-      addSelect2CellToSourceModalContent(row, sourceRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.SOURCE_ID]);
-      // row.appendChild(sourcePathCell);
-      addInputTextCellToSourceModalContent(row, sourceRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.SOURCE_PATH]);
+      addSelect2SourceCellToSourceModalContent(row, sourceRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.SOURCE_ID], "modal-source-id");
+      // Source PATH
+      addInputTextCellToSourceModalContent(row, sourceRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.SOURCE_PATH], "modal-source-path");
       // Source URL
-      addInputTextCellToSourceModalContent(row, sourceRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.URL]);
+      addInputTextCellToSourceModalContent(row, sourceRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.URL], "modal-source-url");
       // Source Notes
-      addTextAreaCellToSourceModalContent(row, sourceRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.NOTE]);
+      addTextAreaCellToSourceModalContent(row, sourceRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.NOTE], "modal-source-note");
       // Append row
       sourceTableBody.appendChild(row);
     }
@@ -163,46 +163,49 @@ function addActionCellToSourceModalTable(parentRow) {
  * Add hidden text cell to source modal content
  */
 function addHiddenTextCellToSourceModalTable(parentRow, textContent, className) {
-  let sourceID = document.createElement("td");
-  sourceID.appendChild(document.createTextNode(textContent));
-  sourceID.style.display = "none";
-  sourceID.classList.add(className);
-  parentRow.appendChild(sourceID);
+  let hiddenTextTd = document.createElement("td");
+  hiddenTextTd.appendChild(document.createTextNode(textContent));
+  hiddenTextTd.style.display = "none";
+  hiddenTextTd.classList.add(className);
+  parentRow.appendChild(hiddenTextTd);
 }
 
 /**
  * Add select2 cell to source modal content
  */
-function addSelect2CellToSourceModalContent(parentRow, selectedDataID) {
-  let sourceCell = document.createElement("td");
+function addSelect2SourceCellToSourceModalContent(parentRow, selectedDataID, className) {
+  let sourceCellTd = document.createElement("td");
   let sourceCellSelect = document.createElement("select");
   sourceCellSelect.classList.add("modal-source-field");
+  sourceCellSelect.classList.add(className);
   loadSourcesSelect2(sourceCellSelect, selectedDataID);
-  sourceCell.appendChild(sourceCellSelect);
-  parentRow.appendChild(sourceCell);
+  sourceCellTd.appendChild(sourceCellSelect);
+  parentRow.appendChild(sourceCellTd);
 }
 
 /**
  * Add input type text cell to source modal content
  */
-function addInputTextCellToSourceModalContent(parentRow, textContent) {
-  let sourcePathCell = document.createElement("td");
-  let sourcePathCellInput = document.createElement("input");
-  sourcePathCellInput.setAttribute('type', 'text');
-  sourcePathCellInput.value = textContent;
-  sourcePathCell.appendChild(sourcePathCellInput);
-  parentRow.appendChild(sourcePathCell);
+function addInputTextCellToSourceModalContent(parentRow, textContent, className) {
+  let inputTextTd = document.createElement("td");
+  let inputText = document.createElement("input");
+  inputText.setAttribute('type', 'text');
+  inputText.value = textContent;
+  inputText.classList.add(className);
+  inputTextTd.appendChild(inputText);
+  parentRow.appendChild(inputTextTd);
 }
 
 /**
  * Add text area cell to source modal content
  */
-function addTextAreaCellToSourceModalContent(parentRow, textContent) {
-  let sourceNotes = document.createElement("td");
-  let sourceNotesInput = document.createElement("textarea");
-  sourceNotesInput.value = textContent;
-  sourceNotes.appendChild(sourceNotesInput);
-  parentRow.appendChild(sourceNotes);
+function addTextAreaCellToSourceModalContent(parentRow, textContent, className) {
+  let textAreaTd = document.createElement("td");
+  let textArea = document.createElement("textarea");
+  textArea.value = textContent;
+  textArea.classList.add(className);
+  textAreaTd.appendChild(textArea);
+  parentRow.appendChild(textAreaTd);
 }
 
 /**
@@ -213,10 +216,10 @@ function addNewEmptyLineOnSourceModalTable() {
   let row = document.createElement("tr"); // ROW
   addActionCellToSourceModalTable(row); // BUTTONS
   addHiddenTextCellToSourceModalTable(row, generateUUIDv7(), "modal-object-source-id"); // Source Row ID
-  addSelect2CellToSourceModalContent(row, null); // Source from list
-  addInputTextCellToSourceModalContent(row, "");// Source path
-  addInputTextCellToSourceModalContent(row, ""); // Source URL
-  addTextAreaCellToSourceModalContent(row, "");// Source Notes
+  addSelect2SourceCellToSourceModalContent(row, null, "modal-source-id"); // Source from list
+  addInputTextCellToSourceModalContent(row, "", "modal-source-path");// Source path
+  addInputTextCellToSourceModalContent(row, "", "modal-source-url"); // Source URL
+  addTextAreaCellToSourceModalContent(row, "", "modal-source-note");// Source Notes
   sourceModalTableBody.appendChild(row);
 }
 
@@ -249,14 +252,38 @@ function saveDataFromSourceModal() {
   const sourceModalTableBody = document.getElementById("source-modal-table-body");
   const columnEntryName = document.getElementById('object-column-source-column-index').value;
   const objectId = document.getElementById('object-column-source-object-id').value;
-  sourceModalTableBody.childNodes.forEach(objectSourceLine => {
+  sourceModalTableBody.childNodes.forEach(async objectSourceLine => {
     // For each line check if it exists and update it
     const objectSourceId = objectSourceLine.querySelector(".modal-object-source-id").innerHTML;
-    if(objectSourceId) {
-      // TODO : Make update spreadsheet more generic as delete operation
-      // TODO : Externalize search data in spreadsheet out of delete/update sheet dans use the same code inside those 2 functions
-    } else { // Or create it as new line
-
+    const sheetRange = `!${SPREADSHEET_HEADERS.OBJECT_SOURCES.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECT_SOURCES.LAST_COLUMN_REF()}`;
+    const result = await searchForSpreadSheetValueByElementID(SPREADSHEET_ID, SHEETS.OBJECT_SOURCES, sheetRange, SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.ID, objectSourceId);
+    // Build data array
+    let dataRow = [];
+    dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.ID] = objectSourceId;
+    dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.OBJECT_ID] = objectId;
+    dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.SOURCE_ID] = sanitizeText(objectSourceLine.querySelector(".modal-source-id").value);
+    dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.NOTE] = sanitizeText(objectSourceLine.querySelector(".modal-source-note").value);
+    dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.SOURCE_PATH] = sanitizeText(objectSourceLine.querySelector(".modal-source-path").value);
+    dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.TARGET_COLUMN] = columnEntryName;
+    dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.URL] = sanitizeText(objectSourceLine.querySelector(".modal-source-url").value);
+    // Check results
+    if(result.length === 1) {
+      console.log("Object Source found ... Updating");
+      // Update in spreadsheet
+      let returnCode = await updateSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECT_SOURCES, sheetRange, SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.ID, dataRow);
+      if(!returnCode) {
+        alert("Error encoutered ! Check console (F12) for more details");
+      }
+    } else if(result.length === 0) { // Or create it as new line
+      console.log("Object Source not found ... Adding");
+      // Add at the end of spreadsheet in a new line
+      let returnCode = await addSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECT_SOURCES, sheetRange, dataRow);
+      if(!returnCode) {
+        alert("Error encoutered ! Check console (F12) for more details");
+      }
+    } else {
+      console.log("Number of found objects is different than expected. Expected 0 or 1. results =>", result);
+      alert("Error encoutered ! Check console (F12) for more details");
     }
     
   });
