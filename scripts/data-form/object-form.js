@@ -532,9 +532,10 @@ async function populateValidationTable(currentData, newData) {
 }
 
 /**
- * Return formatted string of parent hierarchy from higher parent to object
- * Example : 
- * @param {UUID} objectID 
+ * Return formatted string of inverted parent hierarchy from higher parent to object  
+ * Example : Dolduur sector < Mid Rim < The Galaxy
+ * 
+ * @param objectID UUID
  */
 async function getParentHierarchy(objectID) {
   const previousParentValue = document.getElementById('object-parent-raw').value;
