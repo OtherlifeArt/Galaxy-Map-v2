@@ -108,7 +108,7 @@ async function openDataFieldSourceModal(eventTarget) {
       columnEntryName = "TYPE_CLASSES";
       break;
     case "object-parent":
-      columnEntryName = "PARENT_ID";
+      columnEntryName = "PARENT";
       break;
     case "object-orbital-rank":
       columnEntryName = "ORBITAL_RANK";
@@ -128,6 +128,9 @@ async function openDataFieldSourceModal(eventTarget) {
     case "object-coord-z":
       columnEntryName = "X_Y_Z_COORD";
       break;
+    case "object-desc":
+        columnEntryName = "DESC";
+        break;
     case "object-native-species":
       columnEntryName = "NATIVE_SPECIES";
       break;
