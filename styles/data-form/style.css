@@ -22,12 +22,37 @@ body {
 #object-search {
   width: 100%;
 }
+
+#object-name-span {
+  width: 100%;
+}
+
+#object-name-span > input {
+  width: 71%;
+}
+
+#object-alt-name-span {
+  width: 100%;
+}
+
+#object-alt-name-span > input {
+  width: 68%;
+}
+
+#object-type-raw-span {
+  width: 100%;
+}
+
+#object-type-raw-span > input {
+  width: 68%;
+}
+
 #object-type-span {
-  width: 30%;
+  width: 84%;
 }
 
 #object-type {
-  width: 87%;
+  width: 90%;
 }
 
 #object-parent-span {
@@ -43,7 +68,7 @@ body {
   width: 50%;
 }
 
-input[readonly] {
+input[readonly], textarea[readonly] {
   background-color: lightgray;
 }
 
@@ -62,7 +87,7 @@ input[readonly] {
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 1000; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -78,7 +103,7 @@ input[readonly] {
   margin: 5% auto; /* 5% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 95%; /* Could be more or less, depending on screen size */
 }
 
 /* The Close Button */
@@ -96,7 +121,7 @@ input[readonly] {
   cursor: pointer;
 }
 
-/* Modal Table */
+/* Validation Modal Table */
 #modal-table {
   border-collapse: collapse;
 }
@@ -115,6 +140,42 @@ input[readonly] {
 /* #modal-table tr td:last-child {
   border-right: 0;
 } */
+
+/* Source Modal Table */
+
+#source-modal-table {
+  /* border: 1px solid grey;  */
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: auto;
+}
+
+#source-modal-table th {
+  background-color: #ddd;
+}
+
+#source-modal-table td, #source-modal-table th {
+  border: 1px solid grey; 
+  /* width: min-content !important; */
+}
+
+/* #source-modal-table td > * {
+  width: max-content !important;
+} */
+
+#source-modal-table td > * {
+  word-wrap: break-word;
+  width: 100%;
+  max-width: 100%; 
+}
+
+.modal-source-id {
+  width: 100%;
+}
+
+/********/
+/* TABS */
+/********/
 
  /* Style the tab */
  .tab {
