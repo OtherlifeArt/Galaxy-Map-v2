@@ -22,12 +22,37 @@ body {
 #object-search {
   width: 100%;
 }
+
+#object-name-span {
+  width: 100%;
+}
+
+#object-name-span > input {
+  width: 71%;
+}
+
+#object-alt-name-span {
+  width: 100%;
+}
+
+#object-alt-name-span > input {
+  width: 68%;
+}
+
+#object-type-raw-span {
+  width: 100%;
+}
+
+#object-type-raw-span > input {
+  width: 68%;
+}
+
 #object-type-span {
-  width: 30%;
+  width: 84%;
 }
 
 #object-type {
-  width: 87%;
+  width: 90%;
 }
 
 #object-parent-span {
@@ -78,7 +103,7 @@ input[readonly] {
   margin: 5% auto; /* 5% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 95%; /* Could be more or less, depending on screen size */
 }
 
 /* The Close Button */
@@ -119,8 +144,10 @@ input[readonly] {
 /* Source Modal Table */
 
 #source-modal-table {
-  border: 1px solid grey; 
+  /* border: 1px solid grey;  */
   border-collapse: collapse;
+  width: 100%;
+  table-layout: auto;
 }
 
 #source-modal-table th {
@@ -129,6 +156,26 @@ input[readonly] {
 
 #source-modal-table td, #source-modal-table th {
   border: 1px solid grey; 
+  /* width: min-content !important; */
+}
+
+/* #source-modal-table td > * {
+  width: max-content !important;
+} */
+
+#source-modal-table td > * {
+  word-wrap: break-word;
+  width: 100%;
+  max-width: 100%; 
+}
+
+.modal-source-id {
+  max-width: 50% !important;
+  min-width: 50% !important;
+}
+
+.modal-source-id {
+  width: 100%;
 }
 
 /********/

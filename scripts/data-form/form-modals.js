@@ -65,7 +65,9 @@ async function loadSourcesSelect2(selectDomElement, selectedID) {
     $(selectDomElement).select2({
         data: astronomicalObjectSourceSearchArray,
         placeholder: 'Source search....',
-        allowClear: true
+        allowClear: true,
+        // dropdownAutoWidth: true, width: 'auto',
+        containerCssClass: "modal-source-id-select2" 
     });
     $(selectDomElement).select2().val(selectedID);
     $(selectDomElement).select2().trigger('change');
@@ -131,6 +133,10 @@ async function openDataFieldSourceModal(eventTarget) {
       addInputTextCellToSourceModalContent(row, sourceRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.SOURCE_PATH], "modal-source-path");
       // Source URL
       addInputTextCellToSourceModalContent(row, sourceRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.URL], "modal-source-url");
+      // Source Canon
+      addInputCheckboxCellToSourceModalContent(row, sourceRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.CANON], "modal-source-canon");
+      // Source LEGENDS
+      addInputCheckboxCellToSourceModalContent(row, sourceRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.LEGENDS], "modal-source-legends");
       // Source Notes
       addTextAreaCellToSourceModalContent(row, sourceRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.NOTE], "modal-source-note");
       // Append row
@@ -164,7 +170,7 @@ function addActionCellToSourceModalTable(parentRow) {
  */
 function addHiddenTextCellToSourceModalTable(parentRow, textContent, className) {
   let hiddenTextTd = document.createElement("td");
-  hiddenTextTd.appendChild(document.createTextNode(textContent));
+  hiddenTextTd.appendChild(document.createTextNode(sanitizeText(textContent)));
   hiddenTextTd.style.display = "none";
   hiddenTextTd.classList.add(className);
   parentRow.appendChild(hiddenTextTd);
@@ -190,7 +196,7 @@ function addInputTextCellToSourceModalContent(parentRow, textContent, className)
   let inputTextTd = document.createElement("td");
   let inputText = document.createElement("input");
   inputText.setAttribute('type', 'text');
-  inputText.value = textContent;
+  inputText.value = sanitizeText(textContent);
   inputText.classList.add(className);
   inputTextTd.appendChild(inputText);
   parentRow.appendChild(inputTextTd);
@@ -202,9 +208,22 @@ function addInputTextCellToSourceModalContent(parentRow, textContent, className)
 function addTextAreaCellToSourceModalContent(parentRow, textContent, className) {
   let textAreaTd = document.createElement("td");
   let textArea = document.createElement("textarea");
-  textArea.value = textContent;
+  textArea.value = sanitizeText(textContent);
   textArea.classList.add(className);
   textAreaTd.appendChild(textArea);
+  parentRow.appendChild(textAreaTd);
+}
+
+/**
+ * Add input checkbox cell to source modal content
+ */
+function addInputCheckboxCellToSourceModalContent(parentRow, textContent, className) {
+  let textAreaTd = document.createElement("td");
+  let checkbox = document.createElement("input");
+  checkbox.setAttribute('type', 'checkbox');
+  checkbox.checked = sanitizeText(textContent) === "YES" || sanitizeText(textContent).toUpperCase() === "TRUE";
+  checkbox.classList.add(className);
+  textAreaTd.appendChild(checkbox);
   parentRow.appendChild(textAreaTd);
 }
 
@@ -219,6 +238,8 @@ function addNewEmptyLineOnSourceModalTable() {
   addSelect2SourceCellToSourceModalContent(row, null, "modal-source-id"); // Source from list
   addInputTextCellToSourceModalContent(row, "", "modal-source-path");// Source path
   addInputTextCellToSourceModalContent(row, "", "modal-source-url"); // Source URL
+  addInputCheckboxCellToSourceModalContent(row, "", "modal-source-canon"); // Source CANON
+  addInputCheckboxCellToSourceModalContent(row, "", "modal-source-legends"); // Source LEGENDS
   addTextAreaCellToSourceModalContent(row, "", "modal-source-note");// Source Notes
   sourceModalTableBody.appendChild(row);
 }
@@ -262,7 +283,7 @@ function saveDataFromSourceModal() {
     dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.ID] = objectSourceId;
     dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.OBJECT_ID] = objectId;
     dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.SOURCE_ID] = sanitizeText(objectSourceLine.querySelector(".modal-source-id").value);
-    dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.NOTE] = sanitizeText(objectSourceLine.querySelector(".modal-source-note").value);
+    dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.NOTES] = sanitizeText(objectSourceLine.querySelector(".modal-source-note").value);
     dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.SOURCE_PATH] = sanitizeText(objectSourceLine.querySelector(".modal-source-path").value);
     dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.TARGET_COLUMN] = columnEntryName;
     dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.URL] = sanitizeText(objectSourceLine.querySelector(".modal-source-url").value);

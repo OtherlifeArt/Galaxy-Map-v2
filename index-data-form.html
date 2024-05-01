@@ -87,23 +87,24 @@
                   </span>
                   <!-- Are Data certified ? -->
                   <span class="tooltip">
-                    <label for="object-data-certified">Data certified ?</label>
+                    <label for="object-data-certified">Publish on map ?</label>
                     <input type="checkbox" name="object-data-certified" id="object-data-certified">
                     <span class="tooltiptext">Are data fully checked or sufficient, and ready for publication ?</span>
                 </div>
                 <div>
                   <!-- Object Name -->
-                  <span class="tooltip">
+                  <span class="tooltip" id="object-name-span">
                     <label for="object-name">Object Name</label>
                     <input type="text" name="object-name" id="object-name" required/><!-- Trick : This comment removes space between elements
                       --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Full name of astronomical object (No alternate names)</span>
                   </span>
-                  <span class="tooltip">
-                    <!-- Capital object within its hierarchy level -->
-                    <label for="object-capital">Capital ?</label>
-                    <input type="checkbox" name="object-capital" id="object-capital">
-                    <span class="tooltiptext">Is this object main or capital related to its neighbours (same hierarchy level.)</span>
+                  <!-- Object Alternative Names -->
+                  <span class="tooltip" id="object-alt-name-span">
+                    <label for="object-alt-name">Object Alt Names</label>
+                    <input type="text" name="object-alt-name" id="object-alt-name"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
+                    <span class="tooltiptext">Alternate names separated by "/" (slash) character</span>
                   </span>
                   <!-- Conjectural name -->
                   <span class="tooltip">
@@ -111,26 +112,28 @@
                     <input type="checkbox" name="object-conjectural-name" id="object-conjectural-name">
                     <span class="tooltiptext">Name isn't known/definite (yet)</span>
                   </span>
-                  <br/>
-                  <!-- Object Alternative Names -->
                   <span class="tooltip">
-                    <label for="object-alt-name">Object Alt Names</label>
-                    <input type="text" name="object-alt-name" id="object-alt-name">
-                    <span class="tooltiptext">Alternate names separated by "/" (slash) character</span>
+                    <!-- Capital object within its hierarchy level -->
+                    <label for="object-capital">Capital ?</label>
+                    <input type="checkbox" name="object-capital" id="object-capital"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
+                    <span class="tooltiptext">Is this object main or capital related to its neighbours (same hierarchy level.)</span>
                   </span>
                 </div>
                 <div>
                   <!-- Displayed Type -->
-                  <span class="tooltip">
+                  <span class="tooltip" id="object-type-raw-span">
                     <label for="object-type-raw">Displayed Type</label>
                     <input type="text" name="object-type-raw" id="object-type-raw" readonly>
                     <span class="tooltiptext">Type as displayed in spreadsheet (readonly)</span>
                   </span>
+                  <br/>
                   <!-- Type -->
                   <span class="tooltip" id="object-type-span">
                     <label for="object-type">Type</label>
                     <select name="object-type" id="object-type">
-                    </select>
+                    </select><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Type according to type database</span>
                   </span>
                   <!-- Conjectural type -->
@@ -152,7 +155,8 @@
                   <label for="object-type-classes">Type classes</label>
                   <span id="object-type-classes" name="object-type-classes">
                     <select>
-                    </select>
+                    </select><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
                   </span>
                   <span class="tooltiptext">Subtypes - "," (comma) separated</span>
                 </span>
@@ -168,14 +172,16 @@
                     <label for="object-parent">Parent</label>
                     <select name="object-parent" id="object-parent">
                       <option></option>
-                    </select>
+                    </select><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Parent (with discriminating details for ambiguate object names)</span>
                   </span>
                   <br/>
                   <!-- Orbital rank -->
                   <span class="tooltip">
                     <label for="object-orbital-rank">Orbital rank</label>
-                    <input type="text" name="object-orbital-rank" id="object-orbital-rank">
+                    <input type="text" name="object-orbital-rank" id="object-orbital-rank"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">How much object there is between current and central one when orbiting - central objects are 0 (zero)</span>
                   </span>
                 </div>
@@ -183,13 +189,15 @@
                   <!-- Date From -->
                   <span class="tooltip">
                     <label for="object-datefrom">Date (Year) : From</label>
-                    <input type="number" name="object-datefrom" id="object-datefrom">
+                    <input type="number" name="object-datefrom" id="object-datefrom"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Date from object data are applicable (new state, new name ...)</span>
                   </span>
                   <!-- Date To -->
                   <span class="tooltip">
                     <label for="object-dateto">To</label>
-                    <input type="number" name="object-dateto" id="object-dateto">
+                    <input type="number" name="object-dateto" id="object-dateto"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Date from object data are no more applicable (state change, name change ...)</span>
                   </span>
                 </div>
@@ -223,7 +231,8 @@
                   <!-- Grid : Y -->
                   <span class="tooltip">
                     <label for="object-grid-y">Y</label>
-                    <input type="number" name="object-grid-y" id="object-grid-y">
+                    <input type="number" name="object-grid-y" id="object-grid-y"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Galactic grid ordinate (integer number)</span>
                   </span>
                 </div>
@@ -243,7 +252,8 @@
                   <!-- Coordinates : Z -->
                   <span class="tooltip">
                     <label for="object-coord-z">Z</label>
-                    <input type="number" step="0.0000000001" name="object-coord-z" id="object-coord-z">
+                    <input type="number" step="0.0000000001" name="object-coord-z" id="object-coord-z"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Map Z (height) coordinates</span>
                   </span>
                   <br/>
@@ -280,13 +290,15 @@
                   <!-- Native species -->
                   <span class="tooltip">
                     <label for="object-native-species">Native species</label>
-                    <input type="text" name="object-native-species" id="object-native-species">
+                    <input type="text" name="object-native-species" id="object-native-species"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Native species "," (comma) separated</span>
                   </span>
                   <!-- Known environments -->
                   <span class="tooltip">
                     <label for="object-known-environments">Known environments</label>
-                    <input type="text" name="object-known-environments" id="object-known-environments">
+                    <input type="text" name="object-known-environments" id="object-known-environments"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Known environments</span>
                   </span>
                 </div>
@@ -300,7 +312,8 @@
                   <!-- Interesting -->
                   <span class="tooltip">
                     <label for="object-interesting">Interesting</label>
-                    <textarea name="object-interesting" id="object-interesting"></textarea>
+                    <textarea name="object-interesting" id="object-interesting"></textarea><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Additionnal elements of interest</span>
                   </span>
                   <br/>
@@ -469,30 +482,7 @@
           <input type="hidden" id="object-column-source-column-index" />
           <!-- Object ID -->
           <input type="hidden" id="object-column-source-object-id" />
-          <!-- Sources ID -->
-          <!-- <span class="tooltip">
-            <label for="object-column-source-id">Reference</label>
-            <select><option>TODO</option></select>
-            <span class="tooltiptext">Source reference from database</span>
-          </span> -->
-          <!-- Sources Path -->
-          <!-- <span class="tooltip">
-            <label for="object-column-source-path">Path</label>
-            <input type="text" name="object-column-source-path" id="object-column-source-path" />
-            <span class="tooltiptext">????</span>
-          </span> -->
-          <!-- Sources URL -->
-          <!-- <span class="tooltip">
-            <label for="object-column-source-url">Url</label>
-            <input type="text" name="object-column-source-url" id="object-column-source-url" />
-            <span class="tooltiptext">Source URL</span>
-          </span> -->
-          <!-- Sources Notes -->
-          <!-- <span class="tooltip">
-            <label for="object-column-source-note">Note</label>
-            <textarea name="object-column-source-note" id="object-column-source-note"></textarea>
-            <span class="tooltiptext">Side notes</span>
-          </span> -->
+          <!-- Table -->
           <table id="source-modal-table">
             <thead>
               <tr>
@@ -500,12 +490,14 @@
                 <th scope="col">Source</th>
                 <th scope="col">Source Path</th>
                 <th scope="col">URL</th>
+                <th scope="col">Canon</th>
+                <th scope="col">Legends</th>
                 <th scope="col">Notes</th>
               </tr>
             </thead>
             <tbody id="source-modal-table-body"></tbody>
           </table>
-          <button id="source-modal-table-add-line-button">Add New Line</button>
+          <button id="source-modal-table-add-line-button">Add A New Row</button>
           <br>
           <button id="source-modal-table-save-data">Save DATA</button>
         </div>

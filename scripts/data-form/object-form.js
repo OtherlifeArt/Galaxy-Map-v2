@@ -86,19 +86,27 @@ async function listTypeClasses() {
  */
 async function listSources() {
   // Get data
-  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.SOURCES.NAME, '!A2:G');
+  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.SOURCES.NAME, '!A2:T');
   // Populate select2 search array
   astronomicalObjectSourceSearchArray = [];
   for(i=0; i<spreadSheetData.values.length; i++){
     const rowValues = spreadSheetData.values[i];
+
+    const NAME = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.NAME]);
+    const CONTINUITY = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.CONTINUITY]);
+    const ERA = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.ERA]);
+    const TIMELINE_DATE = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.TIMELINE_DATE]);
+    const TYPE = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.TYPE]);
+    const RELEASED = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.RELEASED]);
+    const AUTHORS = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHORS]);
     
     astronomicalObjectSourceSearchArray.push({
-      id: rowValues[SPREADSHEET_HEADERS.SOURCE.COLUMNS.ID],
-      name: rowValues[SPREADSHEET_HEADERS.SOURCE.COLUMNS.NAME],
-      continuity: rowValues[SPREADSHEET_HEADERS.SOURCE.COLUMNS.CONTINUITY],
-      url: rowValues[SPREADSHEET_HEADERS.SOURCE.COLUMNS.URL],
+      id: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.ID],
+      name: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.NAME],
+      continuity: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.CONTINUITY],
+      url: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.URL],
       // Select 2 display
-      text: `${rowValues[SPREADSHEET_HEADERS.SOURCE.COLUMNS.NAME]} [${rowValues[SPREADSHEET_HEADERS.SOURCE.COLUMNS.CONTINUITY]}]`
+      text: `${NAME} [${CONTINUITY}/${ERA}/${TIMELINE_DATE}] (${TYPE}|${RELEASED}|${AUTHORS})`
     });
   }
   console.log(astronomicalObjectSourceSearchArray);

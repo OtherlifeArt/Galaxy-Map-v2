@@ -87,11 +87,15 @@ const SPREADSHEET_HEADERS = {
     COLUMNS : {
       ID: 0,
       OBJECT_ID: 1,
-      SOURCE_ID: 2,
-      NOTE: 3,
-      SOURCE_PATH: 4,
-      TARGET_COLUMN: 5,
-      URL: 6,
+      OBJECT_NAME: 2,
+      SOURCE_ID: 3,
+      SOURCE_NAME: 4,
+      SOURCE_PATH: 5,
+      TARGET_COLUMN: 6,
+      URL: 7,
+      CANON: 8,
+      LEGENDS: 9,
+      NOTES: 10,
     },
     FIRST_COLUMN_REF: 'A',
     LAST_COLUMN_REF: () => {
@@ -103,12 +107,18 @@ const SPREADSHEET_HEADERS = {
     },
     LAST_COLUMN_INDEX_NUMBER: () => { return Object.keys(SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS).length -1},
   },
-  "SOURCE": {
+  "SOURCES": {
     COLUMNS : {
       ID: 0,
       NAME: 1,
       CONTINUITY: 2,
-      URL: 3,
+      RELEASED: 3,
+      TYPE: 4,
+      ERA: 5,
+      TIMELINE_DATE: 6,
+      TIMELINE_NOTES: 7,
+      AUTHORS: 8,
+      WOOKIEPEDIA: 9,
     },
     FIRST_COLUMN_REF: 'A',
     LAST_COLUMN_REF: () => {
