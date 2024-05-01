@@ -72,6 +72,14 @@ const SPREADSHEET_HEADERS = {
       is_certified: 37,
       WIKI_DATA_ID: 38,
       GEOM: 39,
+      GEOM_TYPE: 40,
+      PUNCTUAL: 41,
+      RADIUS: 42,
+      APPEARANCE_FROM_ORBIT: 43,
+      KNOWN_CLIMATES: 44,
+      KNOWN_ATMOSPHERE: 45,
+      KNOWN_SURFACE_WATER: 46,
+      KNOWN_RESOURCES: 47,
     },
     FIRST_COLUMN_REF: 'A',
     LAST_COLUMN_REF: () => {
@@ -95,7 +103,7 @@ const SPREADSHEET_HEADERS = {
       URL: 7,
       CANON: 8,
       LEGENDS: 9,
-      NOTES: 10,
+      NOTE: 10,
     },
     FIRST_COLUMN_REF: 'A',
     LAST_COLUMN_REF: () => {

@@ -51,7 +51,7 @@ async function getSpreadSheetRowFromColumnKeyValuePairs(spreadsheetId, sheetName
 
   // Find row number and return it
   //const rowIndex = values.findIndex((row) => row[columnToSearch] === searchValue);
-  const filteredValues = findArrayOfObjectIndexByKeyValuePairs(values, keyValueObjectArray);
+  const filteredValues = findArrayOfObjectByKeyValuePairs(values, keyValueObjectArray);
 
   if (filteredValues.length === 0) {
     console.log(keyValueObjectArray, 'Values not found in spreadsheet.');

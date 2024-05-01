@@ -255,6 +255,7 @@ async function loadObjectForm(objectID) {
     document.getElementById('object-conjectural-name').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_NAME] === "YES"; // Conjectural name
     document.getElementById('object-conjectural-type').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_TYPE] === "YES"; // Conjectural type
     document.getElementById('object-orbital-rank').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ORBITAL_RANK]); // Orbital rank
+    document.getElementById('object-radius').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.RADIUS]); // Orbital rank
     document.getElementById('object-parent-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN]); // Parent RAW DATA
     $(document).ready(function() { // Parent
       $('#object-parent').select2().val(sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]));
@@ -274,7 +275,12 @@ async function loadObjectForm(objectID) {
     document.getElementById('object-placement-certitude').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_CERTITUDE]); // Placement certitude
     document.getElementById('object-placement-logic').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_LOGIC]); // Placement logic
     document.getElementById('object-native-species').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NATIVE_SPECIES]); // Native species
+    document.getElementById('object-orbit-appearance').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.APPEARANCE_FROM_ORBIT]); // Appearance from orbit
+    document.getElementById('object-known-climate').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_CLIMATES]); // Known Climates
+    document.getElementById('object-known-atmosphere').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ATMOSPHERE]); // Known Atmosphere
+    document.getElementById('object-known-surface-water').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_SURFACE_WATER]); // Known Surface Water
     document.getElementById('object-known-environments').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ENVIRONMENTS]); // Known Environment
+    document.getElementById('object-known-resources').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ENVIRONMENTS]); // Known Resources
     document.getElementById('object-notes').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES]); // Notes
     document.getElementById('object-interesting').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING]); // Interesting      document.getElementById('object-').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.]); // 
     document.getElementById('object-sources').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL]); // Sources
@@ -299,6 +305,8 @@ async function loadObjectForm(objectID) {
     document.getElementById('object-class-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.className]); // Tooltip Class Name
     document.getElementById('object-index-geo').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.index_geo]); // Index Geo
     document.getElementById('object-geom').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GEOM]); // Index Geo
+    document.getElementById('object-geom-type').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GEOM_TYPE]); // Geom Type
+    document.getElementById('object-punctual').checked = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PUNCTUAL]) === "YES"; // Punctual
   }
 }
 
@@ -440,6 +448,7 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_NAME] = document.getElementById('object-conjectural-name').checked  ? "YES" : "";
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_TYPE] = document.getElementById('object-conjectural-type').checked  ? "YES" : "";
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ORBITAL_RANK] = orbitalRank;
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.RADIUS] = sanitizeText(document.getElementById('object-radius').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID] = sanitizeText(document.getElementById('object-parent').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN] = sanitizeText(document.getElementById('object-parent-raw').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM] = sanitizeText(document.getElementById('object-datefrom').value);
@@ -456,7 +465,12 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_CERTITUDE] = sanitizeText(document.getElementById('object-placement-certitude').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_LOGIC] = sanitizeText(document.getElementById('object-placement-logic').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NATIVE_SPECIES] = sanitizeText(document.getElementById('object-native-species').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.APPEARANCE_FROM_ORBIT] = sanitizeText(document.getElementById('object-orbit-appearance').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_CLIMATES] = sanitizeText(document.getElementById('object-known-climate').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ATMOSPHERE] = sanitizeText(document.getElementById('object-known-atmosphere').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_SURFACE_WATER] = sanitizeText(document.getElementById('object-known-surface-water').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ENVIRONMENTS] = sanitizeText(document.getElementById('object-known-environments').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_RESOURCES] = sanitizeText(document.getElementById('object-known-resources').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES] = sanitizeText(document.getElementById('object-notes').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING] = sanitizeText(document.getElementById('object-interesting').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL] = sanitizeText(document.getElementById('object-sources').value);
@@ -467,6 +481,8 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.index_geo] = sanitizeText(document.getElementById('object-index-geo').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.WIKI_DATA_ID] = sanitizeText(document.getElementById('object-wikidata-id').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GEOM] = sanitizeText(document.getElementById('object-geom').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GEOM_TYPE] = sanitizeText(document.getElementById('object-geom-type').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PUNCTUAL] = document.getElementById('object-punctual').checked  ? "YES" : "NO";
     // Auto values
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.updated_at] = new Date().toUTCString();
   });

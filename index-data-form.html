@@ -155,9 +155,10 @@
                   <label for="object-type-classes">Type classes</label>
                   <span id="object-type-classes" name="object-type-classes">
                     <select>
-                    </select><!-- Trick : This comment removes space between elements
-                    --><button class="object-source-entry-button">S</button>
+                    </select>
                   </span>
+                  <!-- Trick : This comment removes space between elements
+                  --><button class="object-source-entry-button">S</button>
                   <span class="tooltiptext">Subtypes - "," (comma) separated</span>
                 </span>
                 </div>
@@ -183,6 +184,13 @@
                     <input type="text" name="object-orbital-rank" id="object-orbital-rank"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">How much object there is between current and central one when orbiting - central objects are 0 (zero)</span>
+                  </span>
+                  <!-- Radius -->
+                  <span class="tooltip">
+                    <label for="object-radius">Radius</label>
+                    <input type="text" name="object-radius" id="object-radius"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
+                    <span class="tooltiptext">Object radius/pseudo-radius in meters</span>
                   </span>
                 </div>
                 <div>
@@ -260,8 +268,20 @@
                   <!-- GEOM -->
                   <span class="tooltip">
                     <label for="object-geom">GEOM</label>
-                    <textarea name="object-geom" id="object-geom"></textarea>
-                    <span class="tooltiptext">GEOM data (Solenn I let you fill tooltip :) )</span>
+                    <textarea name="object-geom" id="object-geom" readonly></textarea>
+                    <span class="tooltiptext">Geometry for complex objects like lines, polygons …</span>
+                  </span>
+                  <!-- GEOM TYPE -->
+                  <span class="tooltip">
+                    <label for="object-geom-type">GEOM TYPE</label>
+                    <input type="text" name="object-geom-type" id="object-geom-type"/>
+                    <span class="tooltiptext">Used to build Geojson files. Might replace PUNCTUAL columns to get object geometry type.</span>
+                  </span>
+                  <!-- PUNCTUAL -->
+                  <span class="tooltip">
+                    <label for="object-punctual">Punctual</label>
+                    <input type="checkbox" name="object-punctual" id="object-punctual">
+                    <span class="tooltiptext">Is object "punctual" ?</span>
                   </span>
                 </div>
                 <div>
@@ -287,19 +307,54 @@
                   </span>
                 </div>
                 <div>
-                  <!-- Native species -->
+                  <!-- Appearance from orbit -->
                   <span class="tooltip">
-                    <label for="object-native-species">Native species</label>
-                    <input type="text" name="object-native-species" id="object-native-species"><!-- Trick : This comment removes space between elements
+                    <label for="object-orbit-appearance">Appearance From orbit</label>
+                    <input type="text" name="object-orbit-appearance" id="object-orbit-appearance"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
-                    <span class="tooltiptext">Native species "," (comma) separated</span>
+                    <span class="tooltiptext">Appearance from orbit (color, texture, shapes ...)</span>
+                  </span>
+                  <!-- Known climates -->
+                  <span class="tooltip">
+                    <label for="object-known-climate">Know climate</label>
+                    <input type="text" name="object-known-climate" id="object-known-climate"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
+                    <span class="tooltiptext">List climates separated by "," (comma)</span>
+                  </span>
+                  <!-- Known atmosphere -->
+                  <span class="tooltip">
+                    <label for="object-known-atmosphere">Know atmosphere</label>
+                    <input type="text" name="object-known-atmosphere" id="object-known-atmosphere"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
+                    <span class="tooltiptext">Atmosphere composition "," (comma) separated</span>
+                  </span>
+                  <!-- Known surface water -->
+                  <span class="tooltip">
+                    <label for="object-known-surface-water">Know surface water</label>
+                    <input type="text" name="object-known-surface-water" id="object-known-surface-water"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
+                    <span class="tooltiptext">List surface water "," (comma) separated</span>
                   </span>
                   <!-- Known environments -->
                   <span class="tooltip">
                     <label for="object-known-environments">Known environments</label>
                     <input type="text" name="object-known-environments" id="object-known-environments"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
-                    <span class="tooltiptext">Known environments</span>
+                    <span class="tooltiptext">Known environments "," (comma) separated</span>
+                  </span>
+                  <!-- Known resources -->
+                  <span class="tooltip">
+                    <label for="object-known-resources">Known resources</label>
+                    <input type="text" name="object-known-resources" id="object-known-resources"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
+                    <span class="tooltiptext">Known resources "," (comma) separated</span>
+                  </span>
+                  <!-- Native species -->
+                  <span class="tooltip">
+                    <label for="object-native-species">Native species</label>
+                    <input type="text" name="object-native-species" id="object-native-species"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
+                    <span class="tooltiptext">Native species "," (comma) separated</span>
                   </span>
                 </div>
                 <div>

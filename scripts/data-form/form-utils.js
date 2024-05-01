@@ -76,8 +76,12 @@ function getKeyByObjectValue(object, value) {
 
 /**
  * Find array of objects by key/value pairs
+ * 
+ * @param {*} arrayOfObjects Array
+ * @param {*} keyValueObjectArray [{key: keyLabel, value: valueLabel}, ...]
+ * @returns Array
  */
-function findArrayOfObjectIndexByKeyValuePairs(arrayOfObjects, keyValueObjectArray) {
+function findArrayOfObjectByKeyValuePairs(arrayOfObjects, keyValueObjectArray) {
   return arrayOfObjects.filter(object => {
     for (let i = 0; i < keyValueObjectArray.length; i++) {
       const {key, value} = keyValueObjectArray[i];
@@ -88,6 +92,18 @@ function findArrayOfObjectIndexByKeyValuePairs(arrayOfObjects, keyValueObjectArr
     return true;
   });
 }
+
+/**
+ * Return object from array by ID
+ * 
+ * @param {*} arrayOfObjects Array
+ * @param {*} id string
+ * @returns Object
+ */
+function findObjectById(arrayOfObjects, id) {
+  return arrayOfObjects.find(object => object.id === id);
+}
+
 
 /**
  * Parse data separated by char to html url link list

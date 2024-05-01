@@ -68,7 +68,7 @@ body {
   width: 50%;
 }
 
-input[readonly] {
+input[readonly], textarea[readonly] {
   background-color: lightgray;
 }
 
@@ -167,11 +167,6 @@ input[readonly] {
   word-wrap: break-word;
   width: 100%;
   max-width: 100%; 
-}
-
-.modal-source-id {
-  max-width: 50% !important;
-  min-width: 50% !important;
 }
 
 .modal-source-id {

@@ -86,12 +86,71 @@ async function openDataFieldSourceModal(eventTarget) {
     return;
   }
   // console.log(eventTarget.parentElement.firstChild.nextSibling.getAttribute("for"));
-  const formEntryID = eventTarget.parentElement.firstChild.nextSibling.getAttribute("for");
+  // const formEntryID = eventTarget.parentElement.firstChild.nextSibling.attributes !== undefined ? 
+  //   eventTarget.parentElement.firstChild.nextSibling.getAttribute("for") : eventTarget.parentElement.firstChild.nextSibling.nextSibling.nextSibling.getAttribute("for");
+  const formEntryID = eventTarget.parentElement.querySelector("label").getAttribute("for");
   // Get spreadhseet column matching source entry
   let columnEntryName;
   switch (formEntryID) {
     case "object-name":
       columnEntryName = "NAME";
+      break;
+    case "object-alt-name":
+      columnEntryName = "ALT_NAME";
+      break;
+    case "object-capital":
+      columnEntryName = "IS_CAPITAL";
+      break;
+    case "object-type":
+      columnEntryName = "TYPE";
+      break;
+    case "object-type-classes":
+      columnEntryName = "TYPE_CLASSES";
+      break;
+    case "object-parent":
+      columnEntryName = "PARENT_ID";
+      break;
+    case "object-orbital-rank":
+      columnEntryName = "ORBITAL_RANK";
+      break;
+    case "object-radius":
+      columnEntryName = "RADIUS";
+      break;
+    case "object-datefrom":
+      columnEntryName = "DATE_FROM";
+      break;
+    case "object-dateto":
+      columnEntryName = "DATE_TO";
+      break;
+    case "object-grid-y":
+      columnEntryName = "X_Y_GRID";
+      break;
+    case "object-coord-z":
+      columnEntryName = "X_Y_Z_COORD";
+      break;
+    case "object-native-species":
+      columnEntryName = "NATIVE_SPECIES";
+      break;
+    case "object-known-environments":
+      columnEntryName = "KNOWN_ENVIRONMENTS";
+      break;
+    case "object-interesting":
+      columnEntryName = "INTERESTING";
+      break;
+    case "object-orbit-appearance":
+      columnEntryName = "APPEARANCE_FROM_ORBIT";
+      break;
+    case "object-known-climate":
+      columnEntryName = "KNOWN_CLIMATES";
+      break;
+    case "object-known-atmosphere":
+      columnEntryName = "KNOWN_ATMOSPHERE";
+      break;
+    case "object-known-surface-water":
+      columnEntryName = "KNOWN_SURFACE_WATER";
+      break;
+    case "object-known-resources":
+      columnEntryName = "KNOWN_RESOURCES";
       break;
     default:
       console.log(`Entry with ID ${formEntryID} not referenced !`);
@@ -114,10 +173,11 @@ async function openDataFieldSourceModal(eventTarget) {
   document.getElementById('object-column-source-object-id').value = objectId;
   // Table fields
   // document.getElementById('object-column-source-id').value = doesSourceExists ? : ; // TODO with select 2
+  const sourceTableBody = document.getElementById('source-modal-table-body');
+  sourceTableBody.innerHTML = ""; // Clean table content
+
   if(sourceRows != undefined && sourceRows.length > 0) {
     // Building table content
-    const sourceTableBody = document.getElementById('source-modal-table-body');
-    sourceTableBody.innerHTML = ""; // Clean table content
     for (let sourceRowIndex = 0; sourceRowIndex < sourceRows.length; sourceRowIndex++) {
       const sourceRow = sourceRows[sourceRowIndex];
       console.log(sourceRow);
@@ -272,21 +332,28 @@ function saveDataFromSourceModal() {
   console.log("Object source save");
   const sourceModalTableBody = document.getElementById("source-modal-table-body");
   const columnEntryName = document.getElementById('object-column-source-column-index').value;
-  const objectId = document.getElementById('object-column-source-object-id').value;
+  const objectId = sanitizeText(document.getElementById('object-column-source-object-id').value);
+  const objectName = document.getElementById('object-column-source-object-id').value
   sourceModalTableBody.childNodes.forEach(async objectSourceLine => {
     // For each line check if it exists and update it
     const objectSourceId = objectSourceLine.querySelector(".modal-object-source-id").innerHTML;
     const sheetRange = `!${SPREADSHEET_HEADERS.OBJECT_SOURCES.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECT_SOURCES.LAST_COLUMN_REF()}`;
     const result = await searchForSpreadSheetValueByElementID(SPREADSHEET_ID, SHEETS.OBJECT_SOURCES, sheetRange, SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.ID, objectSourceId);
+
+    const sourceId = sanitizeText(objectSourceLine.querySelector(".modal-source-id").value);
     // Build data array
     let dataRow = [];
     dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.ID] = objectSourceId;
     dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.OBJECT_ID] = objectId;
-    dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.SOURCE_ID] = sanitizeText(objectSourceLine.querySelector(".modal-source-id").value);
-    dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.NOTES] = sanitizeText(objectSourceLine.querySelector(".modal-source-note").value);
+    dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.OBJECT_NAME] = objectName;
+    dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.SOURCE_ID] = sourceId;
+    dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.SOURCE_NAME] = findObjectById(astronomicalObjectSourceSearchArray, sourceId).name;
     dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.SOURCE_PATH] = sanitizeText(objectSourceLine.querySelector(".modal-source-path").value);
     dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.TARGET_COLUMN] = columnEntryName;
     dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.URL] = sanitizeText(objectSourceLine.querySelector(".modal-source-url").value);
+    dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.CANON] = objectSourceLine.querySelector(".modal-source-url").checked ? "YES" : "";
+    dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.LEGENDS] = objectSourceLine.querySelector(".modal-source-url").checked ? "YES" : "";
+    dataRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.NOTE] = sanitizeText(objectSourceLine.querySelector(".modal-source-note").value);
     // Check results
     if(result.length === 1) {
       console.log("Object Source found ... Updating");
