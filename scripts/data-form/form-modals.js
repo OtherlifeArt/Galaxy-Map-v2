@@ -336,7 +336,7 @@ function saveDataFromSourceModal() {
   const sourceModalTableBody = document.getElementById("source-modal-table-body");
   const columnEntryName = document.getElementById('object-column-source-column-index').value;
   const objectId = sanitizeText(document.getElementById('object-column-source-object-id').value);
-  const objectName = document.getElementById('object-column-source-object-id').value
+  const objectName = sanitizeText(document.getElementById('object-name').value);
   sourceModalTableBody.childNodes.forEach(async objectSourceLine => {
     // For each line check if it exists and update it
     const objectSourceId = objectSourceLine.querySelector(".modal-object-source-id").innerHTML;
