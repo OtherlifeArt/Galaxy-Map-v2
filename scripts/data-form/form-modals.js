@@ -335,7 +335,7 @@ async function deleteDataLineFromSourceModal(tableRowElement) {
 function saveDataFromSourceModal() {
   console.log("Object source save");
   // Count
-  let addedSourceNumber = 0, updatedSourceNumber = 0;
+  // let addedSourceNumber = 0, updatedSourceNumber = 0;
   // Data
   const sourceModalTableBody = document.getElementById("source-modal-table-body");
   const columnEntryName = document.getElementById('object-column-source-column-index').value;
@@ -346,7 +346,7 @@ function saveDataFromSourceModal() {
     const objectSourceId = objectSourceLine.querySelector(".modal-object-source-id").innerHTML;
     const sheetRange = `!${SPREADSHEET_HEADERS.OBJECT_SOURCES.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECT_SOURCES.LAST_COLUMN_REF()}`;
     const result = await searchForSpreadSheetValueByElementID(SPREADSHEET_ID, SHEETS.OBJECT_SOURCES, sheetRange, SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.ID, objectSourceId);
-
+    
     const sourceId = sanitizeText(objectSourceLine.querySelector(".modal-source-id").value);
     // Build data array
     let dataRow = [];
@@ -368,26 +368,29 @@ function saveDataFromSourceModal() {
       let returnCode = await updateSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECT_SOURCES, sheetRange, SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.ID, dataRow);
       if(!returnCode) {
         alert("Error encoutered ! Check console (F12) for more details");
-      } else {
-        updatedSourceNumber++;
-        console.log(`Object source for has been successfully updated !`);
-      }
+      } 
+      // else {
+      //   // updatedSourceNumber++;
+      //   console.log(`Object source for has been successfully updated !`);
+      // }
     } else if(result.length === 0) { // Or create it as new line
       console.log("Object Source not found ... Adding");
       // Add at the end of spreadsheet in a new line
+      console.log(`sheetRange : ${sheetRange}`);
       let returnCode = await addSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECT_SOURCES, sheetRange, dataRow);
       if(!returnCode) {
         alert("Error encoutered ! Check console (F12) for more details");
-      } else {
-        addedSourceNumber++;
-        console.log("Object source has been successfully created at the end of the spreadsheet !");
-      }
+      } 
+      // else {
+      //   // addedSourceNumber++;
+      //   console.log("Object source has been successfully created at the end of the spreadsheet !");
+      // }
     } else {
       console.log("Number of found objects is different than expected. Expected 0 or 1. results =>", result);
       alert("Error encoutered ! Check console (F12) for more details");
     }
   });
-  alert(`Added entries : ${addedSourceNumber}\nUpdated entries : ${updatedSourceNumber}`);
+  // alert(`Added entries : ${addedSourceNumber}\nUpdated entries : ${updatedSourceNumber}`);
 }
 
 /** EVENTS **/
