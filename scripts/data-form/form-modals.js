@@ -320,6 +320,7 @@ async function deleteDataLineFromSourceModal(tableRowElement) {
     let returnCode = await deleteSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECT_SOURCES, sheetRange, SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.ID, objectSourceID);
     if(returnCode) {
       console.log("Object source has been successfully deleted !");
+      alert('Object source has been successfully deleted !');
     } else {
       alert("Error encoutered ! Check console (F12) for more details");
     }
@@ -333,6 +334,9 @@ async function deleteDataLineFromSourceModal(tableRowElement) {
  */
 function saveDataFromSourceModal() {
   console.log("Object source save");
+  // Count
+  let addedSourceNumber = 0, updatedSourceNumber = 0;
+  // Data
   const sourceModalTableBody = document.getElementById("source-modal-table-body");
   const columnEntryName = document.getElementById('object-column-source-column-index').value;
   const objectId = sanitizeText(document.getElementById('object-column-source-object-id').value);
@@ -364,6 +368,9 @@ function saveDataFromSourceModal() {
       let returnCode = await updateSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECT_SOURCES, sheetRange, SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.ID, dataRow);
       if(!returnCode) {
         alert("Error encoutered ! Check console (F12) for more details");
+      } else {
+        updatedSourceNumber++;
+        console.log(`Object source for has been successfully updated !`);
       }
     } else if(result.length === 0) { // Or create it as new line
       console.log("Object Source not found ... Adding");
@@ -371,15 +378,16 @@ function saveDataFromSourceModal() {
       let returnCode = await addSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECT_SOURCES, sheetRange, dataRow);
       if(!returnCode) {
         alert("Error encoutered ! Check console (F12) for more details");
+      } else {
+        addedSourceNumber++;
+        console.log("Object source has been successfully created at the end of the spreadsheet !");
       }
     } else {
       console.log("Number of found objects is different than expected. Expected 0 or 1. results =>", result);
       alert("Error encoutered ! Check console (F12) for more details");
     }
-    
   });
-  // TODO
-  // TODO
+  alert(`Added entries : ${addedSourceNumber}\nUpdated entries : ${updatedSourceNumber}`);
 }
 
 /** EVENTS **/
