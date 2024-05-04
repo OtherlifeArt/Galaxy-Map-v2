@@ -69,7 +69,7 @@ function pointStyle(feature){
 function pointToLayerPoints(feature,latlng) {
     return L.circleMarker(latlng, {
         pane:"points",
-        radius:2
+        SIZE:2
     }
     );
 }

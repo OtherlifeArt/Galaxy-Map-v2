@@ -168,7 +168,7 @@ map.addControl( new L.Control.Search({
       icon:false,
       circle:{
         pane:"points",
-        radius:20
+        SIZE:20
     }
     }
 }) );

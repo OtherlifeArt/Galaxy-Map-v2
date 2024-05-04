@@ -277,7 +277,7 @@ async function loadObjectForm(objectID) {
     document.getElementById('object-conjectural-name').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_NAME] === "YES"; // Conjectural name
     document.getElementById('object-conjectural-type').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_TYPE] === "YES"; // Conjectural type
     document.getElementById('object-orbital-rank').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ORBITAL_RANK]); // Orbital rank
-    document.getElementById('object-size').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.RADIUS]); // Orbital rank
+    document.getElementById('object-size').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.SIZE]); // Orbital rank
     document.getElementById('object-parent-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN]); // Parent RAW DATA
     $(document).ready(function() { // Parent
       $('#object-parent').select2().val(sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]));
@@ -470,7 +470,7 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_NAME] = document.getElementById('object-conjectural-name').checked  ? "YES" : "";
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_TYPE] = document.getElementById('object-conjectural-type').checked  ? "YES" : "";
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ORBITAL_RANK] = orbitalRank;
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.RADIUS] = sanitizeText(document.getElementById('object-size').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.SIZE] = sanitizeText(document.getElementById('object-size').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID] = sanitizeText(document.getElementById('object-parent').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN] = sanitizeText(document.getElementById('object-parent-raw').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM] = sanitizeText(document.getElementById('object-datefrom').value);
