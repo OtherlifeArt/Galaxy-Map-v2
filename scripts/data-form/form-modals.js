@@ -109,8 +109,8 @@ function getCustomColumnEntryName(formEntryId) {
     case "object-orbital-rank":
       columnEntryName = "ORBITAL_RANK";
       break;
-    case "object-radius":
-      columnEntryName = "RADIUS";
+    case "object-size":
+      columnEntryName = "SIZE";
       break;
     case "object-datefrom":
       columnEntryName = "DATE_FROM";
