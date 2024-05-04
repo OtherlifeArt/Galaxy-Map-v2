@@ -68,9 +68,9 @@ map.getPane("colonies_EA").style.zIndex = "449";
 /******** LAYERS CONTROL *********/
 
 completegrid.addTo(map);
-points.addTo(map);
 roads.addTo(map);
-areas.addTo(map);
+var searchLayer = L.layerGroup([points,areas]);
+searchLayer.addTo(map)
 
 var baseLayers = [];
 
@@ -156,12 +156,46 @@ L.control.opacity(Map_AddLayer, {
     })
     .addTo(map);
 
-var searchLayer = L.layerGroup([points,areas]);
+
 //... adding data in searchLayer ...
+var searchControl = new L.Control.Search({
+  layer: searchLayer,
+  propertyName: 'NAME',
+  textPlaceholder:"Search an object by name",
+  zoom:5,
+  /*marker:{
+    icon:false,
+    circle:{
+      pane:"points",
+      radius:20
+  }
+  },*/
+  marker:false,
+  buildTip: function(text, val) {
+    var type_class = val.layer.feature.geometry.type.toLowerCase();
+    return '<a href="#" class="'+type_class+'">'+text+'<b> '+val.layer.feature.geometry.type+'</b></a>';
+  }
+});
+
+searchControl.on('search:locationfound', function(e) {
+		if (e.layer.feature.geometry.type == 'MultiPolygon'){
+      e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
+    } else if (e.layer.feature.geometry.type == 'Point'){
+      e.layer.setStyle({fillColor: '#3f0', color: '#0f0',weight:20});
+    }
+}).on('search:collapsed', function(e) {
+  searchLayer.eachLayer(function(layer) {	//restore feature color
+    layer.resetStyle();
+  });	
+});
+
+map.addControl( searchControl );  //inizialize search control
+
+/*
 map.addControl( new L.Control.Search({
     layer: searchLayer,
+    initial:false,
     propertyName: 'NAME',
-    initial:true,
     textPlaceholder:"Search an object by name",
     zoom:5,
     marker:{
@@ -171,8 +205,12 @@ map.addControl( new L.Control.Search({
         radius:20
     }
     }
+    buildTip: function(text, val) {
+			var type = val.layer.feature.properties.amenity;
+			return '<a href="#" class="'+type+'">'+text+'<b>'+type+'</b></a>';
+		}
 }) );
-
+*/
 ////////// FORM COMPLETION PART //////////////
 
 var marker = null; // Variable to store marker instance

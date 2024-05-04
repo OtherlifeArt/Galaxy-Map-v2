@@ -40,6 +40,29 @@ html, body, #leaflet {
   display: none;
 }
 
+/********* Map ******************/
+.search-tip b {
+	color: #fff;
+}
+.point.search-tip b,
+.point.leaflet-marker-icon {
+	background: #f66
+}
+.multipolygon.search-tip b,
+.multipolygon.leaflet-marker-icon {
+	background: #66f
+}
+.search-tip {
+	white-space: nowrap;
+}
+.search-tip b {
+	display: inline-block;
+	clear: left;
+	float: right;
+	padding: 0 4px;
+	margin-left: 4px;
+}
+
 /********** Map specific *********/
 /*Overwrite Leaflet native classes by David version*/
 .container {
