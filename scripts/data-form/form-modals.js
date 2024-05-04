@@ -356,6 +356,8 @@ function saveDataFromSourceModal() {
   const columnEntryName = document.getElementById('object-column-source-column-index').value;
   const objectId = sanitizeText(document.getElementById('object-column-source-object-id').value);
   const objectName = sanitizeText(document.getElementById('object-name').value);
+  const objectSourceLineCount = sourceModalTableBody.childNodes.length;
+  let messageCount = {"addedSources": 0, "updatedSources":0};
   sourceModalTableBody.childNodes.forEach(async objectSourceLine => {
     // For each line check if it exists and update it
     const objectSourceId = objectSourceLine.querySelector(".modal-object-source-id").innerHTML;
@@ -383,11 +385,13 @@ function saveDataFromSourceModal() {
       let returnCode = await updateSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECT_SOURCES, sheetRange, SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.ID, dataRow);
       if(!returnCode) {
         alert("Error encoutered ! Check console (F12) for more details");
-      } 
-      // else {
-      //   // updatedSourceNumber++;
-      //   console.log(`Object source for has been successfully updated !`);
-      // }
+      } else {
+        messageCount.updatedSources = messageCount.updatedSources + 1;
+        if(messageCount.updatedSources + messageCount.addedSources === objectSourceLineCount) {
+          alert(`ObjectSources :\nAdded entries : ${messageCount.addedSources}\nUpdated entries : ${messageCount.updatedSources}`);
+        }
+        console.log(`Object source for has been successfully updated !`);
+      }
     } else if(result.length === 0) { // Or create it as new line
       console.log("Object Source not found ... Adding");
       // Add at the end of spreadsheet in a new line
@@ -395,11 +399,13 @@ function saveDataFromSourceModal() {
       let returnCode = await addSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECT_SOURCES, sheetRange, dataRow);
       if(!returnCode) {
         alert("Error encoutered ! Check console (F12) for more details");
-      } 
-      // else {
-      //   // addedSourceNumber++;
-      //   console.log("Object source has been successfully created at the end of the spreadsheet !");
-      // }
+      } else {
+        messageCount.addedSources = messageCount.addedSources + 1;
+        console.log("Object source has been successfully created at the end of the spreadsheet !");
+        if(messageCount.updatedSources + messageCount.addedSources === objectSourceLineCount) {
+          alert(`ObjectSources :\nAdded entries : ${messageCount.addedSources}\nUpdated entries : ${messageCount.updatedSources}`);
+        }
+      }     
     } else {
       console.log("Number of found objects is different than expected. Expected 0 or 1. results =>", result);
       alert("Error encoutered ! Check console (F12) for more details");
