@@ -18,7 +18,9 @@ async function loadAstronomicalObjectArray() {
     const dateString = prettifyDateFromDateTo([rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO]]);
     astronomicalObjectSearchArray.push({
       id: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID],
-      text: `${namesString} (${typeString}) [${canonLegendsString}] ${dateString === "" ? "" : "("+(dateString)+")"}`
+      text: `${namesString} (${typeString}) [${canonLegendsString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
+      objectType: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE],
+      objectTypeClass: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES],
     });
   }
 }

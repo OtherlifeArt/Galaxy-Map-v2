@@ -281,3 +281,17 @@ input[readonly], textarea[readonly] {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+
+/********************/
+/**** DASHBOARD *****/
+/********************/
+
+.dashboard-table, .dashboard-table td {
+  border-collapse: collapse;
+  border: 1px solid lightgray;
+}
+
+.dashboard-table thead td {
+  background-color: #aaa;
+}
