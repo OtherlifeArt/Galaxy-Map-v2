@@ -59,7 +59,7 @@ function initDashboard() {
 /**********/
 /* EVENTS */
 /**********/
-document.getElementById('refresh-dashboard').addEventListener('click', e => {
-  refreshFormSelect2()
-    .then(initDashboard());
+document.getElementById('refresh-dashboard').addEventListener('click', async function (e) {
+  await refreshFormSelect2();
+  initDashboard();
 });
