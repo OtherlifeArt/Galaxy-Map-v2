@@ -161,10 +161,8 @@ points.on('click', function(e) {
       .openOn(map);
 });
 
-// Assume geojsonLayer is your GeoJSON layer
-areas.on('click', function(e) {
+map.on('click', function(e) {
   var features = e.layer.feature;
-  // Do something with the properties, e.g., display in a popup
   var texte = '<h2>'+features.properties.NAME+'</h2><div>'
   if (features.properties.GEOM_TYPE){
     texte+= '<p><small><i>'+ features.properties.GEOM_TYPE + '</i></small></p>';
@@ -179,9 +177,5 @@ areas.on('click', function(e) {
     texte+= '<p><b>Parent : </b>'+ features.properties.PARENT + '</p>';
   }
   texte+='</div>'
-
-  L.popup({ className: 'custom-popup' })
-      .setLatLng(e.latlng)
-      .setContent(texte)
-      .openOn(map);
+  e.layer.bindPopup(texte).openPopup();
 });
