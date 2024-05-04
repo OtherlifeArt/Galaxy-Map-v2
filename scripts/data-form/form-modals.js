@@ -36,6 +36,9 @@ function displaySourceModal() {
   modal.style.display = "block";
 }
 
+/**
+ * Close source modal
+ */
 function closeSourceModal() {
   let modal = document.getElementById("source-modal");
   modal.style.display = "none";
@@ -44,8 +47,12 @@ function closeSourceModal() {
 // Get the <span> element that closes the modal
 var sourceModalSpan = document.getElementById("close-source-modal");
 // When the user clicks on <span> (x), close the modal
+/**
+ * Trigger close source modal and highlight source button if source exists
+ */
 sourceModalSpan.onclick = function() {
   closeSourceModal();
+  highlightSourceButtonsIfSourced(document.getElementById("object-tech-id").value);
 }
 
 // When the user clicks anywhere outside of the modal, close it
@@ -76,22 +83,11 @@ async function loadSourcesSelect2(selectDomElement, selectedID) {
 }
 
 /**
- * Open modal for sourcing fields
+ * Returns custom column name from form entry id (input label id)
  */
-async function openDataFieldSourceModal(eventTarget) {
-  // Check if object exists (has ID) before going further
-  const objectId = sanitizeText(document.getElementById('object-tech-id').value);
-  if(!objectId) {
-    alert("You must create object before adding sources. Tip : enter object name, save object, then resume editing object/sources.");
-    return;
-  }
-  // console.log(eventTarget.parentElement.firstChild.nextSibling.getAttribute("for"));
-  // const formEntryID = eventTarget.parentElement.firstChild.nextSibling.attributes !== undefined ? 
-  //   eventTarget.parentElement.firstChild.nextSibling.getAttribute("for") : eventTarget.parentElement.firstChild.nextSibling.nextSibling.nextSibling.getAttribute("for");
-  const formEntryID = eventTarget.parentElement.querySelector("label").getAttribute("for");
-  // Get spreadhseet column matching source entry
+function getCustomColumnEntryName(formEntryId) {
   let columnEntryName;
-  switch (formEntryID) {
+  switch (formEntryId) {
     case "object-name":
       columnEntryName = "NAME";
       break;
@@ -156,10 +152,29 @@ async function openDataFieldSourceModal(eventTarget) {
       columnEntryName = "KNOWN_RESOURCES";
       break;
     default:
-      console.log(`Entry with ID ${formEntryID} not referenced !`);
+      console.log(`Entry with ID ${formEntryId} not referenced !`);
       alert("Source error : entry unknown - check console (F12)");
       break;
   }
+  return columnEntryName;
+}
+
+/**
+ * Open modal for sourcing fields
+ */
+async function openDataFieldSourceModal(eventTarget) {
+  // Check if object exists (has ID) before going further
+  const objectId = sanitizeText(document.getElementById('object-tech-id').value);
+  if(!objectId) {
+    alert("You must create object before adding sources. Tip : enter object name, save object, then resume editing object/sources.");
+    return;
+  }
+  // console.log(eventTarget.parentElement.firstChild.nextSibling.getAttribute("for"));
+  // const formEntryID = eventTarget.parentElement.firstChild.nextSibling.attributes !== undefined ? 
+  //   eventTarget.parentElement.firstChild.nextSibling.getAttribute("for") : eventTarget.parentElement.firstChild.nextSibling.nextSibling.nextSibling.getAttribute("for");
+  const formEntryId = eventTarget.parentElement.querySelector("label").getAttribute("for");
+  // Get spreadhseet column matching source entry
+  let columnEntryName = getCustomColumnEntryName(formEntryId);
   if (columnEntryName === undefined) {
     return;
   }

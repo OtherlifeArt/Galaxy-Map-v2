@@ -187,12 +187,14 @@ function loadAstroObjectParentsSelect2() {
 }
 
 /**
- * Populate search form on astro object select
+ * Populate search form on astro object select and hightlight sources button if exists
  */
 function loadFormOnAstroObjectSelect() {
   $("#object-search").on('change', function() {
-    console.log('Selected value:', $("#object-search").val());
-    loadObjectForm($("#object-search").val());
+    const objectId = $("#object-search").val();
+    console.log(`Selected value (objectId) : ${objectId}`);
+    loadObjectForm(objectId);
+    highlightSourceButtonsIfSourced(objectId);
   });
 }
 
@@ -561,6 +563,44 @@ async function getParentHierarchy(objectID) {
     return previousParentValue;
   } else {
     return parentString;
+  }
+}
+
+/**
+ * Hightlight source button if object data is sourced
+ */
+async function highlightSourceButtonsIfSourced (objectId) {
+  // FFCB5D or EEBA4A
+  
+  const buttonBackGroundColor = "#FFCB5D";
+  // Get all sources for object ID
+  const sheetRange = `!${SPREADSHEET_HEADERS.OBJECT_SOURCES.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECT_SOURCES.LAST_COLUMN_REF()}`;
+  const sourceRows = await getSpreadSheetRowFromColumnKeyValuePairs(
+    SPREADSHEET_ID, SHEETS.OBJECT_SOURCES.NAME, sheetRange, 
+    [{key: SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.OBJECT_ID, value: objectId}]
+  );
+  // console.log("SOURCE ROWS",sourceRows);
+  if(sourceRows != undefined && sourceRows.length > 0) {
+    document.querySelectorAll(".object-source-entry-button").forEach(button => {
+      // console.log(button.parentElement.querySelector("label").getAttribute("for"));
+      // Column stuff
+      const formEntryId = button.parentElement.querySelector("label").getAttribute("for");
+      const columnEntryName = getCustomColumnEntryName(formEntryId);
+      if (columnEntryName === undefined) {
+        return;
+      }
+      // Check if source column matches
+      const isColumnFound = sourceRows.some(sourceRow => sourceRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.TARGET_COLUMN] === columnEntryName);
+      if(isColumnFound) {
+        // Highlight button
+        button.style.backgroundColor = buttonBackGroundColor;
+        button.style.borderColor = buttonBackGroundColor;
+      } else {
+        // Reset to default color
+        button.style.backgroundColor = "";
+        button.style.borderColor = "";
+      }
+    });
   }
 }
 
