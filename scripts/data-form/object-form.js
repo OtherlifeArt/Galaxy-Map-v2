@@ -1,3 +1,18 @@
+
+/**
+ * Load all data lists, refresh/init dashboard
+ */
+async function initDataLoad() {
+  
+  // List objects
+  await listObjects();
+  await listTypes();
+  await listTypeClasses();
+  await listSources();
+  // Dashboard
+  initDashboard();
+}
+
 /**
  * Create or recreate astromical array
  */

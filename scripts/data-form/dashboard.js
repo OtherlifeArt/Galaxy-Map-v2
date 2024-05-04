@@ -8,6 +8,7 @@ function objectByTypeTable(parentDiv) {
   // Build table
   let table = document.createElement('table');
   table.classList.add("dashboard-table");
+  table.id = "dashboard-table-object-by-type";
   // Table headers
   let tableHeader = table.createTHead();
   let tableHeaderRow = tableHeader.insertRow(0);
@@ -26,8 +27,15 @@ function objectByTypeTable(parentDiv) {
     typeCell.innerHTML = key;
     let numberCell = row.insertCell();
     numberCell.innerHTML = value;
+    // If type doesn't exists in Object Type DB we colorize background in red
+    if(!astronomicalObjectTypes.some(type => type.id === key)) {
+      // console.log(`Type ${key} not found in DB`);
+      typeCell.classList.add("dashboard-incorrect-value");
+      numberCell.classList.add("dashboard-incorrect-value");
+    }
   });
   // Append table to div
+  document.getElementById("dashboard-table-object-by-type")?.remove();
   parentDiv.appendChild(table);
 }
 
@@ -47,3 +55,11 @@ function countObjectByValue(objectArray, key) {
 function initDashboard() {
   objectByTypeTable(DASHBOARD_DIVS[0]);
 }
+
+/**********/
+/* EVENTS */
+/**********/
+document.getElementById('refresh-dashboard').addEventListener('click', e => {
+  refreshFormSelect2()
+    .then(initDashboard());
+});

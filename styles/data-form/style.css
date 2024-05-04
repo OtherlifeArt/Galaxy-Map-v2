@@ -20,7 +20,7 @@ body {
 
 /* Select2 */
 #object-search {
-  width: 100%;
+  width: 100% !important;
 }
 
 #object-name-span {
@@ -294,4 +294,8 @@ input[readonly], textarea[readonly] {
 
 .dashboard-table thead td {
   background-color: #aaa;
+}
+
+.dashboard-incorrect-value {
+  background-color: #EE4B2B;
 }
