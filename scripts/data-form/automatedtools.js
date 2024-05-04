@@ -3,7 +3,7 @@
 function fetchSheetData(spreadsheetId, sheetName) {
 
     return new Promise((resolve, reject) => {
-      const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF}`;
+      const sheetRange = `!A:AP`;
       gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: spreadsheetId,
         range: sheetName + sheetRange
@@ -54,7 +54,7 @@ function fetchSheetData(spreadsheetId, sheetName) {
   // Function to trigger download of GeoJSON file
   async function downloadGeoJSON() {
     var spreadsheetId = SPREADSHEET_ID
-    var sheetName = SHEET_NAMES.OBJECTS
+    var sheetName = SHEETS.OBJECTS.NAME
     await fetchSheetData(spreadsheetId, sheetName).then(function(geojson) {
       // Convert GeoJSON to string
       var geojsonStr = JSON.stringify(geojson);

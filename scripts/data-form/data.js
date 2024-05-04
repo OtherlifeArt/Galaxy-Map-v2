@@ -1,174 +1,159 @@
-/**
- * MAP by Solenn Tual
- * Sources : https://portulans.github.io/maps/star-wars/galaxy.html
- */
+/********** URLS **********/
 
-/******** MAPS *********/
-var map = L.map('map', {
-  crs: L.CRS.Simple,
-  minZoom:-3,
-  maxZoom:8,
-  fullscreenControl: true,
-  fullscreenControlOptions: {
-      position: 'topleft'
-  },
-  // Display optimization
-  preferCanvas: true,
-}).setView([-250.0,0], -2);
+// Paths to data
+var url_points = "././data/astronomicalobjects/SW_Map_Points.geojson"
+var url_roads = "././data/astronomicalobjects/roads.geojson"
+var url_areas = "././data/astronomicalobjects/SW_Map_Polygons.geojson"
 
-//var bounds = [[-1400,-1200], [900,1100]];
-//map.fitBounds(bounds);
+/************** ROADS ***************/
 
-/*********** CUSTOM SCALE BAR ********/
-L.Control.SpatialScalebar = L.Control.Scale.extend({
-  _updateMetric: function (maxMeters) {
-      var meters = this._getRoundNum(maxMeters),
-          label = meters*15 + ' parsecs';
-      this._updateScale(this._mScale, label, meters / maxMeters);
-  },
-  _updateImperial: function (maxMeters) {
-  var meters = this._getRoundNum(maxMeters),
-          label = meters*48.9 + ' l-y';
-      this._updateScale(this._iScale, label, meters / maxMeters);
+function styleLines(feature) {
+  /*Set roads style depending on properties*/
+  return {
+              color: feature.properties.color,
+              weight: feature.properties.weight,
+              opacity: feature.properties.opacity,
+              smoothFactor: feature.properties.smoothFactor
+          };
 }
+
+var roads = L.geoJSON(null,{
+    pane:'roads',
+    style:styleLines
 });
-var scale = (new L.Control.SpatialScalebar()).addTo(map);
+$.getJSON(url_roads, function(data) {
+    roads.addData(data);
+});
 
-/******** GRID PANES *********/
+/************** POINTS ***************/
 
-map.createPane("grid");
-map.getPane("grid").style.zIndex = "597";
-map.createPane("grid_labels");
-map.getPane("grid_labels").style.zIndex = "597";
+function getPointColor(type) {
+  return (
+      type === "Planet" || type === "Dwarf Planet"
+          ? "#800026"
+          : type === "Moon" || type === "Dwarf Moon"
+          ? "#BD0026"
+          : type === "Star System"
+          ? "#E31A1C"
+          : type === "Artificial object"
+          ? "#FC4E2A"
+          : type === "Asteroid Field" || type === "Asteroid"
+          ? "#FD8D3C"
+          : type === "Star" || type === "Star Cluster"
+          ? "#FEB24C"
+          : type === "Comet" || type === "Comet Cluster"
+          ? "#FED976"
+          : type === "Nebula"
+          ? "#B663EF"
+          : type === "Location"
+          ? "#7CAFBB"
+          : type === "Exotic"
+          ? "#78D3C3"
+          : type === "Unknown"
+          ? "#DEE048"
+          : "Unknown"
+  );
+}
 
-/******** LAYERS CONTROL *********/
+// Functions
+function pointStyle(feature){
+    return {
+        fillColor: getPointColor(feature.properties.TYPE),
+        fillOpacity: 0.2,
+        weight: 1,
+        opacity: 1,
+        color: getPointColor(feature.properties.TYPE),
+  }
+}
 
-completegrid.addTo(map)
-
-var baseLayers = [];
-
-var overLayers = [
-  {label: 'Grid', layer: completegrid, name: 'Grid'},
-  {label: 'Source maps',
-    children: [
-      {label: 'Essential Atlas', collapsed:true, 
-       children: [
-          {label: "Deep Core", layer: DeepCoreOverlay},
-          {label: "Core", layer: CoreOverlay},
-          {label: "Colonies", layer: ColoniesOverlay},
-          {label: "Inner Rim", layer: InnerRimOverlay},
-          {label: "Expansion Region", layer: ExpansionRegionOverlay},
-          {label: "Expansion Region - Sectors", layer: ExpensionRegionSOverlay},
-          {label: "Mid Rim", layer: MidRimOverlay},
-          {label: "Mid Rim - Sectors", layer: MidRimSOverlay},
-          {label: "Hutt Space", layer: HuttSpaceOverlay},
-          {label: "Outer Rim", layer: OuterRimOverlay},
-          {label: "Outer Rim - Sectors", layer: OuterRimSOverlay},
-          {label: "Other regions", layer: ClientsOverlay},
-          {label: "Galaxy (FR)", layer: GalaxyFROverlay}
-        ]
-      },
-      {label: 'Others', collapsed:true, 
-      children: [
-          {label: "Galaxy (Timelines Book)", layer: GalaxyTimelinesOverlay},
-          {label: "Galaxy (Modi, 2006)", layer: GalaxyModiOverlay},
-          {label: "Galaxy (TFA Roleplay)", layer: GalaxyTFARPOverlay}
-      ]
+function pointToLayerPoints(feature,latlng) {
+    return L.circleMarker(latlng, {
+        pane:"points",
+        radius:2
     }
-  ]
-  },
-];
+    );
+}
 
-L.control.layers.tree(baseLayers, overLayers, {
-  namedToggle: true,
-  collapsed:false
-}).addTo(map);
+// Create layers
+var points = L.geoJSON(null,{
+    pane:'points',
+    style:pointStyle,
+    pointToLayer:pointToLayerPoints
+});
+$.getJSON(url_points, function(data) {
+    points.addData(data);
+});
 
-
-////////// FORM COMPLETION PART //////////////
-
-var marker = null; // Variable to store marker instance
-var markerAdded = false; // Variable to track if marker is added
-
-function chooseMarkerLocation(){
-  var xcoord = document.getElementById('object-coord-x').value.trim();
-  var ycoord = document.getElementById('object-coord-y').value.trim();
-
-  if (xcoord === "" && ycoord === "") {
-    document.getElementById('backupXY').innerHTML = "Initial X: <span id=backupX></span>EMPTY - Initial Y: <span id=backupY></span>EMPTY"
-    return markercoords = [0, 0]
+/************** POLYGONS ***************/
+function getRegionsColor(name,area) {
+  if (name == 'Deep Core') {
+    color = "#F3F3E8"
+  } else if (name == "Core Worlds") {
+    color = "#BD0026"
+  } else if (name == "Inner Rim"){
+    color = "#E31A1C"
+  } else if (name == "Colonies"){
+    color = "#FC4E2A"
+  } else if (name == "Hutt Space"){
+    color = "#B663EF"
+  } else if (name == "Unknown Regions"){
+    color = "#7CAFBB"
+  } else if (name == "Wild Space"){
+    color = "#78D3C3"
   } else {
-    document.getElementById('backupXY').innerHTML = "Initial X: <span id=backupX>" + document.getElementById('object-coord-x').value.toString() + '</span> - Initial Y: <span id=backupY>' + document.getElementById('object-coord-y').value.toString() + '</span>'
-    return markercoords = [ycoord,xcoord]
+    if (area.includes("Expansion")) {
+      color = "#FD8D3C"
+    } else if (area.includes("Mid")) {
+      color = "#FEB24C"
+    } else if (area.includes("Outer")) {
+      color = "#FED976"
+    } else if (area.includes("Wild Space")) {
+      color = "#78D3C3"
+    } else {
+      color = "#000000"
+    }
   }
+  return color
 }
 
-function addMarker() {
-  if (marker === null) {
-    var position = chooseMarkerLocation()
-    marker = L.marker(position, { draggable: true }).addTo(map);
+function getRegionsStyle(feature) {
+  return {
+      fillColor: getRegionsColor(feature.properties.NAME,feature.properties.PARENT),
+      weight: 1,
+      opacity: 1,
+      color: 'white',
+      dashArray: '1',
+      fillOpacity: 0.4
+  };
+}
 
-    marker.on('move', function(e) {
-      var lat = marker.getLatLng().lat.toFixed(6);
-      var lng = marker.getLatLng().lng.toFixed(6);
-      marker.bindPopup("X: " + lng + "<br>Y: " + lat).openPopup();
-    });
+// Create layers
+var areas = L.geoJSON(null,{
+  pane:'areas',
+  style:getRegionsStyle
+});
+$.getJSON(url_areas, function(data) {
+  areas.addData(data);
+});
 
-    markerAdded = true; // Update markerAdded variable
-    updateButtonState(); // Update button state
+// Assume geojsonLayer is your GeoJSON layer
+points.on('click', function(event) {
+  var features = event.layer.feature;
+  // Do something with the properties, e.g., display in a popup
+  var texte = '<h2>'+features.properties.NAME+'</h2><div>'
+  if (features.properties.TYPE){
+      texte+= '<p><b>Type : </b>'+ features.properties.TYPE + '</p>';
   }
-}
-
-function removeMarker() {
-  if (marker !== null) {
-    map.removeLayer(marker);
-    document.getElementById('backupXY').innerHTML = ""
-    marker = null;
-    markerAdded = false; // Update markerAdded to false
-    updateButtonState(); // Update button state
+  if (features.properties.CLASSE){
+    texte+= '<p><b>Type classe : </b>'+ features.properties.TYPE_CLASSE + '</p>';
   }
-}
-
-function updateXYCoordsInForm() {
-  // Send the coordinate of the marker to the HTML form (X and X inputs)
-  if (marker !== null) {
-    var lat = marker.getLatLng().lat.toFixed(6);
-    var lng = marker.getLatLng().lng.toFixed(6);
-    document.getElementById('object-coord-x').value = lat;
-    document.getElementById('object-coord-y').value = lng;
+  if (features.properties.PARENT){
+    texte+= '<p><b>Parent : </b>'+ features.properties.PARENT + '</p>';
   }
-}
+  texte+='</div>'
 
-function resetXYCoordsInForm() {
-  // Send the coordinate of the marker to the HTML form (X and X inputs)
-  document.getElementById('object-coord-x').value = document.getElementById('backupX').innerText;
-  document.getElementById('object-coord-y').value = document.getElementById('backupY').innerText;
-
-  var xcoord = document.getElementById('backupX').innerText;
-  var ycoord = document.getElementById('backupY').innerText;
-  
-  if (xcoord === "" && ycoord === "") {
-    marker.setLatLng([0, 0]);
-  } else {
-    marker.setLatLng([ycoord,xcoord])
-  }
-}
-
-function updateButtonState() {
-  // Enable/Disable Add marker and Remove marker button, to never have more than one marker on the map
-  var addButton = document.getElementById('xyaddmarker');
-  var removeButton = document.getElementById('xyremovemarker');
-  var sendValueButton = document.getElementById('xytoform');
-  var retrievePreviousValue = document.getElementById('xygetinitialvalues')
-
-  addButton.disabled = markerAdded; // Disable add marker button if marker is added
-  removeButton.disabled = !markerAdded; // Disable remove marker button if marker is not added
-  sendValueButton.disabled = !markerAdded; // Disable send data to form button if marker is not added
-  retrievePreviousValue.disabled = !markerAdded;
-}
-
-document.getElementById('xyaddmarker').addEventListener('click', addMarker);
-document.getElementById('xytoform').addEventListener('click', updateXYCoordsInForm);
-document.getElementById('xyremovemarker').addEventListener('click', removeMarker);
-document.getElementById('xygetinitialvalues').addEventListener('click', resetXYCoordsInForm);
-updateButtonState(); // Call initially to set button state
+  L.popup({ className: 'custom-popup' })
+      .setLatLng(event.latlng)
+      .setContent(texte)
+      .openOn(map);
+});

@@ -41,14 +41,23 @@ map.getPane("grid").style.zIndex = "597";
 map.createPane("grid_labels");
 map.getPane("grid_labels").style.zIndex = "597";
 
+/******** LAYERS PANES *********/
+
+map.createPane("points");
+map.getPane("points").style.zIndex = "598";
+map.createPane("roads");
+map.getPane("roads").style.zIndex = "595";
+map.createPane('areas');
+map.getPane('areas').style.zIndex = "594";
+
 /******** OVERLAYS PANES *********/
 
 map.createPane("arkanis_EA");
-map.getPane("arkanis_EA").style.zIndex = "551";
+map.getPane("arkanis_EA").style.zIndex = "454";
 map.createPane("yavin_EA");
-map.getPane("yavin_EA").style.zIndex = "551";
+map.getPane("yavin_EA").style.zIndex = "453";
 map.createPane("kashyyyk_EA");
-map.getPane("kashyyyk_EA").style.zIndex = "551";
+map.getPane("kashyyyk_EA").style.zIndex = "452";
 map.createPane("deep_core_EA");
 map.getPane("deep_core_EA").style.zIndex = "451";
 map.createPane("core_EA");
@@ -58,12 +67,23 @@ map.getPane("colonies_EA").style.zIndex = "449";
 
 /******** LAYERS CONTROL *********/
 
-completegrid.addTo(map)
+completegrid.addTo(map);
+points.addTo(map);
+roads.addTo(map);
+areas.addTo(map);
 
 var baseLayers = [];
 
 var overLayers = [
   {label: 'Grid', layer: completegrid, name: 'Grid'},
+  {label: 'Data',selectAllCheckbox: false,
+    children: [
+          
+          {label: "Points", layer: points},
+          {label: "Hyperlanes", layer: roads},
+          {label: "Areas", layer: areas},
+            ]
+  },
   {label: 'Source maps',
     children: [
       {label: 'Essential Atlas', collapsed:true, 
@@ -135,6 +155,23 @@ L.control.opacity(Map_AddLayer, {
         collapsed: true
     })
     .addTo(map);
+
+var searchLayer = L.layerGroup([points,areas]);
+//... adding data in searchLayer ...
+map.addControl( new L.Control.Search({
+    layer: searchLayer,
+    propertyName: 'NAME',
+    initial:true,
+    textPlaceholder:"Search an object by name",
+    zoom:5,
+    marker:{
+      icon:false,
+      circle:{
+        pane:"points",
+        radius:20
+    }
+    }
+}) );
 
 ////////// FORM COMPLETION PART //////////////
 
