@@ -202,7 +202,7 @@ map.addControl( new L.Control.Search({
       icon:false,
       circle:{
         pane:"points",
-        SIZE:20
+        radius:20
     }
     }
     buildTip: function(text, val) {

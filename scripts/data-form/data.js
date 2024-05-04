@@ -69,7 +69,7 @@ function pointStyle(feature){
 function pointToLayerPoints(feature,latlng) {
     return L.circleMarker(latlng, {
         pane:"points",
-        SIZE:2
+        radius:2
     }
     );
 }
@@ -137,8 +137,8 @@ $.getJSON(url_areas, function(data) {
 });
 
 // Assume geojsonLayer is your GeoJSON layer
-points.on('click', function(event) {
-  var features = event.layer.feature;
+points.on('click', function(e) {
+  var features = e.layer.feature;
   // Do something with the properties, e.g., display in a popup
   var texte = '<h2>'+features.properties.NAME+'</h2><div>'
   if (features.properties.GEOM_TYPE){
@@ -156,14 +156,14 @@ points.on('click', function(event) {
   texte+='</div>'
 
   L.popup()
-      .setLatLng(event.latlng)
+      .setLatLng(e.latlng)
       .setContent(texte)
       .openOn(map);
 });
 
 // Assume geojsonLayer is your GeoJSON layer
-areas.on('click', function(event) {
-  var features = event.layer.feature;
+areas.on('click', function(e) {
+  var features = e.layer.feature;
   // Do something with the properties, e.g., display in a popup
   var texte = '<h2>'+features.properties.NAME+'</h2><div>'
   if (features.properties.GEOM_TYPE){
@@ -180,8 +180,8 @@ areas.on('click', function(event) {
   }
   texte+='</div>'
 
-  L.popup()
-      .setLatLng(event.latlng)
+  L.popup({ className: 'custom-popup' })
+      .setLatLng(e.latlng)
       .setContent(texte)
       .openOn(map);
 });
