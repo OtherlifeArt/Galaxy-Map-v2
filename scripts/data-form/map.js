@@ -157,23 +157,15 @@ L.control.opacity(Map_AddLayer, {
     .addTo(map);
 
 
-//... adding data in searchLayer ...
+/******** SEARCH CONTROL *********/
 var searchControl = new L.Control.Search({
   layer: searchLayer,
   propertyName: 'NAME',
   textPlaceholder:"Search an object by name",
   moveToLocation: function(latlng, title, map) {
-    //map.fitBounds( latlng.layer.getBounds() );
     var zoom = map.getBoundsZoom(latlng.layer.getBounds());
-      map.setView(latlng, zoom); // access the zoom
+      map.setView(latlng, zoom);
   },
-  /*marker:{
-    icon:false,
-    circle:{
-      pane:"points",
-      radius:20
-  }
-  },*/
   marker:false,
   buildTip: function(text, val) {
     var type_class = val.layer.feature.geometry.type.toLowerCase();
@@ -185,7 +177,7 @@ searchControl.on('search:locationfound', function(e) {
 		if (e.layer.feature.geometry.type == 'MultiPolygon'){
       e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
     } else if (e.layer.feature.geometry.type == 'Point'){
-      e.layer.setStyle({fillColor: '#3f0', color: '#0f0',weight:20});
+      e.layer.setStyle({fillColor: '#3f0', color: '#0f0', weight:20});
     }
 }).on('search:collapsed', function(e) {
   searchLayer.eachLayer(function(layer) {	//restore feature color
@@ -193,28 +185,8 @@ searchControl.on('search:locationfound', function(e) {
   });	
 });
 
-map.addControl( searchControl );  //inizialize search control
+map.addControl(searchControl);  //inizialize search control
 
-/*
-map.addControl( new L.Control.Search({
-    layer: searchLayer,
-    initial:false,
-    propertyName: 'NAME',
-    textPlaceholder:"Search an object by name",
-    zoom:5,
-    marker:{
-      icon:false,
-      circle:{
-        pane:"points",
-        radius:20
-    }
-    }
-    buildTip: function(text, val) {
-			var type = val.layer.feature.properties.amenity;
-			return '<a href="#" class="'+type+'">'+text+'<b>'+type+'</b></a>';
-		}
-}) );
-*/
 ////////// FORM COMPLETION PART //////////////
 
 var marker = null; // Variable to store marker instance
