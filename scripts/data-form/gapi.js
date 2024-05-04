@@ -83,6 +83,8 @@ function handleAuthClick() {
     await listTypes();
     await listTypeClasses();
     await listSources();
+    // Dashboard
+    initDashboard();
   };
 
   if (gapi.client.getToken() === null) {
