@@ -74,7 +74,7 @@ const SPREADSHEET_HEADERS = {
       GEOM: 39,
       GEOM_TYPE: 40,
       PUNCTUAL: 41,
-      RADIUS: 42,
+      SIZE: 42,
       APPEARANCE_FROM_ORBIT: 43,
       KNOWN_CLIMATES: 44,
       KNOWN_ATMOSPHERE: 45,

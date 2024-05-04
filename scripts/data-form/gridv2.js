@@ -27,7 +27,7 @@ function bindGridTooltip(feature,layer){
 
 function pointToLayerGridPoints(feature,latlng) {
     return L.circleMarker(latlng, {
-        radius:0,
+        SIZE:0,
         opacity: 0,
     }
     );
