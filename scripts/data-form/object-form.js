@@ -95,19 +95,39 @@ async function listSources() {
     const NAME = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.NAME]);
     const CONTINUITY = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.CONTINUITY]);
     const ERA = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.ERA]);
-    const TIMELINE_DATE = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.TIMELINE_DATE]);
+    const TIMELINE_DATE = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.TIMELINE_DATE]).replace(/ *\[[^)]*\] */g, "");
     const TYPE = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.TYPE]);
     const RELEASED = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.RELEASED]);
     const AUTHORS = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHORS]);
     
-    astronomicalObjectSourceSearchArray.push({
-      id: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.ID],
-      name: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.NAME],
-      continuity: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.CONTINUITY],
-      url: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.URL],
-      // Select 2 display
-      text: `${NAME} [${CONTINUITY}/${ERA}/${TIMELINE_DATE}] (${TYPE}|${RELEASED}|${AUTHORS})`
-    });
+    // Don't push if line is empty (used as separator for presentation)
+    if(NAME !== "") {
+
+      let text = `${NAME} [${CONTINUITY}`;
+      if (ERA !== "") {
+        text += `/${ERA}`;
+      }
+      if (TIMELINE_DATE !== "") {
+        text += `/${TIMELINE_DATE}`;
+      }
+      text += `] (${TYPE}`;
+      if (RELEASED !== "") {
+        text += `|${RELEASED}`;
+      }
+      if (AUTHORS !== "") {
+        text += `|${AUTHORS}`;
+      }
+      text += `)`;
+
+      astronomicalObjectSourceSearchArray.push({
+        id: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.ID],
+        name: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.NAME],
+        continuity: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.CONTINUITY],
+        url: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.URL],
+        // Select 2 display
+        text: text,
+      });
+    }
   }
   console.log(astronomicalObjectSourceSearchArray);
 }
