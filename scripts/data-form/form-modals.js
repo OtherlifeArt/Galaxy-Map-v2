@@ -337,7 +337,7 @@ async function deleteDataLineFromSourceModal(tableRowElement) {
       console.log("Object source has been successfully deleted !");
       alert('Object source has been successfully deleted !');
     } else {
-      alert("Error encoutered ! Check console (F12) for more details");
+      alert("Deleted object source seems to no have any entry in database. Else it could be an error ! Check console (F12) for more details if you have doubts !");
     }
   }
   // Delete modal table line
