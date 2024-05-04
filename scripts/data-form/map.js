@@ -163,8 +163,13 @@ var searchControl = new L.Control.Search({
   propertyName: 'NAME',
   textPlaceholder:"Search an object by name",
   moveToLocation: function(latlng, title, map) {
-    var zoom = map.getBoundsZoom(latlng.layer.getBounds());
+    if (latlng.layer.options.pane == "areas"){
+      var zoom = map.getBoundsZoom(latlng.layer.getBounds());
       map.setView(latlng, zoom);
+    } else {
+      map.setView(latlng, 4);
+    }
+    
   },
   marker:false,
   buildTip: function(text, val) {

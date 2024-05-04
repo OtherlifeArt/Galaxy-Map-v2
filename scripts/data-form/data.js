@@ -160,22 +160,3 @@ points.on('click', function(e) {
       .setContent(texte)
       .openOn(map);
 });
-
-map.on('click', function(e) {
-  var features = e.layer.feature;
-  var texte = '<h2>'+features.properties.NAME+'</h2><div>'
-  if (features.properties.GEOM_TYPE){
-    texte+= '<p><small><i>'+ features.properties.GEOM_TYPE + '</i></small></p>';
-}
-  if (features.properties.TYPE){
-      texte+= '<p><b>Type : </b>'+ features.properties.TYPE + '</p>';
-  }
-  if (features.properties.CLASSE){
-    texte+= '<p><b>Type classe : </b>'+ features.properties.TYPE_CLASSE + '</p>';
-  }
-  if (features.properties.PARENT){
-    texte+= '<p><b>Parent : </b>'+ features.properties.PARENT + '</p>';
-  }
-  texte+='</div>'
-  e.layer.bindPopup(texte).openPopup();
-});
