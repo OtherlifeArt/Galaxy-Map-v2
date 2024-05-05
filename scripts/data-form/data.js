@@ -27,7 +27,6 @@ $.getJSON(url_roads, function(data) {
 
 
 /************** POINTS ***************/
-
 function getPointColor(type) {
   return (
       type === "Planet" || type === "Dwarf Planet"
@@ -77,35 +76,38 @@ function pointToLayerPoints(feature,latlng) {
 }
 
 // Create layers
-var points = L.geoJSON(null,{
+var points;
+
+function highlightCircleMarker(e) {
+  var layer = e.target;
+  layer.setStyle({
+      weight: 8
+  });
+  layer.bringToFront();
+}
+
+function resetCircleMarkerStyle(e) {
+  points.resetStyle(e.target);
+}
+
+function onEachFeaturePoints(feature, layer) {
+  layer.on({
+      mouseover: highlightCircleMarker,
+      mouseout: resetCircleMarkerStyle
+  });
+}
+
+points = L.geoJSON(null,{
     pane:'points',
     style:pointStyle,
-    pointToLayer:pointToLayerPoints
+    pointToLayer:pointToLayerPoints,
+    onEachFeature: onEachFeaturePoints
 });
 $.getJSON(url_points, function(data) {
     points.addData(data);
 });
 
 /************** POLYGONS ***************/
-// Assume geojsonLayer is your GeoJSON layer
-function whenClicked(feature,layer) {
-  // Do something with the properties, e.g., display in a popup
-  var texte = '<h2>'+feature.properties.NAME+'</h2><div>'
-  if (feature.properties.GEOM_TYPE){
-    texte+= '<p><i>'+ feature.properties.GEOM_TYPE + '</i></p>';
-}
-  if (feature.properties.TYPE){
-      texte+= '<p><b>Type : </b>'+ feature.properties.TYPE + '</p>';
-  }
-  if (feature.properties.CLASSE){
-    texte+= '<p><b>Type classe : </b>'+ feature.properties.TYPE_CLASSE + '</p>';
-  }
-  if (feature.properties.PARENT){
-    texte+= '<p><b>Parent : </b>'+ feature.properties.PARENT + '</p>';
-  }
-  texte+='</div>'
-layer.bindPopup(texte)//.bindTooltip(feature.properties.NAME);
-};
 
 function getRegionsColor(name,area) {
   if (name == 'Deep Core') {
@@ -149,11 +151,38 @@ function getRegionsStyle(feature) {
   };
 }
 
+var areas;
+
+function highlightFeature(e) {
+  var layer = e.target;
+  layer.setStyle({
+      weight: 3,
+      dashArray: '',
+  });
+  layer.bringToFront();
+}
+
+function resetHighlight(e) {
+  areas.resetStyle(e.target);
+}
+
+function zoomToFeature(e) {
+  map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+  layer.on({
+      mouseover: highlightFeature,
+      mouseout: resetHighlight,
+      click: zoomToFeature
+  });
+}
+
 // Create layers
-var areas = L.geoJSON(null,{
+areas = L.geoJSON(null,{
   pane:'areas',
   style:getRegionsStyle,
-  onEachFeature:whenClicked
+  onEachFeature:onEachFeature
 });
 $.getJSON(url_areas, function(data) {
   areas.addData(data);
@@ -181,6 +210,30 @@ points.on('click', function(e) {
   // Do something with the properties, e.g., display in a popup
   L.popup()
       .setLatLng([features.geometry.coordinates[1],features.geometry.coordinates[0]])
+      .setContent(texte)
+      .openOn(map);
+});
+
+areas.on('click', function(e) {
+  var features = e.layer.feature;
+    // Do something with the properties, e.g., display in a popup
+    var texte = '<h2>'+features.properties.NAME+'</h2><div>'
+    if (features.properties.GEOM_TYPE){
+      texte+= '<p><i>'+ features.properties.GEOM_TYPE + '</i></p>';
+  }
+    if (features.properties.TYPE){
+        texte+= '<p><b>Type : </b>'+ features.properties.TYPE + '</p>';
+    }
+    if (features.properties.CLASSE){
+      texte+= '<p><b>Type classe : </b>'+ features.properties.TYPE_CLASSE + '</p>';
+    }
+    if (features.properties.PARENT){
+      texte+= '<p><b>Parent : </b>'+ features.properties.PARENT + '</p>';
+    }
+    texte+='</div>'
+  // Do something with the properties, e.g., display in a popup
+  L.popup()
+      .setLatLng(e.latlng)//[features.geometry.coordinates[1],features.geometry.coordinates[0]]
       .setContent(texte)
       .openOn(map);
 });
