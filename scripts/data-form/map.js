@@ -12,8 +12,7 @@ var map = L.map('map', {
   fullscreenControlOptions: {
       position: 'topleft'
   },
-  // Display optimization
-  preferCanvas: true,
+  //preferCanvas: true, // It disable interaction with multiple layers (point and areas)...
 }).setView([-250.0,0], -2);
 
 //var bounds = [[-1400,-1200], [900,1100]];
@@ -37,18 +36,18 @@ var scale = (new L.Control.SpatialScalebar()).addTo(map);
 /******** GRID PANES *********/
 
 map.createPane("grid");
-map.getPane("grid").style.zIndex = "597";
+map.getPane("grid").style.zIndex = "590";
 map.createPane("grid_labels");
-map.getPane("grid_labels").style.zIndex = "597";
+map.getPane("grid_labels").style.zIndex = "590";
 
 /******** LAYERS PANES *********/
 
 map.createPane("points");
-map.getPane("points").style.zIndex = "598";
+map.getPane("points").style.zIndex = "595";
 map.createPane("roads");
-map.getPane("roads").style.zIndex = "595";
+map.getPane("roads").style.zIndex = "594";
 map.createPane('areas');
-map.getPane('areas').style.zIndex = "594";
+map.getPane('areas').style.zIndex = "593";
 
 /******** OVERLAYS PANES *********/
 
@@ -70,7 +69,8 @@ map.getPane("colonies_EA").style.zIndex = "449";
 completegrid.addTo(map);
 roads.addTo(map);
 var searchLayer = L.layerGroup([points,areas]);
-searchLayer.addTo(map)
+points.addTo(map)
+areas.addTo(map)
 
 var baseLayers = [];
 
@@ -161,6 +161,7 @@ L.control.opacity(Map_AddLayer, {
 var searchControl = new L.Control.Search({
   layer: searchLayer,
   propertyName: 'NAME',
+  initial:false,
   textPlaceholder:"Search an object by name",
   moveToLocation: function(latlng, title, map) {
     if (latlng.layer.options.pane == "areas"){
@@ -169,7 +170,6 @@ var searchControl = new L.Control.Search({
     } else {
       map.setView(latlng, 4);
     }
-    
   },
   marker:false,
   buildTip: function(text, val) {
@@ -279,3 +279,4 @@ document.getElementById('xytoform').addEventListener('click', updateXYCoordsInFo
 document.getElementById('xyremovemarker').addEventListener('click', removeMarker);
 document.getElementById('xygetinitialvalues').addEventListener('click', resetXYCoordsInForm);
 updateButtonState(); // Call initially to set button state
+3

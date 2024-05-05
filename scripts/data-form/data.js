@@ -25,6 +25,7 @@ $.getJSON(url_roads, function(data) {
     roads.addData(data);
 });
 
+
 /************** POINTS ***************/
 
 function getPointColor(type) {
@@ -69,7 +70,8 @@ function pointStyle(feature){
 function pointToLayerPoints(feature,latlng) {
     return L.circleMarker(latlng, {
         pane:"points",
-        radius:2
+        radius:2,
+        interactive: true
     }
     );
 }
@@ -85,6 +87,26 @@ $.getJSON(url_points, function(data) {
 });
 
 /************** POLYGONS ***************/
+// Assume geojsonLayer is your GeoJSON layer
+function whenClicked(feature,layer) {
+  // Do something with the properties, e.g., display in a popup
+  var texte = '<h2>'+feature.properties.NAME+'</h2><div>'
+  if (feature.properties.GEOM_TYPE){
+    texte+= '<p><i>'+ feature.properties.GEOM_TYPE + '</i></p>';
+}
+  if (feature.properties.TYPE){
+      texte+= '<p><b>Type : </b>'+ feature.properties.TYPE + '</p>';
+  }
+  if (feature.properties.CLASSE){
+    texte+= '<p><b>Type classe : </b>'+ feature.properties.TYPE_CLASSE + '</p>';
+  }
+  if (feature.properties.PARENT){
+    texte+= '<p><b>Parent : </b>'+ feature.properties.PARENT + '</p>';
+  }
+  texte+='</div>'
+layer.bindPopup(texte)//.bindTooltip(feature.properties.NAME);
+};
+
 function getRegionsColor(name,area) {
   if (name == 'Deep Core') {
     color = "#F3F3E8"
@@ -130,33 +152,35 @@ function getRegionsStyle(feature) {
 // Create layers
 var areas = L.geoJSON(null,{
   pane:'areas',
-  style:getRegionsStyle
+  style:getRegionsStyle,
+  onEachFeature:whenClicked
 });
 $.getJSON(url_areas, function(data) {
   areas.addData(data);
 });
 
-// Assume geojsonLayer is your GeoJSON layer
+
+//*************** EVENTS ****************/
 points.on('click', function(e) {
   var features = e.layer.feature;
+    // Do something with the properties, e.g., display in a popup
+    var texte = '<h2>'+features.properties.NAME+'</h2><div>'
+    if (features.properties.GEOM_TYPE){
+      texte+= '<p><i>'+ features.properties.GEOM_TYPE + '</i></p>';
+  }
+    if (features.properties.TYPE){
+        texte+= '<p><b>Type : </b>'+ features.properties.TYPE + '</p>';
+    }
+    if (features.properties.CLASSE){
+      texte+= '<p><b>Type classe : </b>'+ features.properties.TYPE_CLASSE + '</p>';
+    }
+    if (features.properties.PARENT){
+      texte+= '<p><b>Parent : </b>'+ features.properties.PARENT + '</p>';
+    }
+    texte+='</div>'
   // Do something with the properties, e.g., display in a popup
-  var texte = '<h2>'+features.properties.NAME+'</h2><div>'
-  if (features.properties.GEOM_TYPE){
-    texte+= '<p><small><i>'+ features.properties.GEOM_TYPE + '</i></small></p>';
-}
-  if (features.properties.TYPE){
-      texte+= '<p><b>Type : </b>'+ features.properties.TYPE + '</p>';
-  }
-  if (features.properties.CLASSE){
-    texte+= '<p><b>Type classe : </b>'+ features.properties.TYPE_CLASSE + '</p>';
-  }
-  if (features.properties.PARENT){
-    texte+= '<p><b>Parent : </b>'+ features.properties.PARENT + '</p>';
-  }
-  texte+='</div>'
-
   L.popup()
-      .setLatLng(e.latlng)
+      .setLatLng([features.geometry.coordinates[1],features.geometry.coordinates[0]])
       .setContent(texte)
       .openOn(map);
 });
