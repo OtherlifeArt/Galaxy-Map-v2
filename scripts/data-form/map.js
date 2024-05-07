@@ -316,4 +316,31 @@ document.getElementById('xytoform').addEventListener('click', updateXYCoordsInFo
 document.getElementById('xyremovemarker').addEventListener('click', removeMarker);
 document.getElementById('xygetinitialvalues').addEventListener('click', resetXYCoordsInForm);
 updateButtonState(); // Call initially to set button state
-3
+
+
+/************* GRID DISPLAY*********** */
+// Display grid levels depending on zoom
+map.on("zoomend", function() {
+  var zoomlevel = map.getZoom();
+  console.log("Current Zoom Level = " + zoomlevel);
+
+  if (zoomlevel > 1) {
+      if (map.hasLayer(grid10) == false) {
+          completegrid.addLayer(grid10);
+      }
+  } else if (zoomlevel == 1) {
+      if (map.hasLayer(grid10)) {
+          completegrid.removeLayer(grid10);
+      }
+  }
+
+  if (zoomlevel > 4) {
+      if (map.hasLayer(grid1) == false) {
+          completegrid.addLayer(grid1);
+      }
+  } else if (zoomlevel == 4) {
+      if (map.hasLayer(grid1)) {
+          completegrid.removeLayer(grid1);
+      }
+  }
+});

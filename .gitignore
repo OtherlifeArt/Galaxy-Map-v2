@@ -10,3 +10,4 @@ data/astronomicalobjects/client_states_others_regions.qmd
 data/astronomicalobjects/sectors_origin.geojson
 data/astronomicalobjects/sectors_origin.qmd
 qgisproject/
+scripts/data-form/gridv2.js
