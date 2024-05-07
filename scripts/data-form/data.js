@@ -30,21 +30,21 @@ $.getJSON(url_roads, function(data) {
 function getPointColor(type) {
   return (
       type === "Planet" || type === "Dwarf Planet"
-          ? "#800026"
+          ? "#2FA044"
           : type === "Moon" || type === "Dwarf Moon"
-          ? "#BD0026"
+          ? "#FEFEFE"
           : type === "Star System"
-          ? "#E31A1C"
+          ? "#C70039"
           : type === "Artificial object"
-          ? "#FC4E2A"
+          ? "#606261"
           : type === "Asteroid Field" || type === "Asteroid"
-          ? "#FD8D3C"
+          ? "#1D204D"
           : type === "Star" || type === "Star Cluster"
-          ? "#FEB24C"
+          ? "#E5D91D"
           : type === "Comet" || type === "Comet Cluster"
-          ? "#FED976"
+          ? "#EDAC0C"
           : type === "Nebula"
-          ? "#B663EF"
+          ? "#0C1DED"
           : type === "Location"
           ? "#7CAFBB"
           : type === "Exotic"
@@ -59,10 +59,10 @@ function getPointColor(type) {
 function pointStyle(feature){
     return {
         fillColor: getPointColor(feature.properties.TYPE),
-        fillOpacity: 0.2,
-        weight: 1,
-        opacity: 1,
+        fillOpacity: 0.6,
         color: getPointColor(feature.properties.TYPE),
+        opacity: 1,
+        weight: 1,
   }
 }
 
