@@ -4,7 +4,7 @@ var url_gridlabels = "././data/grid/grid_labels.geojson"
 
 // Grid squares for grid search
 var gridsearch = L.geoJSON(null,{
-    pane:'grid'
+    pane:'grid_search'
 });
 $.getJSON(url_grid, function(data) {
     gridsearch.addData(data);
@@ -126,7 +126,7 @@ function zoomOn(){
 
     select.clearLayers()
     select = L.geoJSON(null, {
-        pane:'grid',
+        pane:'grid_search',
         style:{
             fillColor: 'white',
             fillOpacity: 0,
@@ -146,7 +146,7 @@ function zoomOn(){
     });
     select.addTo(map)
     
-    map.on('click', function() {
+    select.on('click', function() {
         map.fitBounds(select.getBounds());
         map.setView([-250.0,0], -2);
     });

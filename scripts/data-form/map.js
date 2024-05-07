@@ -39,6 +39,8 @@ map.createPane("grid");
 map.getPane("grid").style.zIndex = "590";
 map.createPane("grid_labels");
 map.getPane("grid_labels").style.zIndex = "590";
+map.createPane("grid_search");
+map.getPane("grid_search").style.zIndex = "589";
 
 /******** LAYERS PANES *********/
 
