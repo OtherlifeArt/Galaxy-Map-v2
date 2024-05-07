@@ -101,7 +101,7 @@ points = L.geoJSON(null,{
     pane:'points',
     style:pointStyle,
     pointToLayer:pointToLayerPoints,
-    onEachFeature: onEachFeaturePoints
+    onEachFeature:onEachFeaturePoints
 });
 $.getJSON(url_points, function(data) {
     points.addData(data);
@@ -111,28 +111,28 @@ $.getJSON(url_points, function(data) {
 
 function getRegionsColor(name,area) {
   if (name == 'Deep Core') {
-    color = "#F3F3E8"
+    color = "#e0e0d7"
   } else if (name == "Core Worlds") {
-    color = "#BD0026"
+    color = "#e0cd4f"
   } else if (name == "Inner Rim"){
-    color = "#E31A1C"
+    color = "#e68b57"
   } else if (name == "Colonies"){
-    color = "#FC4E2A"
+    color = "#bd89c4"
   } else if (name == "Hutt Space"){
-    color = "#B663EF"
+    color = "#db4476"
   } else if (name == "Unknown Regions"){
-    color = "#7CAFBB"
+    color = "#848385"
   } else if (name == "Wild Space"){
-    color = "#78D3C3"
+    color = "#646266"
   } else {
     if (area.includes("Expansion")) {
-      color = "#FD8D3C"
+      color = "#5778e6"
     } else if (area.includes("Mid")) {
-      color = "#FEB24C"
+      color = "#d437ba"
     } else if (area.includes("Outer")) {
-      color = "#FED976"
+      color = "#7944ad"
     } else if (area.includes("Wild Space")) {
-      color = "#78D3C3"
+      color = "#646266"
     } else {
       color = "#000000"
     }
@@ -207,7 +207,6 @@ points.on('click', function(e) {
       texte+= '<p><b>Parent : </b>'+ features.properties.PARENT + '</p>';
     }
     texte+='</div>'
-  // Do something with the properties, e.g., display in a popup
   L.popup()
       .setLatLng([features.geometry.coordinates[1],features.geometry.coordinates[0]])
       .setContent(texte)
@@ -216,7 +215,7 @@ points.on('click', function(e) {
 
 areas.on('click', function(e) {
   var features = e.layer.feature;
-    // Do something with the properties, e.g., display in a popup
+
     var texte = '<h2>'+features.properties.NAME+'</h2><div>'
     if (features.properties.GEOM_TYPE){
       texte+= '<p><i>'+ features.properties.GEOM_TYPE + '</i></p>';
@@ -231,9 +230,8 @@ areas.on('click', function(e) {
       texte+= '<p><b>Parent : </b>'+ features.properties.PARENT + '</p>';
     }
     texte+='</div>'
-  // Do something with the properties, e.g., display in a popup
   L.popup()
-      .setLatLng(e.latlng)//[features.geometry.coordinates[1],features.geometry.coordinates[0]]
+      .setLatLng(e.latlng)
       .setContent(texte)
       .openOn(map);
 });

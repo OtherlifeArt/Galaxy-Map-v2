@@ -282,6 +282,25 @@ input[readonly], textarea[readonly] {
   margin-bottom: 10px;
 }
 
+.info legend {
+  border-radius: 50px; 
+}
+
+.legend-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.legend-label {
+  vertical-align: middle;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
 
 /********************/
 /**** DASHBOARD *****/

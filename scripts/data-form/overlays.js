@@ -188,8 +188,8 @@ var GalaxyModiOverlay = L.imageOverlay(GalaxyModiUrl, GalaxyModiBounds, {
     
 });
 
-var GalaxyTFARPUrl = Otherspath + 'TFA_original_map_p3_0.png';
-var GalaxyTFARPBounds = L.latLngBounds([[-1260.21,-863], [859.21,1075]]);
+var GalaxyTFARPUrl = Otherspath + 'TFA_original_map_tps.png';
+var GalaxyTFARPBounds = L.latLngBounds([[-1255.37,-865.94], [852.97,1068.11]]);
 var GalaxyTFARPOverlay = L.imageOverlay(GalaxyTFARPUrl, GalaxyTFARPBounds, {
     opacity: 1,
     errorOverlayUrl: errorOverlayUrl,
