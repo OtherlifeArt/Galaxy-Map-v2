@@ -34,6 +34,17 @@ function objectByTypeTable(parentDiv) {
       numberCell.classList.add("dashboard-incorrect-value");
     }
   });
+  const objectArrayCountByTypeKeys = Object.keys(objectArrayCountByType);
+  // Add Table lines for not used type and add them with 0 value
+  astronomicalObjectTypes.forEach(objectType => {
+    if(objectArrayCountByTypeKeys.find((key) => objectType.id === key) === undefined) {
+      let row = tableBody.insertRow();
+      let typeCell = row.insertCell();
+      typeCell.innerHTML = objectType.id;
+      let numberCell = row.insertCell();
+      numberCell.innerHTML = "0";
+    }
+  });
   // Append table to div
   document.getElementById("dashboard-table-object-by-type")?.remove();
   parentDiv.appendChild(table);
