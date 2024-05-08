@@ -151,6 +151,27 @@ function getCustomColumnEntryName(formEntryId) {
     case "object-known-resources":
       columnEntryName = "KNOWN_RESOURCES";
       break;
+    case "object-known-exports":
+      columnEntryName = "KNOWN_EXPORTS";
+      break;
+    case "object-known-imports":
+      columnEntryName = "KNOWN_IMPORTS";
+      break;
+    case "object-point-of-interest":
+      columnEntryName = "POINT_OF_INTEREST";
+      break;
+    case "object-length-of-day":
+      columnEntryName = "LENGTH_OF_DAY";
+      break;
+    case "object-length-of-year":
+      columnEntryName = "LENGTH_OF_YEAR";
+      break;
+    case "object-capital-city":
+      columnEntryName = "CAPITAL";
+      break;
+    case "object-starports":
+      columnEntryName = "STARPORTS";
+      break;
     default:
       console.log(`Entry with ID ${formEntryId} not referenced !`);
       alert("Source error : entry unknown - check console (F12)");
