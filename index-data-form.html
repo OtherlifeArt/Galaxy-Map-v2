@@ -178,14 +178,14 @@
                   <!-- Orbital rank -->
                   <span class="tooltip">
                     <label for="object-orbital-rank">Orbital rank</label>
-                    <input type="text" name="object-orbital-rank" id="object-orbital-rank"><!-- Trick : This comment removes space between elements
+                    <input type="number" step="1" name="object-orbital-rank" id="object-orbital-rank"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">How much object there is between current and central one when orbiting - central objects are 0 (zero)</span>
                   </span>
                   <!-- Size -->
                   <span class="tooltip">
                     <label for="object-size">Size</label>
-                    <input type="text" name="object-size" id="object-size"><!-- Trick : This comment removes space between elements
+                    <input type="number" step="0.0001" min="0" name="object-size" id="object-size"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Object size/diameter in meters</span>
                   </span>
@@ -194,14 +194,14 @@
                   <!-- Date From -->
                   <span class="tooltip">
                     <label for="object-datefrom">Date (Year) : From</label>
-                    <input type="number" name="object-datefrom" id="object-datefrom"><!-- Trick : This comment removes space between elements
+                    <input type="number" step="0.01" name="object-datefrom" id="object-datefrom"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Date from object data are applicable (new state, new name ...)</span>
                   </span>
                   <!-- Date To -->
                   <span class="tooltip">
                     <label for="object-dateto">To</label>
-                    <input type="number" name="object-dateto" id="object-dateto"><!-- Trick : This comment removes space between elements
+                    <input type="number" step="0.01" name="object-dateto" id="object-dateto"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Date from object data are no more applicable (state change, name change ...)</span>
                   </span>
@@ -218,6 +218,12 @@
                     <label for="object-legends">Legends ?</label>
                     <input type="checkbox" name="object-legends" id="object-legends">
                     <span class="tooltiptext">Is object Legends (original/old canon) ?</span>
+                  </span>
+                  <!-- Unlicensed -->
+                  <span class="tooltip">
+                    <label for="object-unlicensed">Unlicensed ?</label>
+                    <input type="checkbox" name="object-unlicensed" id="object-unlicensed">
+                    <span class="tooltiptext">Is object unlicensed (neither Canon nor Legends) ?</span>
                   </span>
                   <!-- In Movies -->
                   <span class="tooltip">
@@ -340,19 +346,61 @@
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Known environments "," (comma) separated</span>
                   </span>
-                  <!-- Known resources -->
+                  <!-- Known Resources -->
                   <span class="tooltip">
                     <label for="object-known-resources">Known resources</label>
                     <input type="text" name="object-known-resources" id="object-known-resources"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Known resources "," (comma) separated</span>
                   </span>
-                  <!-- Native species -->
+                  <!-- Know Exports -->
                   <span class="tooltip">
-                    <label for="object-native-species">Native species</label>
-                    <input type="text" name="object-native-species" id="object-native-species"><!-- Trick : This comment removes space between elements
+                    <label for="object-known-exports">Known Exports</label>
+                    <input type="text" name="object-known-exports" id="object-known-exports"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
-                    <span class="tooltiptext">Native species "," (comma) separated</span>
+                    <span class="tooltiptext">List of Known Exports "," (comma) separated</span>
+                  </span>
+                  <!-- Know Imports -->
+                  <span class="tooltip">
+                    <label for="object-known-imports">Known Imports</label>
+                    <input type="text" name="object-known-imports" id="object-known-imports"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
+                    <span class="tooltiptext">List of Known Imports "," (comma) separated</span>
+                  </span>
+                  <!-- Point of Interest -->
+                  <span class="tooltip">
+                    <label for="object-point-of-interest">Point of Interest</label>
+                    <input type="text" name="object-point-of-interest" id="object-point-of-interest"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
+                    <span class="tooltiptext">List of Points of Interest "," (comma) separated</span>
+                  </span>
+                  <!-- Length of day -->
+                  <span class="tooltip">
+                    <label for="object-length-of-day">Length of Day</label>
+                    <input type="number" step="0.000000000001" min="0" name="object-length-of-day" id="object-length-of-day"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
+                    <span class="tooltiptext">Length of Day (in hours)</span>
+                  </span>
+                  <!-- Length of year -->
+                  <span class="tooltip">
+                    <label for="object-length-of-year">Length of Year</label>
+                    <input type="number" step="0.000000000001" min="0" name="object-length-of-year" id="object-length-of-year"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
+                    <span class="tooltiptext">Length of Year (in days)</span>
+                  </span>
+                  <!-- Capital -->
+                  <span class="tooltip">
+                    <label for="object-capital-city">Capital</label>
+                    <input type="text" name="object-capital-city" id="object-capital-city"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
+                    <span class="tooltiptext">Capital city name</span>
+                  </span>
+                  <!-- Starports -->
+                  <span class="tooltip">
+                    <label for="object-starports">Starports</label>
+                    <input type="text" name="object-starports" id="object-starports"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
+                    <span class="tooltiptext">List of Starports "," (comma) separated</span>
                   </span>
                 </div>
                 <div>

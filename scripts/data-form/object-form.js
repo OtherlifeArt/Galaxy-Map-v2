@@ -306,6 +306,7 @@ async function loadObjectForm(objectID) {
     document.getElementById('object-dateto').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO]); // Date to
     document.getElementById('object-canon').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON] === "YES"; // Canon
     document.getElementById('object-legends').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS] === "YES"; // Legends
+    document.getElementById('object-unlicensed').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.UNLICENSED] === "YES"; // Unlicensed
     document.getElementById('object-inmovies').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IN_MOVIES] === "YES"; // In movies
     document.getElementById('object-grid-x').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_GRID]); // Grid X
     document.getElementById('object-grid-y').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID]); // Grid Y
@@ -322,8 +323,15 @@ async function loadObjectForm(objectID) {
     document.getElementById('object-known-surface-water').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_SURFACE_WATER]); // Known Surface Water
     document.getElementById('object-known-environments').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ENVIRONMENTS]); // Known Environment
     document.getElementById('object-known-resources').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ENVIRONMENTS]); // Known Resources
+    document.getElementById('object-known-exports').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_EXPORTS]); // Known Exports
+    document.getElementById('object-known-imports').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_IMPORTS]); // Known Imports
+    document.getElementById('object-point-of-interest').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POINT_OF_INTEREST]); // Point of interest
+    document.getElementById('object-length-of-day').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_DAY]); // Length of day
+    document.getElementById('object-length-of-year').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_YEAR]); // Length of year
+    document.getElementById('object-capital-city').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CAPITAL]); // Capital
+    document.getElementById('object-starports').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.STARPORTS]); // Starports
     document.getElementById('object-notes').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES]); // Notes
-    document.getElementById('object-interesting').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING]); // Interesting      document.getElementById('object-').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.]); // 
+    document.getElementById('object-interesting').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING]); // Interesting
     document.getElementById('object-sources').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL]); // Sources
     let urlList = separateStringToLinkList(sanitizeText(document.getElementById('object-sources').value), ",");
     console.log(urlList);
@@ -490,6 +498,7 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO] = sanitizeText(document.getElementById('object-dateto').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON] = document.getElementById('object-canon').checked ? "YES" : "";
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS] = document.getElementById('object-legends').checked  ? "YES" : "";
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.UNLICENSED] = document.getElementById('object-unlicensed').checked  ? "YES" : "";
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IN_MOVIES] = document.getElementById('object-inmovies').checked  ? "YES" : "";
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_GRID] = sanitizeText(document.getElementById('object-grid-x').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID] = sanitizeText(document.getElementById('object-grid-y').value);
@@ -506,6 +515,13 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_SURFACE_WATER] = sanitizeText(document.getElementById('object-known-surface-water').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ENVIRONMENTS] = sanitizeText(document.getElementById('object-known-environments').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_RESOURCES] = sanitizeText(document.getElementById('object-known-resources').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_EXPORTS] = sanitizeText(document.getElementById('object-known-exports').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_IMPORTS] = sanitizeText(document.getElementById('object-known-imports').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POINT_OF_INTEREST] = sanitizeText(document.getElementById('object-point-of-interest').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_DAY] = sanitizeText(document.getElementById('object-length-of-day').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_YEAR] = sanitizeText(document.getElementById('object-length-of-year').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CAPITAL] = sanitizeText(document.getElementById('object-capital-city').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.STARPORTS] = sanitizeText(document.getElementById('object-starports').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES] = sanitizeText(document.getElementById('object-notes').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING] = sanitizeText(document.getElementById('object-interesting').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL] = sanitizeText(document.getElementById('object-sources').value);
