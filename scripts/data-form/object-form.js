@@ -68,7 +68,7 @@ async function listTypes() {
       parentId: rowValues[2],
     });
   }
-  console.log(astronomicalObjectTypes);
+  // console.log("OBJECT TYPE List : ", astronomicalObjectTypes);
   // Load select2
   loadTypeSelect2();
 }
@@ -86,16 +86,16 @@ async function listTypeClasses() {
     const rowValues = spreadSheetData.values[i];
     
     astronomicalObjectTypeClasses.push({
-      name: rowValues[0],
-      typeClass: rowValues[1],
-      subClass: rowValues[2],
-      classLevel: rowValues[3],
-      classIndex: rowValues[4],
-      desc: rowValues[5],
-      relationWithObjectType: rowValues[6],
+      name: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECT_TYPE_CLASSES.COLUMNS.NAME]),
+      code: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECT_TYPE_CLASSES.COLUMNS.CODE]),
+      level: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECT_TYPE_CLASSES.COLUMNS.TYPE_CLASS_LEVEL]),
+      relationWithObjectType: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECT_TYPE_CLASSES.COLUMNS.RELATION_WITH_OBJECT_TYPE]),
+      parentTypeClass: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECT_TYPE_CLASSES.COLUMNS.PARENT_TYPE_CLASS]),
+      desc: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECT_TYPE_CLASSES.COLUMNS.DESC]),
+      // spaceEngineCode: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECT_TYPE_CLASSES.COLUMNS.SPACE_ENGINE_CODE]),
     });
   }
-  console.log(astronomicalObjectTypeClasses);
+  console.log("OBJECT TYPE CLASSES List : ", astronomicalObjectTypeClasses);
 }
 
 /**
@@ -360,12 +360,12 @@ function loadTypeSelect2() {
       placeholder: 'Astronomical Type ...',
       allowClear: false
     });
-  });
-  // Populate class type on type select
-  $("#object-type").on('change', function() {
-    console.log('Selected value:', $("#object-type").val());
-    loadTypeClasses($("#object-type").val());
-    document.getElementById("object-type-classes-raw").value = ""; // reset type classes value
+    // Populate class type on type select
+    $("#object-type").on('change', function() {
+      console.log('Selected value:', $("#object-type").val());
+      loadTypeClasses($("#object-type").val());
+      document.getElementById("object-type-classes-raw").value = ""; // reset type classes value
+    });
   });
 }
 
@@ -374,69 +374,54 @@ function loadTypeSelect2() {
  */
 function loadTypeClasses(astroObjectType) {
   const astroObjectTypeEntry = astronomicalObjectTypes.find(type => type.id === astroObjectType);
-  const matchingType = (astroObjectTypeEntry.parentId  && astroObjectTypeEntry.parentId !== "") ? astroObjectTypeEntry.parentId : astroObjectTypeEntry.id;
-  const typeClassSelects = CLASS_TYPE_SELECT_CONTAINER.getElementsByTagName('select');
-  while(typeClassSelects[0]) { // Remove all level 1+ elements and their event listeners
-    typeClassSelects[0].remove();
-  }
-  populateTypeClassSelect(matchingType, 0);
-}
-
-function populateTypeClassSelect(matchingType, classLevel) {
-  const typeClassesSelects = CLASS_TYPE_SELECT_CONTAINER.getElementsByTagName('select');
-  if(typeClassesSelects[classLevel] === undefined) {
-    CLASS_TYPE_SELECT_CONTAINER.appendChild(document.createElement("select"));
-  }
-  let option = document.createElement("option");
-  option.value = "";
-  option.text = "";
-  typeClassesSelects[classLevel].appendChild(option);
-  for(let typeClass of astronomicalObjectTypeClasses) {
-    // Load first level select   
-    if(matchingType.includes(typeClass.typeClass) && parseInt(typeClass.classLevel) === classLevel) {
-      let option = document.createElement("option");
-      option.value = typeClass.subClass;
-      option.text = typeClass.name;
-      typeClassesSelects[classLevel].appendChild(option);
-    }
-  }
-  // 
-  if(typeClassesSelects[classLevel].length > 1) { // Select has content
-    // Add event listener
-    typeClassesSelects[classLevel].addEventListener('change', function(event) {
-      // Generate form readable typeclass
-      generateReadableTypeClass();
-      // Add new select dropdown
-      const typeClassesSelects = CLASS_TYPE_SELECT_CONTAINER.getElementsByTagName('select');
-      let indexFromWhereToRemoveElements = Object.keys(typeClassesSelects).find(key => typeClassesSelects[key] === event.target);
-      // Remove next level elements
-      while (typeClassesSelects[parseInt(indexFromWhereToRemoveElements)+1]) {
-        typeClassesSelects[parseInt(indexFromWhereToRemoveElements)+1].remove();
-      }
-      // Add new next level elements
-      // matchingType = (matchingType + " " + typeClassesSelects[indexFromWhereToRemoveElements].value).replace("  ", " ");
-      const classTypeSelectedIndex = typeClassesSelects[indexFromWhereToRemoveElements].selectedIndex;
-      matchingType = typeClassesSelects[indexFromWhereToRemoveElements][classTypeSelectedIndex].text;
-      // matchingType = typeClassesSelects[indexFromWhereToRemoveElements][CLASS_TYPE_SELECT_CONTAINER.selectedIndex].text;
-      populateTypeClassSelect(matchingType, parseInt(indexFromWhereToRemoveElements)+1);
-    });
-  } else { // select has no content
-    typeClassesSelects[classLevel].remove();
-  }
+  const matchingTypes = (astroObjectTypeEntry.parentId  && astroObjectTypeEntry.parentId !== "") ? astroObjectTypeEntry.parentId : astroObjectTypeEntry.id;
+  loadTypeClassesSelect2(matchingTypes);
 }
 
 /**
- * Generate type class for (human reading form)
+ * Load type classes select2
+ * 
+ * @param {String} astroObjectType 
  */
-function generateReadableTypeClass() {
-  const typeClassesSelects = CLASS_TYPE_SELECT_CONTAINER.getElementsByTagName('select');
-  document.getElementById("object-type-classes-raw").value = "";
-  let readableTypeClass = "";
-  for (let index = 0; index < typeClassesSelects.length; index++) {
-    readableTypeClass += " " + typeClassesSelects[index].value;
-    readableTypeClass = readableTypeClass.trim();
+function loadTypeClassesSelect2(matchingTypes) {
+  // Extract current selection of type classes related to type
+  let relatedAstroObjectTypeClasses = getRelatedAstroObjectTypeClasses(matchingTypes);
+  $(document).ready(function() {
+    // Reset select2
+    $("#object-type-classes").empty().val('').trigger('change');
+    // Create select 2
+    $("#object-type-classes").select2({
+      data: relatedAstroObjectTypeClasses,
+      allowClear: true,
+      placeholder: 'Astronomical Type Class ...',
+      templateResult: formatTypeClassResult,
+    });
+  });
+}
+
+function formatTypeClassResult(node) {
+  var $result = $('<span style="padding-left:' + (20 * node.level) + 'px;">' + node.text + '</span>');
+  return $result;
+};
+
+/**
+ * Return array of related object type classes
+ * 
+ * @param {String[]} objectTypes 
+ */
+function getRelatedAstroObjectTypeClasses(objectTypes) {
+  let relatedAstroObjectTypeClasses = [{id: "", text: "", level: 0,}]; // Array with empty value as first value
+  console.log(objectTypes);
+  for(let typeClass of astronomicalObjectTypeClasses) {
+    if(objectTypes === typeClass.relationWithObjectType) {
+      relatedAstroObjectTypeClasses.push({
+        id: typeClass.name,
+        text: typeClass.name,
+        level: typeClass.level,
+      });
+    }
   }
-  document.getElementById("object-type-classes-raw").value = readableTypeClass;
+  return relatedAstroObjectTypeClasses;
 }
 
 /**
