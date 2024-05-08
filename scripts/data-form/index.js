@@ -17,7 +17,7 @@ const SHEETS = {
     ID: "0", NAME: "Object types",
   },
   OBJECT_TYPE_CLASSES: {
-    ID: "1472204423", NAME: "Object type classes v2",
+    ID: "1472204423", NAME: "Object type classes",
   },
   OBJECT_SOURCES: {
     ID: "288489171", NAME: "Object Sources",
