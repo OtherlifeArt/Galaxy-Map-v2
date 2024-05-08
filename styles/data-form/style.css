@@ -55,6 +55,22 @@ body {
   width: 90%;
 }
 
+#object-type-classes-raw-span {
+  width: 100%;
+}
+
+#object-type-classes-raw-span > input {
+  width: 72%;
+}
+
+#object-type-classes-span {
+  width: 100%;
+}
+
+#object-type-classes {
+  width: 80%;
+}
+
 #object-parent-span {
   width: 100%;
 }

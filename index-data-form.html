@@ -145,21 +145,18 @@
                 </div>
                 <div>
                   <!-- Displayed Type Classes -->
-                  <span class="tooltip">
+                  <span class="tooltip" id="object-type-classes-raw-span">
                     <label for="object-type-classes-raw">Displayed Type Classes</label>
                     <input type="text" name="object-type-classes-raw" id="object-type-classes-raw" readonly>
                     <span class="tooltiptext">Type classes as displayed in spreadsheet (readonly)</span>
                   </span>
                   <!-- Type Classes -->
-                  <span class="tooltip">
+                  <span class="tooltip" id="object-type-classes-span">
                   <label for="object-type-classes">Type classes</label>
-                  <span id="object-type-classes" name="object-type-classes">
-                    <select>
-                    </select>
-                  </span>
-                  <!-- Trick : This comment removes space between elements
-                  --><button class="object-source-entry-button">S</button>
-                  <span class="tooltiptext">Subtypes - "," (comma) separated</span>
+                    <select id="object-type-classes" name="object-type-classes">
+                    </select><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
+                  <span class="tooltiptext">Subtype/more precise type</span>
                 </span>
                 </div>
                 <div>

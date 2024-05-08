@@ -17,7 +17,7 @@ const SHEETS = {
     ID: "0", NAME: "Object types",
   },
   OBJECT_TYPE_CLASSES: {
-    ID: "209526164", NAME: "Object type classes",
+    ID: "1472204423", NAME: "Object type classes v2",
   },
   OBJECT_SOURCES: {
     ID: "288489171", NAME: "Object Sources",
@@ -137,6 +137,26 @@ const SPREADSHEET_HEADERS = {
       return FIRST_CHAR + LAST_CHAR;
     },
     LAST_COLUMN_INDEX_NUMBER: () => { return Object.keys(SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS).length -1},
+  },
+  "OBJECT_TYPE_CLASSES": {
+    COLUMNS : {
+      NAME: 0,
+      CODE: 1,
+      TYPE_CLASS_LEVEL: 2,
+      RELATION_WITH_OBJECT_TYPE: 3,
+      PARENT_TYPE_CLASS: 4,
+      DESC: 5,
+      SPACE_ENGINE_CODE: 6,
+    },
+    FIRST_COLUMN_REF: 'A',
+    LAST_COLUMN_REF: () => {
+      // Search of column index (2 letters limit - 676 columns should be enough) 
+      const COLUMN_NUMBER = SPREADSHEET_HEADERS.OBJECT_TYPE_CLASSES.LAST_COLUMN_INDEX_NUMBER();
+      const FIRST_CHAR = COLUMN_NUMBER / 26 >= 1 ? String.fromCharCode(64 + parseInt(COLUMN_NUMBER / 26)) : "";
+      const LAST_CHAR = String.fromCharCode(65 + COLUMN_NUMBER % 26);
+      return FIRST_CHAR + LAST_CHAR;
+    },
+    LAST_COLUMN_INDEX_NUMBER: () => { return Object.keys(SPREADSHEET_HEADERS.OBJECT_TYPE_CLASSES.COLUMNS).length -1},
   }
 }
 
