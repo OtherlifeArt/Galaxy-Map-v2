@@ -289,7 +289,9 @@ async function loadObjectForm(objectID) {
     $(document).ready(function() { // Type
       $('#object-type').select2().val(sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE]));
       $('#object-type').select2().trigger('change');
-      document.getElementById('object-type-classes-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES]); // Type classes
+      // Type classes
+      document.getElementById('object-type-classes-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES]);
+      // $('#object-type-classes').select2().val(sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECT_TYPE_CLASSES.COLUMNS.NAME]));
     });
     document.getElementById('object-conjectural-name').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_NAME] === "YES"; // Conjectural name
     document.getElementById('object-conjectural-type').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_TYPE] === "YES"; // Conjectural type
@@ -364,7 +366,15 @@ function loadTypeSelect2() {
     $("#object-type").on('change', function() {
       console.log('Selected value:', $("#object-type").val());
       loadTypeClasses($("#object-type").val());
-      document.getElementById("object-type-classes-raw").value = ""; // reset type classes value
+    });
+    // Populate class type raw on change
+    $("#object-type-classes").on('select2:select', function() {
+      console.log('Selected value:', $("#object-type-classes").val());
+      document.getElementById("object-type-classes-raw").value = $("#object-type-classes").val(); // set type classes value in form
+    });
+    // 
+    $("#object-type-classes").on('select2:clear', function() {
+      document.getElementById("object-type-classes-raw").value = ""; // Clean form input
     });
   });
 }
@@ -388,6 +398,7 @@ function loadTypeClassesSelect2(matchingTypes) {
   let relatedAstroObjectTypeClasses = getRelatedAstroObjectTypeClasses(matchingTypes);
   $(document).ready(function() {
     // Reset select2
+    document.getElementById("object-type-classes").value = "";
     $("#object-type-classes").empty().val('').trigger('change');
     // Create select 2
     $("#object-type-classes").select2({
