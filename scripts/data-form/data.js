@@ -41,7 +41,7 @@ function getPointColor(type) {
           ? "#1D204D"
           : type === "Star" || type === "Star Cluster"
           ? "#E5D91D"
-          : type === "Comet" || type === "Comet Cluster"
+          : type === "Comet" || type === "Comet Cluster" || type === "Cometary Cloud"
           ? "#EDAC0C"
           : type === "Nebula"
           ? "#0C1DED"

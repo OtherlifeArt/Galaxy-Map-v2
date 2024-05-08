@@ -96,8 +96,18 @@ var GalaxyFROverlay = L.imageOverlay(GalaxyFRUrl, GalaxyFRBounds, {
     
 });
 
-var ClientsUrl = EApath + 'Clientsstatesandmiscellaneousregions_3.png';
-var ClientsBounds = L.latLngBounds([[-1292.778,-587.41], [851.608,999.531]]);
+var GalaxyTEAUrl = EApath + 'TEA_galaxy_helmert.png';
+var GalaxyTEABounds = L.latLngBounds([[-1198.88,-1099.05], [863.85,1197.91]]);
+var GalaxyTEAOverlay = L.imageOverlay(GalaxyTEAUrl, GalaxyTEABounds, {
+    opacity: 1,
+    errorOverlayUrl: errorOverlayUrl,
+    alt: altText,
+    interactive: true,
+    
+});
+
+var ClientsUrl = EApath + 'TEA_client_states_tps.png';
+var ClientsBounds = L.latLngBounds([[-1292.77,-587.40], [851.60,999.53]]);
 var ClientsOverlay = L.imageOverlay(ClientsUrl, ClientsBounds, {
     opacity: 1,
     errorOverlayUrl: errorOverlayUrl,

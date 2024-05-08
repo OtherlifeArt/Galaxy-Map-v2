@@ -108,8 +108,9 @@ var overLayers = [
           {label: "Hutt Space", layer: HuttSpaceOverlay},
           {label: "Outer Rim", layer: OuterRimOverlay},
           {label: "Outer Rim - Sectors", layer: OuterRimSOverlay},
-          {label: "Other regions", layer: ClientsOverlay},
-          {label: "Galaxy (FR)", layer: GalaxyFROverlay}
+          {label: "Client States and Misc. Regions", layer: ClientsOverlay},
+          {label: "Galaxy",layer:GalaxyTEAOverlay},
+          {label: "Galaxy (FR cut)", layer: GalaxyFROverlay}
         ]
       },
       {label: 'Others', collapsed:true, 
@@ -145,8 +146,9 @@ const Map_AddLayer = {
   "Hutt Space": HuttSpaceOverlay,
   "Outer Rim": OuterRimOverlay,
   "Outer Rim - Sectors": OuterRimSOverlay,
-  "Other regions": ClientsOverlay,
-  "Galaxy (FR)": GalaxyFROverlay,
+  "Client States and Misc. Regions": ClientsOverlay,
+  "Galaxy":GalaxyTEAOverlay,
+  "Galaxy (FR, HD)": GalaxyFROverlay,
   "Galaxy (Timelines Book)": GalaxyTimelinesOverlay,
   "Galaxy (Modi, 2006)": GalaxyModiOverlay,
   "Galaxy (TFA Roleplay)": GalaxyTFARPOverlay
@@ -194,7 +196,7 @@ searchControl.on('search:locationfound', function(e) {
 
 map.addControl(searchControl);  //inizialize search control
 
-////////// COLOR LEGEND //////////////////////
+/////////////// COLOR LEGEND //////////////////////
 
 // Define the legend control
 var legend = L.control({ position: 'bottomright' });
@@ -204,7 +206,7 @@ legend.onAdd = function (map) {
     div.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; // White background with 0.8% opacity
     
     var types = ["Planet", "Moon", "Star System", "Artificial object", "Asteroid", "Star",  "Comet",  "Nebula", "Location", "Exotic", "Unknown"];
-    var labels = ["Planet / Dwarf Planet", "Moon / Dwarf Moon", "Star System", "Artificial object", "Asteroid Field / Asteroid", "Star / Star Cluster", "Comet / Comet Cluster", "Nebula", "Location", "Exotic", "Unknown"];
+    var labels = ["Planet / Dwarf Planet", "Moon / Dwarf Moon", "Star System", "Artificial object", "Asteroid Field / Asteroid", "Star / Star Cluster", "Comet / Comet Cluster / Cometary Cloud", "Nebula", "Location", "Exotic", "Unknown"];
     // Loop through all types and generate a label with corresponding color and circle symbol
     for (var i = 0; i < types.length; i++) {
         var type = types[i];
