@@ -133,6 +133,12 @@ function getRegionsColor(name,area) {
       color = "#7944ad"
     } else if (area.includes("Wild Space")) {
       color = "#646266"
+    } else if (area.includes("Inner")) {
+      color = "#e68b57"
+    } else if (area.includes("Colonies")) {
+      color = "#bd89c4"
+    } else if (area.includes("Core Worlds")) {
+      color = "#e0cd4f"
     } else {
       color = "#000000"
     }
