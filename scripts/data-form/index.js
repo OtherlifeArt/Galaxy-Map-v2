@@ -194,6 +194,12 @@ const WIKIDATA_PAGE_PREFIX = 'https://www.wikidata.org/wiki/';
 const SEARCH_INPUT = document.getElementById('object-search');
 const CLASS_TYPE_SELECT_CONTAINER = document.getElementById('object-type-classes');
 
+// Preformated Values
+PREFORMATED_VALUES = {
+  YES_NO_EMPTY_ARRAY: ["YES", "NO", ""],
+  TRUE_FALSE_EMPTY_ARRAY: ["TRUE", "FALSE", ""],
+}
+
 /* VARIABLES */
 let tokenClient;
 let isGapiLoaded = false;

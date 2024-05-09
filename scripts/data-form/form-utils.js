@@ -121,3 +121,32 @@ function separateStringToLinkList(string, separator) {
   return urlList;
 }
 
+/**
+ * Set checkbox state between true, false and undeterminated
+ */
+function setCheckboxStateFromValue(checkboxId, value, trueFalseIndeterminedInputArray=[true, false, ""]) {
+  const checkbox = document.getElementById(checkboxId);
+  if(value.toString().toLowerCase() === trueFalseIndeterminedInputArray[0].toString().toLowerCase()) {
+    checkbox.checked = true;
+  } else if(value.toString().toLowerCase() === trueFalseIndeterminedInputArray[1].toString().toLowerCase()) {
+    checkbox.checked = false;
+  } else if(value.toString().toLowerCase() === trueFalseIndeterminedInputArray[2].toString().toLowerCase()) {
+    checkbox.indeterminate = true;
+  } else {
+    alert(`Value ${value} is wrong for checkbox of id ${checkboxId}`);
+  }
+}
+
+/**
+ * return check, unchecked and indetermined checkbox values to true, false or empty value
+ */
+function getValueFromCheckboxState(checkboxId, trueFalseIndeterminedOutputArray=[true, false, ""]) {
+  const checkbox = document.getElementById(checkboxId);
+  if(checkbox.indeterminate == true) {
+    return trueFalseIndeterminedOutputArray[2];
+  } else if (checkbox.checked == true) {
+    return trueFalseIndeterminedOutputArray[0];
+  } else if (checkbox.checked == false) {
+    return trueFalseIndeterminedOutputArray[1];
+  }
+}

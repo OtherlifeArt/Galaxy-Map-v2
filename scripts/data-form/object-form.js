@@ -284,10 +284,10 @@ async function loadObjectForm(objectID) {
     document.getElementById('object-human-id').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_ID]); // Human ID
     let updateDate = new Date(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.updated_at]).toLocaleString();
     document.getElementById('object-updated-at').value = updateDate; // Updated At
-    document.getElementById('object-data-certified').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.is_certified] === "YES"; // Data certified ?
+    setCheckboxStateFromValue('object-data-certified', sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.is_certified]), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY); // Data certified ?
     document.getElementById('object-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]); // Name
     document.getElementById('object-alt-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES]); // Alt Names
-    document.getElementById('object-capital').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IS_CAPITAL] === "YES"; // Capital
+    setCheckboxStateFromValue('object-capital', sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IS_CAPITAL]), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY); // Capital
     document.getElementById('object-type-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE]); // Type RAW DATA
     $(document).ready(function() { // Type
       $('#object-type').select2().val(sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE]));
@@ -296,8 +296,8 @@ async function loadObjectForm(objectID) {
       document.getElementById('object-type-classes-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES]);
       // $('#object-type-classes').select2().val(sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECT_TYPE_CLASSES.COLUMNS.NAME]));
     });
-    document.getElementById('object-conjectural-name').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_NAME] === "YES"; // Conjectural name
-    document.getElementById('object-conjectural-type').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_TYPE] === "YES"; // Conjectural type
+    setCheckboxStateFromValue('object-conjectural-name', sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_NAME]), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY); // Conjectural name
+    setCheckboxStateFromValue('object-conjectural-type', sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_TYPE]), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY); // Conjectural type
     document.getElementById('object-orbital-rank').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ORBITAL_RANK]); // Orbital rank
     document.getElementById('object-size').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.SIZE]); // Orbital rank
     document.getElementById('object-parent-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN]); // Parent RAW DATA
@@ -307,10 +307,10 @@ async function loadObjectForm(objectID) {
     });
     document.getElementById('object-datefrom').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM]); // Date from
     document.getElementById('object-dateto').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO]); // Date to
-    document.getElementById('object-canon').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON] === "YES"; // Canon
-    document.getElementById('object-legends').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS] === "YES"; // Legends
-    document.getElementById('object-unlicensed').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.UNLICENSED] === "YES"; // Unlicensed
-    document.getElementById('object-inmovies').checked = astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IN_MOVIES] === "YES"; // In movies
+    setCheckboxStateFromValue('object-canon', sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON]), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY); // Canon
+    setCheckboxStateFromValue('object-legends', sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS]), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY); // Legends
+    setCheckboxStateFromValue('object-unlicensed', sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.UNLICENSED]), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY); // Unlicensed
+    setCheckboxStateFromValue('object-inmovies', sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IN_MOVIES]), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY); // In movies
     document.getElementById('object-grid-x').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_GRID]); // Grid X
     document.getElementById('object-grid-y').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID]); // Grid Y
     document.getElementById('object-coord-x').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD]); // X Coordinate
@@ -358,7 +358,7 @@ async function loadObjectForm(objectID) {
     document.getElementById('object-index-geo').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.index_geo]); // Index Geo
     document.getElementById('object-geom').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GEOM]); // Index Geo
     document.getElementById('object-geom-type').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GEOM_TYPE]); // Geom Type
-    document.getElementById('object-punctual').checked = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PUNCTUAL]) === "YES"; // Punctual
+    setCheckboxStateFromValue('object-punctual', sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PUNCTUAL]), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY); // Punctual
   }
 }
 
@@ -487,22 +487,22 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_NAME] = humanName;
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME] = name;
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES] = sanitizeText(document.getElementById('object-alt-name').value);
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.is_certified] = document.getElementById('object-data-certified').checked ? "YES" : "";
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IS_CAPITAL] = document.getElementById('object-capital').checked ? "YES" : "";
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.is_certified] = getValueFromCheckboxState('object-data-certified', PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IS_CAPITAL] = getValueFromCheckboxState('object-capital', PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE] = sanitizeText(document.getElementById('object-type').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES] = sanitizeText(document.getElementById('object-type-classes-raw').value);
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_NAME] = document.getElementById('object-conjectural-name').checked  ? "YES" : "";
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_TYPE] = document.getElementById('object-conjectural-type').checked  ? "YES" : "";
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_NAME] = getValueFromCheckboxState('object-conjectural-name', PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_TYPE] = getValueFromCheckboxState('object-conjectural-type', PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ORBITAL_RANK] = orbitalRank;
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.SIZE] = sanitizeText(document.getElementById('object-size').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID] = sanitizeText(document.getElementById('object-parent').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN] = sanitizeText(document.getElementById('object-parent-raw').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM] = sanitizeText(document.getElementById('object-datefrom').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO] = sanitizeText(document.getElementById('object-dateto').value);
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON] = document.getElementById('object-canon').checked ? "YES" : "";
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS] = document.getElementById('object-legends').checked  ? "YES" : "";
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.UNLICENSED] = document.getElementById('object-unlicensed').checked  ? "YES" : "";
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IN_MOVIES] = document.getElementById('object-inmovies').checked  ? "YES" : "";
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON] = getValueFromCheckboxState('object-canon', PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS] = getValueFromCheckboxState('object-legends', PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.UNLICENSED] = getValueFromCheckboxState('object-unlicensed', PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IN_MOVIES] = getValueFromCheckboxState('object-inmovies', PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_GRID] = sanitizeText(document.getElementById('object-grid-x').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID] = sanitizeText(document.getElementById('object-grid-y').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD] = sanitizeText(document.getElementById('object-coord-x').value);
@@ -536,7 +536,7 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.WIKI_DATA_ID] = sanitizeText(document.getElementById('object-wikidata-id').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GEOM] = sanitizeText(document.getElementById('object-geom').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GEOM_TYPE] = sanitizeText(document.getElementById('object-geom-type').value);
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PUNCTUAL] = document.getElementById('object-punctual').checked  ? "YES" : "NO";
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PUNCTUAL] = getValueFromCheckboxState('object-punctual', PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
     // Auto values
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.updated_at] = new Date().toUTCString();
   });
@@ -643,34 +643,26 @@ async function highlightSourceButtonsIfSourced (objectId) {
     [{key: SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.OBJECT_ID, value: objectId}]
   );
   // console.log("SOURCE ROWS",sourceRows);
-  // if(sourceRows != undefined && sourceRows.length > 0) {
-    document.querySelectorAll(".object-source-entry-button").forEach(button => {
-      // console.log(button.parentElement.querySelector("label").getAttribute("for"));
-      // Column stuff
-      const formEntryId = button.parentElement.querySelector("label").getAttribute("for");
-      const columnEntryName = getCustomColumnEntryName(formEntryId);
-      if (columnEntryName === undefined) {
-        return;
-      }
-      // Check if source column matches
-      const isColumnFound = sourceRows.some(sourceRow => sourceRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.TARGET_COLUMN] === columnEntryName);
-      if(isColumnFound) {
-        // Highlight button
-        button.style.backgroundColor = buttonBackGroundColor;
-        button.style.borderColor = buttonBackGroundColor;
-      } else {
-        // Reset to default color
-        button.style.backgroundColor = "";
-        button.style.borderColor = "";
-      }
-    });
-  // } else { // No result
-  //   // Reset to default color
-  //   document.querySelectorAll(".object-source-entry-button").forEach(button => {
-  //     button.style.backgroundColor = "";
-  //     button.style.borderColor = "";
-  //   });
-  // }
+  document.querySelectorAll(".object-source-entry-button").forEach(button => {
+    // console.log(button.parentElement.querySelector("label").getAttribute("for"));
+    // Column stuff
+    const formEntryId = button.parentElement.querySelector("label").getAttribute("for");
+    const columnEntryName = getCustomColumnEntryName(formEntryId);
+    if (columnEntryName === undefined) {
+      return;
+    }
+    // Check if source column matches
+    const isColumnFound = sourceRows.some(sourceRow => sourceRow[SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.TARGET_COLUMN] === columnEntryName);
+    if(isColumnFound) {
+      // Highlight button
+      button.style.backgroundColor = buttonBackGroundColor;
+      button.style.borderColor = buttonBackGroundColor;
+    } else {
+      // Reset to default color
+      button.style.backgroundColor = "";
+      button.style.borderColor = "";
+    }
+  });
 }
 
 /**********/
