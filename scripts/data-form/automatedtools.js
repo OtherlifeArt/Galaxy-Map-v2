@@ -79,6 +79,6 @@ function fetchSheetData(spreadsheetId, sheetName) {
       console.error('Error generating GeoJSON:', error);
     });
   }
-  
+
   // Add event listener to download button
   document.getElementById('downloadPointsButton').addEventListener('click', downloadGeoJSON);

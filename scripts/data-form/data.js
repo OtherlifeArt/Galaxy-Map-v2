@@ -103,9 +103,26 @@ points = L.geoJSON(null,{
     pointToLayer:pointToLayerPoints,
     onEachFeature:onEachFeaturePoints
 });
+//Load data from local geojson
+/*
 $.getJSON(url_points, function(data) {
     points.addData(data);
-});
+});*/
+
+/// Re.load data (points only) from the DB and display them on the map
+var pointsgeojson;
+async function getGeoJSON() {
+  var spreadsheetId = SPREADSHEET_ID
+  var sheetName = SHEETS.OBJECTS.NAME
+  await fetchSheetData(spreadsheetId, sheetName).then(function(geojson) {
+    points.clearLayers()
+    pointsgeojson = geojson
+    points.addData(pointsgeojson)
+    console.log(pointsgeojson)
+  }).catch(function(error) {
+    console.error('Error loading Geojson:', error);
+  });
+}
 
 /************** POLYGONS ***************/
 

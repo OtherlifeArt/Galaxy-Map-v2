@@ -145,6 +145,16 @@ var YavinOverlay = L.imageOverlay(YavinUrl, YavinBounds, {
     pane:'yavin_EA'
 });
 
+var CorporateUrl = EApath + 'TEA_corporate_sector_helmert.png';
+var CorporateBounds = L.latLngBounds([[560.46,666.28], [641.92,771.41]]);
+var CorporateOverlay = L.imageOverlay(CorporateUrl, CorporateBounds, {
+    opacity: 1,
+    errorOverlayUrl: errorOverlayUrl,
+    alt: altText,
+    interactive: true,
+    pane:'yavin_EA'
+});
+
 /******** The Essential Atlas Extra parts*******/
 
 var ExpensionRegionSUrl = EApath + 'ExpansionRegionS_6.png';

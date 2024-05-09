@@ -80,8 +80,8 @@ var overLayers = [
   {label: 'Grid', layer: completegrid, name: 'Grid'},
   {label: 'Data',selectAllCheckbox: false,
     children: [
-          
-          {label: "Points", layer: points},
+          {label: "Points (loaded from DB)", layer: points},
+          //{label: "Points (last fix export)", layer: points},
           {label: "Hyperlanes", layer: roads},
           {label: "Areas", layer: areas},
             ]
@@ -94,7 +94,8 @@ var overLayers = [
             children: [
               {label: "Arkanis", layer: ArkanisOverlay},
               {label: "Kashyyyk", layer: KashyyykOverlay},
-              //{label:"Yavin and the Gordian Reach",layer:YavinOverlay} //OVERLAY NEED more transformations
+              {label:"Yavin and the Gordian Reach",layer:YavinOverlay},
+              {label:"Coporate Sector",layer:CorporateOverlay}
             ]
           },
           {label: "Deep Core", layer: DeepCoreOverlay},
@@ -133,8 +134,9 @@ L.control.layers.tree(baseLayers, overLayers, {
 /******** OPACITY CONTROL *********/
 const Map_AddLayer = {
   "Arkanis": ArkanisOverlay,
-  "Kashyyyk":KashyyykOverlay,
-  //"Yavin and the Gordian Reach":YavinOverlay, //OVERLAY NEED more transformations
+  "Kashyyyk":KashyyykOverlay, //OVERLAY NEED more transformations
+  "Yavin and the Gordian Reach":YavinOverlay,
+  "Coporate Sector":CorporateOverlay,
   "Deep Core": DeepCoreOverlay,
   "Core": CoreOverlay,
   "Colonies": ColoniesOverlay,
@@ -282,8 +284,8 @@ function updateXYCoordsInForm() {
   if (marker !== null) {
     var lat = marker.getLatLng().lat.toFixed(6);
     var lng = marker.getLatLng().lng.toFixed(6);
-    document.getElementById('object-coord-x').value = lat;
-    document.getElementById('object-coord-y').value = lng;
+    document.getElementById('object-coord-x').value = lng;
+    document.getElementById('object-coord-y').value = lat;
   }
 }
 
