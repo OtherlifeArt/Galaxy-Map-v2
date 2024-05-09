@@ -128,8 +128,10 @@ function setCheckboxStateFromValue(checkboxId, value, trueFalseIndeterminedInput
   const checkbox = document.getElementById(checkboxId);
   // console.log("checkboxId : ", checkboxId, ", value ? ", value);
   if(value.toString().toLowerCase() === trueFalseIndeterminedInputArray[0].toString().toLowerCase()) {
+    checkbox.indeterminate = false;
     checkbox.checked = true;
   } else if(value.toString().toLowerCase() === trueFalseIndeterminedInputArray[1].toString().toLowerCase()) {
+    checkbox.indeterminate = false;
     checkbox.checked = false;
   } else if(value.toString().toLowerCase() === trueFalseIndeterminedInputArray[2].toString().toLowerCase()) {
     checkbox.indeterminate = true;
