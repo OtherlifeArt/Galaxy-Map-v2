@@ -643,7 +643,7 @@ async function highlightSourceButtonsIfSourced (objectId) {
     [{key: SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.OBJECT_ID, value: objectId}]
   );
   // console.log("SOURCE ROWS",sourceRows);
-  if(sourceRows != undefined && sourceRows.length > 0) {
+  // if(sourceRows != undefined && sourceRows.length > 0) {
     document.querySelectorAll(".object-source-entry-button").forEach(button => {
       // console.log(button.parentElement.querySelector("label").getAttribute("for"));
       // Column stuff
@@ -664,7 +664,13 @@ async function highlightSourceButtonsIfSourced (objectId) {
         button.style.borderColor = "";
       }
     });
-  }
+  // } else { // No result
+  //   // Reset to default color
+  //   document.querySelectorAll(".object-source-entry-button").forEach(button => {
+  //     button.style.backgroundColor = "";
+  //     button.style.borderColor = "";
+  //   });
+  // }
 }
 
 /**********/
