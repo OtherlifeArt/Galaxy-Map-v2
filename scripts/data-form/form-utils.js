@@ -126,6 +126,7 @@ function separateStringToLinkList(string, separator) {
  */
 function setCheckboxStateFromValue(checkboxId, value, trueFalseIndeterminedInputArray=[true, false, ""]) {
   const checkbox = document.getElementById(checkboxId);
+  // console.log("checkboxId : ", checkboxId, ", value ? ", value);
   if(value.toString().toLowerCase() === trueFalseIndeterminedInputArray[0].toString().toLowerCase()) {
     checkbox.checked = true;
   } else if(value.toString().toLowerCase() === trueFalseIndeterminedInputArray[1].toString().toLowerCase()) {
@@ -142,6 +143,7 @@ function setCheckboxStateFromValue(checkboxId, value, trueFalseIndeterminedInput
  */
 function getValueFromCheckboxState(checkboxId, trueFalseIndeterminedOutputArray=[true, false, ""]) {
   const checkbox = document.getElementById(checkboxId);
+  // console.log("indeterminated ? ",checkbox.indeterminate ? "true":"false", ", checked ? ", checkbox.checked ? "true":"false");
   if(checkbox.indeterminate == true) {
     return trueFalseIndeterminedOutputArray[2];
   } else if (checkbox.checked == true) {
