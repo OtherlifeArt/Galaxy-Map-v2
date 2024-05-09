@@ -177,19 +177,22 @@ async function initFormSelect2() {
 }
 
 /**
- * Reload select2 content and display it
+ * Reload form content (data) and refresh display
  */
-async function refreshFormSelect2() {
+async function refreshForm() {
   await loadAstronomicalObjectArray();
   $(document).ready(function() {
     // Object
-    $('#object-search').empty();
+    // Reset select2
+    document.getElementById("object-search").value = "";
+    $("#object-search").empty().val('').trigger('change');
     loadAstroObjectsSelect2();
     // $('#object-search').select2({
     //     data: astronomicalObjectSearchArray
     // });
     // Parent
-    $('#object-parent').empty();
+    document.getElementById("object-parent").value = "";
+    $("#object-parent").empty().val('').trigger('change');
     loadAstroObjectParentsSelect2();
     // $('#object-parent').select2({
     //     data: astronomicalObjectSearchArray
@@ -671,7 +674,7 @@ async function updateData() {
     alert("Object has been successfully updated !");
     closeModal();
     // Reload object array
-    refreshFormSelect2();
+    refreshForm();
   } else {
     alert("Error encoutered ! Check console (F12) for more details");
   }
@@ -688,7 +691,7 @@ async function addNewData() {
   if(returnCode) {
     alert("Object has been successfully created at the end of the spreadsheet ! Add/reorganize human index manually ");
     // Reload select 2 arrays
-    refreshFormSelect2();
+    refreshForm();
   } else {
     alert("Error encoutered ! Check console (F12) for more details");
   }
@@ -704,7 +707,7 @@ async function deleteData() {
     if(returnCode) {
       alert("Object has been successfully deleted ! Add/reorganize human index manually");
       // Reload object array
-      refreshFormSelect2();
+      refreshForm();
     } else {
       alert("Error encoutered ! Check console (F12) for more details");
     }
