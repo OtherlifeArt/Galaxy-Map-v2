@@ -601,13 +601,24 @@ async function getParentHierarchy(objectID) {
   // console.log("data : ", data  ,"objectid : ", currentObjectID ,"object row : ", data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] === currentObjectID));
   let currentDataRow = data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] === currentObjectID);
   let parentString = "";
-  while(currentDataRow !== undefined && currentDataRow !== null) {
-    if(currentDataRow !== undefined && currentDataRow !== null) {
+  // Avoid infinite loop and send message
+  while(currentDataRow !== undefined && currentDataRow !== null) { // For Solenn
+    // if(currentDataRow !== undefined && currentDataRow !== null && currentDataRow !== "") {
+      if(currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID] === currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]) {
+        alert(
+          `Can't display parent hierarchy cause of object referencing itself :
+          Object ID : ${currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]}
+          Object Name : ${currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]}
+          Object Parent ID : ${currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]}`
+        );
+        parentString = "";
+        break;
+      }
       if(parentString !== "") {
         parentString += " < ";
       }
       parentString += currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME];
-    }
+    // }
     currentDataRow = data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] === currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]); // parentID
   }
   if(parentString === undefined || parentString === null) {

@@ -172,6 +172,9 @@ function getCustomColumnEntryName(formEntryId) {
     case "object-starports":
       columnEntryName = "STARPORTS";
       break;
+    case "object-placement-certitude":
+      columnEntryName = "PLACEMENT_CERTITUDE";
+      break;
     default:
       console.log(`Entry with ID ${formEntryId} not referenced !`);
       alert("Source error : entry unknown - check console (F12)");
