@@ -597,27 +597,30 @@ async function getParentHierarchy(objectID) {
   const data = spreadSheetData.values;
   // Get parents recursively
   let currentObjectID = objectID;
-  console.log("objectID : ", objectID);
+  // console.log("objectID : ", objectID);
   // console.log("data : ", data  ,"objectid : ", currentObjectID ,"object row : ", data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] === currentObjectID));
   let currentDataRow = data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] === currentObjectID);
   let parentString = "";
   // Avoid infinite loop and send message
   while(currentDataRow !== undefined && currentDataRow !== null) { // For Solenn
     // if(currentDataRow !== undefined && currentDataRow !== null && currentDataRow !== "") {
-      if(currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID] === currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]) {
-        alert(
-          `Can't display parent hierarchy cause of object referencing itself :
-          Object ID : ${currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]}
-          Object Name : ${currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]}
-          Object Parent ID : ${currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]}`
-        );
-        parentString = "";
-        break;
-      }
-      if(parentString !== "") {
-        parentString += " < ";
-      }
-      parentString += currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME];
+    if(currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID] === currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]) {
+      alert(
+        `Can't display parent hierarchy cause of object referencing itself :
+        Object ID : ${currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]}
+        Object Name : ${currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]}
+        Object Parent ID : ${currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]}`
+      );
+      break;
+    }
+    if(parentString !== "") {
+      parentString += " < ";
+    }
+    parentString += currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME];
+    // Parent ID is missing
+    if(currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID] === "") {
+      break;
+    }
     // }
     currentDataRow = data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] === currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]); // parentID
   }

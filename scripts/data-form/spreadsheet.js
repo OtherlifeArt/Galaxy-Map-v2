@@ -44,9 +44,8 @@ async function getSpreadSheetRowFromColumnKeyValuePairs(spreadsheetId, sheetName
   const values = range.values;
   if (!range || !values || values.length == 0) {
     // document.getElementById('content').innerText = 'No values found.';
-    console.error('No values found.');
-    alert(err.message);
-    return;
+    console.log(`No value found for ${sheetName} search !, ${keyValueObjectArray}`);
+    return [];
   }
 
   // Find row number and return it
