@@ -155,6 +155,16 @@ var CorporateOverlay = L.imageOverlay(CorporateUrl, CorporateBounds, {
     pane:'yavin_EA'
 });
 
+var HapesUrl = EApath + 'TEA_hapes_freehand.png';
+var HapesBounds = L.latLngBounds([[38.13,341.85], [74.68,376.29]]);
+var HapesOverlay = L.imageOverlay(HapesUrl, HapesBounds, {
+    opacity: 1,
+    errorOverlayUrl: errorOverlayUrl,
+    alt: altText,
+    interactive: true,
+    pane:'yavin_EA'
+});
+
 /******** The Essential Atlas Extra parts*******/
 
 var ExpensionRegionSUrl = EApath + 'ExpansionRegionS_6.png';

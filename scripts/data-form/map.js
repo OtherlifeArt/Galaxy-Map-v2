@@ -94,21 +94,25 @@ var overLayers = [
             children: [
               {label: "Arkanis", layer: ArkanisOverlay},
               {label: "Kashyyyk", layer: KashyyykOverlay},
-              {label:"Yavin and the Gordian Reach",layer:YavinOverlay},
-              {label:"Coporate Sector",layer:CorporateOverlay}
+              {label: "Yavin and the Gordian Reach",layer:YavinOverlay},
+              {label: "Coporate Sector",layer:CorporateOverlay},
+              {label: "Hapes Cluster",layer:HapesOverlay}
             ]
           },
-          {label: "Deep Core", layer: DeepCoreOverlay},
-          {label: "Core", layer: CoreOverlay},
-          {label: "Colonies", layer: ColoniesOverlay},
-          {label: "Inner Rim", layer: InnerRimOverlay},
-          {label: "Expansion Region", layer: ExpansionRegionOverlay},
-          {label: "Expansion Region - Sectors", layer: ExpensionRegionSOverlay},
-          {label: "Mid Rim", layer: MidRimOverlay},
-          {label: "Mid Rim - Sectors", layer: MidRimSOverlay},
-          {label: "Hutt Space", layer: HuttSpaceOverlay},
-          {label: "Outer Rim", layer: OuterRimOverlay},
-          {label: "Outer Rim - Sectors", layer: OuterRimSOverlay},
+          {label: 'Region scale maps',collapsed:true,
+          children:[
+            {label: "Deep Core", layer: DeepCoreOverlay},
+            {label: "Core", layer: CoreOverlay},
+            {label: "Colonies", layer: ColoniesOverlay},
+            {label: "Inner Rim", layer: InnerRimOverlay},
+            {label: "Expansion Region", layer: ExpansionRegionOverlay},
+            {label: "Expansion Region - Sectors", layer: ExpensionRegionSOverlay},
+            {label: "Mid Rim", layer: MidRimOverlay},
+            {label: "Mid Rim - Sectors", layer: MidRimSOverlay},
+            {label: "Hutt Space", layer: HuttSpaceOverlay},
+            {label: "Outer Rim", layer: OuterRimOverlay},
+            {label: "Outer Rim - Sectors", layer: OuterRimSOverlay}
+          ]},
           {label: "Client States and Misc. Regions", layer: ClientsOverlay},
           {label: "Galaxy",layer:GalaxyTEAOverlay},
           {label: "Galaxy (FR cut)", layer: GalaxyFROverlay}
@@ -137,6 +141,7 @@ const Map_AddLayer = {
   "Kashyyyk":KashyyykOverlay, //OVERLAY NEED more transformations
   "Yavin and the Gordian Reach":YavinOverlay,
   "Coporate Sector":CorporateOverlay,
+  "Hapes":HapesOverlay,
   "Deep Core": DeepCoreOverlay,
   "Core": CoreOverlay,
   "Colonies": ColoniesOverlay,
