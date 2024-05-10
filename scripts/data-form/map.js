@@ -96,7 +96,8 @@ var overLayers = [
               {label: "Kashyyyk", layer: KashyyykOverlay},
               {label: "Yavin and the Gordian Reach",layer:YavinOverlay},
               {label: "Coporate Sector",layer:CorporateOverlay},
-              {label: "Hapes Cluster",layer:HapesOverlay}
+              {label: "Hapes Cluster",layer:HapesOverlay},
+              {label: "The Centrality",layer:CentralityOverlay}
             ]
           },
           {label: 'Region scale maps',collapsed:true,
@@ -142,6 +143,7 @@ const Map_AddLayer = {
   "Yavin and the Gordian Reach":YavinOverlay,
   "Coporate Sector":CorporateOverlay,
   "Hapes":HapesOverlay,
+  "The Centrality":CentralityOverlay,
   "Deep Core": DeepCoreOverlay,
   "Core": CoreOverlay,
   "Colonies": ColoniesOverlay,

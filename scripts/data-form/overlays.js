@@ -165,6 +165,16 @@ var HapesOverlay = L.imageOverlay(HapesUrl, HapesBounds, {
     pane:'yavin_EA'
 });
 
+var CentralityUrl = EApath + 'TEA_centrality_freehand.png';
+var CentralityBounds = L.latLngBounds([[110.15,799.61], [198.34,982.71]]);
+var CentralityOverlay = L.imageOverlay(CentralityUrl, CentralityBounds, {
+    opacity: 1,
+    errorOverlayUrl: errorOverlayUrl,
+    alt: altText,
+    interactive: true,
+    pane:'yavin_EA'
+});
+
 /******** The Essential Atlas Extra parts*******/
 
 var ExpensionRegionSUrl = EApath + 'ExpansionRegionS_6.png';
