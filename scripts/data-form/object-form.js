@@ -602,7 +602,7 @@ async function getParentHierarchy(objectID) {
   let currentDataRow = data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] === currentObjectID);
   let parentString = "";
   // Avoid infinite loop and send message
-  while(currentDataRow !== undefined && currentDataRow !== null) { // For Solenn
+  while(currentDataRow !== undefined && currentDataRow !== null) {
     // if(currentDataRow !== undefined && currentDataRow !== null && currentDataRow !== "") {
     if(currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID] === currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]) {
       alert(
@@ -624,7 +624,7 @@ async function getParentHierarchy(objectID) {
     // }
     currentDataRow = data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] === currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]); // parentID
   }
-  if(parentString === undefined || parentString === null) {
+  if(parentString === undefined || parentString === null || parentString === "") {
     console.log("parent string : ", parentString);
     return previousParentValue;
   } else {
