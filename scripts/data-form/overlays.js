@@ -156,7 +156,7 @@ var CorporateOverlay = L.imageOverlay(CorporateUrl, CorporateBounds, {
 });
 
 var HapesUrl = EApath + 'TEA_hapes_freehand.png';
-var HapesBounds = L.latLngBounds([[38.13,341.85], [74.68,376.29]]);
+var HapesBounds = L.latLngBounds([[38.50,343.59], [71.77,374.94]]);
 var HapesOverlay = L.imageOverlay(HapesUrl, HapesBounds, {
     opacity: 1,
     errorOverlayUrl: errorOverlayUrl,
