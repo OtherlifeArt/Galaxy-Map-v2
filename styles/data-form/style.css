@@ -291,7 +291,9 @@ input[readonly], textarea[readonly] {
 #line_num { display: table-cell; 
             margin-left: 10px;}
 #gridsearchbut{margin-top:5px}
-
+#geom-edit-points-save{
+  margin-left: 20px;
+}
 /*Style button to edit X and Y*/
 .xyeditbtn{
   margin-top: 10px;
@@ -316,7 +318,6 @@ input[readonly], textarea[readonly] {
   padding-left: 2px;
   padding-right: 2px;
 }
-
 
 /********************/
 /**** DASHBOARD *****/

@@ -19,7 +19,9 @@ function styleLines(feature) {
 
 var roads = L.geoJSON(null,{
     pane:'roads',
-    style:styleLines
+    style:styleLines,
+    snapIgnore: true,
+    pmIgnore:true
 });
 $.getJSON(url_roads, function(data) {
     roads.addData(data);
@@ -205,7 +207,9 @@ function onEachFeature(feature, layer) {
 areas = L.geoJSON(null,{
   pane:'areas',
   style:getRegionsStyle,
-  onEachFeature:onEachFeature
+  onEachFeature:onEachFeature,
+  snapIgnore: true,
+  pmIgnore: true
 });
 $.getJSON(url_areas, function(data) {
   areas.addData(data);

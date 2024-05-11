@@ -13,7 +13,9 @@ var DeepCoreOverlay = L.imageOverlay(DeepCoreUrl, DeepCoreBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:"deep_core_EA"
+    pane:"deep_core_EA",
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var CoreUrl = EApath + 'Core_14.png';
@@ -23,7 +25,9 @@ var CoreOverlay = L.imageOverlay(CoreUrl, CoreBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:"core_EA"
+    pane:"core_EA",
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var ColoniesUrl = EApath + 'Colonies_13.png';
@@ -33,7 +37,9 @@ var ColoniesOverlay = L.imageOverlay(ColoniesUrl, ColoniesBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:"colonies_EA"
+    pane:"colonies_EA",
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var InnerRimUrl = EApath + 'InnerRim_12.png';
@@ -43,7 +49,8 @@ var InnerRimOverlay = L.imageOverlay(InnerRimUrl, InnerRimBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var ExpansionRegionUrl = EApath + 'ExpansionRegion_11.png';
@@ -53,7 +60,8 @@ var ExpansionRegionOverlay = L.imageOverlay(ExpansionRegionUrl, ExpansionRegionB
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var MidRimUrl = EApath + 'MidRim_9.png';
@@ -63,7 +71,8 @@ var MidRimOverlay = L.imageOverlay(MidRimUrl, MidRimBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var HuttSpaceUrl = EApath + 'HuttSpace_10.png';
@@ -73,7 +82,8 @@ var HuttSpaceOverlay = L.imageOverlay(HuttSpaceUrl, HuttSpaceBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var OuterRimUrl = EApath + 'OuterRim_8.png';
@@ -83,7 +93,8 @@ var OuterRimOverlay = L.imageOverlay(OuterRimUrl, OuterRimBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var GalaxyFRUrl = EApath + 'GalaxyFrenchHRversion_7.png';
@@ -93,7 +104,8 @@ var GalaxyFROverlay = L.imageOverlay(GalaxyFRUrl, GalaxyFRBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var GalaxyTEAUrl = EApath + 'TEA_galaxy_helmert.png';
@@ -103,7 +115,8 @@ var GalaxyTEAOverlay = L.imageOverlay(GalaxyTEAUrl, GalaxyTEABounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var ClientsUrl = EApath + 'TEA_client_states_tps.png';
@@ -113,6 +126,8 @@ var ClientsOverlay = L.imageOverlay(ClientsUrl, ClientsBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var ArkanisUrl = EApath + 'arkanis_p2_18.png';
@@ -122,7 +137,9 @@ var ArkanisOverlay = L.imageOverlay(ArkanisUrl, ArkanisBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'arkanis_EA'
+    pane:'arkanis_EA',
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var KashyyykUrl = EApath + 'Kashyyyk_17.png';
@@ -132,7 +149,9 @@ var KashyyykOverlay = L.imageOverlay(KashyyykUrl, KashyyykBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'kashyyyk_EA'
+    pane:'kashyyyk_EA',
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var YavinUrl = EApath + 'YavinandtheGordianReach_16.png';
@@ -142,7 +161,9 @@ var YavinOverlay = L.imageOverlay(YavinUrl, YavinBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'yavin_EA'
+    pane:'yavin_EA',
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var CorporateUrl = EApath + 'TEA_corporate_sector_helmert.png';
@@ -152,7 +173,9 @@ var CorporateOverlay = L.imageOverlay(CorporateUrl, CorporateBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'yavin_EA'
+    pane:'yavin_EA',
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var HapesUrl = EApath + 'TEA_hapes_freehand.png';
@@ -162,7 +185,9 @@ var HapesOverlay = L.imageOverlay(HapesUrl, HapesBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'yavin_EA'
+    pane:'yavin_EA',
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var CentralityUrl = EApath + 'TEA_centrality_freehand.png';
@@ -172,7 +197,9 @@ var CentralityOverlay = L.imageOverlay(CentralityUrl, CentralityBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'yavin_EA'
+    pane:'yavin_EA',
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 /******** The Essential Atlas Extra parts*******/
@@ -184,7 +211,8 @@ var ExpensionRegionSOverlay = L.imageOverlay(ExpensionRegionSUrl, ExpensionRegio
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var MidRimSUrl = EApath + 'MidRimS_5.png';
@@ -194,7 +222,8 @@ var MidRimSOverlay = L.imageOverlay(MidRimSUrl, MidRimSBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var OuterRimSUrl = EApath + 'OuterRimS_4.png';
@@ -204,7 +233,8 @@ var OuterRimSOverlay = L.imageOverlay(OuterRimSUrl, OuterRimSBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 /******** Others *******/
@@ -215,7 +245,9 @@ var GalaxyTimelinesOverlay = L.imageOverlay(GalaxyTimelinesUrl, GalaxyTimelinesB
     opacity: 1,
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
-    interactive: true
+    interactive: true,
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var GalaxyModiUrl = Otherspath + 'GalaxyModi2006_1.png';
@@ -225,7 +257,8 @@ var GalaxyModiOverlay = L.imageOverlay(GalaxyModiUrl, GalaxyModiBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    
+    pmIgnore:true,
+    snapIgnore: true
 });
 
 var GalaxyTFARPUrl = Otherspath + 'TFA_original_map_tps.png';
@@ -235,5 +268,6 @@ var GalaxyTFARPOverlay = L.imageOverlay(GalaxyTFARPUrl, GalaxyTFARPBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    
+    pmIgnore:true,
+    snapIgnore: true
 });

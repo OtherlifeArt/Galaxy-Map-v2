@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="scripts/vendor/Leaflet.Control.Opacity/L.Control.Opacity.css"/>  <!-- Controls-->
     <link rel="stylesheet" href="scripts/vendor/leaflet.fullscreen-3.0.1/Control.FullScreen.css" /> <!-- FullScreen-->
     <link rel="stylesheet" href="scripts/vendor/leaflet-search-4.0.0/dist/leaflet-search.min.css" /> <!-- Search -->
+    <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css"/>
     <!-- Custom -->
     <link rel="stylesheet" href="styles/data-form/style.css">
   </head>
@@ -540,10 +541,33 @@
         </div>
         
         <h4>Map toolbox</h4>
-        <div class="loadgeojsondiv">
+        <div class="loadgeojsondiv" style="">
           <fieldset>
-          <legend>Load GeoJSONs</legend>
+          <legend>Data loading and editing</legend>
           <button id="loadpoints" onclick="getGeoJSON()">Points</button>
+
+          <div>
+            <div>
+              <input type="radio" id="geom-edit-disabled" name="geom-edit" value="geom-edit-disabled" checked />
+              <label for="geom-edit-disabled">Editing disabled</label>
+            </div>
+          
+            <div>
+              <input type="radio" id="geom-edit-points" name="geom-edit" value="geom-edit-points" />
+              <label for="geom-edit-points">Edit Points layer</label>
+              <button id="geom-edit-points-save" onclick="executeDragUpdate()">Save dragged points coordinates</button>
+            </div>
+          
+            <!--<div>
+              <input type="radio" id="geom-edit-roads" name="geom-edit" value="geom-edit-roads" />
+              <label for="geom-edit-roads">Edit Roads layer NOT WORKING</label>
+            </div>
+
+            <div>
+              <input type="radio" id="geom-edit-areas" name="geom-edit" value="geom-edit-areas" />
+              <label for="geom-edit-areas">Edit Areas layer NOT WORKING</label>
+            </div>-->
+          </div>
         </fieldset>
         </div>
         <div class="gridsearch">
@@ -646,6 +670,7 @@
     <!-- <script src="../libs/leaflet.ajax.min.js"></script> AJAX -->
     <script src="scripts/vendor/leaflet.fullscreen-3.0.1/Control.FullScreen.js"></script> <!-- FullScreen -->
     <script src="scripts/vendor/leaflet-search-4.0.0/dist/leaflet-search.min.js"></script> <!-- Search -->
+    <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.js"></script>
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Website -->
@@ -662,6 +687,7 @@
     <script src="scripts/data-form/overlays.js"></script>
     <script src="scripts/data-form/data.js"></script>
     <script src="scripts/data-form/map.js"></script>
+    <script src="scripts/data-form/map-editing.js"></script>
     <!-- Dashboard -->
     <script src="scripts/data-form/dashboard.js"></script>
     <!-- Google API -->

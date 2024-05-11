@@ -4,7 +4,9 @@ var url_gridlabels = "././data/grid/grid_labels.geojson"
 
 // Grid squares for grid search
 var gridsearch = L.geoJSON(null,{
-    pane:'grid_search'
+    pane:'grid_search',
+    pmIgnore:true,
+    snapIgnore: true
 });
 $.getJSON(url_grid, function(data) {
     gridsearch.addData(data);
@@ -29,6 +31,9 @@ function pointToLayerGridPoints(feature,latlng) {
     return L.circleMarker(latlng, {
         radius:0,
         opacity: 0,
+        interactive: false,
+        pmIgnore:true,
+        snapIgnore: true
     }
     );
 }
@@ -36,7 +41,10 @@ function pointToLayerGridPoints(feature,latlng) {
 var grid_labels = L.geoJSON(null,{
     pane:'grid_labels',
     onEachFeature:bindGridTooltip,
-    pointToLayer:pointToLayerGridPoints
+    pointToLayer:pointToLayerGridPoints,
+    pmIgnore:true,
+    snapIgnore: true,
+    interactive: false
 });
 
 $.getJSON(url_gridlabels, function(data) {
@@ -48,27 +56,40 @@ var grid100Options = {
     weight: 1,
     color: '#d39178',
     opacity: 0.5,
+    interactive: false,
+    pmIgnore:true,
+    snapIgnore: true
 };
 
 var grid10Options = {
     weight: 0.2,
     color: '#000',
     opacity: 0.5,
+    interactive: false,
+    pmIgnore:true,
+    snapIgnore: true
 };
 
 var grid1Options = {
-    weight: 0.1,
+    weight: 0.15,
     color: '#000',
     opacity: 0.5,
+    interactive: false,
+    pmIgnore:true,
+    snapIgnore: true
 };
 
 // Create feature groups
-var grid100 = new L.FeatureGroup();
-var grid10 = new L.FeatureGroup();
-var grid1 = new L.FeatureGroup();
+var grid100 = new L.FeatureGroup(null,{interactive: false,pmIgnore:true,snapIgnore:true});
+var grid10 = new L.FeatureGroup(null,{interactive: false,pmIgnore:true,snapIgnore:true});
+var grid1 = new L.FeatureGroup(null,{interactive: false,pmIgnore:true,snapIgnore:true});
 
 // Define full grid layer
-var completegrid = L.layerGroup([grid_labels,grid100],{ pane:'grid'});
+var completegrid = L.layerGroup([grid_labels,grid100],{ 
+    pane:'grid',
+    pmIgnore:true,
+    snapIgnore:true,
+    interactive: false});
 
 // Add grid lines for squares of 100 meters (zoom -3 to -8)
 for (var i = -1100; i <= 1200; i += 100) {
@@ -134,6 +155,8 @@ function zoomOn(){
             opacity: 0.8,
             color: '#4BF5DE'
         },
+        pmIgnore:true,
+        snapIgnore: true,
         filter: function(feature, layer) {
             return (feature.properties.line == num && feature.properties.col == letter);
 
