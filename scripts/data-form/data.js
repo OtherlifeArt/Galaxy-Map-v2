@@ -181,7 +181,7 @@ var areas;
 function highlightFeature(e) {
   var layer = e.target;
   layer.setStyle({
-      weight: 3,
+      weight: 2,
       dashArray: '',
   });
   layer.bringToFront();
@@ -199,7 +199,7 @@ function onEachFeature(feature, layer) {
   layer.on({
       mouseover: highlightFeature,
       mouseout: resetHighlight,
-      click: zoomToFeature
+      //click: zoomToFeature
   });
 }
 
