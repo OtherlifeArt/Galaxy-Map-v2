@@ -120,7 +120,6 @@ async function getGeoJSON() {
     points.clearLayers()
     pointsgeojson = geojson
     points.addData(pointsgeojson)
-    console.log(pointsgeojson)
   }).catch(function(error) {
     console.error('Error loading Geojson:', error);
   });

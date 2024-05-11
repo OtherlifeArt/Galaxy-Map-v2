@@ -291,9 +291,7 @@ input[readonly], textarea[readonly] {
 #line_num { display: table-cell; 
             margin-left: 10px;}
 #gridsearchbut{margin-top:5px}
-#geom-edit-points-save{
-  margin-left: 100px;
-}
+
 /*Style button to edit X and Y*/
 .xyeditbtn{
   margin-top: 10px;
@@ -317,6 +315,44 @@ input[readonly], textarea[readonly] {
   vertical-align: middle;
   padding-left: 2px;
   padding-right: 2px;
+}
+
+/*Tab geom
+
+/* Style the tab */
+.tabgeom {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tabgeom button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tabgeom button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tabgeom button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabgeomcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
 }
 
 /********************/

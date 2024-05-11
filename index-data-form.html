@@ -524,69 +524,101 @@
       <!-- Map div -->
       <div id="map-div" class="flex-child-element">
         <h3>SW Galaxy Map Editor</h3>
-        <div class="xyedit">
-          <fieldset>
-          <legend>X-Y coordinates editor</legend>
-          <p>Warning : X and Y coordinates have to be added to ponctual objects only (planet, star).</br>Sectors, regions (areas in general) doesn't have X-Y coordinates.</p>
-          <p>Move the marker to edit X-Y coordinates of a <b>ponctual</b> astronomical object.</br>
-          <span id="backupXY"></span></p>
-          </span>
-          <div class="xyeditbtn">
-            <button id="xyaddmarker">Add movable marker</button>
-            <button id="xyremovemarker">Remove movable marker</button>
-            <button id="xytoform">Send X-Y coordinates to form</button>
-            <button id="xygetinitialvalues">Retrieve previous form values</button>
-          </div>
-        </fieldset>
-        </div>
-        
-        <h4>Map toolbox</h4>
+
         <div class="loadgeojsondiv">
           <fieldset>
-          <legend>Data loading and editing</legend>
-          <button id="loadpoints" onclick="getGeoJSON()">Re.Load Points</button>
+           <legend>Load/Refresh layers</legend>
+           <button id="loadpoints" onclick="getGeoJSON()">Re.Load Points</button>
+          </fieldset>
+        </div>
 
-          <div>
+        <div id="geom-edition-modes">
+        <fieldset>
+        <legend>Edition modes</legend>
             <div>
               <input type="radio" id="geom-edit-disabled" name="geom-edit" value="geom-edit-disabled" checked />
-              <label for="geom-edit-disabled">Map features editing disabled</label>
+              <label for="geom-edit-disabled">Special edition modes disabled</label>
             </div>
           
             <div>
               <input type="radio" id="geom-edit-points" name="geom-edit" value="geom-edit-points" />
-              <label for="geom-edit-points">Edit <i>Points</i> layer</label>
-              <button id="geom-edit-points-save" onclick="executeDragUpdate()">Save dragged points coordinates</button>
+              <label for="geom-edit-points">Points</label>
             </div>
           
-            <!--<div>
+            <div>
               <input type="radio" id="geom-edit-roads" name="geom-edit" value="geom-edit-roads" />
-              <label for="geom-edit-roads">Edit Roads layer NOT WORKING</label>
+              <label for="geom-edit-roads">Roads</label>
             </div>
 
-            <div>
+            <!--<div>
               <input type="radio" id="geom-edit-areas" name="geom-edit" value="geom-edit-areas" />
               <label for="geom-edit-areas">Edit Areas layer NOT WORKING</label>
             </div>-->
+          </fieldset>
+        </div>
+
+        <div class="tabgeom">
+          <button class="tabgeomlinks" onclick="openGeomTools(event, 'Points')">Points</button>
+          <button class="tabgeomlinks" onclick="openGeomTools(event, 'Roads')">Roads</button>
+          <button class="tabgeomlinks" onclick="openGeomTools(event, 'GridSearch')" id="defaultOpen">Grid search</button>
+        </div>
+        
+        <!-- Tab content -->
+        <div id="Points" class="tabgeomcontent">
+
+          <div class="xyedit">
+            <fieldset>
+            <legend>X-Y coordinates editor</legend>
+            <p>Warning : X and Y coordinates have to be added to ponctual objects only (planet, star).</br>Sectors, regions (areas in general) doesn't have X-Y coordinates.</p>
+            <p>Move the marker to edit X-Y coordinates of a <b>ponctual</b> astronomical object.</br>
+            <span id="backupXY"></span></p>
+            </span>
+            <div class="xyeditbtn">
+              <button id="xyaddmarker">Add movable marker</button>
+              <button id="xyremovemarker">Remove movable marker</button>
+              <button id="xytoform">Send X-Y coordinates to form</button>
+              <button id="xygetinitialvalues">Retrieve previous form values</button>
+            </div>
+            <p>Using <i>Points</i> special edition mode, you can drag markers on the map to quickly update geometries only.</p>
+            <button id="geom-edit-points-save" onclick="executeDragUpdate()">Save dragged points coordinates</button>
+          </fieldset>
           </div>
-        </fieldset>
+
         </div>
-        <div class="gridsearch">
-          <fieldset>
-          <legend>Grid search</legend>
-          <form action="" method="get" class="form-grid-f">
-            <div class="form-grid">
-              <label id="col_label" for="col">Column</label>
-              <input type="text" maxlength=1 name="col_letter" id="col_letter" placeholder="Letter from A to W" required>
-            </div>
-            <div class="form-grid">
-              <label id="line_label" for="line">Line</label>
-              <input type="number" maxlength=1 name="line_num" id="line_num" placeholder="Number from 1 to 23" required>
-            </div>
-          </form>
-          <button id="gridsearchbut">Go to grid area</button>
-          <button id="gridsearchreset">Reset grid search tool</button>
-        </fieldset>
+        
+        <div id="Roads" class="tabgeomcontent">
+          
+          <div class="roadsedit">
+            <fieldset>
+              <legend>Roads editor</legend>
+              <button id="geom-create-road-load">Load geometry to the map</button>
+              <button id="geom-create-road-save">Send geometry to the form</button>
+              <button id="geom-create-road-clear">Clear geometry field</button>
+            </fieldset>
+          </div>
+
         </div>
+        
+        <div id="GridSearch" class="tabgeomcontent">
+          <div class="gridsearch">
+            <fieldset>
+            <legend>Grid search</legend>
+            <form action="" method="get" class="form-grid-f">
+              <div class="form-grid">
+                <label id="col_label" for="col">Column</label>
+                <input type="text" maxlength=1 name="col_letter" id="col_letter" placeholder="Letter from A to W" required>
+              </div>
+              <div class="form-grid">
+                <label id="line_label" for="line">Line</label>
+                <input type="number" maxlength=1 name="line_num" id="line_num" placeholder="Number from 1 to 23" required>
+              </div>
+            </form>
+            <button id="gridsearchbut">Go to grid area</button>
+            <button id="gridsearchreset">Reset grid search tool</button>
+          </fieldset>
+          </div>
+        </div>
+
         <!-- Map -->
         <div id="map"></div>
         <!-- Map Controls -->
@@ -688,6 +720,7 @@
     <script src="scripts/data-form/data.js"></script>
     <script src="scripts/data-form/map.js"></script>
     <script src="scripts/data-form/map-editing.js"></script>
+    <script src="scripts/data-form/map-toolbox.js"></script>
     <!-- Dashboard -->
     <script src="scripts/data-form/dashboard.js"></script>
     <!-- Google API -->

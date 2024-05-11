@@ -15,6 +15,7 @@ map.pm.addControls({
     rotateMode:false
   });
 
+
 //Choose Leaflet Geoman mode for editing depending on the type of geometry
 function updateGeomanControl(event) {
     var selectedType = event.target.value;
@@ -23,36 +24,48 @@ function updateGeomanControl(event) {
         map.pm.addControls({
             dragMode:true,
             editMode:false,
-            cutPolygon:false})
-        points.options.pmIgnore == false
-        areas.options.pmIgnore == true
-        roads.options.pmIgnore == true
+            drawPolyline: false,
+            cutPolygon:false,
+            removalMode: false})
+        points.options.pmIgnore = false
+        points.options.snapIgnore = true
+        areas.options.pmIgnore = true
+        roads.options.pmIgnore = true
     } else if (selectedType === 'geom-edit-roads') {
         map.pm.addControls({
             dragMode:false,
+            drawPolyline: true,
             editMode:true,
-            cutPolygon:false});
-        points.options.pmIgnore == true
-        areas.options.pmIgnore == true
-        roads.options.pmIgnore == false
+            cutPolygon:false,
+            removalMode: true});
+        points.options.pmIgnore = true
+        points.options.snapIgnore = false
+        areas.options.pmIgnore = true
+        roads.options.pmIgnore = false
+        roads.options.snapIgnore = false
     } else if (selectedType === 'geom-edit-areas') {
         map.pm.addControls({
             dragMode:false,
             editMode:true,
-            cutPolygon:true
+            cutPolygon:true,
+            removalMode: false
         });
-        points.options.pmIgnore == true
-        areas.options.pmIgnore == false
-        roads.options.pmIgnore == true
+        points.options.pmIgnore = true
+        points.options.snapIgnore = true,
+        areas.options.pmIgnore = false
+        roads.options.pmIgnore = true
     } else if (selectedType === 'geom-edit-disabled') {
         map.pm.addControls({
             dragMode:false,
             editMode:false,
-            cutPolygon:false
+            cutPolygon:false,
+            drawPolyline: false,
+            removalMode: false
         });
-        points.options.pmIgnore == true
-        areas.options.pmIgnore == true
-        roads.options.pmIgnore == true
+        points.options.pmIgnore = true
+        points.options.snapIgnore = true,
+        areas.options.pmIgnore = true
+        roads.options.pmIgnore = true
     }
   }
 
@@ -187,3 +200,98 @@ function executeDragUpdate() {
 
 // Add event listener to the button
 document.getElementById('geom-edit-points-save').addEventListener('click', executeDragUpdate);
+
+/*******************************************************/
+/*********************** LINES *************************/
+/*******************************************************/
+
+// Init variables
+var drawnItems = new L.FeatureGroup();
+map.addLayer(drawnItems);
+var maxShapes = 1;
+var shapesDrawn = 0;
+var lastEditedCoordinates = null;
+
+function inverseLatLong(points) {
+    // Iterate over each point in the array
+    var invertedPoints = points.map(function(point) {
+        // Swap latitude and longitude values
+        return [point[1], point[0]];
+    });
+    return invertedPoints;
+}
+
+function addGeometryFromInput() {
+    var inputElement = document.getElementById('object-geom');
+    var geometryValue = inputElement.value;
+
+    if (geometryValue) {
+        var coordinates = JSON.parse(geometryValue);
+        console.log(coordinates)
+        //Create a polyline object with GEOM column value
+        var geometry = L.polyline(coordinates);
+        drawnItems.clearLayers();
+        drawnItems.addLayer(geometry);
+        shapesDrawn = 1
+        lastEditedCoordinates = coordinates
+    } else {
+        alert("No geometry value found in the input.");
+    }
+}
+document.getElementById('geom-create-road-load').addEventListener('click', addGeometryFromInput);
+
+function clearGEOMField(){
+    var inputElement = document.getElementById('object-geom');
+    inputElement.value = '';
+}
+document.getElementById('geom-create-road-clear').addEventListener('click', clearGEOMField);
+
+
+map.on('pm:create', function(e) {
+    if (e.layer instanceof L.Polyline) {
+        lastEditedCoordinates = e.layer.toGeoJSON().geometry.coordinates; // Get array of LatLng coordinates
+        lastEditedCoordinates = inverseLatLong(lastEditedCoordinates)
+        console.log("Initial geometry:", lastEditedCoordinates);
+    }
+
+    if (shapesDrawn < maxShapes) {
+        drawnItems.addLayer(e.layer);
+        shapesDrawn++;
+
+        // Add event listener for editing
+        e.layer.on('pm:edit', function(editEvent) {
+            lastEditedCoordinates = editEvent.layer.toGeoJSON().geometry.coordinates;
+            lastEditedCoordinates = inverseLatLong(lastEditedCoordinates)
+            console.log("Edited geometry:", lastEditedCoordinates);
+        });
+    } else {
+        alert("You have reached the maximum number of shapes allowed.");
+        map.removeLayer(e.layer);
+    }
+});
+
+drawnItems.on('pm:edit', function (e) {
+    lastEditedCoordinates = e.layer.toGeoJSON().geometry.coordinates;
+    lastEditedCoordinates = inverseLatLong(lastEditedCoordinates)
+    console.log("Edited geometry:", lastEditedCoordinates);
+});
+
+// Listen for removal event
+map.on('pm:remove', function(e) {
+    shapesDrawn--;
+    lastEditedCoordinates = null;
+});
+
+// Handle button click event
+document.getElementById('geom-create-road-save').addEventListener('click', function() {
+    if (lastEditedCoordinates) {
+        // Send last edited coordinates to an HTML input
+        var inputElement = document.getElementById('object-geom');
+        document.getElementById('object-geom-type').value = 'MultiLineString';
+        //document.getElementById('object-ponctual').checked = false;
+        console.log(lastEditedCoordinates);
+        inputElement.value = JSON.stringify(lastEditedCoordinates);
+    } else {
+        alert("No geometry has been edited yet.");
+    }
+});
