@@ -2,15 +2,13 @@
 /**
  * Load all data lists, refresh/init dashboard
  */
-async function initDataLoad() {
+async function initAstronomicalObjects() {
   
   // List objects
   await listObjects();
   await listTypes();
   await listTypeClasses();
   await listSources();
-  // Dashboard
-  initDashboard();
 }
 
 /**
@@ -97,59 +95,6 @@ async function listTypeClasses() {
   }
   console.log("OBJECT TYPE CLASSES List : ", astronomicalObjectTypeClasses);
 }
-
-/**
- * List Sources
- */
-async function listSources() {
-  // Get data
-  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.SOURCES.NAME, '!A2:T');
-  // Populate select2 search array
-  astronomicalObjectSourceSearchArray = [];
-  for(i=0; i<spreadSheetData.values.length; i++){
-    const rowValues = spreadSheetData.values[i];
-
-    const NAME = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.NAME]);
-    const CONTINUITY = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.CONTINUITY]);
-    const ERA = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.ERA]);
-    const TIMELINE_DATE = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.TIMELINE_DATE]).replace(/ *\[[^)]*\] */g, "");
-    const TYPE = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.TYPE]);
-    const RELEASED = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.RELEASED]);
-    const AUTHORS = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHORS]);
-    
-    // Don't push if line is empty (used as separator for presentation)
-    if(NAME !== "") {
-
-      let text = `${NAME} [${CONTINUITY}`;
-      if (ERA !== "") {
-        text += `/${ERA}`;
-      }
-      if (TIMELINE_DATE !== "") {
-        text += `/${TIMELINE_DATE}`;
-      }
-      text += `] (${TYPE}`;
-      if (RELEASED !== "") {
-        text += `|${RELEASED}`;
-      }
-      if (AUTHORS !== "") {
-        text += `|${AUTHORS}`;
-      }
-      text += `)`;
-
-      astronomicalObjectSourceSearchArray.push({
-        id: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.ID],
-        name: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.NAME],
-        continuity: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.CONTINUITY],
-        url: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.URL],
-        // Select 2 display
-        text: text,
-      });
-    }
-  }
-  console.log(astronomicalObjectSourceSearchArray);
-}
-
-
 
 /**
  * Init search and parent Select2
@@ -254,13 +199,13 @@ function generateHierarchicalStringOnAstroObjectParentSelect() {
  */
 async function loadObjectForm(objectID) {
   const foundObjects = astronomicalObjectSearchArray.filter((element) => element.id === objectID);
-  console.log(foundObjects);
+  // console.log(foundObjects);
   // Alert if several object meet conditions (i.e. duplicated technical ID !!!!!)
   if(foundObjects > 1) {
-    alert(`Same ID ${objectID} for multiple object !!! Must be corrected manually in spreadsheet `);
+    alert(`Same ID ${objectID} for multiple astronomical object !!! Must be corrected manually in spreadsheet `);
     return;
   } else if(foundObjects == 0 && objectID) {
-    alert(`Bug alert - ID ${objectID} doesn't exist !!! Fix source code`);
+    alert(`Bug alert - ID ${objectID} for astronomical object doesn't exist !!! Fix source code`);
     return;
   } else if (!objectID) {
     console.log("No object selected !");
@@ -270,16 +215,18 @@ async function loadObjectForm(objectID) {
     // Search matching row
     const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}`;
     const results = await getSpreadSheetRowFromColumnKeyValuePairs(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, sheetRange, [{key:SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID, value:objectID}]);
-    console.log(results);
+    // console.log(results);
     // ID must be unique
     if(results.length > 1) {
       alert("ID must be unique ! Check console (F12)");
       return;
     }
     const rowValues = results[0];
+    console.log("Object loading ...", rowValues);
     // Populate form
     let astroObject = rowValues;
     window.selectedAstronomicalObject = rowValues;
+    // Fields
     document.getElementById('object-tech-id').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]); // Tech ID
     document.getElementById('object-human-id').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_ID]); // Human ID
     let updateDate = new Date(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.updated_at]).toLocaleString();
