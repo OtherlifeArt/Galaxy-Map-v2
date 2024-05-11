@@ -135,7 +135,7 @@ points.on('pm:dragdisable', function(e) {
 })
 
 
-async function updateSpreadSheetRowData(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, dataRowToUpdate) {
+async function updateSpreadSheetRowDataDragPoints(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, dataRowToUpdate) {
     let response;
     try {
       // Fetch first 10 files
@@ -192,7 +192,7 @@ let completedCount = 0;
 function executeDragUpdate() {
     const sheetRange = `!${SPREADSHEET_HEADERS.OBJECT_SOURCES.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECT_SOURCES.LAST_COLUMN_REF()}`;
     draggedPoints.forEach(async (innerArray) => {
-        await updateSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECTS, sheetRange, SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.ID, innerArray);
+        await updateSpreadSheetRowDataDragPoints(SPREADSHEET_ID, SHEETS.OBJECTS, sheetRange, SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.ID, innerArray);
         completedCount++;
     })
     draggedPoints = []
@@ -207,6 +207,9 @@ document.getElementById('geom-edit-points-save').addEventListener('click', execu
 
 // Init variables
 var drawnItems = new L.FeatureGroup();
+/*map.createPane('drawnItems');
+map.getPane('drawnItems').style.zIndex = 600;
+drawnItems.setPane('drawnItems');*/
 map.addLayer(drawnItems);
 var maxShapes = 1;
 var shapesDrawn = 0;
