@@ -541,20 +541,20 @@
         </div>
         
         <h4>Map toolbox</h4>
-        <div class="loadgeojsondiv" style="">
+        <div class="loadgeojsondiv">
           <fieldset>
           <legend>Data loading and editing</legend>
-          <button id="loadpoints" onclick="getGeoJSON()">Points</button>
+          <button id="loadpoints" onclick="getGeoJSON()">Re.Load Points</button>
 
           <div>
             <div>
               <input type="radio" id="geom-edit-disabled" name="geom-edit" value="geom-edit-disabled" checked />
-              <label for="geom-edit-disabled">Editing disabled</label>
+              <label for="geom-edit-disabled">Map features editing disabled</label>
             </div>
           
             <div>
               <input type="radio" id="geom-edit-points" name="geom-edit" value="geom-edit-points" />
-              <label for="geom-edit-points">Edit Points layer</label>
+              <label for="geom-edit-points">Edit <i>Points</i> layer</label>
               <button id="geom-edit-points-save" onclick="executeDragUpdate()">Save dragged points coordinates</button>
             </div>
           

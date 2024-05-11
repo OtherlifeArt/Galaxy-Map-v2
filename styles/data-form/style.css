@@ -292,7 +292,7 @@ input[readonly], textarea[readonly] {
             margin-left: 10px;}
 #gridsearchbut{margin-top:5px}
 #geom-edit-points-save{
-  margin-left: 20px;
+  margin-left: 100px;
 }
 /*Style button to edit X and Y*/
 .xyeditbtn{
