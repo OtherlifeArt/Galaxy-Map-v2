@@ -122,57 +122,57 @@ points.on('pm:dragdisable', function(e) {
 })
 
 
-// async function updateSpreadSheetRowData(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, dataRowToUpdate) {
-//     let response;
-//     try {
-//       // Fetch first 10 files
-//       response = await gapi.client.sheets.spreadsheets.values.get({
-//         spreadsheetId: spreadsheetId,
-//         range: sheetIdNameEntry.NAME + sheetRange,
-//       });
-//     } catch (err) {
-//       document.getElementById('content').innerText = err.message;
-//       alert(err.message);
-//       return;
-//     }
-//     console.log("Results :", response.result);
-//     const range = response.result;
-//     const values = range.values;
-//     if (!range || !values || values.length == 0) {
-//       console.err('No data/spreadsheet found.');
-//       return false;
-//     }
+async function updateSpreadSheetRowData(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, dataRowToUpdate) {
+    let response;
+    try {
+      // Fetch first 10 files
+      response = await gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: spreadsheetId,
+        range: sheetIdNameEntry.NAME + sheetRange,
+      });
+    } catch (err) {
+      document.getElementById('content').innerText = err.message;
+      alert(err.message);
+      return;
+    }
+    console.log("Results :", response.result);
+    const range = response.result;
+    const values = range.values;
+    if (!range || !values || values.length == 0) {
+      console.err('No data/spreadsheet found.');
+      return false;
+    }
   
-//     // Find row number matching technical ID and return it
-//     const rowIndex = values.findIndex((row) => row[objectIdColumnNumber] === dataRowToUpdate[objectIdColumnNumber]);
+    // Find row number matching technical ID and return it
+    const rowIndex = values.findIndex((row) => row[objectIdColumnNumber] === dataRowToUpdate[objectIdColumnNumber]);
   
-//     if (rowIndex === -1) {
-//       console.log('Value not found.');
-//       console.error('Value not found in spreadsheet.');
-//       return false;
-//     } else {
-//       console.log(`Row number where the value is found: ${rowIndex + 1}`);
-//       console.log(values[rowIndex]);
+    if (rowIndex === -1) {
+      console.log('Value not found.');
+      console.error('Value not found in spreadsheet.');
+      return false;
+    } else {
+      console.log(`Row number where the value is found: ${rowIndex + 1}`);
+      console.log(values[rowIndex]);
   
-//       // Update row
-//       var coords = [dataRowToUpdate[1],dataRowToUpdate[2]]
-//       try {
-//         response = await gapi.client.sheets.spreadsheets.values.update({
-//           spreadsheetId: spreadsheetId,
-//           range: sheetIdNameEntry.NAME + `!S${rowIndex + 1}:T${rowIndex + 1}`,
-//           valueInputOption: "RAW",
-//           majorDimension: "ROWS",
-//           values: [coords]
-//         });
-//       } catch (err) {
-//         document.getElementById('content').innerText = err.message;
-//         // alert(err.message);
-//         return false;
-//       }
-//       console.log("Object updated :", response.result);
-//       return true;
-//     }
-//   }
+      // Update row
+      var coords = [dataRowToUpdate[1],dataRowToUpdate[2]]
+      try {
+        response = await gapi.client.sheets.spreadsheets.values.update({
+          spreadsheetId: spreadsheetId,
+          range: sheetIdNameEntry.NAME + `!S${rowIndex + 1}:T${rowIndex + 1}`,
+          valueInputOption: "RAW",
+          majorDimension: "ROWS",
+          values: [coords]
+        });
+      } catch (err) {
+        document.getElementById('content').innerText = err.message;
+        // alert(err.message);
+        return false;
+      }
+      console.log("Object updated :", response.result);
+      return true;
+    }
+  }
   
 // Function to execute when the button is clicked
 let completedCount = 0;
