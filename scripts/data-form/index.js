@@ -22,9 +22,12 @@ const SHEETS = {
   OBJECT_SOURCES: {
     ID: "288489171", NAME: "Object Sources",
   },
+  HYPERROUTE_SOURCES: {
+    ID: "551196436", NAME: "Hyperroute Sources",
+  },
   SOURCES: {
     ID: "1968171245", NAME: "Sources",
-  }
+  },
 }
 
 // SPREADSHEET COLUMNS
@@ -165,7 +168,101 @@ const SPREADSHEET_HEADERS = {
       return FIRST_CHAR + LAST_CHAR;
     },
     LAST_COLUMN_INDEX_NUMBER: () => { return Object.keys(SPREADSHEET_HEADERS.OBJECT_TYPE_CLASSES.COLUMNS).length -1},
-  }
+  },
+  "HYPERROUTES":{
+    COLUMNS : {
+      ID: 0,
+      HUMAN_ID: 1,
+      NAME: 2,
+      ALT_NAMES: 3,
+      PARENT_ID: 4,
+      PARENT_NAME: 5,
+      DATE_FROM: 6,
+      DATE_TO: 7,
+      CANON: 8,
+      LEGENDS: 9,
+      UNLICENSED: 10,
+      TYPE: 11,
+      TRADE_ROUTE_LEVEL: 12,
+      URLS: 13,
+      WIKI_DATA_ID: 14,
+      DESC: 15,
+      ZOOM_LEVEL: 16,
+      CONJECTURAL_NAME: 17,
+      NOTES: 18,
+      INTERESTING: 19,
+      updated_at: 20,
+      is_certified: 21,
+      GEOM: 21,
+      GEOM_TYPE: 21,
+    },
+    FIRST_COLUMN_REF: 'A',
+    LAST_COLUMN_REF: () => {
+      // Search of column index (2 letters limit - 676 columns should be enough) 
+      const COLUMN_NUMBER = SPREADSHEET_HEADERS.HYPERROUTES.LAST_COLUMN_INDEX_NUMBER();
+      const FIRST_CHAR = COLUMN_NUMBER / 26 >= 1 ? String.fromCharCode(64 + parseInt(COLUMN_NUMBER / 26)) : "";
+      const LAST_CHAR = String.fromCharCode(65 + COLUMN_NUMBER % 26);
+      return FIRST_CHAR + LAST_CHAR;
+    },
+    LAST_COLUMN_INDEX_NUMBER: () => { return Object.keys(SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS).length -1},
+  },
+  "HYPERROUTE_SECTIONS":{
+    COLUMNS : {
+      HUMAN_ID: 0,
+      LOCATION_A_ID: 1,
+      LOCATION_A: 2,
+      LOCATION_B_ID: 3,
+      LOCATION_B: 4,
+      HYPERROUTE_ID: 5,
+      HYPERROUTE: 6,
+      DATE_FROM: 7,
+      DATE_TO: 8,
+      CANON: 9,
+      LEGENDS: 10,
+      UNLICENSED: 11,
+      MEDIUM_TRAVEL_TIME: 12,
+      DESC: 13,
+      PLACEMENT_CERTITUDE: 14,
+      PLACEMENT_LOGIC: 15,
+      NOTES: 16,
+      INTERESTING: 17,
+      updated_at: 18,
+      is_certified: 19,
+    },
+    FIRST_COLUMN_REF: 'A',
+    LAST_COLUMN_REF: () => {
+      // Search of column index (2 letters limit - 676 columns should be enough) 
+      const COLUMN_NUMBER = SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.LAST_COLUMN_INDEX_NUMBER();
+      const FIRST_CHAR = COLUMN_NUMBER / 26 >= 1 ? String.fromCharCode(64 + parseInt(COLUMN_NUMBER / 26)) : "";
+      const LAST_CHAR = String.fromCharCode(65 + COLUMN_NUMBER % 26);
+      return FIRST_CHAR + LAST_CHAR;
+    },
+    LAST_COLUMN_INDEX_NUMBER: () => { return Object.keys(SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS).length -1},
+  },
+  "HYPERROUTE_SOURCES": {
+    COLUMNS : {
+      ID: 0,
+      HYPERROUTE_ID: 1,
+      HYPERROUTE_NAME: 2,
+      SOURCE_ID: 3,
+      SOURCE_NAME: 4,
+      SOURCE_PATH: 5,
+      TARGET_COLUMN: 6,
+      URL: 7,
+      CANON: 8,
+      LEGENDS: 9,
+      NOTE: 10,
+    },
+    FIRST_COLUMN_REF: 'A',
+    LAST_COLUMN_REF: () => {
+      // Search of column index (2 letters limit - 676 columns should be enough) 
+      const COLUMN_NUMBER = SPREADSHEET_HEADERS.HYPERROUTE_SOURCES.LAST_COLUMN_INDEX_NUMBER();
+      const FIRST_CHAR = COLUMN_NUMBER / 26 >= 1 ? String.fromCharCode(64 + parseInt(COLUMN_NUMBER / 26)) : "";
+      const LAST_CHAR = String.fromCharCode(65 + COLUMN_NUMBER % 26);
+      return FIRST_CHAR + LAST_CHAR;
+    },
+    LAST_COLUMN_INDEX_NUMBER: () => { return Object.keys(SPREADSHEET_HEADERS.HYPERROUTE_SOURCES.COLUMNS).length -1},
+  },
 }
 
 // console.log(SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF());
@@ -215,12 +312,29 @@ let astronomicalObjectSearchArray = [];
 let selectedAstronomicalObject;
 let astronomicalObjectTypes = [];
 let astronomicalObjectTypeClasses = [];
-let astronomicalObjectSourceSearchArray = [];
+let sourceSearchArray = [];
+
+let hyperrouteArray = [];
+let selectedHyperroute;
 
 // Trick to export some values from other scopes
 window.dataToUpdate = [];
 window.fromJQuery = {
 };
+
+/* FUNCTIONS */
+/**
+ * Load all data lists, refresh/init dashboard
+ */
+async function initDataLoad() {
+  
+  // Init Astronomical Objects
+  await initAstronomicalObjects(); // Object, type, type classes, object sources
+  // Init hyper routes
+  await initHyperroutes();
+  // Dashboard
+  initDashboard();
+}
 
 /* MAIN */
 
@@ -236,12 +350,24 @@ document.querySelector("#default-tab").className += " active";
 SEARCH_INPUT.addEventListener('select2:select', loadObjectForm);
 
 /**
- * Sources button click
+ * Object Sources button click
  */
 document.querySelectorAll('.object-source-entry-button').forEach(button => {
   button.addEventListener('click', function(e) {
     e.preventDefault(); // Skip form default action
-    openDataFieldSourceModal(e.target);
+    document.getElementById("source-modal-sheet-id").value = SHEETS.OBJECT_SOURCES.ID;
+    openDataFieldObjectSourceModal(e.target);
+  });
+});
+
+/**
+ * Hyperroute Sources button click
+ */
+document.querySelectorAll('.hyperroute-source-entry-button').forEach(button => {
+  button.addEventListener('click', function(e) {
+    e.preventDefault(); // Skip form default action
+    document.getElementById("source-modal-sheet-id").value = SHEETS.HYPERROUTE_SOURCES.ID;
+    openDataFieldHyperrouteSourceModal(e.target);
   });
 });
 
