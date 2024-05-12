@@ -80,11 +80,19 @@ var overLayers = [
   {label: 'Grid', layer: completegrid, name: 'Grid'},
   {label: 'Data',selectAllCheckbox: false,
     children: [
-          {label: "Points", layer: points},
-          //{label: "Points (last fix export)", layer: points},
-          {label: "Hyperlanes (deprecated)", layer: roads},
-          {label: "Areas", layer: areas},
+          {label:"Current",
+            children: [{label: "Points (load from db)", layer: points},
+            {label: "Areas", layer: areas}
             ]
+          },
+          {label:"Deprecated",collapsed:true,
+          children:[
+            //{label: "Points (last export)", layer: points},
+            {label: "Hyperlanes", layer: roads},
+            
+          ]
+        }
+        ]
   },
   {label: 'Source maps',
     children: [

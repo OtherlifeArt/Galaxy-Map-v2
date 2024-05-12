@@ -246,6 +246,7 @@ document.getElementById('geom-create-road-load').addEventListener('click', addGe
 function clearGEOMField(){
     var inputElement = document.getElementById('object-geom');
     inputElement.value = '';
+    document.getElementById('object-geom-type').value = '';
 }
 document.getElementById('geom-create-road-clear').addEventListener('click', clearGEOMField);
 
