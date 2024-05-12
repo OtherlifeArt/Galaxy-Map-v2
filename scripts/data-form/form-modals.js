@@ -318,6 +318,24 @@ function saveDataFromSourceModal() {
   // alert(`Added entries : ${addedSourceNumber}\nUpdated entries : ${updatedSourceNumber}`);
 }
 
+/**
+ * Updata data : switch to right update method (object or hyperroute)
+ */
+function updateDataFromValidationModal() {
+  let dataTabIdToUpdate = document.getElementById("modal-sheet-data-id-to-update").value;
+  switch (dataTabIdToUpdate) {
+    case SHEETS.OBJECTS.ID:
+      updateObjectData();
+      break;
+    case SHEETS.HYPERROUTES.ID:
+      updateHyperrouteData();
+      break;
+    default:
+      alert(`Sheet ID ${dataTabIdToUpdate} is unknown !`);
+      break;
+  }
+}
+
 /** EVENTS **/
 
 /**

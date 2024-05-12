@@ -400,6 +400,7 @@ async function showObjectDataChange () {
   // Populate Validation Table
   await populateValidationTable(window.selectedAstronomicalObject, window.dataToUpdate);
   // Display modal
+  document.getElementById("modal-sheet-data-id-to-update").value = SHEETS.OBJECTS.ID;
   displayModal();
 }
 
@@ -625,7 +626,7 @@ async function showDataAndUpdate() {
   showObjectDataChange();
 }
 
-async function updateData() {
+async function updateObjectData() {
   await convertFormValuesToData();
   const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}`;
   let returnCode = await updateSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECTS, sheetRange, SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID, window.dataToUpdate);

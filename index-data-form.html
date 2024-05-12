@@ -480,7 +480,7 @@
               </fieldset>
             </form>
             <button id="validation-update" class="verbose-button" onclick="showDataAndUpdate();">Update Astronomical Object With Visual Validation</button>
-            <button id="data-update-button" class="verbose-button" onclick="updateData();">Update Astronomical Object</button>
+            <button id="data-update-button" class="verbose-button" onclick="updateObjectData();">Update Astronomical Object</button>
             <button id="data-new-button" class="verbose-button" onclick="addNewData();">Save As New Object</button>
             <button id="data-delete-button" class="verbose-button" onclick="deleteData();">Delete Selected Object</button>
           </div>
@@ -660,10 +660,10 @@
                 </div>
               </fieldset>
             </form>
-            <button id="hyperroute-validation-update" class="verbose-button" onclick="showDataAndUpdate();">Update Astronomical Hyperroute With Visual Validation</button>
-            <button id="hyperroute-data-update-button" class="verbose-button" onclick="updateData();">Update Hyperroute</button>
-            <button id="hyperroute-data-new-button" class="verbose-button" onclick="addNewData();">Save As New Hyperroute</button>
-            <button id="hyperroute-data-delete-button" class="verbose-button" onclick="deleteData();">Delete Selected Hyperroute</button>
+            <button id="hyperroute-validation-update" class="verbose-button" onclick="showHyperrouteDataAndUpdate();">Update Hyperroute With Visual Validation</button>
+            <button id="hyperroute-data-update-button" class="verbose-button" onclick="updateHyperrouteData();">Update Hyperroute</button>
+            <button id="hyperroute-data-new-button" class="verbose-button" onclick="addHyperrouteNewData();">Save As New Hyperroute</button>
+            <button id="hyperroute-data-delete-button" class="verbose-button" onclick="deleteHyperrouteData();">Delete Selected Hyperroute</button>
           </div>
         </div>
         <!-- Hyper route tab end -->
@@ -784,6 +784,8 @@
       <div class="modal-content">
         <span id="close-validation-modal" class="close">&times;</span>
         <p>
+          <!-- Tab ID to update data -->
+          <input type="hidden" id="modal-sheet-data-id-to-update">
           <!-- Modal inner content -->
           <table id="modal-table">
             <caption>Data change</caption>
@@ -799,7 +801,7 @@
         </p>
         <p>
           <!-- Buttons -->
-          <button id="data-update-button" onclick="updateData();">Save DATA</button>
+          <button id="data-update-button" onclick="updateDataFromValidationModal();">Save DATA</button>
           <button id="close-modal-button" onclick="closeModal();">Close without saving</button>
         </p>
       </div>
