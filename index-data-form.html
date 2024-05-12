@@ -37,7 +37,6 @@
         <div class="tab">
           <button id="default-tab" class="tablinks" onclick="openSection(event, 'astro-object-tab')">Astronomical Object</button>
           <button class="tablinks" onclick="openSection(event, 'hyper-route-tab')">Hyperroute</button>
-          <button class="tablinks" onclick="openSection(event, 'hyper-route-section-tab')">Hyperroute Section</button>
           <button class="tablinks" onclick="openSection(event, 'automation-tools-tab')">Automated Tools</button>
           <button class="tablinks" onclick="openSection(event, 'dashboard-tab')">Dashboard</button>
         </div>
@@ -610,6 +609,18 @@
                     <span class="tooltiptext">Is hyperroute unlicensed (neither Canon nor Legends) ?</span>
                   </span>
                 </div>
+                  <!-- GEOM -->
+                  <span class="tooltip">
+                    <label for="hyperroute-geom">GEOM</label>
+                    <textarea name="hyperroute-geom" id="hyperroute-geom" readonly></textarea>
+                    <span class="tooltiptext">Geometry for complex objects like lines, polygons …</span>
+                  </span>
+                  <!-- GEOM TYPE -->
+                  <span class="tooltip">
+                    <label for="hyperroute-geom-type">GEOM TYPE</label>
+                    <input type="text" name="hyperroute-geom-type" id="hyperroute-geom-type"/>
+                    <span class="tooltiptext">Used to build Geojson files.</span>
+                  </span>
                 <div>
                   <!-- Desc -->
                   <span class="tooltip">
@@ -647,7 +658,7 @@
                     <span class="tooltiptext">ID from wiki data website : https://www.wikidata.org</span>
                   </span>
                   <!-- Sources Display -->
-                  <span id="url-displayer-hyperroute">
+                  <span id="hyperroute-url-displayer">
                   </span>
                 </div>
                 <div>
@@ -667,13 +678,6 @@
           </div>
         </div>
         <!-- Hyper route tab end -->
-
-        <!-- Hyper route section tab -->
-        <div id="hyper-route-section-tab" class="tabcontent">
-          <h3>Hyper Route Section Form</h3>
-          <p>Coming soon</p>
-        </div>
-        <!-- Hyper route section tab end -->
 
         <!-- Automation tools tab -->
         <div id="automation-tools-tab" class="tabcontent">

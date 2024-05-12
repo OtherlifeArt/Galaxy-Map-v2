@@ -153,7 +153,7 @@ async function loadHyperrouteForm(hyperrouteId) {
     document.getElementById('hyperroute-sources').value = sanitizeText(hyperroute[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.URLS]); // Sources
     let urlList = separateStringToLinkList(sanitizeText(document.getElementById('hyperroute-sources').value), ",");
     console.log(urlList);
-    let urlDisplayerSpan = document.getElementById('url-displayer')
+    let urlDisplayerSpan = document.getElementById('hyperroute-url-displayer')
     urlDisplayerSpan.innerHTML = "";
     // Source URL displayer
     for (const element of urlList) {
@@ -165,6 +165,8 @@ async function loadHyperrouteForm(hyperrouteId) {
     let div = urlDisplayerSpan.appendChild(document.createElement("div"));
     div.appendChild(separateStringToLinkList(WIKIDATA_PAGE_PREFIX + sanitizeText(document.getElementById('hyperroute-wikidata-id').value), ",")[0]);
     document.getElementById('hyperroute-zoom-level').value = sanitizeText(hyperroute[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ZOOM_LEVEL]); // Zoom level
+    document.getElementById('hyperroute-geom').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.GEOM]); // Complex geometry
+    document.getElementById('hyperroute-geom-type').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.GEOM_TYPE]); // Geom Type
   }
 }
 
@@ -287,6 +289,8 @@ async function convertHyperrouteFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.URLS] = sanitizeText(document.getElementById('hyperroute-sources').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.WIKI_DATA_ID] = sanitizeText(document.getElementById('hyperroute-wikidata-id').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ZOOM_LEVEL] = sanitizeText(document.getElementById('hyperroute-zoom-level').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.GEOM] = sanitizeText(document.getElementById('hyperroute-geom').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.GEOM_TYPE] = sanitizeText(document.getElementById('hyperroute-geom-type').value);
     // Auto values
     window.dataToUpdate[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.updated_at] = new Date().toUTCString();
   });
