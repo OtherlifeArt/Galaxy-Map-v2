@@ -22,9 +22,12 @@ const SHEETS = {
   OBJECT_SOURCES: {
     ID: "288489171", NAME: "Object Sources",
   },
+  HYPERROUTE_SOURCES: {
+    ID: "551196436", NAME: "Hyperroute Sources",
+  },
   SOURCES: {
     ID: "1968171245", NAME: "Sources",
-  }
+  },
 }
 
 // SPREADSHEET COLUMNS
@@ -233,6 +236,30 @@ const SPREADSHEET_HEADERS = {
       return FIRST_CHAR + LAST_CHAR;
     },
     LAST_COLUMN_INDEX_NUMBER: () => { return Object.keys(SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS).length -1},
+  },
+  "HYPERROUTE_SOURCES": {
+    COLUMNS : {
+      ID: 0,
+      HYPERROUTE_ID: 1,
+      HYPERROUTE_NAME: 2,
+      SOURCE_ID: 3,
+      SOURCE_NAME: 4,
+      SOURCE_PATH: 5,
+      TARGET_COLUMN: 6,
+      URL: 7,
+      CANON: 8,
+      LEGENDS: 9,
+      NOTE: 10,
+    },
+    FIRST_COLUMN_REF: 'A',
+    LAST_COLUMN_REF: () => {
+      // Search of column index (2 letters limit - 676 columns should be enough) 
+      const COLUMN_NUMBER = SPREADSHEET_HEADERS.HYPERROUTE_SOURCES.LAST_COLUMN_INDEX_NUMBER();
+      const FIRST_CHAR = COLUMN_NUMBER / 26 >= 1 ? String.fromCharCode(64 + parseInt(COLUMN_NUMBER / 26)) : "";
+      const LAST_CHAR = String.fromCharCode(65 + COLUMN_NUMBER % 26);
+      return FIRST_CHAR + LAST_CHAR;
+    },
+    LAST_COLUMN_INDEX_NUMBER: () => { return Object.keys(SPREADSHEET_HEADERS.HYPERROUTE_SOURCES.COLUMNS).length -1},
   },
 }
 

@@ -19,23 +19,23 @@ body {
 }
 
 /* Select2 */
-#object-search {
+#object-search, #hyperroute-search {
   width: 100% !important;
 }
 
-#object-name-span {
+#object-name-span, #hyperroute-name-span {
   width: 100%;
 }
 
-#object-name-span > input {
+#object-name-span > input, #hyperroute-name-span > input {
   width: 71%;
 }
 
-#object-alt-name-span {
+#object-alt-name-span, #hyperroute-alt-name-span {
   width: 100%;
 }
 
-#object-alt-name-span > input {
+#object-alt-name-span > input, #hyperroute-alt-name-span > input {
   width: 68%;
 }
 
@@ -71,11 +71,11 @@ body {
   width: 80%;
 }
 
-#object-parent-span {
+#object-parent-span, #hyperroute-parent-span {
   width: 100%;
 }
 
-#object-parent {
+#object-parent, #hyperroute-parent {
   width: 87%;
 }
 

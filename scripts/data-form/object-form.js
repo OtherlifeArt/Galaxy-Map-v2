@@ -12,6 +12,15 @@ async function initAstronomicalObjects() {
 }
 
 /**
+ * List Astronomical objects
+ */
+async function listObjects() {
+  await loadAstronomicalObjectArray();
+  // Load select2 and bind events
+  await initAstroObjectsSelect2AndLinkedEvents();
+}
+
+/**
  * Create or recreate astromical array
  */
 async function loadAstronomicalObjectArray() {
@@ -39,12 +48,18 @@ async function loadAstronomicalObjectArray() {
 }
 
 /**
- * List Astronomical objects
+ * Init search and parent Select2
+ * Bind events when element are selected
  */
-async function listObjects() {
-  await loadAstronomicalObjectArray();
-  // Load select2 and bind events
-  await initAstroObjectsSelect2AndLinkedEvents();
+async function initAstroObjectsSelect2AndLinkedEvents() {
+  $(document).ready(async function() {
+    // Create select 2
+    initFormSelect2();
+    // Populate search form on select
+    loadFormOnAstroObjectSelect();
+    // Populate (human) parent on parent select
+    generateHierarchicalStringOnAstroObjectParentSelect();
+  });
 }
 
 /**
@@ -94,21 +109,6 @@ async function listTypeClasses() {
     });
   }
   console.log("OBJECT TYPE CLASSES List : ", astronomicalObjectTypeClasses);
-}
-
-/**
- * Init search and parent Select2
- * Bind events when element are selected
- */
-async function initAstroObjectsSelect2AndLinkedEvents() {
-  $(document).ready(async function() {
-    // Create select 2
-    initFormSelect2();
-    // Populate search form on select
-    loadFormOnAstroObjectSelect();
-    // Populate (human) parent on parent select
-    generateHierarchicalStringOnAstroObjectParentSelect();
-  });
 }
 
 /**
