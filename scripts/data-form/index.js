@@ -310,7 +310,7 @@ let astronomicalObjectSearchArray = [];
 let selectedAstronomicalObject;
 let astronomicalObjectTypes = [];
 let astronomicalObjectTypeClasses = [];
-let astronomicalObjectSourceSearchArray = [];
+let sourceSearchArray = [];
 
 let hyperrouteArray = [];
 let selectedHyperroute;
@@ -348,12 +348,24 @@ document.querySelector("#default-tab").className += " active";
 SEARCH_INPUT.addEventListener('select2:select', loadObjectForm);
 
 /**
- * Sources button click
+ * Object Sources button click
  */
 document.querySelectorAll('.object-source-entry-button').forEach(button => {
   button.addEventListener('click', function(e) {
     e.preventDefault(); // Skip form default action
-    openDataFieldSourceModal(e.target);
+    document.getElementById("source-modal-sheet-id").value = SHEETS.OBJECT_SOURCES.ID;
+    openDataFieldObjectSourceModal(e.target);
+  });
+});
+
+/**
+ * Hyperroute Sources button click
+ */
+document.querySelectorAll('.hyperroute-source-entry-button').forEach(button => {
+  button.addEventListener('click', function(e) {
+    e.preventDefault(); // Skip form default action
+    document.getElementById("source-modal-sheet-id").value = SHEETS.HYPERROUTE_SOURCES.ID;
+    openDataFieldHyperrouteSourceModal(e.target);
   });
 });
 

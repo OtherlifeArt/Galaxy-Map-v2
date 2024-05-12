@@ -5,7 +5,7 @@ async function loadSourcesSelect2(selectDomElement, selectedID) {
   $(document).ready(function() {
     // $(".modal-source-field").each(function (){
     $(selectDomElement).select2({
-        data: astronomicalObjectSourceSearchArray,
+        data: sourceSearchArray,
         placeholder: 'Source search....',
         allowClear: true,
         // dropdownAutoWidth: true, width: 'auto',
@@ -24,10 +24,11 @@ async function listSources() {
   // Get data
   const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.SOURCES.NAME, '!A2:T');
   // Populate select2 search array
-  astronomicalObjectSourceSearchArray = [];
+  sourceSearchArray = [];
   for(i=0; i<spreadSheetData.values.length; i++){
     const rowValues = spreadSheetData.values[i];
 
+    const ID = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.ID]);
     const NAME = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.NAME]);
     const CONTINUITY = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.CONTINUITY]);
     const ERA = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.ERA]);
@@ -35,9 +36,10 @@ async function listSources() {
     const TYPE = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.TYPE]);
     const RELEASED = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.RELEASED]);
     const AUTHORS = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHORS]);
+    const WOOKIEPEDIA = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.WOOKIEPEDIA]);
     
-    // Don't push if line is empty (used as separator for presentation)
-    if(NAME !== "") {
+    // Don't push if source id is empty (used as separator for presentation)
+    if(ID !== "") {
 
       let text = `${NAME} [${CONTINUITY}`;
       if (ERA !== "") {
@@ -55,17 +57,17 @@ async function listSources() {
       }
       text += `)`;
 
-      astronomicalObjectSourceSearchArray.push({
-        id: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.ID],
-        name: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.NAME],
-        continuity: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.CONTINUITY],
-        url: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.URL],
+      sourceSearchArray.push({
+        id: ID,
+        name: NAME,
+        continuity: CONTINUITY,
+        url: WOOKIEPEDIA,
         // Select 2 display
         text: text,
       });
     }
   }
-  console.log(astronomicalObjectSourceSearchArray);
+  console.log(sourceSearchArray);
 }
 
 /**
@@ -74,6 +76,7 @@ async function listSources() {
 function getCustomColumnEntryName(formEntryId) {
   let columnEntryName;
   switch (formEntryId) {
+    // Object
     case "object-name":
       columnEntryName = "NAME";
       break;
@@ -161,6 +164,32 @@ function getCustomColumnEntryName(formEntryId) {
     case "object-placement-certitude":
       columnEntryName = "PLACEMENT_CERTITUDE";
       break;
+    // Hyperroute
+    case "hyperroute-name":
+      columnEntryName = "NAME";
+      break;
+    case "hyperroute-alt-name":
+      columnEntryName = "ALT_NAME";
+      break;
+    case "hyperroute-level":
+      columnEntryName = "TRADE_ROUTE_LEVEL";
+      break;
+    case "hyperroute-parent":
+      columnEntryName = "PARENT";
+      break;
+    case "hyperroute-datefrom":
+      columnEntryName = "DATE_FROM";
+      break;
+    case "hyperroute-dateto":
+      columnEntryName = "DATE_TO";
+      break;
+      case "hyperroute-desc":
+        columnEntryName = "DESC";
+        break;
+      case "hyperroute-interesting":
+        columnEntryName = "INTERESTING";
+        break;
+    // Debug
     default:
       console.log(`Entry with ID ${formEntryId} not referenced !`);
       alert("Source error : entry unknown - check console (F12)");

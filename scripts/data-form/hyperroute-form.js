@@ -68,7 +68,7 @@ function loadFormOnHyperrouteSelect() {
     const hyperrouteId = $("#hyperroute-search").val();
     console.log(`Selected value (hyperrouteId) : ${hyperrouteId}`);
     loadHyperrouteForm(hyperrouteId);
-    //highlightSourceButtonsIfSourced(hyperrouteId);
+    highlightHyperrouteSourceButtonsIfSourced(hyperrouteId);
   });
 }
 
@@ -212,7 +212,7 @@ async function getHyperrouteParentHierarchy(hyperrouteId) {
 /**
  * Hightlight source button if object data is sourced
  */
-async function highlightSourceButtonsIfSourced (hyperrouteId) {
+async function highlightHyperrouteSourceButtonsIfSourced (hyperrouteId) {
   // FFCB5D or EEBA4A
   
   const buttonBackGroundColor = "#FFCB5D";
