@@ -32,7 +32,29 @@ L.Control.SpatialScalebar = L.Control.Scale.extend({
 }
 });
 var scale = (new L.Control.SpatialScalebar()).addTo(map);
-
+/*
+L.control.measure(
+  {position: 'topleft',
+  customLengthUnit: {
+    'parsecs': {
+        display: 'parsecs',
+        factor: 15.0 
+    }},
+  customLengthUnit: {
+    'light-years': {
+        display: 'light-years',
+        factor: 48.9 
+    }},
+    primaryLengthUnit: 'parsecs', // Display distances in parsecs
+    secondaryLengthUnit: 'light-years', // Display distances in light-years
+    showMeasurementsClearControl: false, // Hide the clear control button
+    showControlTitleOnStart: false, // Hide the control title initially
+    measureControlTitleOn: 'Enable measurements', // Title when measurements are enabled
+    measureControlTitleOff: 'Disable measurements', // Title when measurements are disabled
+    measureControlLabel: 'Measure', // Label for the control button
+    showUnitControl: true, // Show the unit control button
+}).addTo(map);
+*/
 /******** GRID PANES *********/
 
 map.createPane("grid");
@@ -105,7 +127,8 @@ var overLayers = [
               {label: "Yavin and the Gordian Reach",layer:YavinOverlay},
               {label: "Coporate Sector",layer:CorporateOverlay},
               {label: "Hapes Cluster",layer:HapesOverlay},
-              {label: "The Centrality",layer:CentralityOverlay}
+              {label: "The Centrality",layer:CentralityOverlay},
+              {label: "Tion Sector",layer:TionOverlay},
             ]
           },
           {label: 'Region scale maps',collapsed:true,
@@ -152,6 +175,7 @@ const Map_AddLayer = {
   "Coporate Sector":CorporateOverlay,
   "Hapes":HapesOverlay,
   "The Centrality":CentralityOverlay,
+  "Tion Sector":TionOverlay,
   "Deep Core": DeepCoreOverlay,
   "Core": CoreOverlay,
   "Colonies": ColoniesOverlay,
