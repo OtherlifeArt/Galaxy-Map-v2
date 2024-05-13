@@ -232,8 +232,9 @@ input[readonly], textarea[readonly] {
 /* Hyper route section  */
 
 #hyperroute-section-form {
-  height: 400px;
+  max-height: 400px;
   overflow-y: auto;
+  min-height: 0px;
 }
 
 #hyperroute-section-form-content {

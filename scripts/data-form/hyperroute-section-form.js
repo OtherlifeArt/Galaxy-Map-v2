@@ -1,14 +1,38 @@
+/**
+ * Load all hyperroute sections
+ */
+async function loadHyperrouteSections() {
+  resetHyperrouteSectionDivOnForm(); // Reset section list
+  // Search for all sections
+  const hyperrouteId = sanitizeText(document.getElementById('hyperroute-tech-id').value);
+  const sheetRange = `!${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.LAST_COLUMN_REF()}`;
+  const result = await searchForSpreadSheetValueByElementID(SPREADSHEET_ID, SHEETS.HYPERROUTE_SECTIONS, sheetRange, SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.HYPERROUTE_ID, hyperrouteId);
+  if(result.length > 0) {
+    console.log("Hyperroute sections found", result);
+    result.forEach(hyperrouteSection => {
+      addHyperrouteSectionDivOnForm(hyperrouteSection);
+    });
+  } else {
+    console.log("No Hyperroute section found !");
+  }
+}
+
 function resetHyperrouteSectionDivOnForm() {
   document.getElementById("hyperroute-section-form-content").innerHTML = "";
 }
 
 function addEmptyHyperrouteSectionDivOnForm(e) {
   e.preventDefault(); // Skip form default action
-  const HYPERROUTE_SECTION_COLUMN = SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS;
-  sectionDataArray = [];
-  sectionDataArray[HYPERROUTE_SECTION_COLUMN.ID];
-  addHyperrouteSectionDivOnForm(sectionDataArray);
-  
+  const hyperrouteId = sanitizeText(document.getElementById('hyperroute-tech-id').value);
+  if(!hyperrouteId) {
+    alert("You must select or create hyperroute before adding hyperroute section. Tip : enter hyperroute name, save hyperroute, then resume editing hyperroute and sections.");
+    return;
+  } else {
+    const HYPERROUTE_SECTION_COLUMN = SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS;
+    sectionDataArray = [];
+    sectionDataArray[HYPERROUTE_SECTION_COLUMN.ID] = generateUUIDv7();
+    addHyperrouteSectionDivOnForm(sectionDataArray);
+  }
 }
 
 function addHyperrouteSectionDivOnForm(sectionDataArray) {
@@ -74,8 +98,29 @@ function addActionFieldToHyperrouteSection(parentDiv) {
     e.preventDefault(); // Skip form default action
     console.log(e.target);
     //deleteDataLineFromSourceModal(e.target.parentNode.parentNode, sheetNameLabel, elementIdClassName);
+    deleteHyperrouteSectionRow(e.target);
   });
   parentDiv.appendChild(deleteButton);
+}
+
+async function deleteHyperrouteSectionRow(eventTarget) {
+  // console.log(eventTarget.closest(".hyperroute-section-row"));
+  const row = eventTarget.closest(".hyperroute-section-row");
+  const hyperrouteSectionId = row.querySelector(".hyperroute-section-id").value;
+  // console.log("Hyperroute section id", hyperrouteSectionId);
+  // Delete hyperroute section on spreadsheet if it exists
+  if(confirm("Are you sure you want to delete hyperroute section with ID "+ hyperrouteSectionId +" ?")) {
+    const sheetRange = `!${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.LAST_COLUMN_REF()}`;
+    let returnCode = await deleteSpreadSheetRowData (SPREADSHEET_ID, SHEETS.HYPERROUTE_SECTIONS, sheetRange, SPREADSHEET_HEADERS.HYPERROUTE_SOURCES.COLUMNS.ID, hyperrouteSectionId);
+    if(returnCode) {
+      console.log("Hyper route section has been successfully deleted !");
+      alert('Hyper route section has been successfully deleted !');
+    } else {
+      alert("Deleted hyperroute section seems to no have any entry in database. Else it could be an error ! Check console (F12) for more details if you have doubts !");
+    }
+    // Remove row
+    row.remove();
+  }
 }
 
 function addInputHiddenFieldToHyperrouteSection(parentDiv, className, value) {
@@ -147,7 +192,7 @@ function addInputCheckboxFieldToHyperrouteSection(parentDiv, className, label, v
   field.type = "checkbox";
   field.readOnly = isReadonly;
   field.classList.add(className);
-  setCheckboxElementStateFromValue(field, value, trueFalseIndeterminedInputArray=["YES", "NO", ""]);
+  setCheckboxElementStateFromValue(field, value, PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
   // Append fields
   let container = addFieldTooltiToHyperrouteSection(tooltip);
   labelField.appendChild(field);

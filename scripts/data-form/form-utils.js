@@ -129,7 +129,7 @@ function separateStringToLinkList(string, separator) {
 function setCheckboxStateFromValue(checkboxId, value, trueFalseIndeterminedInputArray=[true, false, ""]) {
   const checkbox = document.getElementById(checkboxId);
   // console.log("checkboxId : ", checkboxId, ", value ? ", value);
-  setCheckboxElementStateFromValue(checkbox, value, trueFalseIndeterminedInputArray=[true, false, ""]);
+  setCheckboxElementStateFromValue(checkbox, value, trueFalseIndeterminedInputArray);
 }
 
 /**

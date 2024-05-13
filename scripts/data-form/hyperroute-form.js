@@ -165,8 +165,8 @@ async function loadHyperrouteForm(hyperrouteId) {
     let div = urlDisplayerSpan.appendChild(document.createElement("div"));
     div.appendChild(separateStringToLinkList(WIKIDATA_PAGE_PREFIX + sanitizeText(document.getElementById('hyperroute-wikidata-id').value), ",")[0]);
     document.getElementById('hyperroute-zoom-level').value = sanitizeText(hyperroute[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ZOOM_LEVEL]); // Zoom level
-    document.getElementById('hyperroute-geom').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.GEOM]); // Complex geometry
-    document.getElementById('hyperroute-geom-type').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.GEOM_TYPE]); // Geom Type
+    document.getElementById('hyperroute-geom').value = sanitizeText(hyperroute[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.GEOM]); // Complex geometry
+    document.getElementById('hyperroute-geom-type').value = sanitizeText(hyperroute[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.GEOM_TYPE]); // Geom Type
   }
 }
 

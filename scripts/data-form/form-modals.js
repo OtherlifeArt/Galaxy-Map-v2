@@ -136,7 +136,7 @@ async function openDataFieldHyperrouteSourceModal(eventTarget) {
   // Check if hyperroute exists (has ID) before going further
   const hyperrouteId = sanitizeText(document.getElementById('hyperroute-tech-id').value);
   if(!hyperrouteId) {
-    alert("You must create hyperroute before adding sources. Tip : enter hyperroute name, save hyperroute, then resume editing hyperroute/sources.");
+    alert("You must select or create hyperroute before adding sources. Tip : enter hyperroute name, save hyperroute, then resume editing hyperroute/sources.");
     return;
   }
   // console.log(eventTarget.parentElement.firstChild.nextSibling.getAttribute("for"));
@@ -399,9 +399,9 @@ async function deleteDataLineFromSourceModal(tableRowElement, sheetNameLabel, el
     } else {
       alert("Deleted source element seems to no have any entry in database. Else it could be an error ! Check console (F12) for more details if you have doubts !");
     }
+    // Delete modal table line
+    tableRowElement.remove();
   }
-  // Delete modal table line
-  tableRowElement.remove();
 }
 
 /**
