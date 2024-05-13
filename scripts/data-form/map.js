@@ -59,12 +59,8 @@ map.getPane('areas').style.zIndex = "593";
 
 /******** OVERLAYS PANES *********/
 
-map.createPane("arkanis_EA");
-map.getPane("arkanis_EA").style.zIndex = "454";
-map.createPane("yavin_EA");
-map.getPane("yavin_EA").style.zIndex = "453";
-map.createPane("kashyyyk_EA");
-map.getPane("kashyyyk_EA").style.zIndex = "452";
+map.createPane("sector_overlays");
+map.getPane("sector_overlays").style.zIndex = "452";
 map.createPane("deep_core_EA");
 map.getPane("deep_core_EA").style.zIndex = "451";
 map.createPane("core_EA");
@@ -102,17 +98,22 @@ var overLayers = [
   },
   {label: 'Source maps',
     children: [
-      {label: 'Essential Atlas', collapsed:true, 
-       children: [
           {label: 'Sector scale maps',collapsed:true,
             children: [
+              {label: 'Essential Atlas', collapsed:true, 
+              children: [
               {label: "Arkanis", layer: ArkanisOverlay},
-              {label: "Kashyyyk", layer: KashyyykOverlay},
-              {label: "Yavin and the Gordian Reach",layer:YavinOverlay},
               {label: "Coporate Sector",layer:CorporateOverlay},
               {label: "Hapes Cluster",layer:HapesOverlay},
+              {label: "Kashyyyk", layer: KashyyykOverlay},
               {label: "The Centrality",layer:CentralityOverlay},
               {label: "Tion Sector",layer:TionOverlay},
+              {label: "Yavin and the Gordian Reach",layer:YavinOverlay}
+              ]},
+              {label: 'Other sources', collapsed:true, 
+              children: [
+                {label: "Tapani sector (WEG)",layer:TapaniOverlay},
+              ]}
             ]
           },
           {label: 'Region scale maps',collapsed:true,
@@ -142,8 +143,6 @@ var overLayers = [
       ]
     }
   ]
-  },
-];
 
 L.control.layers.tree(baseLayers, overLayers, {
   namedToggle: true,
