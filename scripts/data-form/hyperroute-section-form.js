@@ -11,6 +11,7 @@ async function loadHyperrouteSections() {
     console.log("Hyperroute sections found", result);
     result.forEach(hyperrouteSection => {
       addHyperrouteSectionDivOnForm(hyperrouteSection);
+      console.log();
     });
   } else {
     console.log("No Hyperroute section found !");
@@ -234,21 +235,21 @@ function addTravelTimeFieldToHyperrouteSection(parentDiv, className, label, valu
   hourField.readOnly = isReadonly;
   hourField.classList.add(className+"-hour");
   hourField.min = 0;
-  hourField.max = 24;
+  hourField.max = 23;
   hourField.value = duration[1];
   let minuteField = document.createElement("input");
   minuteField.type = "number";
   minuteField.readOnly = isReadonly;
   minuteField.classList.add(className+"-minute");
   minuteField.min = 0;
-  minuteField.max = 60;
+  minuteField.max = 59;
   minuteField.value = duration[2];
   let secondField = document.createElement("input");
   secondField.type = "number";
   secondField.readOnly = isReadonly;
   secondField.classList.add(className+"-second");
   secondField.min = 0;
-  secondField.max = 60;
+  secondField.max = 59;
   secondField.value = duration[3];
   // Append fields
   let container = addFieldTooltiToHyperrouteSection(tooltip);

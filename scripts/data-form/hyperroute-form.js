@@ -64,11 +64,12 @@ function loadHyperrouteParentsSelect2() {
 }
 
 function loadFormOnHyperrouteSelect() {
-  $("#hyperroute-search").on('change', function() {
+  $("#hyperroute-search").on('change', async function() {
     const hyperrouteId = $("#hyperroute-search").val();
     console.log(`Selected value (hyperrouteId) : ${hyperrouteId}`);
-    loadHyperrouteForm(hyperrouteId);
+    await loadHyperrouteForm(hyperrouteId);
     highlightHyperrouteSourceButtonsIfSourced(hyperrouteId);
+    loadHyperrouteSections();
   });
 }
 
