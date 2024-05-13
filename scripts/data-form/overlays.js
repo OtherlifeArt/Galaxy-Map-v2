@@ -202,6 +202,18 @@ var CentralityOverlay = L.imageOverlay(CentralityUrl, CentralityBounds, {
     snapIgnore: true
 });
 
+var TionUrl = EApath + 'TEAO_Tion_freehand.png';
+var TionBounds = L.latLngBounds([[301.18,649.46], [473.66,877.07]]);
+var TionOverlay = L.imageOverlay(TionUrl, TionBounds, {
+    opacity: 1,
+    errorOverlayUrl: errorOverlayUrl,
+    alt: altText,
+    interactive: true,
+    pane:'yavin_EA',
+    pmIgnore:true,
+    snapIgnore: true
+});
+
 /******** The Essential Atlas Extra parts*******/
 
 var ExpensionRegionSUrl = EApath + 'ExpansionRegionS_6.png';
