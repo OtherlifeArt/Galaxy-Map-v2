@@ -137,7 +137,7 @@ var ArkanisOverlay = L.imageOverlay(ArkanisUrl, ArkanisBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'arkanis_EA',
+    pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -149,7 +149,7 @@ var KashyyykOverlay = L.imageOverlay(KashyyykUrl, KashyyykBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'kashyyyk_EA',
+    pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -161,7 +161,7 @@ var YavinOverlay = L.imageOverlay(YavinUrl, YavinBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'yavin_EA',
+    pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -173,7 +173,7 @@ var CorporateOverlay = L.imageOverlay(CorporateUrl, CorporateBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'yavin_EA',
+    pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -185,7 +185,7 @@ var HapesOverlay = L.imageOverlay(HapesUrl, HapesBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'yavin_EA',
+    pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -197,7 +197,7 @@ var CentralityOverlay = L.imageOverlay(CentralityUrl, CentralityBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'yavin_EA',
+    pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -209,7 +209,19 @@ var TionOverlay = L.imageOverlay(TionUrl, TionBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'yavin_EA',
+    pane:'sector_overlays',
+    pmIgnore:true,
+    snapIgnore: true
+});
+
+var TapaniUrl = EApath + 'WEG_Tapani_move_rotate_scale.png';
+var TapaniBounds = L.latLngBounds([[-384.09,8.59], [-336.06,61.30]]);
+var TapaniOverlay = L.imageOverlay(TapaniUrl, TapaniBounds, {
+    opacity: 1,
+    errorOverlayUrl: errorOverlayUrl,
+    alt: altText,
+    interactive: true,
+    pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
