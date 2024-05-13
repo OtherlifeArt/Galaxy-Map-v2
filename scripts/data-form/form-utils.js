@@ -123,20 +123,31 @@ function separateStringToLinkList(string, separator) {
 
 /**
  * Set checkbox state between true, false and undeterminated
+ * 
+ * checkboxId: string
  */
 function setCheckboxStateFromValue(checkboxId, value, trueFalseIndeterminedInputArray=[true, false, ""]) {
   const checkbox = document.getElementById(checkboxId);
   // console.log("checkboxId : ", checkboxId, ", value ? ", value);
+  setCheckboxElementStateFromValue(checkbox, value, trueFalseIndeterminedInputArray=[true, false, ""]);
+}
+
+/**
+ * Set checkbox state between true, false and undeterminated
+ * 
+ * checkboxDOMElement: DOM Element
+ */
+function setCheckboxElementStateFromValue(checkboxDOMElement, value, trueFalseIndeterminedInputArray=[true, false, ""]) {
   if(value.toString().toLowerCase() === trueFalseIndeterminedInputArray[0].toString().toLowerCase()) {
-    checkbox.indeterminate = false;
-    checkbox.checked = true;
+    checkboxDOMElement.indeterminate = false;
+    checkboxDOMElement.checked = true;
   } else if(value.toString().toLowerCase() === trueFalseIndeterminedInputArray[1].toString().toLowerCase()) {
-    checkbox.indeterminate = false;
-    checkbox.checked = false;
+    checkboxDOMElement.indeterminate = false;
+    checkboxDOMElement.checked = false;
   } else if(value.toString().toLowerCase() === trueFalseIndeterminedInputArray[2].toString().toLowerCase()) {
-    checkbox.indeterminate = true;
+    checkboxDOMElement.indeterminate = true;
   } else {
-    alert(`Value ${value} is wrong for checkbox of id ${checkboxId}`);
+    alert(`Value ${value} is wrong for checkbox`, checkboxDOMElement);
   }
 }
 
