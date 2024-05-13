@@ -1,0 +1,373 @@
+body {
+  padding: 0px;
+  margin: 0px;
+}
+
+.flex-parent-element {
+  display: flex;
+  width: 100%;
+}
+
+.flex-child-element {
+  flex: 1;
+  /* border: 1px solid lightgrey; */
+  margin: 5px;
+}
+
+.flex-child-element:first-child {
+  margin-right: 10px;
+}
+
+/* Select2 */
+#object-search {
+  width: 100% !important;
+}
+
+#object-name-span {
+  width: 100%;
+}
+
+#object-name-span > input {
+  width: 71%;
+}
+
+#object-alt-name-span {
+  width: 100%;
+}
+
+#object-alt-name-span > input {
+  width: 68%;
+}
+
+#object-type-raw-span {
+  width: 100%;
+}
+
+#object-type-raw-span > input {
+  width: 68%;
+}
+
+#object-type-span {
+  width: 84%;
+}
+
+#object-type {
+  width: 90%;
+}
+
+#object-type-classes-raw-span {
+  width: 100%;
+}
+
+#object-type-classes-raw-span > input {
+  width: 72%;
+}
+
+#object-type-classes-span {
+  width: 100%;
+}
+
+#object-type-classes {
+  width: 80%;
+}
+
+#object-parent-span {
+  width: 100%;
+}
+
+#object-parent {
+  width: 87%;
+}
+
+/* Form */
+#form {
+  width: 50%;
+}
+
+input[readonly], textarea[readonly] {
+  background-color: lightgray;
+}
+
+#object-parent-raw-span {
+  width: 100%
+}
+#object-parent-raw {
+  width: 80%;
+}
+
+.verbose-button {
+  height: 50px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto; /* 5% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 95%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Validation Modal Table */
+#modal-table {
+  border-collapse: collapse;
+}
+#modal-table td {
+  border: 1px solid grey; 
+}
+#modal-table tr:first-child td {
+  border-top: 0;
+}
+/* #modal-table tr td:first-child {
+  border-left: 0;
+} */
+#modal-table tr:last-child td {
+  border-bottom: 0;
+}
+/* #modal-table tr td:last-child {
+  border-right: 0;
+} */
+
+/* Source Modal Table */
+
+#source-modal-table {
+  /* border: 1px solid grey;  */
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: auto;
+}
+
+#source-modal-table th {
+  background-color: #ddd;
+}
+
+#source-modal-table td, #source-modal-table th {
+  border: 1px solid grey; 
+  /* width: min-content !important; */
+}
+
+/* #source-modal-table td > * {
+  width: max-content !important;
+} */
+
+#source-modal-table td > * {
+  word-wrap: break-word;
+  width: 100%;
+  max-width: 100%; 
+}
+
+.modal-source-id {
+  width: 100%;
+}
+
+/********/
+/* TABS */
+/********/
+
+ /* Style the tab */
+ .tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+
+/************/
+/* TOOLTIPS */
+/************/
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  /* margin:10rem; */
+  /* border-bottom: 1px dotted black; */
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 300px;
+  min-width: 350px;
+  background-color: #292929;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: .5rem;
+  position: absolute;
+  z-index: 1;
+  bottom: 115%;
+  left: 50%;
+  margin-left: -60px;
+  font-family:sans-serif;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 10%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #292929 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+/***************/
+/***** MAP *****/
+/***************/
+
+#map {
+  height: 68%;
+}
+
+/*Style of grid search tool*/
+.form-f  { display: table;}
+.form-grid { display: table-row; }
+#col_label { display: table-cell; }
+#line_label { display: table-cell; }
+#col_letter { display: table-cell; 
+              margin-left: 10px;}
+#line_num { display: table-cell; 
+            margin-left: 10px;}
+#gridsearchbut{margin-top:5px}
+
+/*Style button to edit X and Y*/
+.xyeditbtn{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.info legend {
+  border-radius: 50px; 
+}
+
+.legend-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.legend-label {
+  vertical-align: middle;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+/*Tab geom
+
+/* Style the tab */
+.tabgeom {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tabgeom button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tabgeom button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tabgeom button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabgeomcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+/********************/
+/**** DASHBOARD *****/
+/********************/
+
+.dashboard-table, .dashboard-table td {
+  border-collapse: collapse;
+  border: 1px solid lightgray;
+}
+
+.dashboard-table thead td {
+  background-color: #aaa;
+}
+
+.dashboard-incorrect-value {
+  background-color: #EE4B2B;
+}

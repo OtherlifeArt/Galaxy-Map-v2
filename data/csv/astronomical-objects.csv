@@ -1,0 +1,8 @@
+OBJECT;CANONICITY;TYPE;TYPE CLASSES;IS CAPITAL;GRID LOCATION;X;Y;Z;PARENT OBJECT;ORBITAL POSITION;SIZE (LY);SIZE (KM);WIKI URLS;KNOWN ENVIRONMENTS;CLIMATE;ATMOSPHERE;NATIVE SPECIES;IMMIGRATED SPECIES;PLACEMENT CERTITUDE;PLACEMENT SOURCES;NOTES;INTERESTING;PLACEMENT LOGIC
+Coruscant/Notron/Queen of the Core Worlds/The Jewel of the Core Worlds/Imperial Center/Yuuzhan'tar;Canon/Legends;Planet;Terrestrial;true;;;;;Coruscant system/Imperial system/Yuuzhan'tar system;6;;12240;https://starwars.fandom.com/wiki/Coruscant,https://starwars.fandom.com/wiki/Coruscant/Legends;Urban cityscape,mountains,artificial reservoirs;Temperate,controlled;Type I;Humans, Zhell, Taungs;Various;Exact;;;;
+Coruscant system/Imperial system/Yuuzhan'tar system;Canon/Legends;StarSystem;;true;L-9;0;0;0;Coruscant sector/Coruscant subsector;;;;https://starwars.fandom.com/wiki/Coruscant_sector;;;;;;Exact;;;;
+Coruscant sector/Coruscant subsector;Canon/Legends;Sector;;;;;;;Corusca sector;;;;https://starwars.fandom.com/wiki/Coruscant_sector;;;;;;Exact;;;;
+Corusca sector;Canon/Legends;Sector;;;;;;;Core Worlds;;;;https://starwars.fandom.com/wiki/Corusca_sector/Legends;;;;;;Exact;;;;
+Core Worlds;Canon/Legends;Region;;;;;;;The galaxy;;;;https://starwars.fandom.com/wiki/Corusca_sector/Legends;;;;;;Exact;;;;
+The galaxy;Canon/Legends;Galaxy;SBc;;;;;;universe/known universe/cosmos;0;120000;;https://starwars.fandom.com/wiki/The_galaxy/Legends;;;;;;Exact;;;;
+universe/known universe/cosmos;Canon/Legends;Universe;;;;;;;;;;;https://starwars.fandom.com/wiki/Universe;;;;;;Exact;;;;
