@@ -31,30 +31,14 @@ L.Control.SpatialScalebar = L.Control.Scale.extend({
       this._updateScale(this._iScale, label, meters / maxMeters);
 }
 });
-var scale = (new L.Control.SpatialScalebar()).addTo(map);
-/*
-L.control.measure(
-  {position: 'topleft',
-  customLengthUnit: {
-    'parsecs': {
-        display: 'parsecs',
-        factor: 15.0 
-    }},
-  customLengthUnit: {
-    'light-years': {
-        display: 'light-years',
-        factor: 48.9 
-    }},
-    primaryLengthUnit: 'parsecs', // Display distances in parsecs
-    secondaryLengthUnit: 'light-years', // Display distances in light-years
-    showMeasurementsClearControl: false, // Hide the clear control button
-    showControlTitleOnStart: false, // Hide the control title initially
-    measureControlTitleOn: 'Enable measurements', // Title when measurements are enabled
-    measureControlTitleOff: 'Disable measurements', // Title when measurements are disabled
-    measureControlLabel: 'Measure', // Label for the control button
-    showUnitControl: true, // Show the unit control button
-}).addTo(map);
-*/
+
+// Add mesure tool
+L.control.measure({
+  formatDistance: function (val) {
+    return parseFloat((val*15).toFixed(0)) + ' parsecs / ' + parseFloat((val*48.9).toFixed(0)) + ' light-years';
+  }
+}).addTo(map)
+
 /******** GRID PANES *********/
 
 map.createPane("grid");
