@@ -15,9 +15,6 @@ var map = L.map('map', {
   //preferCanvas: true, // It disable interaction with multiple layers (point and areas)...
 }).setView([-250.0,0], -2);
 
-//var bounds = [[-1400,-1200], [900,1100]];
-//map.fitBounds(bounds);
-
 /*********** CUSTOM SCALE BAR ********/
 L.Control.SpatialScalebar = L.Control.Scale.extend({
   _updateMetric: function (maxMeters) {
@@ -49,7 +46,8 @@ map.createPane("grid_search");
 map.getPane("grid_search").style.zIndex = "589";
 
 /******** LAYERS PANES *********/
-
+map.createPane('drawnItems');
+map.getPane('drawnItems').style.zIndex = "700";
 map.createPane("points");
 map.getPane("points").style.zIndex = "595";
 map.createPane("roads");
@@ -80,11 +78,12 @@ var baseLayers = [];
 
 var overLayers = [
   {label: 'Grid', layer: completegrid, name: 'Grid'},
-  {label: 'Data',selectAllCheckbox: false,
+  {label: 'Data',
     children: [
           {label:"Current",
-            children: [{label: "Points (load from db)", layer: points},
-            {label: "Areas", layer: areas}
+            children: [
+              {label: "Points (load from db)", layer: points},
+              {label: "Areas", layer: areas}
             ]
           },
           {label:"Deprecated",collapsed:true,
@@ -153,11 +152,12 @@ L.control.layers.tree(baseLayers, overLayers, {
 /******** OPACITY CONTROL *********/
 const Map_AddLayer = {
   "Arkanis": ArkanisOverlay,
-  "Kashyyyk":KashyyykOverlay, //OVERLAY NEED more transformations
-  "Yavin and the Gordian Reach":YavinOverlay,
   "Coporate Sector":CorporateOverlay,
-  "Hapes":HapesOverlay,
+  "Hapes Cluster":HapesOverlay,
+  "Kashyyyk":KashyyykOverlay, //OVERLAY NEED more transformations  
   "The Centrality":CentralityOverlay,
+  "Tapani Sector":TapaniOverlay,
+  "Yavin and the Gordian Reach":YavinOverlay,
   "Tion Sector":TionOverlay,
   "Deep Core": DeepCoreOverlay,
   "Core": CoreOverlay,
