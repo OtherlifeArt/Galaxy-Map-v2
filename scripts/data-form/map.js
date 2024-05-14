@@ -47,7 +47,7 @@ map.getPane("grid_search").style.zIndex = "589";
 
 /******** LAYERS PANES *********/
 map.createPane('drawnItems');
-map.getPane('drawnItems').style.zIndex = "700";
+map.getPane('drawnItems').style.zIndex = "594";
 map.createPane("points");
 map.getPane("points").style.zIndex = "595";
 map.createPane("roads");
@@ -58,13 +58,13 @@ map.getPane('areas').style.zIndex = "593";
 /******** OVERLAYS PANES *********/
 
 map.createPane("sector_overlays");
-map.getPane("sector_overlays").style.zIndex = "452";
+map.getPane("sector_overlays").style.zIndex = "400";
 map.createPane("deep_core_EA");
-map.getPane("deep_core_EA").style.zIndex = "451";
+map.getPane("deep_core_EA").style.zIndex = "399";
 map.createPane("core_EA");
-map.getPane("core_EA").style.zIndex = "450";
+map.getPane("core_EA").style.zIndex = "398";
 map.createPane("colonies_EA");
-map.getPane("colonies_EA").style.zIndex = "449";
+map.getPane("colonies_EA").style.zIndex = "397";
 
 /******** LAYERS CONTROL *********/
 

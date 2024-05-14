@@ -42,6 +42,7 @@ function updateGeomanControl(event) {
         areas.options.pmIgnore = true
         roads.options.pmIgnore = false
         roads.options.snapIgnore = false
+        map.pm.setGlobalOptions({pane:{ vertexPane: 'markerPane', layerPane: 'tooltipPane', markerPane: 'markerPane' } });
     } else if (selectedType === 'geom-edit-areas') {
         map.pm.addControls({
             dragMode:false,

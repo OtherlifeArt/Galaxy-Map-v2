@@ -5,7 +5,7 @@
 // Init variables
 var drawnItems = new L.FeatureGroup([]);
 map.addLayer(drawnItems);
-drawnItems.setZIndex(750)
+drawnItems.setZIndex(2000)
 var maxShapes = 1;
 var shapesDrawn = 0;
 var lastEditedCoordinates = null;
@@ -25,7 +25,7 @@ function addGeometryFromInput() {
 
     if (geometryValue) {
         var coordinates = JSON.parse(geometryValue);
-        console.log(coordinates)
+        //console.log(coordinates)
         //Create a polyline object with GEOM column value
         var geometry = L.polyline(coordinates);
         drawnItems.clearLayers();
@@ -47,6 +47,7 @@ document.getElementById('geom-create-road-clear').addEventListener('click', clea
 
 
 map.on('pm:create', function(e) {
+    e.layer.bringToFront()
     if (e.layer instanceof L.Polyline) {
         lastEditedCoordinates = e.layer.toGeoJSON().geometry.coordinates; // Get array of LatLng coordinates
         lastEditedCoordinates = inverseLatLong(lastEditedCoordinates)
@@ -70,6 +71,7 @@ map.on('pm:create', function(e) {
 });
 
 drawnItems.on('pm:edit', function (e) {
+    e.layer.bringToFront()
     lastEditedCoordinates = e.layer.toGeoJSON().geometry.coordinates;
     lastEditedCoordinates = inverseLatLong(lastEditedCoordinates)
     console.log("Edited geometry:", lastEditedCoordinates);
@@ -87,7 +89,6 @@ document.getElementById('geom-create-road-save').addEventListener('click', funct
         // Send last edited coordinates to an HTML input
         var inputElement = document.getElementById('hyperroute-geom');
         document.getElementById('hyperroute-geom-type').value = 'MultiLineString';
-        //document.getElementById('object-ponctual').checked = false;
         console.log(lastEditedCoordinates);
         inputElement.value = JSON.stringify(lastEditedCoordinates);
     } else {
