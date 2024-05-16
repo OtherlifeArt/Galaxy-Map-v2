@@ -136,7 +136,7 @@ async function openDataFieldHyperrouteSourceModal(eventTarget) {
   // Check if hyperroute exists (has ID) before going further
   const hyperrouteId = sanitizeText(document.getElementById('hyperroute-tech-id').value);
   if(!hyperrouteId) {
-    alert("You must create hyperroute before adding sources. Tip : enter hyperroute name, save hyperroute, then resume editing hyperroute/sources.");
+    alert("You must select or create hyperroute before adding sources. Tip : enter hyperroute name, save hyperroute, then resume editing hyperroute/sources.");
     return;
   }
   // console.log(eventTarget.parentElement.firstChild.nextSibling.getAttribute("for"));
@@ -234,7 +234,7 @@ function saveDataFromHyperrouteSourceModal() {
       // Update in spreadsheet
       let returnCode = await updateSpreadSheetRowData(SPREADSHEET_ID, SHEETS.HYPERROUTE_SOURCES, sheetRange, SPREADSHEET_HEADERS.HYPERROUTE_SOURCES.COLUMNS.ID, dataRow);
       if(!returnCode) {
-        alert("Error encoutered ! Check console (F12) for more details");
+        alert("Error encoutered on hyperroute source update ! Check console (F12) for more details");
       } else {
         messageCount.updatedSources = messageCount.updatedSources + 1;
         if(messageCount.updatedSources + messageCount.addedSources === hyperrouteSourceLineCount) {
@@ -248,7 +248,7 @@ function saveDataFromHyperrouteSourceModal() {
       console.log(`sheetRange : ${sheetRange}`);
       let returnCode = await addSpreadSheetRowData(SPREADSHEET_ID, SHEETS.HYPERROUTE_SOURCES, sheetRange, dataRow);
       if(!returnCode) {
-        alert("Error encoutered ! Check console (F12) for more details");
+        alert("Error encoutered on hyperroute source query ! Check console (F12) for more details");
       } else {
         messageCount.addedSources = messageCount.addedSources + 1;
         console.log("Hyperroute source has been successfully created at the end of the spreadsheet !");
@@ -258,7 +258,7 @@ function saveDataFromHyperrouteSourceModal() {
       }     
     } else {
       console.log("Number of found hyperroutes is different than expected. Expected 0 or 1. results =>", result);
-      alert("Error encoutered ! Check console (F12) for more details");
+      alert("Error encoutered on hyperroute source creation ! Check console (F12) for more details");
     }
   });
   // alert(`Added entries : ${addedSourceNumber}\nUpdated entries : ${updatedSourceNumber}`);
@@ -399,9 +399,9 @@ async function deleteDataLineFromSourceModal(tableRowElement, sheetNameLabel, el
     } else {
       alert("Deleted source element seems to no have any entry in database. Else it could be an error ! Check console (F12) for more details if you have doubts !");
     }
+    // Delete modal table line
+    tableRowElement.remove();
   }
-  // Delete modal table line
-  tableRowElement.remove();
 }
 
 /**
@@ -444,13 +444,13 @@ function saveDataFromObjectSourceModal() {
       // Update in spreadsheet
       let returnCode = await updateSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECT_SOURCES, sheetRange, SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.ID, dataRow);
       if(!returnCode) {
-        alert("Error encoutered ! Check console (F12) for more details");
+        alert("Error encoutered on object source update ! Check console (F12) for more details");
       } else {
         messageCount.updatedSources = messageCount.updatedSources + 1;
         if(messageCount.updatedSources + messageCount.addedSources === objectSourceLineCount) {
           alert(`ObjectSources :\nAdded entries : ${messageCount.addedSources}\nUpdated entries : ${messageCount.updatedSources}`);
         }
-        console.log(`Object source for has been successfully updated !`);
+        console.log(`Object source form has been successfully updated !`);
       }
     } else if(result.length === 0) { // Or create it as new line
       console.log("Object Source not found ... Adding");
@@ -458,7 +458,7 @@ function saveDataFromObjectSourceModal() {
       console.log(`sheetRange : ${sheetRange}`);
       let returnCode = await addSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECT_SOURCES, sheetRange, dataRow);
       if(!returnCode) {
-        alert("Error encoutered ! Check console (F12) for more details");
+        alert("Error encoutered on object source query ! Check console (F12) for more details");
       } else {
         messageCount.addedSources = messageCount.addedSources + 1;
         console.log("Object source has been successfully created at the end of the spreadsheet !");
@@ -467,8 +467,8 @@ function saveDataFromObjectSourceModal() {
         }
       }     
     } else {
-      console.log("Number of found objects is different than expected. Expected 0 or 1. results =>", result);
-      alert("Error encoutered ! Check console (F12) for more details");
+      console.log("Number of found object sources is different than expected. Expected 0 or 1. results =>", result);
+      alert("Error encoutered ! Number of found object sources is different than expected. Expected 0 or 1. Check console (F12) for more details");
     }
   });
   // alert(`Added entries : ${addedSourceNumber}\nUpdated entries : ${updatedSourceNumber}`);
@@ -486,7 +486,7 @@ function updateDataFromValidationModal() {
       updateObjectData();
       break;
     case SHEETS.HYPERROUTES.ID:
-      updateHyperrouteData();
+      updateHyperrouteAndSectionsData();
       break;
     default:
       alert(`Sheet ID ${dataTabIdToUpdate} is unknown !`);

@@ -175,7 +175,7 @@ function loadAstroObjectParentsSelect2() {
  * Populate search form on astro object select and hightlight sources button if exists
  */
 function loadFormOnAstroObjectSelect() {
-  $("#object-search").on('change', function() {
+  $("#object-search").on('change', async function() {
     const objectId = $("#object-search").val();
     console.log(`Selected value (objectId) : ${objectId}`);
     loadObjectForm(objectId);
@@ -580,6 +580,8 @@ async function getParentHierarchy(objectID) {
   }
 }
 
+
+
 /**
  * Hightlight source button if object data is sourced
  */
@@ -636,7 +638,7 @@ async function updateObjectData() {
     // Reload object array
     refreshForm();
   } else {
-    alert("Error encoutered ! Check console (F12) for more details");
+    alert("Error encoutered on astronomical object update ! Check console (F12) for more details");
   }
 }
 
@@ -653,7 +655,7 @@ async function addNewData() {
     // Reload select 2 arrays
     refreshForm();
   } else {
-    alert("Error encoutered ! Check console (F12) for more details");
+    alert("Error encoutered on astronomical object creation ! Check console (F12) for more details");
   }
 }
 
@@ -669,7 +671,7 @@ async function deleteData() {
       // Reload object array
       refreshForm();
     } else {
-      alert("Error encoutered ! Check console (F12) for more details");
+      alert("Error encoutered on astronomical object deletion ! Check console (F12) for more details");
     }
   }
 }
