@@ -371,7 +371,7 @@ async function updateHyperrouteAndSectionsData(e) {
     // Reload object array
     refreshForm();
   } else {
-    alert("Error encoutered ! Check console (F12) for more details");
+    alert("Error encoutered on hyperroute update ! Check console (F12) for more details");
   }
 }
 
@@ -395,7 +395,7 @@ async function addHyperrouteNewData(e) {
     // Reload form
     refreshHyperrouteForm();
   } else {
-    alert("Error encoutered ! Check console (F12) for more details");
+    alert("Error encoutered on hyperoute creation ! Check console (F12) for more details");
   }
 }
 
@@ -415,7 +415,7 @@ async function deleteHyperrouteAndRelatedSectionsData(e) {
     // Reload form
     refreshHyperrouteForm();
   } else {
-    alert("Error encoutered ! Check console (F12) for more details");
+    alert("Error encoutered on hyperroute and sections deletion ! Check console (F12) for more details");
   }
 }
 

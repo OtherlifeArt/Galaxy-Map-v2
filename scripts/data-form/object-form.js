@@ -638,7 +638,7 @@ async function updateObjectData() {
     // Reload object array
     refreshForm();
   } else {
-    alert("Error encoutered ! Check console (F12) for more details");
+    alert("Error encoutered on astronomical object update ! Check console (F12) for more details");
   }
 }
 
@@ -655,7 +655,7 @@ async function addNewData() {
     // Reload select 2 arrays
     refreshForm();
   } else {
-    alert("Error encoutered ! Check console (F12) for more details");
+    alert("Error encoutered on astronomical object creation ! Check console (F12) for more details");
   }
 }
 
@@ -671,7 +671,7 @@ async function deleteData() {
       // Reload object array
       refreshForm();
     } else {
-      alert("Error encoutered ! Check console (F12) for more details");
+      alert("Error encoutered on astronomical object deletion ! Check console (F12) for more details");
     }
   }
 }

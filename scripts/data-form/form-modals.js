@@ -234,7 +234,7 @@ function saveDataFromHyperrouteSourceModal() {
       // Update in spreadsheet
       let returnCode = await updateSpreadSheetRowData(SPREADSHEET_ID, SHEETS.HYPERROUTE_SOURCES, sheetRange, SPREADSHEET_HEADERS.HYPERROUTE_SOURCES.COLUMNS.ID, dataRow);
       if(!returnCode) {
-        alert("Error encoutered ! Check console (F12) for more details");
+        alert("Error encoutered on hyperroute source update ! Check console (F12) for more details");
       } else {
         messageCount.updatedSources = messageCount.updatedSources + 1;
         if(messageCount.updatedSources + messageCount.addedSources === hyperrouteSourceLineCount) {
@@ -248,7 +248,7 @@ function saveDataFromHyperrouteSourceModal() {
       console.log(`sheetRange : ${sheetRange}`);
       let returnCode = await addSpreadSheetRowData(SPREADSHEET_ID, SHEETS.HYPERROUTE_SOURCES, sheetRange, dataRow);
       if(!returnCode) {
-        alert("Error encoutered ! Check console (F12) for more details");
+        alert("Error encoutered on hyperroute source query ! Check console (F12) for more details");
       } else {
         messageCount.addedSources = messageCount.addedSources + 1;
         console.log("Hyperroute source has been successfully created at the end of the spreadsheet !");
@@ -258,7 +258,7 @@ function saveDataFromHyperrouteSourceModal() {
       }     
     } else {
       console.log("Number of found hyperroutes is different than expected. Expected 0 or 1. results =>", result);
-      alert("Error encoutered ! Check console (F12) for more details");
+      alert("Error encoutered on hyperroute source creation ! Check console (F12) for more details");
     }
   });
   // alert(`Added entries : ${addedSourceNumber}\nUpdated entries : ${updatedSourceNumber}`);
@@ -444,7 +444,7 @@ function saveDataFromObjectSourceModal() {
       // Update in spreadsheet
       let returnCode = await updateSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECT_SOURCES, sheetRange, SPREADSHEET_HEADERS.OBJECT_SOURCES.COLUMNS.ID, dataRow);
       if(!returnCode) {
-        alert("Error encoutered ! Check console (F12) for more details");
+        alert("Error encoutered on object source update ! Check console (F12) for more details");
       } else {
         messageCount.updatedSources = messageCount.updatedSources + 1;
         if(messageCount.updatedSources + messageCount.addedSources === objectSourceLineCount) {
@@ -458,7 +458,7 @@ function saveDataFromObjectSourceModal() {
       console.log(`sheetRange : ${sheetRange}`);
       let returnCode = await addSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECT_SOURCES, sheetRange, dataRow);
       if(!returnCode) {
-        alert("Error encoutered ! Check console (F12) for more details");
+        alert("Error encoutered on object source query ! Check console (F12) for more details");
       } else {
         messageCount.addedSources = messageCount.addedSources + 1;
         console.log("Object source has been successfully created at the end of the spreadsheet !");
@@ -467,8 +467,8 @@ function saveDataFromObjectSourceModal() {
         }
       }     
     } else {
-      console.log("Number of found objects is different than expected. Expected 0 or 1. results =>", result);
-      alert("Error encoutered ! Check console (F12) for more details");
+      console.log("Number of found object sources is different than expected. Expected 0 or 1. results =>", result);
+      alert("Error encoutered ! Number of found object sources is different than expected. Expected 0 or 1. Check console (F12) for more details");
     }
   });
   // alert(`Added entries : ${addedSourceNumber}\nUpdated entries : ${updatedSourceNumber}`);
