@@ -123,34 +123,49 @@ function separateStringToLinkList(string, separator) {
 
 /**
  * Set checkbox state between true, false and undeterminated
+ * 
+ * checkboxId: string
  */
 function setCheckboxStateFromValue(checkboxId, value, trueFalseIndeterminedInputArray=[true, false, ""]) {
   const checkbox = document.getElementById(checkboxId);
   // console.log("checkboxId : ", checkboxId, ", value ? ", value);
+  setCheckboxElementStateFromValue(checkbox, value, trueFalseIndeterminedInputArray);
+}
+
+/**
+ * Set checkbox state between true, false and undeterminated
+ * 
+ * checkboxDOMElement: DOM Element
+ */
+function setCheckboxElementStateFromValue(checkboxDOMElement, value, trueFalseIndeterminedInputArray=[true, false, ""]) {
   if(value.toString().toLowerCase() === trueFalseIndeterminedInputArray[0].toString().toLowerCase()) {
-    checkbox.indeterminate = false;
-    checkbox.checked = true;
+    checkboxDOMElement.indeterminate = false;
+    checkboxDOMElement.checked = true;
   } else if(value.toString().toLowerCase() === trueFalseIndeterminedInputArray[1].toString().toLowerCase()) {
-    checkbox.indeterminate = false;
-    checkbox.checked = false;
+    checkboxDOMElement.indeterminate = false;
+    checkboxDOMElement.checked = false;
   } else if(value.toString().toLowerCase() === trueFalseIndeterminedInputArray[2].toString().toLowerCase()) {
-    checkbox.indeterminate = true;
+    checkboxDOMElement.indeterminate = true;
   } else {
-    alert(`Value ${value} is wrong for checkbox of id ${checkboxId}`);
+    alert(`Value ${value} is wrong for checkbox`, checkboxDOMElement);
   }
+}
+
+function getValueFromCheckboxState(checkboxId, trueFalseIndeterminedOutputArray=[true, false, ""]) {
+  const checkbox = document.getElementById(checkboxId);
+  getValueFromCheckboxElementState(checkbox, trueFalseIndeterminedOutputArray);
 }
 
 /**
  * return check, unchecked and indetermined checkbox values to true, false or empty value
  */
-function getValueFromCheckboxState(checkboxId, trueFalseIndeterminedOutputArray=[true, false, ""]) {
-  const checkbox = document.getElementById(checkboxId);
+function getValueFromCheckboxElementState(checkboxDOMElement, trueFalseIndeterminedOutputArray=[true, false, ""]) {
   // console.log("indeterminated ? ",checkbox.indeterminate ? "true":"false", ", checked ? ", checkbox.checked ? "true":"false");
-  if(checkbox.indeterminate == true) {
+  if(checkboxDOMElement.indeterminate == true) {
     return trueFalseIndeterminedOutputArray[2];
-  } else if (checkbox.checked == true) {
+  } else if (checkboxDOMElement.checked == true) {
     return trueFalseIndeterminedOutputArray[0];
-  } else if (checkbox.checked == false) {
+  } else if (checkboxDOMElement.checked == false) {
     return trueFalseIndeterminedOutputArray[1];
   }
 }

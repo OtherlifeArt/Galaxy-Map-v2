@@ -229,6 +229,27 @@ input[readonly], textarea[readonly] {
   border-top: none;
 }
 
+/* Hyper route section  */
+
+#hyperroute-section-form {
+  max-height: 400px;
+  overflow-y: auto;
+  min-height: 0px;
+}
+
+#hyperroute-section-form-content {
+  overflow-y: auto;
+}
+
+.hyperroute-section-row {
+  border: #292929 1px solid;
+  display: flex;
+}
+
+.hyperroute-section-row > div:first-child {
+  flex: 10%;
+}
+
 
 /************/
 /* TOOLTIPS */

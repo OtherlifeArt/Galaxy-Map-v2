@@ -79,7 +79,7 @@
                   <span class="tooltip">
                     <label for="object-human-id">Sorting ID</label>
                     <input type="text" name="object-human-id" id="object-human-id" readonly>
-                    <span class="tooltiptext">ID used to sort data in spreadsheet, at the moment sorting is done by grid coordinates</span>
+                    <span class="tooltiptext">ID used to sort data in spreadsheet</span>
                   </span>
                   <!-- Updated At -->
                   <span class="tooltip">
@@ -670,12 +670,26 @@
                     <span class="tooltiptext">Technical data for map display</span>
                   </span>
                 </div>
-              </fieldset>
+
+                <!-- Hyperroute sections -->
+                <hr/>
+                <div>
+                    <p>Hyperroute Sections</p>
+                    <!-- HR section content -->
+                    <div id="hyperroute-section-form">
+                      <div id="hyperroute-section-form-content"></div>
+                    </div>
+                    <!-- HR section buttons -->
+                    <div id="hyperroute-section-buttons">
+                      <button id="hyperroute-add-section-button" class="verbose-button" onclick="addEmptyHyperrouteSectionDivOnForm(event);">Add A New Section</button>
+                    </div>
+                </div>
             </form>
-            <button id="hyperroute-validation-update" class="verbose-button" onclick="showHyperrouteDataAndUpdate();">Update Hyperroute With Visual Validation</button>
-            <button id="hyperroute-data-update-button" class="verbose-button" onclick="updateHyperrouteData();">Update Hyperroute</button>
-            <button id="hyperroute-data-new-button" class="verbose-button" onclick="addHyperrouteNewData();">Save As New Hyperroute</button>
-            <button id="hyperroute-data-delete-button" class="verbose-button" onclick="deleteHyperrouteData();">Delete Selected Hyperroute</button>
+            <hr/>
+            <button id="hyperroute-validation-update" class="verbose-button" onclick="showHyperrouteDataAndUpdate(event);">Update Hyperroute With Visual Validation</button>
+            <button id="hyperroute-data-update-button" class="verbose-button" onclick="updateHyperrouteAndSectionsData(event);">Update Hyperroute and add/update Sections</button>
+            <button id="hyperroute-data-new-button" class="verbose-button" onclick="addHyperrouteNewData(event);">Save As New Hyperroute</button>
+            <button id="hyperroute-data-delete-button" class="verbose-button" onclick="deleteHyperrouteAndRelatedSectionsData(event);">Delete Selected Hyperroute and its Sections</button>
           </div>
         </div>
         <!-- Hyper route tab end -->
