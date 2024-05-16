@@ -151,17 +151,21 @@ function setCheckboxElementStateFromValue(checkboxDOMElement, value, trueFalseIn
   }
 }
 
+function getValueFromCheckboxState(checkboxId, trueFalseIndeterminedOutputArray=[true, false, ""]) {
+  const checkbox = document.getElementById(checkboxId);
+  getValueFromCheckboxElementState(checkbox, value, trueFalseIndeterminedOutputArray);
+}
+
 /**
  * return check, unchecked and indetermined checkbox values to true, false or empty value
  */
-function getValueFromCheckboxState(checkboxId, trueFalseIndeterminedOutputArray=[true, false, ""]) {
-  const checkbox = document.getElementById(checkboxId);
+function getValueFromCheckboxElementState(checkboxDOMElement, trueFalseIndeterminedOutputArray=[true, false, ""]) {
   // console.log("indeterminated ? ",checkbox.indeterminate ? "true":"false", ", checked ? ", checkbox.checked ? "true":"false");
-  if(checkbox.indeterminate == true) {
+  if(checkboxDOMElement.indeterminate == true) {
     return trueFalseIndeterminedOutputArray[2];
-  } else if (checkbox.checked == true) {
+  } else if (checkboxDOMElement.checked == true) {
     return trueFalseIndeterminedOutputArray[0];
-  } else if (checkbox.checked == false) {
+  } else if (checkboxDOMElement.checked == false) {
     return trueFalseIndeterminedOutputArray[1];
   }
 }

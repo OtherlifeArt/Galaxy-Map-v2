@@ -450,7 +450,7 @@ function saveDataFromObjectSourceModal() {
         if(messageCount.updatedSources + messageCount.addedSources === objectSourceLineCount) {
           alert(`ObjectSources :\nAdded entries : ${messageCount.addedSources}\nUpdated entries : ${messageCount.updatedSources}`);
         }
-        console.log(`Object source for has been successfully updated !`);
+        console.log(`Object source form has been successfully updated !`);
       }
     } else if(result.length === 0) { // Or create it as new line
       console.log("Object Source not found ... Adding");

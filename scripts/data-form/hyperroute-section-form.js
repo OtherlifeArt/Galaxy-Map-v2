@@ -52,8 +52,8 @@ function addHyperrouteSectionDivOnForm(sectionDataArray) {
   // First line
   const firstLineDiv =  document.createElement("div");
   addInputTextFieldToHyperrouteSection(firstLineDiv, "hyperroute-section-sorting-id", "Sorting ID", sanitizeText(sectionDataArray[HYPERROUTE_SECTION_COLUMN.HUMAN_ID]), "Sorting/Human ID", true);
-  addSelect2FieldToHyperrouteSection(firstLineDiv, "hyperroute-section-location-a", "Location A", sanitizeText(sectionDataArray[HYPERROUTE_SECTION_COLUMN.LOCATION_A_ID]), "A Section End (Astronomical Object)");
-  addSelect2FieldToHyperrouteSection(firstLineDiv, "hyperroute-section-location-b", "Location B", sanitizeText(sectionDataArray[HYPERROUTE_SECTION_COLUMN.LOCATION_B_ID]), "B Section End (Astronomical Object)");
+  addSelect2FieldToHyperrouteSection(firstLineDiv, "hyperroute-section-location-a-id", "Location A", sanitizeText(sectionDataArray[HYPERROUTE_SECTION_COLUMN.LOCATION_A_ID]), "A Section End (Astronomical Object)");
+  addSelect2FieldToHyperrouteSection(firstLineDiv, "hyperroute-section-location-b-id", "Location B", sanitizeText(sectionDataArray[HYPERROUTE_SECTION_COLUMN.LOCATION_B_ID]), "B Section End (Astronomical Object)");
   addInputNumberFieldToHyperrouteSection(firstLineDiv, 0.01, "hyperroute-section-date-from", "Date : From", sanitizeText(sectionDataArray[HYPERROUTE_SECTION_COLUMN.DATE_FROM]), "Start date");
   addInputNumberFieldToHyperrouteSection(firstLineDiv, 0.01, "hyperroute-section-date-to", "To", sanitizeText(sectionDataArray[HYPERROUTE_SECTION_COLUMN.DATE_TO]), "End date");
   // Second line
@@ -272,4 +272,44 @@ function loadLocationSelect2ToHyperrouteSection(selectDomElement, selectedId) {
     $(selectDomElement).select2().val(selectedId);
     $(selectDomElement).select2().trigger('change');
   });
+}
+
+function updateHyperrouteSectionList () {
+  const HYPERROUTE_SECTION_COLUMN = SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS;
+  const HYPERROUTE_SECTION_FORM_ROWS = document.getElementsByClassName("hyperroute-section-row");
+  let allHyperrouteSectionArray = [];
+  // Format hyperroute section row into array
+  HYPERROUTE_SECTION_FORM_ROWS.forEach((domSection) => {
+    let hyperrouteSectionArray = [];
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.ID] = sanitizeText(domSection.querySelector('.hyperroute-section-id').value);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.HUMAN_ID] = sanitizeText(domSection.querySelector('.hyperroute-section-sorting-id').value);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.HYPERROUTE_ID] = sanitizeText(domSection.querySelector('.hyperroute-id').value);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.LOCATION_A_ID] = sanitizeText(domSection.querySelector('.hyperroute-section-location-a-id').value);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.LOCATION_B_ID] = sanitizeText(domSection.querySelector('.hyperroute-section-location-b-id').value);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.DATE_FROM] = sanitizeText(domSection.querySelector('.hyperroute-section-date-from').value);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.DATE_TO] = sanitizeText(domSection.querySelector('.hyperroute-section-date-to').value);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.CANON] = getValueFromCheckboxElementState(domSection.querySelector('.hyperroute-section-canon'), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.LEGENDS] = getValueFromCheckboxElementState(domSection.querySelector('.hyperroute-section-legends'), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.UNLICENSED] = getValueFromCheckboxElementState(domSection.querySelector('.hyperroute-section-unlicenced'), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.DESC] = sanitizeText(domSection.querySelector('.hyperroute-section-desc').value);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.PLACEMENT_CERTITUDE] = getValueFromCheckboxElementState(domSection.querySelector('.hyperroute-section-placement-certitude'), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.PLACEMENT_LOGIC] = sanitizeText(domSection.querySelector('.hyperroute-section-placement-logic').value);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.NOTES] = sanitizeText(domSection.querySelector('.hyperroute-section-notes').value);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.INTERESTING] = sanitizeText(domSection.querySelector('.hyperroute-section-interesting').value);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.is_certified] = getValueFromCheckboxElementState(domSection.querySelector('.hyperroute-section-data-certified'), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.GEOM] = sanitizeText(domSection.querySelector('.hyperroute-section-geom').value);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.GEOM_TYPE] = sanitizeText(domSection.querySelector('.hyperroute-section-geom-type').value);
+    // Special format values
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.HYPERROUTE] = sanitizeText(domSection.querySelector('.').value);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.LOCATION_A] = sanitizeText(domSection.querySelector('.').value);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.LOCATION_B] = sanitizeText(domSection.querySelector('.').value);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.AVERAGE_TRAVEL_TIME] = sanitizeText(domSection.querySelector('.').value);
+    
+    // Automated values
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.updated_at] = new Date().toUTCString();
+    // Append
+    allHyperrouteSectionArray.append(hyperrouteSectionArray);
+  });
+
+  return allHyperrouteSectionArray;
 }
