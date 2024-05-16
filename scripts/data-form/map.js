@@ -15,9 +15,6 @@ var map = L.map('map', {
   //preferCanvas: true, // It disable interaction with multiple layers (point and areas)...
 }).setView([-250.0,0], -2);
 
-//var bounds = [[-1400,-1200], [900,1100]];
-//map.fitBounds(bounds);
-
 /*********** CUSTOM SCALE BAR ********/
 L.Control.SpatialScalebar = L.Control.Scale.extend({
   _updateMetric: function (maxMeters) {
@@ -49,7 +46,8 @@ map.createPane("grid_search");
 map.getPane("grid_search").style.zIndex = "589";
 
 /******** LAYERS PANES *********/
-
+map.createPane('drawnItems');
+map.getPane('drawnItems').style.zIndex = "594";
 map.createPane("points");
 map.getPane("points").style.zIndex = "595";
 map.createPane("roads");
@@ -60,13 +58,13 @@ map.getPane('areas').style.zIndex = "593";
 /******** OVERLAYS PANES *********/
 
 map.createPane("sector_overlays");
-map.getPane("sector_overlays").style.zIndex = "452";
+map.getPane("sector_overlays").style.zIndex = "400";
 map.createPane("deep_core_EA");
-map.getPane("deep_core_EA").style.zIndex = "451";
+map.getPane("deep_core_EA").style.zIndex = "399";
 map.createPane("core_EA");
-map.getPane("core_EA").style.zIndex = "450";
+map.getPane("core_EA").style.zIndex = "398";
 map.createPane("colonies_EA");
-map.getPane("colonies_EA").style.zIndex = "449";
+map.getPane("colonies_EA").style.zIndex = "397";
 
 /******** LAYERS CONTROL *********/
 
@@ -80,11 +78,12 @@ var baseLayers = [];
 
 var overLayers = [
   {label: 'Grid', layer: completegrid, name: 'Grid'},
-  {label: 'Data',selectAllCheckbox: false,
+  {label: 'Data',
     children: [
           {label:"Current",
-            children: [{label: "Points (load from db)", layer: points},
-            {label: "Areas", layer: areas}
+            children: [
+              {label: "Points (load from db)", layer: points},
+              {label: "Areas", layer: areas}
             ]
           },
           {label:"Deprecated",collapsed:true,
@@ -153,11 +152,12 @@ L.control.layers.tree(baseLayers, overLayers, {
 /******** OPACITY CONTROL *********/
 const Map_AddLayer = {
   "Arkanis": ArkanisOverlay,
-  "Kashyyyk":KashyyykOverlay, //OVERLAY NEED more transformations
-  "Yavin and the Gordian Reach":YavinOverlay,
   "Coporate Sector":CorporateOverlay,
-  "Hapes":HapesOverlay,
+  "Hapes Cluster":HapesOverlay,
+  "Kashyyyk":KashyyykOverlay, //OVERLAY NEED more transformations  
   "The Centrality":CentralityOverlay,
+  "Tapani Sector":TapaniOverlay,
+  "Yavin and the Gordian Reach":YavinOverlay,
   "Tion Sector":TionOverlay,
   "Deep Core": DeepCoreOverlay,
   "Core": CoreOverlay,

@@ -13,7 +13,6 @@ var DeepCoreOverlay = L.imageOverlay(DeepCoreUrl, DeepCoreBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:"deep_core_EA",
     pmIgnore:true,
     snapIgnore: true
 });
@@ -25,7 +24,6 @@ var CoreOverlay = L.imageOverlay(CoreUrl, CoreBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:"core_EA",
     pmIgnore:true,
     snapIgnore: true
 });
@@ -37,7 +35,6 @@ var ColoniesOverlay = L.imageOverlay(ColoniesUrl, ColoniesBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:"colonies_EA",
     pmIgnore:true,
     snapIgnore: true
 });
@@ -137,7 +134,7 @@ var ArkanisOverlay = L.imageOverlay(ArkanisUrl, ArkanisBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'sector_overlays',
+    //pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -149,7 +146,7 @@ var KashyyykOverlay = L.imageOverlay(KashyyykUrl, KashyyykBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'sector_overlays',
+    //pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -161,7 +158,7 @@ var YavinOverlay = L.imageOverlay(YavinUrl, YavinBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'sector_overlays',
+    //pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -173,7 +170,7 @@ var CorporateOverlay = L.imageOverlay(CorporateUrl, CorporateBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'sector_overlays',
+    //pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -185,7 +182,7 @@ var HapesOverlay = L.imageOverlay(HapesUrl, HapesBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'sector_overlays',
+    //pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -197,7 +194,7 @@ var CentralityOverlay = L.imageOverlay(CentralityUrl, CentralityBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'sector_overlays',
+    //pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -209,7 +206,7 @@ var TionOverlay = L.imageOverlay(TionUrl, TionBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'sector_overlays',
+    //pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -221,7 +218,7 @@ var TapaniOverlay = L.imageOverlay(TapaniUrl, TapaniBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'sector_overlays',
+    //pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });

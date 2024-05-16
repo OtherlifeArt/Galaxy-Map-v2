@@ -697,8 +697,9 @@
         <!-- Automation tools tab -->
         <div id="automation-tools-tab" class="tabcontent">
           <h3>Automated Tools</h3>
-          <button id="downloadPointsButton">Download POINTS GeoJSON</button>
-          <p>Lines and polygons will come later.</p>
+          <button id="downloadPointsButton" value="Point">Download POINTS GeoJSON</button>
+          <button id="downloadLinesButton" value="MultiLineString">Download ROADS GeoJSON</button>
+          <button id="downloadPolygonsButton" value="MultiPolygon">Download AREAS GeoJSON</button>
         </div>
         <!-- Automation tools tab end -->
         <!-- Dashboard tab -->
@@ -730,7 +731,7 @@
         <div class="loadgeojsondiv">
           <fieldset>
            <legend>Load/Refresh layers</legend>
-           <button id="loadpoints" onclick="getGeoJSON()">Re.Load Points</button>
+           <button id="loadpoints" onclick="getPointsGeoJSON()">Re.Load Points</button>
           </fieldset>
         </div>
 
@@ -934,7 +935,9 @@
     <script src="scripts/data-form/data.js"></script>
     <script src="scripts/data-form/map.js"></script>
     <script src="scripts/data-form/map-editing.js"></script>
-    <script src="scripts/data-form/map-toolbox.js"></script>
+    <script src="scripts/data-form/map-editing-points.js"></script>
+    <script src="scripts/data-form/map-editing-lines.js"></script>
+    <script src="scripts/data-form/map-tab.js"></script>
     <!-- Dashboard -->
     <script src="scripts/data-form/dashboard.js"></script>
     <!-- Google API -->
