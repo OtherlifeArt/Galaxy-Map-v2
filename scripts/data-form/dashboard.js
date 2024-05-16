@@ -8,7 +8,6 @@ function objectByTypeTable(parentDiv) {
   // Build table
   let table = document.createElement('table');
   table.classList.add("dashboard-table");
-  table.id = "dashboard-table-object-by-type";
   // Table headers
   let tableHeader = table.createTHead();
   let tableHeaderRow = tableHeader.insertRow(0);
@@ -20,6 +19,7 @@ function objectByTypeTable(parentDiv) {
   let tableBody = table.createTBody();
   // Build table content from object ids
   const objectArrayCountByType = countObjectByValue(astronomicalObjectSearchArray, "objectType");
+  let totalIncorrectValues = 0;
   Object.entries(objectArrayCountByType).forEach(entry => {
     const [key, value] = entry;
     let row = tableBody.insertRow();
@@ -30,6 +30,7 @@ function objectByTypeTable(parentDiv) {
     // If type doesn't exists in Object Type DB we colorize background in red
     if(!astronomicalObjectTypes.some(type => type.id === key)) {
       // console.log(`Type ${key} not found in DB`);
+      totalIncorrectValues += value;
       typeCell.classList.add("dashboard-incorrect-value");
       numberCell.classList.add("dashboard-incorrect-value");
     }
@@ -45,9 +46,10 @@ function objectByTypeTable(parentDiv) {
       numberCell.innerHTML = "0";
     }
   });
-  // Append table to div
-  document.getElementById("dashboard-table-object-by-type")?.remove();
-  parentDiv.appendChild(table);
+  // generate widget
+  const collapsibleButtonInnerHTML = `${totalIncorrectValues} incorrect object types`;
+  const containerDivId = "dashboard-table-object-by-type";
+  generateCollapsibleWidget(parentDiv, collapsibleButtonInnerHTML, table, containerDivId);
 }
 
 function countObjectByValue(objectArray, key) {
@@ -62,15 +64,59 @@ function countObjectByValue(objectArray, key) {
   return objectArrayCountByKey;
 }
 
+function objectByParentTable(parentDiv) {
+  // Build table
+  let table = document.createElement('table');
+  table.classList.add("dashboard-table");
+  // Table headers
+  let tableHeader = table.createTHead();
+  let tableHeaderRow = tableHeader.insertRow(0);
+  let objectParentCell = tableHeaderRow.insertCell(0);
+  objectParentCell.innerHTML = "<b>Parent Object</b>";
+  let numberOfObjectCell = tableHeaderRow.insertCell(1);
+  numberOfObjectCell.innerHTML = "<b>Children Number</b>";
+  // Add table body
+  let tableBody = table.createTBody();
+  // Build table content from object ids
+  const objectArrayCountByParent = countObjectByValue(astronomicalObjectSearchArray, "parentId");
+  let totalEmptyValues = 0;
+  Object.entries(objectArrayCountByParent).forEach(entry => {
+    const [key, value] = entry;
+    let row = tableBody.insertRow();
+    let typeCell = row.insertCell();
+    let numberCell = row.insertCell();
+    numberCell.innerHTML = value;
+    // If parent id is empty we colorize background in red
+    if(key === "" || key === undefined || key === null) {
+      typeCell.innerHTML = "No parent";
+      // console.log(`Type ${key} not found in DB`);
+      totalEmptyValues += value;
+      typeCell.classList.add("dashboard-incorrect-value");
+      numberCell.classList.add("dashboard-incorrect-value");
+    } else {
+      const object = astronomicalObjectSearchArray?.find(object => {
+        return object.id === key
+      });
+      typeCell.innerHTML = object?.text === undefined ? key : object.text;
+    }
+  });
+  // generate widget
+  const collapsibleButtonInnerHTML = `${totalEmptyValues} objects without parent`;
+  const containerDivId = "dashboard-table-object-parent";
+  generateCollapsibleWidget(parentDiv, collapsibleButtonInnerHTML, table, containerDivId);
+}
+
 /* Init dashboard functions */
 function initDashboard() {
   objectByTypeTable(DASHBOARD_DIVS[0]);
+  objectByParentTable(DASHBOARD_DIVS[0]);
 }
 
 /**********/
 /* EVENTS */
 /**********/
 document.getElementById('refresh-dashboard').addEventListener('click', async function (e) {
-  await refreshFormSelect2();
+  await refreshForm();
   initDashboard();
+  initWidgets();
 });

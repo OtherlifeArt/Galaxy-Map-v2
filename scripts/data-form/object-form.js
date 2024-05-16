@@ -43,6 +43,7 @@ async function loadAstronomicalObjectArray() {
       text: `${namesString} (${typeString}) [${canonLegendsString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
       objectType: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE],
       objectTypeClass: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES],
+      parentId: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]
     });
   }
 }
