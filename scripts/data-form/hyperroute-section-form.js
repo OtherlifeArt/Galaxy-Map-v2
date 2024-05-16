@@ -11,7 +11,6 @@ async function loadHyperrouteSections() {
     console.log("Hyperroute sections found", result);
     result.forEach(hyperrouteSection => {
       addHyperrouteSectionDivOnForm(hyperrouteSection);
-      console.log();
     });
   } else {
     console.log("No Hyperroute section found !");
@@ -111,17 +110,45 @@ async function deleteHyperrouteSectionRow(eventTarget) {
   // console.log("Hyperroute section id", hyperrouteSectionId);
   // Delete hyperroute section on spreadsheet if it exists
   if(confirm("Are you sure you want to delete hyperroute section with ID "+ hyperrouteSectionId +" ?")) {
-    const sheetRange = `!${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.LAST_COLUMN_REF()}`;
-    let returnCode = await deleteSpreadSheetRowData (SPREADSHEET_ID, SHEETS.HYPERROUTE_SECTIONS, sheetRange, SPREADSHEET_HEADERS.HYPERROUTE_SOURCES.COLUMNS.ID, hyperrouteSectionId);
+    let returnCode = await deleteHyperrouteSectionRowByID(hyperrouteSectionId);
     if(returnCode) {
-      console.log("Hyper route section has been successfully deleted !");
-      alert('Hyper route section has been successfully deleted !');
+      console.log("Hyper route section of id "+sectionRow[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.ID]+" has been successfully deleted !");
+      alert('"Hyper route section of id "+sectionRow[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.ID]+" has been successfully deleted !"');
     } else {
       alert("Deleted hyperroute section seems to no have any entry in database. Else it could be an error ! Check console (F12) for more details if you have doubts !");
     }
     // Remove row
     row.remove();
   }
+}
+
+async function deleteHyperrouteSectionRowByID(hyperrouteSectionId) {
+  const sheetRange = `!${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.LAST_COLUMN_REF()}`;
+  return await deleteSpreadSheetRowData (SPREADSHEET_ID, SHEETS.HYPERROUTE_SECTIONS, sheetRange, SPREADSHEET_HEADERS.HYPERROUTE_SOURCES.COLUMNS.ID, hyperrouteSectionId);
+}
+
+/**
+ * 
+ */
+async function deleteAllHyperrouteSectionRowByHyperrouteId(hyperrouteId) {
+  const sheetRange = `!${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.LAST_COLUMN_REF()}`;
+  // Get sections
+  const sectionRows = await getSpreadSheetRowFromColumnKeyValuePairs(SPREADSHEET_ID, SHEETS.HYPERROUTE_SECTIONS.NAME, sheetRange, 
+    [{key: SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.HYPERROUTE_ID, value: hyperrouteId}]
+  );
+  let sectionStatus = [true, 0];
+  // Delete sections
+  for (const sectionRow of sectionRows) {
+    let returnCode = await deleteHyperrouteSectionRowByID(sectionRow[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.ID]);
+    if(returnCode) {
+      console.log("Hyper route section of id "+sectionRow[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.ID]+" has been successfully deleted !");
+    } else {
+      alert("Deleted hyperroute section seems to no have any entry in database. Else it could be an error ! Check console (F12) for more details if you have doubts !");
+    }
+    sectionStatus[0] = sectionStatus[0] && returnCode;
+    sectionStatus[1]++;
+  }
+  return sectionStatus;
 }
 
 function addInputHiddenFieldToHyperrouteSection(parentDiv, className, value) {
@@ -274,42 +301,101 @@ function loadLocationSelect2ToHyperrouteSection(selectDomElement, selectedId) {
   });
 }
 
-function updateHyperrouteSectionList () {
+function averageTravelTimeArrayToString (dayHourMinuteSecondArray) {
+  if(dayHourMinuteSecondArray[0] !== "" || dayHourMinuteSecondArray[1] !== "" || dayHourMinuteSecondArray[2] !== "" || dayHourMinuteSecondArray[3] !== "") {
+    for (let index = 0; index < dayHourMinuteSecondArray.length; index++) {
+      if(dayHourMinuteSecondArray[index] === "") {
+        dayHourMinuteSecondArray[index] = 0;
+      }
+    }
+    return dayHourMinuteSecondArray.join(":");
+  } else {
+    return "";
+  }
+}
+
+function convertHyperrouteSectionFormToArray() {
   const HYPERROUTE_SECTION_COLUMN = SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS;
   const HYPERROUTE_SECTION_FORM_ROWS = document.getElementsByClassName("hyperroute-section-row");
   let allHyperrouteSectionArray = [];
+  // Formatted values
+  const hyperrouteId = sanitizeText(document.getElementById('hyperroute-tech-id').value);
+  const hyperrouteName = sanitizeText(document.getElementById('hyperroute-name').value);
+  // Automated values
+  const updateDateTime = new Date().toUTCString();
   // Format hyperroute section row into array
-  HYPERROUTE_SECTION_FORM_ROWS.forEach((domSection) => {
+  Array.from(HYPERROUTE_SECTION_FORM_ROWS).forEach((domSection) => { // getElementsByClassName return a HTMLCollection that must be casted to array
     let hyperrouteSectionArray = [];
+    // formatted values
+    const locationAId = sanitizeText(domSection.querySelector('.hyperroute-section-location-a-id').value);
+    const locationBId = sanitizeText(domSection.querySelector('.hyperroute-section-location-b-id').value);
+    const locationAName = locationAId === "" ? "" : astronomicalObjectSearchArray.find(astroObject => astroObject.id === locationAId).text;
+    const locationBName = locationBId === "" ? "" : astronomicalObjectSearchArray.find(astroObject => astroObject.id === locationAId).text;
+    const averageTravelTime = averageTravelTimeArrayToString([
+      sanitizeText(domSection.querySelector('.hyperroute-section-travel-time-day').value),
+      sanitizeText(domSection.querySelector('.hyperroute-section-travel-time-hour').value),
+      sanitizeText(domSection.querySelector('.hyperroute-section-travel-time-minute').value),
+      sanitizeText(domSection.querySelector('.hyperroute-section-travel-time-second').value)
+    ]);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.HYPERROUTE] = hyperrouteName;
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.LOCATION_A_ID] = locationAId;
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.LOCATION_A] = locationAName;
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.LOCATION_B_ID] = locationBId;
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.LOCATION_B] = locationBName;
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.updated_at] = updateDateTime;
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.HYPERROUTE_ID] = hyperrouteId
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.AVERAGE_TRAVEL_TIME] = averageTravelTime;
+    // form values
     hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.ID] = sanitizeText(domSection.querySelector('.hyperroute-section-id').value);
     hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.HUMAN_ID] = sanitizeText(domSection.querySelector('.hyperroute-section-sorting-id').value);
-    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.HYPERROUTE_ID] = sanitizeText(domSection.querySelector('.hyperroute-id').value);
-    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.LOCATION_A_ID] = sanitizeText(domSection.querySelector('.hyperroute-section-location-a-id').value);
-    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.LOCATION_B_ID] = sanitizeText(domSection.querySelector('.hyperroute-section-location-b-id').value);
     hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.DATE_FROM] = sanitizeText(domSection.querySelector('.hyperroute-section-date-from').value);
     hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.DATE_TO] = sanitizeText(domSection.querySelector('.hyperroute-section-date-to').value);
     hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.CANON] = getValueFromCheckboxElementState(domSection.querySelector('.hyperroute-section-canon'), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
     hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.LEGENDS] = getValueFromCheckboxElementState(domSection.querySelector('.hyperroute-section-legends'), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
     hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.UNLICENSED] = getValueFromCheckboxElementState(domSection.querySelector('.hyperroute-section-unlicenced'), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
     hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.DESC] = sanitizeText(domSection.querySelector('.hyperroute-section-desc').value);
-    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.PLACEMENT_CERTITUDE] = getValueFromCheckboxElementState(domSection.querySelector('.hyperroute-section-placement-certitude'), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
+    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.PLACEMENT_CERTITUDE] = sanitizeText(domSection.querySelector('.hyperroute-section-placement-certitude').value);
     hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.PLACEMENT_LOGIC] = sanitizeText(domSection.querySelector('.hyperroute-section-placement-logic').value);
     hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.NOTES] = sanitizeText(domSection.querySelector('.hyperroute-section-notes').value);
     hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.INTERESTING] = sanitizeText(domSection.querySelector('.hyperroute-section-interesting').value);
     hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.is_certified] = getValueFromCheckboxElementState(domSection.querySelector('.hyperroute-section-data-certified'), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
     hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.GEOM] = sanitizeText(domSection.querySelector('.hyperroute-section-geom').value);
     hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.GEOM_TYPE] = sanitizeText(domSection.querySelector('.hyperroute-section-geom-type').value);
-    // Special format values
-    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.HYPERROUTE] = sanitizeText(domSection.querySelector('.').value);
-    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.LOCATION_A] = sanitizeText(domSection.querySelector('.').value);
-    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.LOCATION_B] = sanitizeText(domSection.querySelector('.').value);
-    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.AVERAGE_TRAVEL_TIME] = sanitizeText(domSection.querySelector('.').value);
     
-    // Automated values
-    hyperrouteSectionArray[HYPERROUTE_SECTION_COLUMN.updated_at] = new Date().toUTCString();
-    // Append
-    allHyperrouteSectionArray.append(hyperrouteSectionArray);
+    // Append to array
+    allHyperrouteSectionArray.push(hyperrouteSectionArray);
   });
-
   return allHyperrouteSectionArray;
+}
+
+async function updateOrAddHyperrouteSectionData() {
+  const hyperrouteSectionArray = convertHyperrouteSectionFormToArray();
+  let hyperrouteSectionArrayToAddOrUpdate = {
+    "update": [],
+    "add": [],
+  };
+  const searchSheetRange = `!A:A`; // Id must be first column
+  // Check if section exists
+  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.HYPERROUTE_SECTIONS.NAME, searchSheetRange); // loading data
+  hyperrouteSectionArray.forEach(section => {
+    if(spreadSheetData.values.find(dataRow => dataRow[0] === section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.ID])){
+      hyperrouteSectionArrayToAddOrUpdate.update.push(section);
+      console.log(`Hyperroute sections to update : ${section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A]} - ${section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B]}`);
+    } else {
+      hyperrouteSectionArrayToAddOrUpdate.add.push(section);
+      console.log(`Hyperroute sections to add : ${section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A]} - ${section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B]}`);
+    }
+  });
+  const updateorAddSheetRange = `!${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.LAST_COLUMN_REF()}`; // Id must be first column
+  // Update
+  let updateResult;
+  if(hyperrouteSectionArrayToAddOrUpdate.update.length > 0) {
+    updateResult = updateSpreadSheetBatchRowData(SPREADSHEET_ID, SHEETS.HYPERROUTE_SECTIONS, updateorAddSheetRange, SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.ID, hyperrouteSectionArrayToAddOrUpdate.update);
+  }
+  // Add
+  let addResult;
+  if(hyperrouteSectionArrayToAddOrUpdate.add.length > 0) {
+    addResult = addSpreadSheetBatchRowData(SPREADSHEET_ID, SHEETS.HYPERROUTE_SECTIONS, updateorAddSheetRange, hyperrouteSectionArrayToAddOrUpdate.add);
+  }
+  return [updateResult && addResult, {add: hyperrouteSectionArrayToAddOrUpdate.add.length, update: hyperrouteSectionArrayToAddOrUpdate.update.length}]; // both must be true
 }

@@ -486,7 +486,7 @@ function updateDataFromValidationModal() {
       updateObjectData();
       break;
     case SHEETS.HYPERROUTES.ID:
-      updateHyperrouteData();
+      updateHyperrouteAndSectionsData();
       break;
     default:
       alert(`Sheet ID ${dataTabIdToUpdate} is unknown !`);

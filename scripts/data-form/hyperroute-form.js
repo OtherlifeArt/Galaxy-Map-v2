@@ -85,17 +85,13 @@ function generateHierarchicalStringOnHyperrouteParentSelect() {
  * Reload form content (data) and refresh display
  */
 async function refreshHyperrouteForm() {
-  await loadHyperrouteArray();
-  $(document).ready(function() {
+  $(document).ready(async function() {
+    await loadHyperrouteArray();
     // Object
     // Reset select2
     document.getElementById("hyperroute-search").value = "";
     $("#hyperroute-search").empty().val('').trigger('change');
     loadHyperrouteFormSelect2();
-    // Parent
-    document.getElementById("object-parent").value = "";
-    $("#hyperroute-parent").empty().val('').trigger('change');
-    loadHyperrouteParentsSelect2();
   });
 }
 
@@ -361,13 +357,16 @@ async function showHyperrouteDataAndUpdate(e) {
   showHyperrouteDataChange();
 }
 
-async function updateHyperrouteData(e) {
+async function updateHyperrouteAndSectionsData(e) {
   e.preventDefault(); // Skip form default action
-  await convertHyperrouteFormValuesToData();
-  const sheetRange = `!${SPREADSHEET_HEADERS.HYPERROUTES.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTES.LAST_COLUMN_REF()}`;
-  let returnCode = await updateSpreadSheetRowData(SPREADSHEET_ID, SHEETS.HYPERROUTES, sheetRange, SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ID, window.dataToUpdate);
-  if(returnCode) {
-    alert("Hyperroute and hyperroute sections have been successfully updated !");
+  const returnCodeHyperroute = await updateHyperrouteData();
+  const sectionStatus = await updateOrAddHyperrouteSectionData();
+  if(returnCodeHyperroute && sectionStatus[0]) {
+    alert(
+      `Hyperroute has been successfully updated !
+      Hyperroute section updated : ${sectionStatus[1].update}
+      Hyperroute section added : ${sectionStatus[1].add}`
+    );
     closeModal();
     // Reload object array
     refreshForm();
@@ -376,38 +375,52 @@ async function updateHyperrouteData(e) {
   }
 }
 
+async function updateHyperrouteData() {
+  await convertHyperrouteFormValuesToData();
+  const sheetRange = `!${SPREADSHEET_HEADERS.HYPERROUTES.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTES.LAST_COLUMN_REF()}`;
+  return updateSpreadSheetRowData(SPREADSHEET_ID, SHEETS.HYPERROUTES, sheetRange, SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ID, window.dataToUpdate);
+}
+
 async function addHyperrouteNewData(e) {
   e.preventDefault(); // Skip form default action
   await convertHyperrouteFormValuesToData();
   setNewHyperrouteDataFormValues();
   const sheetRange = `!${SPREADSHEET_HEADERS.HYPERROUTES.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTES.LAST_COLUMN_REF()}`;
-  let returnCode = await addSpreadSheetRowData(SPREADSHEET_ID, SHEETS.HYPERROUTES, sheetRange, window.dataToUpdate);
+  let returnCode = addSpreadSheetRowData(SPREADSHEET_ID, SHEETS.HYPERROUTES, sheetRange, window.dataToUpdate);
   // Confirm dialog
   // Add data
   // Confirmation and instruction dialog
   if(returnCode) {
     alert("Hyperroute has been successfully created at the end of the spreadsheet, you can now add hyperroute sections and update (sections are not saved on create !) Add/reorganize human index manually");
-    // Reload select 2 arrays
+    // Reload form
     refreshHyperrouteForm();
   } else {
     alert("Error encoutered ! Check console (F12) for more details");
   }
 }
 
-async function deleteHyperrouteData(e) {
+async function deleteHyperrouteAndRelatedSectionsData(e) {
   e.preventDefault(); // Skip form default action
   const hyperrouteIdToDelete = document.getElementById('hyperroute-tech-id').value;
+  let sectionStatus;
+  let returnCodeHyperroute
   // Confirm dialog
-  if(confirm("Are you sure you want to delete object "+ document.getElementById('object-name').value + " with ID "+ hyperrouteIdToDelete +" ?")) {
-    const sheetRange = `!${SPREADSHEET_HEADERS.HYPERROUTES.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTES.LAST_COLUMN_REF()}`;
-    let returnCode = await deleteSpreadSheetRowData(SPREADSHEET_ID, SHEETS.HYPERROUTES, sheetRange, SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ID, hyperrouteIdToDelete);
-    // Delete data
-    if(returnCode) {
-      alert("Hyperroute and its sections has been successfully deleted ! Add/reorganize human index manually");
-      // Reload object array
-      refreshForm();
-    } else {
-      alert("Error encoutered ! Check console (F12) for more details");
-    }
+  if(confirm("Are you sure you want to delete hyperroute "+ document.getElementById('hyperroute-name').value + " with ID "+ hyperrouteIdToDelete +" and all its sections ?")) {
+    sectionStatus = await deleteAllHyperrouteSectionRowByHyperrouteId(hyperrouteIdToDelete); // Delete sections
+    returnCodeHyperroute = await deleteHyperrouteData(hyperrouteIdToDelete); // Delete hyperroute
   }
+  if(returnCodeHyperroute && sectionStatus[0]) {
+    alert(`Hyperroute and its sections has been successfully deleted ! Add/reorganize human index manually
+    deleted sections : ${sectionStatus[1]}`);
+    // Reload form
+    refreshHyperrouteForm();
+  } else {
+    alert("Error encoutered ! Check console (F12) for more details");
+  }
+}
+
+async function deleteHyperrouteData(hyperrouteIdToDelete) {
+  const sheetRange = `!${SPREADSHEET_HEADERS.HYPERROUTES.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTES.LAST_COLUMN_REF()}`;
+  // Delete data
+  return await deleteSpreadSheetRowData(SPREADSHEET_ID, SHEETS.HYPERROUTES, sheetRange, SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ID, hyperrouteIdToDelete);
 }

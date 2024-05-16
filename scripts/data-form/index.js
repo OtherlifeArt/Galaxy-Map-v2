@@ -193,8 +193,8 @@ const SPREADSHEET_HEADERS = {
       INTERESTING: 19,
       updated_at: 20,
       is_certified: 21,
-      GEOM: 21,
-      GEOM_TYPE: 21,
+      GEOM: 22,
+      GEOM_TYPE: 23,
     },
     FIRST_COLUMN_REF: 'A',
     LAST_COLUMN_REF: () => {

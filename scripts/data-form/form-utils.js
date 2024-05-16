@@ -153,7 +153,7 @@ function setCheckboxElementStateFromValue(checkboxDOMElement, value, trueFalseIn
 
 function getValueFromCheckboxState(checkboxId, trueFalseIndeterminedOutputArray=[true, false, ""]) {
   const checkbox = document.getElementById(checkboxId);
-  getValueFromCheckboxElementState(checkbox, value, trueFalseIndeterminedOutputArray);
+  getValueFromCheckboxElementState(checkbox, trueFalseIndeterminedOutputArray);
 }
 
 /**

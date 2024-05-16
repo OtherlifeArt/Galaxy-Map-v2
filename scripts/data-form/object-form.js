@@ -175,7 +175,7 @@ function loadAstroObjectParentsSelect2() {
  * Populate search form on astro object select and hightlight sources button if exists
  */
 function loadFormOnAstroObjectSelect() {
-  $("#object-search").on('change', function() {
+  $("#object-search").on('change', async function() {
     const objectId = $("#object-search").val();
     console.log(`Selected value (objectId) : ${objectId}`);
     loadObjectForm(objectId);
@@ -579,6 +579,8 @@ async function getParentHierarchy(objectID) {
     return parentString;
   }
 }
+
+
 
 /**
  * Hightlight source button if object data is sourced

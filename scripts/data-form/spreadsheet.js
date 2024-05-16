@@ -173,7 +173,7 @@ async function updateSpreadSheetBatchRowData(spreadsheetId, sheetIdNameEntry, sh
   
   if(rowToUpdateIndexes.length < 1) {
     console.log('Values not found.');
-    console.error('Values not found in spreadsheet.');
+    // console.error('Values not found in spreadsheet.');
     return false;
   } else {
     console.log('Spreadsheet row numbers where the values are found: ', rowToUpdateIndexes);
@@ -189,7 +189,7 @@ async function updateSpreadSheetBatchRowData(spreadsheetId, sheetIdNameEntry, sh
     const dataRowToUpdate = batchDataRowToUpdate[index];
     const newSheetRange = `${sheetRangeArray[0]}${spreadsheetRowIndex}:${sheetRangeArray[1]}${spreadsheetRowIndex}`;
     // Append to data array
-    batchData.append({
+    batchData.push({
       range: sheetIdNameEntry.NAME + newSheetRange,
       majorDimension: 'ROWS',
       values: [dataRowToUpdate]
