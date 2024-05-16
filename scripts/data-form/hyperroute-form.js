@@ -369,9 +369,9 @@ async function updateHyperrouteAndSectionsData(e) {
     );
     closeModal();
     // Reload object array
-    refreshForm();
+    refreshHyperrouteForm();
   } else {
-    alert("Error encoutered on hyperroute update ! Check console (F12) for more details");
+    alert("Error encoutered on hyperroute and sections update ! Check console (F12) for more details");
   }
 }
 

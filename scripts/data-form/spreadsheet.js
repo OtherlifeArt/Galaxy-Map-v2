@@ -207,6 +207,8 @@ async function updateSpreadSheetBatchRowData(spreadsheetId, sheetIdNameEntry, sh
     });
   } catch (err) {
     document.getElementById('content').innerText = err.message;
+    console.log(err);
+    console.error(err.message);
     // alert(err.message);
     return false;
   }
@@ -217,8 +219,8 @@ async function updateSpreadSheetBatchRowData(spreadsheetId, sheetIdNameEntry, sh
 /**
  * Add new spreadsheet line with data from form
  */
-function addSpreadSheetRowData(spreadsheetId, sheetIdNameEntry, sheetRange, dataRowToAppend) {
-  return addSpreadSheetBatchRowData(spreadsheetId, sheetIdNameEntry, sheetRange, [dataRowToAppend]);
+async function addSpreadSheetRowData(spreadsheetId, sheetIdNameEntry, sheetRange, dataRowToAppend) {
+  return await addSpreadSheetBatchRowData(spreadsheetId, sheetIdNameEntry, sheetRange, [dataRowToAppend]);
 }
 
 /**

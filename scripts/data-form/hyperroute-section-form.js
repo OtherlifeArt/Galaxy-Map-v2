@@ -388,12 +388,12 @@ async function updateOrAddHyperrouteSectionData() {
   });
   const updateorAddSheetRange = `!${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.LAST_COLUMN_REF()}`; // Id must be first column
   // Update
-  let updateResult;
+  let updateResult = true;
   if(hyperrouteSectionArrayToAddOrUpdate.update.length > 0) {
     updateResult = updateSpreadSheetBatchRowData(SPREADSHEET_ID, SHEETS.HYPERROUTE_SECTIONS, updateorAddSheetRange, SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.ID, hyperrouteSectionArrayToAddOrUpdate.update);
   }
   // Add
-  let addResult;
+  let addResult = true;
   if(hyperrouteSectionArrayToAddOrUpdate.add.length > 0) {
     addResult = addSpreadSheetBatchRowData(SPREADSHEET_ID, SHEETS.HYPERROUTE_SECTIONS, updateorAddSheetRange, hyperrouteSectionArrayToAddOrUpdate.add);
   }
