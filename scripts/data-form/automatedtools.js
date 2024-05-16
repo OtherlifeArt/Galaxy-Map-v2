@@ -1,6 +1,6 @@
 
 // Function to fetch data from Google spreadsheet and return a GeoJSON object containg poctual localized objects
-function fetchSheetData(spreadsheetId, sheetName) {
+function fetchSheetDataPoints(spreadsheetId, sheetName) {
 
     return new Promise((resolve, reject) => {
       const sheetRange = `!A:AP`;
@@ -52,10 +52,10 @@ function fetchSheetData(spreadsheetId, sheetName) {
   }
   
   // Function to trigger download of GeoJSON file
-  async function downloadGeoJSON() {
+  async function downloadPointsGeoJSON() {
     var spreadsheetId = SPREADSHEET_ID
     var sheetName = SHEETS.OBJECTS.NAME
-    await fetchSheetData(spreadsheetId, sheetName).then(function(geojson) {
+    await fetchSheetDataPoints(spreadsheetId, sheetName).then(function(geojson) {
       // Convert GeoJSON to string
       var geojsonStr = JSON.stringify(geojson);
   
@@ -81,4 +81,4 @@ function fetchSheetData(spreadsheetId, sheetName) {
   }
 
   // Add event listener to download button
-  document.getElementById('downloadPointsButton').addEventListener('click', downloadGeoJSON);
+  document.getElementById('downloadPointsButton').addEventListener('click', downloadPointsGeoJSON);
