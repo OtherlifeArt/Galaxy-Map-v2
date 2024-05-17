@@ -1,6 +1,14 @@
 const DOM_DASHBOARD_CONTAINER = document.getElementById("dashboard-container");
 const DASHBOARD_DIVS = DOM_DASHBOARD_CONTAINER.getElementsByTagName('div');
 
+/* PARAMETERS */
+const OBJECT_TYPE_WITH_MANDATORY_COORD = [
+  "Location", "Exotic", "Natural Object", "Artificial Object", 
+  "Interstellar Matter", "Nebula", "Interstellar Cloud", 
+  "Rogue Planet", "Rogue Moon", "Rogue Asteroid", "Rogue Comet", "Star System", 
+  "Anomaly", "Void Space", "Rings"
+];
+
 /**
  * Build a table showing object by type even if they are not in Object Types database
  */
@@ -52,18 +60,6 @@ function objectByTypeTable(parentDiv) {
   generateCollapsibleWidget(parentDiv, collapsibleButtonInnerHTML, table, containerDivId);
 }
 
-function countObjectByValue(objectArray, key) {
-  let objectArrayCountByKey = {};
-  objectArray.forEach(value => {
-    if(objectArrayCountByKey?.[value[key]] === undefined) {
-      objectArrayCountByKey[value[key]] = 1;
-    } else {
-      objectArrayCountByKey[value[key]] += 1;
-    }
-  });
-  return objectArrayCountByKey;
-}
-
 function objectByParentTable(parentDiv) {
   // Build table
   let table = document.createElement('table');
@@ -106,10 +102,105 @@ function objectByParentTable(parentDiv) {
   generateCollapsibleWidget(parentDiv, collapsibleButtonInnerHTML, table, containerDivId);
 }
 
+/**
+ * List objects type with or without coordinates
+ */
+function objectCoordinateByType(parentDiv) {
+  // Build table
+  let table = document.createElement('table');
+  table.classList.add("dashboard-table");
+  let tableHeader = table.createTHead();
+  let tableHeaderRow = tableHeader.insertRow(0);
+  let objectParentCell = tableHeaderRow.insertCell(0);
+  objectParentCell.innerHTML = "<b>Object Type</b>";
+  let numberOfObjectCell = tableHeaderRow.insertCell(1);
+  numberOfObjectCell.innerHTML = "<b>Object Number</b>";
+  // Add table body
+  let tableBody = table.createTBody();
+  // Build table content from object type
+  let objectAggregationByType = aggregateObjectsByValue(astronomicalObjectSearchArray, "objectType");
+  let objectAggregationByTypeAndCoord = {};
+  let totalEligibleObjectWithCoordinate = 0;
+  let totalEligibleObjectWithoutCoordinate = 0;
+  let totalIneligibleObjectWithCoordinate = 0;
+  for (const [key, value] of Object.entries(objectAggregationByType)) {
+    // console.log(`${key}: ${value}`);
+    objectAggregationByTypeAndCoord[key] = countObjectArrayByEmptyArray(value, "coords");
+    let row = tableBody.insertRow();
+    let typeCell = row.insertCell();
+    typeCell.innerHTML = key;
+    let numberCell = row.insertCell();
+    const objectWithCoordNumber = objectAggregationByTypeAndCoord[key].coords["Value"] === undefined ? 0 : objectAggregationByTypeAndCoord[key].coords["Value"];
+    const objectWithoutCoordNumber = objectAggregationByTypeAndCoord[key].coords["No value"] === undefined ? 0 : objectAggregationByTypeAndCoord[key].coords["No value"];
+    numberCell.innerHTML = `${objectWithCoordNumber} / ${objectWithoutCoordNumber + objectWithCoordNumber}`;
+    // If type needs coordinate and we are missing them, we colorize cell background in red
+    if(objectAggregationByTypeAndCoord[key].coords["No value"] > 0) {
+      if(OBJECT_TYPE_WITH_MANDATORY_COORD.includes(key)) {
+        typeCell.classList.add("dashboard-incorrect-value");
+        numberCell.classList.add("dashboard-incorrect-value");
+        totalEligibleObjectWithoutCoordinate += objectWithoutCoordNumber;
+      } else {
+        typeCell.classList.add("dashboard-warning-value");
+        numberCell.classList.add("dashboard-warning-value");
+      }
+    }
+    if(objectAggregationByTypeAndCoord[key].coords["Value"] > 0) {
+      if(OBJECT_TYPE_WITH_MANDATORY_COORD.includes(key)) {
+        totalEligibleObjectWithCoordinate += objectWithCoordNumber;
+      } else {
+        totalIneligibleObjectWithCoordinate += objectWithCoordNumber;
+      }
+    }
+  }
+  // Table headers
+  // generate widget
+  const collapsibleButtonInnerHTML = `${totalEligibleObjectWithCoordinate} / ${totalEligibleObjectWithoutCoordinate + totalEligibleObjectWithCoordinate} eligible objects with coordinates (inleligible objects with coordinates : ${totalIneligibleObjectWithCoordinate})`;
+  const containerDivId = "dashboard-table-object-coordinates";
+  generateCollapsibleWidget(parentDiv, collapsibleButtonInnerHTML, table, containerDivId);
+}
+
+function aggregateObjectsByValue(objectArray, key) {
+  let aggregatedObjectArray = {};
+  objectArray.forEach(value => {
+    if(aggregatedObjectArray?.[value[key]] === undefined) {
+      aggregatedObjectArray[value[key]] = [];
+    }
+    aggregatedObjectArray[value[key]].push(value);
+  });
+  return aggregatedObjectArray;
+}
+
+function countObjectByValue(objectArray, key) {
+  let objectArrayCountByKey = {};
+  objectArray.forEach(value => {
+    if(objectArrayCountByKey?.[value[key]] === undefined) {
+      objectArrayCountByKey[value[key]] = 1;
+    } else {
+      objectArrayCountByKey[value[key]] += 1;
+    }
+  });
+  return objectArrayCountByKey;
+}
+
+function countObjectArrayByEmptyArray(objectArray, arrayKey) {
+  let objectCountByKey = {};
+  if(objectCountByKey[arrayKey] === undefined) {
+    objectCountByKey[arrayKey] = {
+      "No value": 0,
+      "Value": 0,
+    }
+  }
+  objectArray.forEach(object => {
+    object[arrayKey].length === 0 ? objectCountByKey[arrayKey]["No value"] += 1 : objectCountByKey[arrayKey]["Value"] += 1;
+  });
+  return objectCountByKey;
+}
+
 /* Init dashboard functions */
 function initDashboard() {
   objectByTypeTable(DASHBOARD_DIVS[0]);
   objectByParentTable(DASHBOARD_DIVS[0]);
+  objectCoordinateByType(DASHBOARD_DIVS[0]);
 }
 
 /**********/

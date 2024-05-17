@@ -435,3 +435,7 @@ input[readonly], textarea[readonly] {
 .dashboard-incorrect-value {
   background-color: #EE4B2B;
 }
+
+.dashboard-warning-value {
+  background-color: #e1a900;
+}
