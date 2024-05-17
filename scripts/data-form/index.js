@@ -339,6 +339,8 @@ async function initDataLoad() {
   initDashboard();
   // Widgets
   initWidgets();
+  // Datatables
+  loadObjectDatatable();
 }
 
 /* MAIN */

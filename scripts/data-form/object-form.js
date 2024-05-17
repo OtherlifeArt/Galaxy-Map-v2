@@ -28,7 +28,6 @@ async function loadAstronomicalObjectArray() {
   const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, '!A2:Z');
   // Populate select2 search array
   astronomicalObjectSearchArray = [];
-  // console.log(spreadSheetData.values[0]);
   for(i=0; i<spreadSheetData.values.length; i++){
     const rowValues = spreadSheetData.values[i];
     const namesString = `${rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]}${rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES] === "" ? "" : "/"+rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES]}`;
@@ -40,16 +39,25 @@ async function loadAstronomicalObjectArray() {
     const dateString = prettifyDateFromDateTo([rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO]]);
     const grid = rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID] === "" || rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID] ===  undefined ? [] : [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_GRID], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID]];
     const coords = rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] === "" || rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] === undefined ? [] : [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]];
+    const dates = [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO]];
     astronomicalObjectSearchArray.push({
       id: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID],
+      humanName: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_NAME],
+      name: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME],
       text: `${namesString} (${typeString}) [${canonLegendsString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
       objectType: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE],
       objectTypeClass: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES],
       parentId: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID],
+      humanParent: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN],
+      dates: dates,
       grid: grid,
       coords: coords,
+      canonLegendsString: canonLegendsString,
+      conjName: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_NAME]),
+      conjType: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_TYPE]),
     });
   }
+  console.log("Astro Object List",astronomicalObjectSearchArray);
 }
 
 /**
