@@ -74,9 +74,6 @@ async function openDataFieldObjectSourceModal(eventTarget) {
     alert("You must create object before adding sources. Tip : enter object name, save object, then resume editing object/sources.");
     return;
   }
-  // console.log(eventTarget.parentElement.firstChild.nextSibling.getAttribute("for"));
-  // const formEntryID = eventTarget.parentElement.firstChild.nextSibling.attributes !== undefined ? 
-  //   eventTarget.parentElement.firstChild.nextSibling.getAttribute("for") : eventTarget.parentElement.firstChild.nextSibling.nextSibling.nextSibling.getAttribute("for");
   const formEntryId = eventTarget.parentElement.querySelector("label").getAttribute("for");
   // Get spreadhseet column matching source entry
   let columnEntryName = getCustomColumnEntryName(formEntryId);
@@ -139,9 +136,6 @@ async function openDataFieldHyperrouteSourceModal(eventTarget) {
     alert("You must select or create hyperroute before adding sources. Tip : enter hyperroute name, save hyperroute, then resume editing hyperroute/sources.");
     return;
   }
-  // console.log(eventTarget.parentElement.firstChild.nextSibling.getAttribute("for"));
-  // const formEntryID = eventTarget.parentElement.firstChild.nextSibling.attributes !== undefined ? 
-  //   eventTarget.parentElement.firstChild.nextSibling.getAttribute("for") : eventTarget.parentElement.firstChild.nextSibling.nextSibling.nextSibling.getAttribute("for");
   const formEntryId = eventTarget.parentElement.querySelector("label").getAttribute("for");
   // Get spreadhseet column matching source entry
   let columnEntryName = getCustomColumnEntryName(formEntryId);
