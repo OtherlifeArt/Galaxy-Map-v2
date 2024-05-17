@@ -18,10 +18,79 @@ body {
   margin-right: 10px;
 }
 
+/* GRID DISPLAY */
+
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 2px;
+  grid-auto-rows: minmax(1px, auto);
+}
+
+.grid-column-one {
+  grid-column: 1
+}
+
+.grid-column-one-to-two {
+  grid-column: 1 / 3;
+}
+
+.grid-column-one-to-three {
+  grid-column: 1 / 4;
+}
+
+.grid-column-one-to-four {
+  grid-column: 1 / 5;
+}
+
+.grid-column-two {
+  grid-column: 2;
+}
+
+.grid-column-two-to-three {
+  grid-column: 2 / 4;
+}
+
+.grid-column-two-to-four {
+  grid-column: 2 / 5;
+}
+
+.grid-column-three {
+  grid-column: 3;
+}
+
+.grid-column-three-to-four {
+  grid-column: 3 / 5;
+}
+
+.grid-column-four {
+  grid-column: 4;
+}
+
+.grid-line-one {
+  grid-row: 1;
+}
+
+.grid-line-two {
+  grid-row: 2;
+}
+
+.grid-line-three {
+  grid-row: 3;
+}
+
+.grid-line-four {
+  grid-row: 4;
+}
+
+/****************/
+
+
 /* Select2 */
 #object-search, #hyperroute-search {
   width: 100% !important;
 }
+
 
 #object-name-span, #hyperroute-name-span {
   width: 100%;

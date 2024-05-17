@@ -68,7 +68,7 @@
             <form id="astro-object-form">
               <fieldset>
                 <legend>Astronomical object Form</legend>
-                <div>
+                <div class="grid-wrapper">
                   <!-- IDs -->
                   <span class="tooltip">
                     <label for="object-tech-id">Technical ID</label>
@@ -93,16 +93,16 @@
                     <input type="checkbox" name="object-data-certified" id="object-data-certified">
                     <span class="tooltiptext">Are data fully checked or sufficient, and ready for publication ?</span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- Object Name -->
-                  <span class="tooltip" id="object-name-span">
+                  <span class="tooltip grid-column-one-to-four" id="object-name-span">
                     <label for="object-name">Object Name</label>
                     <input type="text" name="object-name" id="object-name" required/><!-- Trick : This comment removes space between elements
                       --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Full name of astronomical object (No alternate names)</span>
                   </span>
                   <!-- Object Alternative Names -->
-                  <span class="tooltip" id="object-alt-name-span">
+                  <span class="tooltip grid-column-one-to-four" id="object-alt-name-span">
                     <label for="object-alt-name">Object Alt Names</label>
                     <input type="text" name="object-alt-name" id="object-alt-name"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
@@ -122,16 +122,16 @@
                     <span class="tooltiptext">Is this object main or capital related to its neighbours (same hierarchy level.)</span>
                   </span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- Displayed Type -->
-                  <span class="tooltip" id="object-type-raw-span">
+                  <span class="tooltip grid-column-one-to-four" id="object-type-raw-span">
                     <label for="object-type-raw">Displayed Type</label>
                     <input type="text" name="object-type-raw" id="object-type-raw" readonly>
                     <span class="tooltiptext">Type as displayed in spreadsheet (readonly)</span>
                   </span>
                   <br/>
                   <!-- Type -->
-                  <span class="tooltip" id="object-type-span">
+                  <span class="tooltip grid-column-one-to-three" id="object-type-span">
                     <label for="object-type">Type</label>
                     <select name="object-type" id="object-type">
                     </select><!-- Trick : This comment removes space between elements
@@ -145,15 +145,15 @@
                   <span class="tooltiptext">Type isn't known/definite (yet)</span>
                 </span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- Displayed Type Classes -->
-                  <span class="tooltip" id="object-type-classes-raw-span">
+                  <span class="tooltip grid-column-one-to-four" id="object-type-classes-raw-span">
                     <label for="object-type-classes-raw">Displayed Type Classes</label>
                     <input type="text" name="object-type-classes-raw" id="object-type-classes-raw" readonly>
                     <span class="tooltiptext">Type classes as displayed in spreadsheet (readonly)</span>
                   </span>
                   <!-- Type Classes -->
-                  <span class="tooltip" id="object-type-classes-span">
+                  <span class="tooltip grid-column-one-to-four" id="object-type-classes-span">
                   <label for="object-type-classes">Type classes</label>
                     <select id="object-type-classes" name="object-type-classes">
                     </select><!-- Trick : This comment removes space between elements
@@ -161,14 +161,14 @@
                   <span class="tooltiptext">Subtype/more precise type</span>
                 </span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- Parent -->
-                  <span class="tooltip"  id="object-parent-raw-span">
+                  <span class="tooltip grid-column-one-to-four" id="object-parent-raw-span">
                     <label for="object-parent-raw">Parents (Displayed DATA)</label>
                     <input type="text" name="object-parent-raw" id="object-parent-raw" readonly>
                     <span class="tooltiptext">Object's parent as displayed in spreadsheet (readonly)</span>
                   </span>
-                  <span class="tooltip" id="object-parent-span">
+                  <span class="tooltip grid-column-one-to-four" id="object-parent-span">
                     <label for="object-parent">Parent</label>
                     <select name="object-parent" id="object-parent">
                       <option></option>
@@ -178,37 +178,37 @@
                   </span>
                   <br/>
                   <!-- Orbital rank -->
-                  <span class="tooltip">
+                  <span class="tooltip grid-column-one-to-two grid-line-three">
                     <label for="object-orbital-rank">Orbital rank</label>
                     <input type="number" step="1" name="object-orbital-rank" id="object-orbital-rank"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">How much object there is between current and central one when orbiting - central objects are 0 (zero)</span>
                   </span>
                   <!-- Size -->
-                  <span class="tooltip">
+                  <span class="tooltip grid-column-three-to-four grid-line-three">
                     <label for="object-size">Size</label>
-                    <input type="number" step="0.0001" min="0" name="object-size" id="object-size"><!-- Trick : This comment removes space between elements
+                    <input type="number" step="0.00000001" min="0" name="object-size" id="object-size"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Object size/diameter in meters</span>
                   </span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- Date From -->
-                  <span class="tooltip">
+                  <span class="tooltip grid-column-one-to-two">
                     <label for="object-datefrom">Date (Year) : From</label>
                     <input type="number" step="0.01" name="object-datefrom" id="object-datefrom"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Date from object data are applicable (new state, new name ...)</span>
                   </span>
                   <!-- Date To -->
-                  <span class="tooltip">
+                  <span class="tooltip tooltip grid-column-tree-to-four">
                     <label for="object-dateto">To</label>
                     <input type="number" step="0.01" name="object-dateto" id="object-dateto"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Date from object data are no more applicable (state change, name change ...)</span>
                   </span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- Canon -->
                   <span class="tooltip">
                     <label for="object-canon">Canon ?</label>
@@ -234,7 +234,7 @@
                     <span class="tooltiptext">Is object present in movies ?</span>
                   </span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- Grid : X -->
                   <span class="tooltip">
                     <label for="object-grid-x">Grid : X</label>
@@ -249,9 +249,9 @@
                     <span class="tooltiptext">Galactic grid ordinate (integer number)</span>
                   </span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- Coordinates : X -->
-                  <span class="tooltip">
+                  <span class="tooltip grid-column-one-to-two">
                     <label for="object-coord-x">Coordinates : X</label>
                     <input type="number" step="0.0000000001" name="object-coord-x" id="object-coord-x">
                     <span class="tooltiptext">Map X (abscissa) coordinates</span>
@@ -289,7 +289,7 @@
                     <span class="tooltiptext">Is object "punctual" ?</span>
                   </span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- Desc -->
                   <span class="tooltip">
                     <label for="object-desc">Description</label>
@@ -298,7 +298,7 @@
                     <span class="tooltiptext">Object description</span>
                   </span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- Placement certitude -->
                   <span class="tooltip">
                     <label for="object-placement-certitude">Placement certitude</label>
@@ -313,7 +313,7 @@
                     <span class="tooltiptext">Explain object placement logic</span>
                   </span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- Appearance from orbit -->
                   <span class="tooltip">
                     <label for="object-orbit-appearance">Appearance From orbit</label>
@@ -413,7 +413,7 @@
                     <span class="tooltiptext">List of Starports "," (comma) separated</span>
                   </span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- Notes -->
                   <span class="tooltip">
                     <label for="object-notes">Notes</label>
@@ -443,7 +443,7 @@
                   <!-- Sources Display -->
                   <span id="url-displayer">
                   </span>
-                </div>
+                </div class="grid-wrapper">
                 <div>
                   <!-- Zoom level -->
                   <span class="tooltip">
