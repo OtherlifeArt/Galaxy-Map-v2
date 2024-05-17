@@ -33,16 +33,21 @@ async function loadAstronomicalObjectArray() {
     const rowValues = spreadSheetData.values[i];
     const namesString = `${rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]}${rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES] === "" ? "" : "/"+rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES]}`;
     let typeString = rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE];
-    if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES] !== undefined && rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES] !== "") {
+    if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES] !== "" && rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES] !== undefined) {
       typeString += " - "+rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES];
     }
     const canonLegendsString = canonLegendsToString([rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS]]);
     const dateString = prettifyDateFromDateTo([rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO]]);
+    const grid = rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID] === "" || rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID] ===  undefined ? [] : [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_GRID], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID]];
+    const coords = rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] === "" || rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] === undefined ? [] : [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]];
     astronomicalObjectSearchArray.push({
       id: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID],
       text: `${namesString} (${typeString}) [${canonLegendsString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
       objectType: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE],
       objectTypeClass: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES],
+      parentId: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID],
+      grid: grid,
+      coords: coords,
     });
   }
 }

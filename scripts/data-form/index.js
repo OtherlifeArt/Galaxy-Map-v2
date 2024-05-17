@@ -337,6 +337,8 @@ async function initDataLoad() {
   await initHyperroutes();
   // Dashboard
   initDashboard();
+  // Widgets
+  initWidgets();
 }
 
 /* MAIN */
@@ -373,5 +375,8 @@ document.querySelectorAll('.hyperroute-source-entry-button').forEach(button => {
     openDataFieldHyperrouteSourceModal(e.target);
   });
 });
+
+
+
 
 

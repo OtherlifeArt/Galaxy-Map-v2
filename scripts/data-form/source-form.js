@@ -67,7 +67,7 @@ async function listSources() {
       });
     }
   }
-  console.log(sourceSearchArray);
+  console.log("Sources", sourceSearchArray);
 }
 
 /**
