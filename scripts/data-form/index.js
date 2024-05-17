@@ -325,6 +325,9 @@ window.dataToUpdate = [];
 window.fromJQuery = {
 };
 
+// Datatable
+let objectDatatable;
+
 /* FUNCTIONS */
 /**
  * Load all data lists, refresh/init dashboard

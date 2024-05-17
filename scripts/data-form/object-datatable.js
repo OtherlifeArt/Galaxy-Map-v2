@@ -13,8 +13,14 @@ const OBJECT_DATATABLE_PARAMS = {
   ]
 }
 
+function refreshDatatable(datatable) {
+  datatable.clear();
+  datatable.rows.add(dataSet);
+  datatable.draw();
+}
+
 function loadObjectDatatable() {
-  let objectDatatable = new DataTable('#astro-object-datatable', {
+  objectDatatable = new DataTable('#astro-object-datatable', {
     data: astronomicalObjectSearchArray,
     columns: [
       { data: (data) => null },
