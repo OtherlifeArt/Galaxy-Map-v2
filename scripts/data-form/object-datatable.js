@@ -13,9 +13,9 @@ const OBJECT_DATATABLE_PARAMS = {
   ]
 }
 
-function refreshDatatable(datatable) {
+function refreshObjectDatatable(datatable) {
   datatable.clear();
-  datatable.rows.add(dataSet);
+  datatable.rows.add(astronomicalObjectSearchArray);
   datatable.draw();
 }
 
