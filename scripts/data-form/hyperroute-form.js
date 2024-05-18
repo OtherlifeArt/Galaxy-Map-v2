@@ -18,9 +18,16 @@ async function loadHyperrouteArray() {
     const namesString = `${rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.NAME]}${rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ALT_NAMES] === "" ? "" : "/"+rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ALT_NAMES]}`;
     const canonLegendsString = canonLegendsToString([rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.CANON],rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.LEGENDS]]);
     const dateString = prettifyDateFromDateTo([rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_FROM],rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_TO]]);
+    const dates = [rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_FROM], rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_TO]];
     hyperrouteArray.push({
       id: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ID],
       text: `${namesString} [${canonLegendsString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
+      name: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.NAME],
+      parentName: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.PARENT_NAME],
+      dates: dates,
+      canonLegendsString: canonLegendsString,
+      level: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.TRADE_ROUTE_LEVEL]),
+      conjName: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.CONJECTURAL_NAME]),
     });
   }
 }
@@ -370,6 +377,9 @@ async function updateHyperrouteAndSectionsData(e) {
     closeModal();
     // Reload object array
     refreshHyperrouteForm();
+    // Reload datatables
+    refreshDatatable("objectDatatable"); // for sections
+    refreshDatatable("hyperrouteDatatable");
   } else {
     alert("Error encoutered on hyperroute and sections update ! Check console (F12) for more details");
   }
@@ -394,6 +404,9 @@ async function addHyperrouteNewData(e) {
     alert("Hyperroute has been successfully created at the end of the spreadsheet, you can now add hyperroute sections and update (sections are not saved on create !) Add/reorganize human index manually");
     // Reload form
     refreshHyperrouteForm();
+    // Reload datatables
+    refreshDatatable("objectDatatable"); // for sections
+    refreshDatatable("hyperrouteDatatable");
   } else {
     alert("Error encoutered on hyperoute creation ! Check console (F12) for more details");
   }
@@ -414,6 +427,9 @@ async function deleteHyperrouteAndRelatedSectionsData(e) {
     deleted sections : ${sectionStatus[1]}`);
     // Reload form
     refreshHyperrouteForm();
+    // Reload datatables
+    refreshDatatable("objectDatatable"); // for sections
+    refreshDatatable("hyperrouteDatatable");
   } else {
     alert("Error encoutered on hyperroute and sections deletion ! Check console (F12) for more details");
   }

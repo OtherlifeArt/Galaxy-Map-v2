@@ -327,6 +327,7 @@ window.fromJQuery = {
 
 // Datatable
 let objectDatatable;
+let hyperrouteDatatable;
 
 /* FUNCTIONS */
 /**
@@ -344,6 +345,7 @@ async function initDataLoad() {
   initWidgets();
   // Datatables
   loadObjectDatatable();
+  loadHyperrouteDatatable();
 }
 
 /* MAIN */

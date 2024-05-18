@@ -650,8 +650,9 @@ async function updateObjectData() {
     closeModal();
     // Reload object array
     refreshForm();
-    // Reload object datatable
-    refreshObjectDatatable(objectDatatable);
+    // Reload datatables
+    refreshDatatable("objectDatatable");
+    refreshDatatable("hyperrouteDatatable"); // for sections
   } else {
     alert("Error encoutered on astronomical object update ! Check console (F12) for more details");
   }
@@ -669,8 +670,9 @@ async function addNewData() {
     alert("Object has been successfully created at the end of the spreadsheet ! Add/reorganize human index manually ");
     // Reload select 2 arrays
     refreshForm();
-    // Reload object datatable
-    refreshObjectDatatable(objectDatatable);
+    // Reload datatables
+    refreshDatatable("objectDatatable");
+    refreshDatatable("hyperrouteDatatable"); // for sections
   } else {
     alert("Error encoutered on astronomical object creation ! Check console (F12) for more details");
   }
@@ -687,8 +689,9 @@ async function deleteData() {
       alert("Object has been successfully deleted ! Add/reorganize human index manually");
       // Reload object array
       refreshForm();
-      // Reload object datatable
-      refreshObjectDatatable(objectDatatable);
+      // Reload datatables
+      refreshDatatable("objectDatatable");
+      refreshDatatable("hyperrouteDatatable"); // for sections  
     } else {
       alert("Error encoutered on astronomical object deletion ! Check console (F12) for more details");
     }
