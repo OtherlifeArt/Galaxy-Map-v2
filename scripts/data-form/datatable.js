@@ -23,7 +23,14 @@ function loadObjectDatatable() {
   objectDatatable = new DataTable('#astro-object-datatable', {
     data: astronomicalObjectSearchArray,
     columns: [
-      { data: (data) => null },
+      { data: null,
+        render: function (data, type, row) {
+            return `
+                <button class="view-btn" onclick="datatableGoToMap('${data.id}')">Go To (WIP)</button>
+                <button class="edit-btn" onclick="datatableEditOnForm('${data.id}', 'objectDatatable')">Edit</button>
+            `;
+        }
+      },
       { data: 'name' },
       // { data: 'humanName'},
       { data: (data) => {
@@ -95,4 +102,20 @@ function loadObjectDatatable() {
       });
     },
   });
+}
+
+function datatableEditOnForm(itemId, datatableName) {
+  // console.log(datatableName);
+  if(datatableName === "objectDatatable") {
+    // console.log("Object ID", itemId);
+    // Load object in form
+    $(document).ready(function() {
+      $('#object-search').select2().val(sanitizeText(itemId));
+      $('#object-search').select2().trigger('change');
+    });
+    // Go to form tab
+    openSection(null, 'astro-object-tab');
+    // Set active tab
+    document.getElementById("default-tab").classList.add("active");
+  }
 }
