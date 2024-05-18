@@ -198,6 +198,10 @@ function countObjectArrayByEmptyArray(objectArray, arrayKey) {
 
 /* Init dashboard functions */
 function initDashboard() {
+  // Empty dashboard content
+  DASHBOARD_DIVS[0].innerHTML = "";
+  DASHBOARD_DIVS[1].innerHTML = "";
+  // Recreate dashboard pannels
   objectByTypeTable(DASHBOARD_DIVS[0]);
   objectByParentTable(DASHBOARD_DIVS[0]);
   objectCoordinateByType(DASHBOARD_DIVS[0]);
