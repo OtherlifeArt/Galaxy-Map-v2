@@ -23,11 +23,22 @@ async function loadHyperrouteArray() {
       id: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ID],
       text: `${namesString} [${continuityString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
       name: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.NAME],
+      altNames: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ALT_NAMES],
+      parentId: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.PARENT_ID],
       parentName: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.PARENT_NAME],
       dates: dates,
       continuityString: continuityString,
       level: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.TRADE_ROUTE_LEVEL]),
       conjName: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.CONJECTURAL_NAME]),
+      lastUpdated: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.updated_at]),
+      sortId: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.HUMAN_ID]),
+      urls: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.URLS]),
+      wikidataId: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.WIKI_DATA_ID]),
+      desc: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DESC]),
+      zoomLevel: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ZOOM_LEVEL]),
+      notes: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.NOTES]),
+      interesting: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.INTERESTING]),
+      isCertified: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.is_certified]),
     });
   }
 }

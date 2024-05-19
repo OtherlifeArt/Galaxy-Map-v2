@@ -75,11 +75,11 @@ async function loadAstronomicalObjectArray() {
       interesting: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING]),
       notes: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES]),
       zoomLevel: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ZOOM_LEVEL]),
-      lastUpdated: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.lastUpdated]),
+      lastUpdated: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.updated_at]),
       appearance: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.APPEARANCE_FROM_ORBIT]),
       immigrantSpecies: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IMMIGRANT_SPECIES]),
       population: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POPULATION]),
-      radius: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.SIZE]),
+      size: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.SIZE]),
       gravity: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GRAVITY]),
       government: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GOVERNMENT]),
       techLevel: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TECH_LEVEL]),
@@ -96,6 +96,7 @@ async function loadAstronomicalObjectArray() {
       lengthOfYear: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_YEAR]),
       urls: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL]).split(","),
       wikidataId: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.WIKI_DATA_ID]),
+      isCertified: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.is_certified]),
     });
   }
   console.log("Astro Object List",astronomicalObjectSearchArray);

@@ -65,22 +65,22 @@ function initDatatableEvents(datatableLabel) {
 }
 
 function datatableChildContent(rowData, datatableLabel) {
+  let urls = "<span>";
+  if(rowData.urls !== "") {
+    rowData.urls.forEach((url) => {
+      try {
+        url = new URL(url);
+      } catch (_) {
+        return;
+      }
+      urls += "<a href="+url+">"+new URL(url).hostname+"</a> ";
+    });
+  }
+  if(rowData.wikidataId !== "") {
+    urls += "<a href="+WIKIDATA_PAGE_PREFIX+rowData.wikidataId+">Wikidata</a>";
+  }
+  urls += "</span>";
   if(datatableLabel === "objectDatatable") {
-    let urls = "<span>";
-    if(rowData.urls !== "") {
-      rowData.urls.forEach((url) => {
-        try {
-          url = new URL(url);
-        } catch (_) {
-          return;
-        }
-        urls += "<a href="+url+">"+new URL(url).hostname+"</a> ";
-      });
-    }
-    if(rowData.wikidataId !== "") {
-      urls += "<a href="+WIKIDATA_PAGE_PREFIX+rowData.wikidataId+">Wikidata</a>";
-    }
-    urls += "</span>";
     return (
       "<div>"+
         "<div>Alt Names: "+rowData.altNames+"</div>"+
@@ -96,7 +96,7 @@ function datatableChildContent(rowData, datatableLabel) {
         "<div>Native Species: "+rowData.nativeSpecies+"</div>"+
         "<div>Immigrant Species: "+rowData.immigrantSpecies+"</div>"+
         "<div>Known Environments: "+rowData.knownEnvironments+"</div>"+
-        "<div>Known Climates: "+rowData.knownclimates+"</div>"+
+        "<div>Known Climates: "+rowData.knownClimates+"</div>"+
         "<div>Known Atmosphere: "+rowData.knownAtmosphere+"</div>"+
         "<div>Known Surface Water: "+rowData.knownSurfaceWater+"</div>"+
         "<div>Government: "+rowData.government+"</div>"+
@@ -111,19 +111,36 @@ function datatableChildContent(rowData, datatableLabel) {
       "<div>"+
         "<div>Placement certitude: "+rowData.placementCertitude+"</div>"+
         "<div>Placement logic: "+rowData.placementLogic+"</div>"+
+        "<div>Is Certified : "+rowData.isCertified+"</div>"+
         "<div>ID: "+rowData.id+"</div>"+
         "<div>Last updated: "+rowData.lastUpdated+"</div>"+
-        "<div>Sort ID: "+rowData.sortId+"</div>"+
+        "<div>Sorting ID: "+rowData.sortId+"</div>"+
         "<div>Map Zoom Level: "+rowData.zoomLevel+"</div>"+
         "<div>Parent ID: "+rowData.parentId+"</div>"+
       "</div>"+
       "<div>URLS: "+urls+"</div>"+
+      "<div>Desc: "+rowData.desc+"</div>"+
       "<div>Interesting: "+rowData.interesting+"</div>"+
-      "<div>Notes: "+rowData.notes+"</div>"+
-      "<div>Interesting: "+rowData.desc+"</div>"
+      "<div>Notes: "+rowData.notes+"</div>"
     );
   } else if (datatableLabel === "hyperrouteDatatable") {
-    
+    return (
+      "<div>"+
+        "<div>Alt Names: "+rowData.altNames+"</div>"+
+      "</div>"+
+      "<div>"+
+        "<div>Is Certified : "+rowData.isCertified+"</div>"+
+        "<div>ID: "+rowData.id+"</div>"+
+        "<div>Last updated: "+rowData.lastUpdated+"</div>"+
+        "<div>Sorting ID: "+rowData.sortId+"</div>"+
+        "<div>Map Zoom Level: "+rowData.zoomLevel+"</div>"+
+        "<div>Parent ID: "+rowData.parentId+"</div>"+
+      "</div>"+
+      "<div>URLS: "+urls+"</div>"+
+      "<div>Desc: "+rowData.desc+"</div>"+
+      "<div>Interesting: "+rowData.interesting+"</div>"+
+      "<div>Notes: "+rowData.notes+"</div>"
+    );
   }
 }
 
