@@ -16,16 +16,16 @@ async function loadHyperrouteArray() {
   for(i=0; i<spreadSheetData.values.length; i++){
     const rowValues = spreadSheetData.values[i];
     const namesString = `${rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.NAME]}${rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ALT_NAMES] === "" ? "" : "/"+rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ALT_NAMES]}`;
-    const canonLegendsString = canonLegendsToString([rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.CANON],rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.LEGENDS]]);
+    const continuityString = canonLegendsUnlicencedToString([rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.CANON],rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.LEGENDS],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.UNLICENSED]]);
     const dateString = prettifyDateFromDateTo([rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_FROM],rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_TO]]);
     const dates = [rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_FROM], rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_TO]];
     hyperrouteArray.push({
       id: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ID],
-      text: `${namesString} [${canonLegendsString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
+      text: `${namesString} [${continuityString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
       name: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.NAME],
       parentName: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.PARENT_NAME],
       dates: dates,
-      canonLegendsString: canonLegendsString,
+      continuityString: continuityString,
       level: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.TRADE_ROUTE_LEVEL]),
       conjName: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.CONJECTURAL_NAME]),
     });

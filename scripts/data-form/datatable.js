@@ -1,6 +1,7 @@
 const OBJECT_DATATABLE_PARAMS = {
   footerSearchType: [
     null, // action
+    null, // dt control (child)
     "text", // name
     "text", // Type and subtypes
     "text", // humanParent
@@ -16,6 +17,7 @@ const OBJECT_DATATABLE_PARAMS = {
 const HYPERROUTE_DATATABLE_PARAMS = {
   footerSearchType: [
     null, // action
+    null, // dt control (child)
     "text", // name
     "text", // humanParent
     "text", // Date
@@ -40,10 +42,83 @@ function refreshDatatable(datatableLabel) {
   datatable.draw();
 }
 
+function initDatatableEvents(datatableLabel) {
+  let table;
+  if(datatableLabel === "objectDatatable") {
+    table = objectDatatable;
+  } else if (datatableLabel === "hyperrouteDatatable") {
+    table = hyperrouteDatatable;
+  }
+  table.on('click', 'td.dt-control', function (e) {
+    let tr = e.target.closest('tr');
+    let row = table.row(tr);
+ 
+    if (row.child.isShown()) {
+        // This row is already open - close it
+        row.child.hide();
+    }
+    else {
+        // Open this row
+        row.child(datatableChildContent(row.data(), datatableLabel)).show();
+    }
+  });
+}
+
+function datatableChildContent(rowData, datatableLabel) {
+  if(datatableLabel === "objectDatatable") {
+    return (
+      "<div>"+
+        "<div>Al Names: "+rowData.altNames+"</div>"+
+        "<div>Orbital Position: "+rowData.orbitalRank+"</div>"+
+        "<div>In movie: "+rowData.inMovie+"</div>"+
+        "<div>Capital at current level: "+rowData.isCapital+"</div>"+
+        "<div>Native Species: "+rowData.nativeSpecies+"</div>"+
+        "<div>Known Environments: "+rowData.knownEnvironments+"</div>"+
+        // Radius
+        // Appearance
+        // Pop
+        // Gravity
+        // Governement
+        // Tech level
+        // CLimates
+        // Atmosphere
+        // Water
+        // Ressources ...
+        // Export
+        // Import
+        // POINTS_OF_INTEREST	LENGTH_OF_DAY	LENGTH_OF_YEAR	CAPITAL	STARPORTS	IMMIGRANT_SPECIES
+        "</div>"+
+        "<div>"+
+        "<div>Last updated: "+rowData.lastUpdated+"</div>"+
+        "<div>Placement certitude: "+rowData.placementCertitude+"</div>"+
+        "<div>Placement logic: "+rowData.placementLogic+"</div>"+
+        "<div>Sort ID: "+rowData.sortId+"</div>"+
+        "<div>Map Zoom Level: "+rowData.zoomLevel+"</div>"+
+        "<div>ID: "+rowData.id+"</div>"+
+        "<div>Parent ID: "+rowData.parentId+"</div>"+
+        "</div>"+
+        "<div>Desc: "+rowData.Desc+"</div>"+
+        "<div>Interesting: "+rowData.interesting+"</div>"+
+        "<div>Notes: "+rowData.notes+"</div>"+
+        "<div>Interesting: "+rowData.Desc+"</div>"
+        // URLS ...
+        // WIKIDATA URL
+    );
+  } else if (datatableLabel === "hyperrouteDatatable") {
+    
+  }
+}
+
 function loadObjectDatatable() {
   objectDatatable = new DataTable('#astro-object-datatable', {
     data: astronomicalObjectSearchArray,
     columns: [
+      {
+        className: 'dt-control',
+        orderable: false,
+        data: null,
+        defaultContent: ''
+      },
       { data: null,
         render: function (data, type, row) {
             return `
@@ -73,7 +148,7 @@ function loadObjectDatatable() {
         }
         return dateString;
       }},
-      { data: 'canonLegendsString' },
+      { data: 'continuityString' },
       { data: (data) => data.grid.join("-")},
       { data: (data) => data.coords.join("; ")},
       { data: 'conjName' },
@@ -123,12 +198,21 @@ function loadObjectDatatable() {
       });
     },
   });
+  initDatatableEvents("objectDatatable");
 }
+
+
 
 function loadHyperrouteDatatable() {
   hyperrouteDatatable = new DataTable('#hyperroute-datatable', {
     data: hyperrouteArray,
     columns: [
+      {
+        className: 'dt-control',
+        orderable: false,
+        data: null,
+        defaultContent: ''
+      },
       { data: null,
         render: function (data, type, row) {
             return `
@@ -151,7 +235,7 @@ function loadHyperrouteDatatable() {
         }
         return dateString;
       }},
-      { data: 'canonLegendsString' },
+      { data: 'continuityString' },
       { data: 'level' },
       { data: 'conjName' },
     ],
@@ -199,6 +283,7 @@ function loadHyperrouteDatatable() {
       });
     },
   });
+  initDatatableEvents("hyperrouteDatatable");
 }
 
 function datatableEditOnForm(itemId, datatableName) {

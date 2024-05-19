@@ -25,7 +25,7 @@ async function listObjects() {
  */
 async function loadAstronomicalObjectArray() {
   // Get data
-  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, '!A2:Z');
+  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, '!A2:BI');
   // Populate select2 search array
   astronomicalObjectSearchArray = [];
   for(i=0; i<spreadSheetData.values.length; i++){
@@ -35,16 +35,24 @@ async function loadAstronomicalObjectArray() {
     if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES] !== "" && rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES] !== undefined) {
       typeString += " - "+rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES];
     }
-    const canonLegendsString = canonLegendsToString([rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS]]);
+    const continuityString = canonLegendsUnlicencedToString([rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.UNLICENSED]]);
     const dateString = prettifyDateFromDateTo([rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO]]);
     const grid = rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID] === "" || rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID] ===  undefined ? [] : [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_GRID], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID]];
-    const coords = rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] === "" || rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] === undefined ? [] : [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]];
+    let coords = [];
+    if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] !== "" && rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] !== undefined) {
+      if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD] !== "" && rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD] !== undefined) {
+        coords = [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]];
+      } else {
+        coords = [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD]];
+      }
+    }
     const dates = [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO]];
     astronomicalObjectSearchArray.push({
       id: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID],
       humanName: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_NAME],
       name: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME],
-      text: `${namesString} (${typeString}) [${canonLegendsString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
+      altNames: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES],
+      text: `${namesString} (${typeString}) [${continuityString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
       objectType: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE],
       objectTypeClass: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES],
       parentId: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID],
@@ -52,9 +60,22 @@ async function loadAstronomicalObjectArray() {
       dates: dates,
       grid: grid,
       coords: coords,
-      canonLegendsString: canonLegendsString,
+      continuityString: continuityString,
+      inMovie: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IN_MOVIES],
       conjName: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_NAME]),
       conjType: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_TYPE]),
+      desc: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DESC]),
+      orbitalRank: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ORBITAL_RANK]),
+      sortId: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_ID]),
+      isCapital: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IS_CAPITAL]),
+      placementCertitude: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_CERTITUDE]),
+      placementLogic: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_LOGIC]),
+      nativeSpecies: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NATIVE_SPECIES]),
+      knownEnvironments: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ENVIRONMENTS]),
+      interesting: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING]),
+      notes: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES]),
+      zoomLevel: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ZOOM_LEVEL]),
+      lastUpdated: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.lastUpdated]),
     });
   }
   console.log("Astro Object List",astronomicalObjectSearchArray);
