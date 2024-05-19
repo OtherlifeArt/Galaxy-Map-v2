@@ -5,18 +5,18 @@
 /**
  * Translate canon/legends YES values to "Canon / Legends" text
  */
-function canonLegendsToString(canonLegendsArray) {
-  if(canonLegendsArray.length === 2) {
-    if(canonLegendsArray[0] === "YES") {
-      if(canonLegendsArray[1] === "YES") {
-        return "Canon/Legends";
-      } else {
-        return "Canon";
-      }
-    } else {
-      return "Legends";
-    }
+function canonLegendsUnlicencedToString(canonLegendsUnlicencedArray) {
+  let tempArray = [];
+  if(canonLegendsUnlicencedArray[0] === "YES") {
+    tempArray.push('Canon');
   }
+  if(canonLegendsUnlicencedArray[1] === "YES") {
+    tempArray.push('Legends');
+  }
+  if(canonLegendsUnlicencedArray[3] === "YES") {
+    tempArray.push('Unlicenced');
+  }
+  return tempArray.join("/");
 }
 
 /**
@@ -44,7 +44,7 @@ function prettifyDateFromDateTo(dateArray) {
  * Set undefined to empty string and trim trailing and leading spaces
  */
 function sanitizeText(value) {
-  if(value === undefined) {
+  if(value === undefined || value === null) {
     return "";
   } else {
     return value.trim();

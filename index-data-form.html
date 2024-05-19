@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="scripts/vendor/leaflet-search-4.0.0/dist/leaflet-search.min.css" /> <!-- Search -->
     <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css"/>
     <link rel="stylesheet" href="scripts/vendor/aprilandjan.leaflet.mesure/leaflet.measure.css" />
+    <!-- Datatable -->
+    <link rel="stylesheet" href="scripts/vendor/datatable-2.0.7/datatables.min.css" />
     <!-- Custom -->
     <link rel="stylesheet" href="styles/data-form/style.css">
   </head>
@@ -37,7 +39,9 @@
         <!-- Tab links -->
         <div class="tab">
           <button id="default-tab" class="tablinks" onclick="openSection(event, 'astro-object-tab')">Astronomical Object</button>
-          <button class="tablinks" onclick="openSection(event, 'hyper-route-tab')">Hyperroute</button>
+          <button class="tablinks" onclick="openSection(event, 'astro-object-datatable-tab')">Astronomical Object Datatable</button>
+          <button id="hyperroute-tab" class="tablinks" onclick="openSection(event, 'hyper-route-tab')">Hyperroute</button>
+          <button class="tablinks" onclick="openSection(event, 'hyperroute-datatable-tab')">Hyperroute Datatable</button>
           <button class="tablinks" onclick="openSection(event, 'automation-tools-tab')">Automated Tools</button>
           <button class="tablinks" onclick="openSection(event, 'dashboard-tab')">Dashboard</button>
         </div>
@@ -487,6 +491,87 @@
         </div>
         <!-- Astro object tab end -->
 
+
+        <!-- Astro object datatable tab -->
+        <div id="astro-object-datatable-tab" class="tabcontent">
+          <h3>Astronomical Object Datatable</h3>
+          <!-- Datatable -->
+          <table id="astro-object-datatable" class="display">
+            <thead>
+                <tr>
+                  <th></th>
+                  <th>Actions</th>
+                  <!-- <th>Readable Name</th> -->
+                  <th>Name</th>
+                  <th>Type/Subtype</th>
+                  <th>Parent</th>
+                  <th>Dates</th>
+                  <th>Continuity</th>
+                  <!-- <th>In Movie</th> -->
+                  <th>Grid</th>
+                  <th>Coords</th>
+                  <!-- <th>Orb. rank</th> -->
+                  <th>Conj. Name</th>
+                  <th>Conj. Type</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th></th>
+                <th>Actions</th>
+                <!-- <th>Readable Name</th> -->
+                <th>Name</th>
+                <th>Type/Subtype</th>
+                <th>Parent</th>
+                <th>Dates</th>
+                <th>Continuity</th>
+                <!-- <th>In Movie</th> -->
+                <th>Grid</th>
+                <th>Coords</th>
+                <!-- <th>Orb. rank</th> -->
+                <th>Conj. Name</th>
+                <th>Conj. Type</th>
+              </tr>
+          </tfoot>
+          </table>
+        </div>
+
+        <!-- Hyperroute datatable tab -->
+        <div id="hyperroute-datatable-tab" class="tabcontent">
+          <h3>Hyperroute Datatable</h3>
+          <!-- Datatable -->
+          <table id="hyperroute-datatable" class="display">
+            <thead>
+                <tr>
+                  <th></th>
+                  <th>Actions</th>
+                  <th>Name</th>
+                  <th>Parent</th>
+                  <th>Dates</th>
+                  <th>Continuity</th>
+                  <th>Level</th>
+                  <th>Conj. Name</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th></th>
+                <th>Actions</th>
+                <th>Name</th>
+                <th>Parent</th>
+                <th>Dates</th>
+                <th>Continuity</th>
+                <th>Level</th>
+                <th>Conj. Name</th>
+              </tr>
+          </tfoot>
+          </table>
+        </div>
+
         <!-- Hyper route tab -->
         <div id="hyper-route-tab" class="tabcontent">
           <h3>Hyper Route FORM</h3>
@@ -717,8 +802,6 @@
             <div></div>
             <!-- 2nd column -->
             <div></div>
-            <!-- 3rd column -->
-            <div></div>
           </div>
         </div>
         <!-- Dashboard tab end -->
@@ -913,6 +996,8 @@
     <script src="scripts/vendor/aprilandjan.leaflet.mesure/leaflet.measure.js"></script>
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Datatable -->
+    <script src="scripts/vendor/datatable-2.0.7/dataTables.min.js"></script>
     <!-- Widget and utils -->
     <script src="scripts/data-form/form-modals.js"></script>
     <script src="scripts/data-form/form-utils.js"></script>
@@ -939,6 +1024,8 @@
     <script src="scripts/data-form/map-tab.js"></script>
     <!-- Dashboard -->
     <script src="scripts/data-form/dashboard.js"></script>
+    <!-- Form Datatable -->
+    <script src="scripts/data-form/datatable.js"></script>
     <!-- Google API -->
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
     <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>

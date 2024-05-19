@@ -25,10 +25,9 @@ async function listObjects() {
  */
 async function loadAstronomicalObjectArray() {
   // Get data
-  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, '!A2:Z');
+  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, '!A2:BI');
   // Populate select2 search array
   astronomicalObjectSearchArray = [];
-  // console.log(spreadSheetData.values[0]);
   for(i=0; i<spreadSheetData.values.length; i++){
     const rowValues = spreadSheetData.values[i];
     const namesString = `${rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]}${rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES] === "" ? "" : "/"+rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES]}`;
@@ -36,20 +35,71 @@ async function loadAstronomicalObjectArray() {
     if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES] !== "" && rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES] !== undefined) {
       typeString += " - "+rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES];
     }
-    const canonLegendsString = canonLegendsToString([rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS]]);
+    const continuityString = canonLegendsUnlicencedToString([rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.UNLICENSED]]);
     const dateString = prettifyDateFromDateTo([rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO]]);
     const grid = rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID] === "" || rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID] ===  undefined ? [] : [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_GRID], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID]];
-    const coords = rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] === "" || rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] === undefined ? [] : [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]];
+    let coords = [];
+    if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] !== "" && rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] !== undefined) {
+      if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD] !== "" && rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD] !== undefined) {
+        coords = [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]];
+      } else {
+        coords = [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD]];
+      }
+    }
+    const dates = [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO]];
     astronomicalObjectSearchArray.push({
       id: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID],
-      text: `${namesString} (${typeString}) [${canonLegendsString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
+      humanName: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_NAME],
+      name: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME],
+      altNames: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES],
+      text: `${namesString} (${typeString}) [${continuityString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
       objectType: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE],
       objectTypeClass: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES],
       parentId: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID],
+      humanParent: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN],
+      dates: dates,
       grid: grid,
       coords: coords,
+      continuityString: continuityString,
+      inMovie: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IN_MOVIES],
+      conjName: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_NAME]),
+      conjType: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_TYPE]),
+      desc: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DESC]),
+      orbitalRank: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ORBITAL_RANK]),
+      sortId: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_ID]),
+      isCapital: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IS_CAPITAL]),
+      placementCertitude: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_CERTITUDE]),
+      placementLogic: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_LOGIC]),
+      nativeSpecies: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NATIVE_SPECIES]),
+      knownEnvironments: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ENVIRONMENTS]),
+      interesting: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING]),
+      notes: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES]),
+      zoomLevel: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ZOOM_LEVEL]),
+      lastUpdated: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.updated_at]),
+      appearance: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.APPEARANCE_FROM_ORBIT]),
+      immigrantSpecies: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IMMIGRANT_SPECIES]),
+      population: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POPULATION]),
+      size: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.SIZE]),
+      gravity: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GRAVITY]),
+      government: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GOVERNMENT]),
+      techLevel: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TECH_LEVEL]),
+      knownClimates: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_CLIMATES]),
+      knownAtmosphere: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ATMOSPHERE]),
+      knownSurfaceWater: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_SURFACE_WATER]),
+      knownResources: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_RESOURCES]),
+      knownExports: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_EXPORTS]),
+      knownImports: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_IMPORTS]),
+      pointsOfInterest: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POINTS_OF_INTEREST]),
+      capital: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CAPITAL]),
+      starports: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.STARPORTS]),
+      lengthOfDay: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_DAY]),
+      lengthOfYear: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_YEAR]),
+      urls: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL]).split(","),
+      wikidataId: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.WIKI_DATA_ID]),
+      isCertified: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.is_certified]),
     });
   }
+  console.log("Astro Object List",astronomicalObjectSearchArray);
 }
 
 /**
@@ -280,7 +330,7 @@ async function loadObjectForm(objectID) {
     document.getElementById('object-known-resources').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_RESOURCES]); // Known Resources
     document.getElementById('object-known-exports').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_EXPORTS]); // Known Exports
     document.getElementById('object-known-imports').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_IMPORTS]); // Known Imports
-    document.getElementById('object-point-of-interest').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POINT_OF_INTEREST]); // Point of interest
+    document.getElementById('object-point-of-interest').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POINTS_OF_INTEREST]); // Point of interest
     document.getElementById('object-length-of-day').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_DAY]); // Length of day
     document.getElementById('object-length-of-year').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_YEAR]); // Length of year
     document.getElementById('object-capital-city').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CAPITAL]); // Capital
@@ -473,7 +523,7 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_RESOURCES] = sanitizeText(document.getElementById('object-known-resources').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_EXPORTS] = sanitizeText(document.getElementById('object-known-exports').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_IMPORTS] = sanitizeText(document.getElementById('object-known-imports').value);
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POINT_OF_INTEREST] = sanitizeText(document.getElementById('object-point-of-interest').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POINTS_OF_INTEREST] = sanitizeText(document.getElementById('object-point-of-interest').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_DAY] = sanitizeText(document.getElementById('object-length-of-day').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_YEAR] = sanitizeText(document.getElementById('object-length-of-year').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CAPITAL] = sanitizeText(document.getElementById('object-capital-city').value);
@@ -642,6 +692,9 @@ async function updateObjectData() {
     closeModal();
     // Reload object array
     refreshForm();
+    // Reload datatables
+    refreshDatatable("objectDatatable");
+    refreshDatatable("hyperrouteDatatable"); // for sections
   } else {
     alert("Error encoutered on astronomical object update ! Check console (F12) for more details");
   }
@@ -659,6 +712,9 @@ async function addNewData() {
     alert("Object has been successfully created at the end of the spreadsheet ! Add/reorganize human index manually ");
     // Reload select 2 arrays
     refreshForm();
+    // Reload datatables
+    refreshDatatable("objectDatatable");
+    refreshDatatable("hyperrouteDatatable"); // for sections
   } else {
     alert("Error encoutered on astronomical object creation ! Check console (F12) for more details");
   }
@@ -675,6 +731,9 @@ async function deleteData() {
       alert("Object has been successfully deleted ! Add/reorganize human index manually");
       // Reload object array
       refreshForm();
+      // Reload datatables
+      refreshDatatable("objectDatatable");
+      refreshDatatable("hyperrouteDatatable"); // for sections  
     } else {
       alert("Error encoutered on astronomical object deletion ! Check console (F12) for more details");
     }

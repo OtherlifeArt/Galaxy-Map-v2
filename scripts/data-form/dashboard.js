@@ -6,7 +6,7 @@ const OBJECT_TYPE_WITH_MANDATORY_COORD = [
   "Location", "Exotic", "Natural Object", "Artificial Object", 
   "Interstellar Matter", "Nebula", "Interstellar Cloud", 
   "Rogue Planet", "Rogue Moon", "Rogue Asteroid", "Rogue Comet", "Star System", 
-  "Anomaly", "Void Space", "Rings"
+  "Anomaly", "Void Space", "Rings", "Star Cluster", "Galaxy"
 ];
 
 /**
@@ -139,9 +139,6 @@ function objectCoordinateByType(parentDiv) {
         typeCell.classList.add("dashboard-incorrect-value");
         numberCell.classList.add("dashboard-incorrect-value");
         totalEligibleObjectWithoutCoordinate += objectWithoutCoordNumber;
-      } else {
-        typeCell.classList.add("dashboard-warning-value");
-        numberCell.classList.add("dashboard-warning-value");
       }
     }
     if(objectAggregationByTypeAndCoord[key].coords["Value"] > 0) {
@@ -149,12 +146,14 @@ function objectCoordinateByType(parentDiv) {
         totalEligibleObjectWithCoordinate += objectWithCoordNumber;
       } else {
         totalIneligibleObjectWithCoordinate += objectWithCoordNumber;
+        typeCell.classList.add("dashboard-warning-value");
+        numberCell.classList.add("dashboard-warning-value");
       }
     }
   }
   // Table headers
   // generate widget
-  const collapsibleButtonInnerHTML = `${totalEligibleObjectWithCoordinate} / ${totalEligibleObjectWithoutCoordinate + totalEligibleObjectWithCoordinate} eligible objects with coordinates (inleligible objects with coordinates : ${totalIneligibleObjectWithCoordinate})`;
+  const collapsibleButtonInnerHTML = `${totalEligibleObjectWithCoordinate} / ${totalEligibleObjectWithoutCoordinate + totalEligibleObjectWithCoordinate} eligible objects with coordinates (objects with possibly non-useful coordinates : ${totalIneligibleObjectWithCoordinate})`;
   const containerDivId = "dashboard-table-object-coordinates";
   generateCollapsibleWidget(parentDiv, collapsibleButtonInnerHTML, table, containerDivId);
 }
@@ -198,6 +197,10 @@ function countObjectArrayByEmptyArray(objectArray, arrayKey) {
 
 /* Init dashboard functions */
 function initDashboard() {
+  // Empty dashboard content
+  DASHBOARD_DIVS[0].innerHTML = "";
+  DASHBOARD_DIVS[1].innerHTML = "";
+  // Recreate dashboard pannels
   objectByTypeTable(DASHBOARD_DIVS[0]);
   objectByParentTable(DASHBOARD_DIVS[0]);
   objectCoordinateByType(DASHBOARD_DIVS[0]);

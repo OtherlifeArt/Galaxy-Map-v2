@@ -16,11 +16,29 @@ async function loadHyperrouteArray() {
   for(i=0; i<spreadSheetData.values.length; i++){
     const rowValues = spreadSheetData.values[i];
     const namesString = `${rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.NAME]}${rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ALT_NAMES] === "" ? "" : "/"+rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ALT_NAMES]}`;
-    const canonLegendsString = canonLegendsToString([rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.CANON],rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.LEGENDS]]);
+    const continuityString = canonLegendsUnlicencedToString([rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.CANON],rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.LEGENDS],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.UNLICENSED]]);
     const dateString = prettifyDateFromDateTo([rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_FROM],rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_TO]]);
+    const dates = [rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_FROM], rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_TO]];
     hyperrouteArray.push({
       id: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ID],
-      text: `${namesString} [${canonLegendsString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
+      text: `${namesString} [${continuityString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
+      name: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.NAME],
+      altNames: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ALT_NAMES],
+      parentId: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.PARENT_ID],
+      parentName: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.PARENT_NAME],
+      dates: dates,
+      continuityString: continuityString,
+      level: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.TRADE_ROUTE_LEVEL]),
+      conjName: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.CONJECTURAL_NAME]),
+      lastUpdated: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.updated_at]),
+      sortId: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.HUMAN_ID]),
+      urls: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.URLS]),
+      wikidataId: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.WIKI_DATA_ID]),
+      desc: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DESC]),
+      zoomLevel: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ZOOM_LEVEL]),
+      notes: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.NOTES]),
+      interesting: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.INTERESTING]),
+      isCertified: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.is_certified]),
     });
   }
 }
@@ -370,6 +388,9 @@ async function updateHyperrouteAndSectionsData(e) {
     closeModal();
     // Reload object array
     refreshHyperrouteForm();
+    // Reload datatables
+    refreshDatatable("objectDatatable"); // for sections
+    refreshDatatable("hyperrouteDatatable");
   } else {
     alert("Error encoutered on hyperroute and sections update ! Check console (F12) for more details");
   }
@@ -394,6 +415,9 @@ async function addHyperrouteNewData(e) {
     alert("Hyperroute has been successfully created at the end of the spreadsheet, you can now add hyperroute sections and update (sections are not saved on create !) Add/reorganize human index manually");
     // Reload form
     refreshHyperrouteForm();
+    // Reload datatables
+    refreshDatatable("objectDatatable"); // for sections
+    refreshDatatable("hyperrouteDatatable");
   } else {
     alert("Error encoutered on hyperoute creation ! Check console (F12) for more details");
   }
@@ -414,6 +438,9 @@ async function deleteHyperrouteAndRelatedSectionsData(e) {
     deleted sections : ${sectionStatus[1]}`);
     // Reload form
     refreshHyperrouteForm();
+    // Reload datatables
+    refreshDatatable("objectDatatable"); // for sections
+    refreshDatatable("hyperrouteDatatable");
   } else {
     alert("Error encoutered on hyperroute and sections deletion ! Check console (F12) for more details");
   }
