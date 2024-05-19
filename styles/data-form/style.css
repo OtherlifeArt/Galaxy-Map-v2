@@ -22,10 +22,53 @@ body {
 
 .grid-wrapper {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 2px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-row-gap: 2px;
+  grid-column-gap: 10px;
   grid-auto-rows: minmax(1px, auto);
 }
+
+
+/* Media query for wider screens to switch to 4 columns */
+@media (min-width: 2475px) {
+  .grid-wrapper{
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.field-wrapper {
+  
+}
+
+.field-wrapper > label {
+  flex: 0 0 100px; /* Fixed width for the label */
+  text-align: right;
+}
+
+.field-wrapper > input[type=text], 
+.field-wrapper > input[type=number],
+.field-wrapper > textarea {
+  flex: 1;
+  margin-left: 5px; /* Space between label and input */
+  width: 100%;
+  /* max-width: calc(100% - 160px); /* Adjust width considering the label width and margin */
+  /*max-width: 100%; /* Adjust width considering the label width and margin */
+  /* width: -moz-available; /* Firefox-specific */
+  /* width: -webkit-fill-available; WebKit-specific */
+  /* width: fill-available; Standardized version, not widely supported */
+  /* width: fit-content; Widely supported */
+  /*max-width: calc(100% - 160px); /* Adjust width considering the label width and margin */
+}
+
+.field-wrapper > input[type=checkbox] {
+  /* flex: 1; */
+  /* max-width: calc(100% - 160px); /* Adjust width considering the label width and margin */
+  /* max-width: 100%; /* Adjust width considering the label width and margin */
+  /* margin-left: 0;
+  margin-right: 100%; */
+  /* margin-right: 10px; */
+}
+
 
 .grid-column-one {
   grid-column: 1
@@ -67,6 +110,17 @@ body {
   grid-column: 4;
 }
 
+.grid-column-media-queries-one-or-four {
+  grid-column: 1;
+}
+
+/* Media query for wider screens to switch to 4 columns */
+@media (min-width: 2475px) {
+  .grid-column-media-queries-one-or-four {
+    grid-column: 4;
+  }
+}
+
 .grid-line-one {
   grid-row: 1;
 }
@@ -87,66 +141,14 @@ body {
 
 
 /* Select2 */
-#object-search, #hyperroute-search {
+/* #object-search, #hyperroute-search {
   width: 100% !important;
-}
-
-
-#object-name-span, #hyperroute-name-span {
-  width: 100%;
-}
-
-#object-name-span > input, #hyperroute-name-span > input {
-  width: 71%;
 }
 
 #object-alt-name-span, #hyperroute-alt-name-span {
   width: 100%;
-}
+} */
 
-#object-alt-name-span > input, #hyperroute-alt-name-span > input {
-  width: 68%;
-}
-
-#object-type-raw-span {
-  width: 100%;
-}
-
-#object-type-raw-span > input {
-  width: 68%;
-}
-
-#object-type-span {
-  width: 84%;
-}
-
-#object-type {
-  width: 90%;
-}
-
-#object-type-classes-raw-span {
-  width: 100%;
-}
-
-#object-type-classes-raw-span > input {
-  width: 72%;
-}
-
-#object-type-classes-span {
-  width: 100%;
-}
-
-#object-type-classes {
-  width: 80%;
-}
-
-#object-parent-span, #hyperroute-parent-span {
-  width: 100%;
-}
-
-#object-parent, #hyperroute-parent {
-  width: 87%;
-}
 
 /* Form */
 #form {
@@ -251,7 +253,7 @@ input[readonly], textarea[readonly] {
 #source-modal-table td > * {
   word-wrap: break-word;
   width: 100%;
-  max-width: 100%; 
+  max-width: 100%;
 }
 
 .modal-source-id {
@@ -326,7 +328,8 @@ input[readonly], textarea[readonly] {
 
 .tooltip {
   position: relative;
-  display: inline-block;
+  display: flex;
+  align-items: center;
   /* margin:10rem; */
   /* border-bottom: 1px dotted black; */
 }
