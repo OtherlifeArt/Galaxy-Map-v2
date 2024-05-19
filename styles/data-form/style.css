@@ -47,6 +47,7 @@ body {
 
 .field-wrapper > input[type=text], 
 .field-wrapper > input[type=number],
+.field-wrapper > select,
 .field-wrapper > textarea {
   flex: 1;
   margin-left: 5px; /* Space between label and input */
