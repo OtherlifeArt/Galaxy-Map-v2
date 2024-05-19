@@ -66,43 +66,61 @@ function initDatatableEvents(datatableLabel) {
 
 function datatableChildContent(rowData, datatableLabel) {
   if(datatableLabel === "objectDatatable") {
+    let urls = "<span>";
+    if(rowData.urls !== "") {
+      rowData.urls.forEach((url) => {
+        try {
+          url = new URL(url);
+        } catch (_) {
+          return;
+        }
+        urls += "<a href="+url+">"+new URL(url).hostname+"</a> ";
+      });
+    }
+    if(rowData.wikidataId !== "") {
+      urls += "<a href="+WIKIDATA_PAGE_PREFIX+rowData.wikidataId+">Wikidata</a>";
+    }
+    urls += "</span>";
     return (
       "<div>"+
-        "<div>Al Names: "+rowData.altNames+"</div>"+
-        "<div>Orbital Position: "+rowData.orbitalRank+"</div>"+
-        "<div>In movie: "+rowData.inMovie+"</div>"+
+        "<div>Alt Names: "+rowData.altNames+"</div>"+
         "<div>Capital at current level: "+rowData.isCapital+"</div>"+
+        "<div>In movie: "+rowData.inMovie+"</div>"+
+        "<div>Size: "+rowData.size+" km</div>"+
+        "<div>Length of Day: "+rowData.lengthOfDay+"</div>"+
+        "<div>Length of Year: "+rowData.lengthOfYear+"</div>"+
+        "<div>Orbital Position: "+rowData.orbitalRank+"</div>"+
+        "<div>Appearance: "+rowData.appearance+"</div>"+
+        "<div>Gravity: "+rowData.gravity+"</div>"+
+        "<div>Population: "+rowData.population+"</div>"+
         "<div>Native Species: "+rowData.nativeSpecies+"</div>"+
+        "<div>Immigrant Species: "+rowData.immigrantSpecies+"</div>"+
         "<div>Known Environments: "+rowData.knownEnvironments+"</div>"+
-        // Radius
-        // Appearance
-        // Pop
-        // Gravity
-        // Governement
-        // Tech level
-        // CLimates
-        // Atmosphere
-        // Water
-        // Ressources ...
-        // Export
-        // Import
-        // POINTS_OF_INTEREST	LENGTH_OF_DAY	LENGTH_OF_YEAR	CAPITAL	STARPORTS	IMMIGRANT_SPECIES
-        "</div>"+
-        "<div>"+
-        "<div>Last updated: "+rowData.lastUpdated+"</div>"+
+        "<div>Known Climates: "+rowData.knownclimates+"</div>"+
+        "<div>Known Atmosphere: "+rowData.knownAtmosphere+"</div>"+
+        "<div>Known Surface Water: "+rowData.knownSurfaceWater+"</div>"+
+        "<div>Government: "+rowData.government+"</div>"+
+        "<div>Capital: "+rowData.capital+"</div>"+
+        "<div>Starports: "+rowData.capital+"</div>"+
+        "<div>Tech level: "+rowData.techLevel+"</div>"+
+        "<div>Known Resources: "+rowData.knownResources+"</div>"+  
+        "<div>Known Exports: "+rowData.knownExports+"</div>"+
+        "<div>Known Imports: "+rowData.knownImports+"</div>"+
+        "<div>Points of Interests: "+rowData.pointsOfInterest+"</div>"+
+      "</div>"+
+      "<div>"+
         "<div>Placement certitude: "+rowData.placementCertitude+"</div>"+
         "<div>Placement logic: "+rowData.placementLogic+"</div>"+
+        "<div>ID: "+rowData.id+"</div>"+
+        "<div>Last updated: "+rowData.lastUpdated+"</div>"+
         "<div>Sort ID: "+rowData.sortId+"</div>"+
         "<div>Map Zoom Level: "+rowData.zoomLevel+"</div>"+
-        "<div>ID: "+rowData.id+"</div>"+
         "<div>Parent ID: "+rowData.parentId+"</div>"+
-        "</div>"+
-        "<div>Desc: "+rowData.Desc+"</div>"+
-        "<div>Interesting: "+rowData.interesting+"</div>"+
-        "<div>Notes: "+rowData.notes+"</div>"+
-        "<div>Interesting: "+rowData.Desc+"</div>"
-        // URLS ...
-        // WIKIDATA URL
+      "</div>"+
+      "<div>URLS: "+urls+"</div>"+
+      "<div>Interesting: "+rowData.interesting+"</div>"+
+      "<div>Notes: "+rowData.notes+"</div>"+
+      "<div>Interesting: "+rowData.desc+"</div>"
     );
   } else if (datatableLabel === "hyperrouteDatatable") {
     

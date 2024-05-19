@@ -76,6 +76,26 @@ async function loadAstronomicalObjectArray() {
       notes: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES]),
       zoomLevel: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ZOOM_LEVEL]),
       lastUpdated: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.lastUpdated]),
+      appearance: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.APPEARANCE_FROM_ORBIT]),
+      immigrantSpecies: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IMMIGRANT_SPECIES]),
+      population: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POPULATION]),
+      radius: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.SIZE]),
+      gravity: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GRAVITY]),
+      government: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GOVERNMENT]),
+      techLevel: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TECH_LEVEL]),
+      knownClimates: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_CLIMATES]),
+      knownAtmosphere: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ATMOSPHERE]),
+      knownSurfaceWater: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_SURFACE_WATER]),
+      knownResources: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_RESOURCES]),
+      knownExports: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_EXPORTS]),
+      knownImports: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_IMPORTS]),
+      pointsOfInterest: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POINTS_OF_INTEREST]),
+      capital: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CAPITAL]),
+      starports: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.STARPORTS]),
+      lengthOfDay: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_DAY]),
+      lengthOfYear: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_YEAR]),
+      urls: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL]).split(","),
+      wikidataId: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.WIKI_DATA_ID]),
     });
   }
   console.log("Astro Object List",astronomicalObjectSearchArray);
@@ -309,7 +329,7 @@ async function loadObjectForm(objectID) {
     document.getElementById('object-known-resources').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_RESOURCES]); // Known Resources
     document.getElementById('object-known-exports').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_EXPORTS]); // Known Exports
     document.getElementById('object-known-imports').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_IMPORTS]); // Known Imports
-    document.getElementById('object-point-of-interest').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POINT_OF_INTEREST]); // Point of interest
+    document.getElementById('object-point-of-interest').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POINTS_OF_INTEREST]); // Point of interest
     document.getElementById('object-length-of-day').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_DAY]); // Length of day
     document.getElementById('object-length-of-year').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_YEAR]); // Length of year
     document.getElementById('object-capital-city').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CAPITAL]); // Capital
@@ -502,7 +522,7 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_RESOURCES] = sanitizeText(document.getElementById('object-known-resources').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_EXPORTS] = sanitizeText(document.getElementById('object-known-exports').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_IMPORTS] = sanitizeText(document.getElementById('object-known-imports').value);
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POINT_OF_INTEREST] = sanitizeText(document.getElementById('object-point-of-interest').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POINTS_OF_INTEREST] = sanitizeText(document.getElementById('object-point-of-interest').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_DAY] = sanitizeText(document.getElementById('object-length-of-day').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_YEAR] = sanitizeText(document.getElementById('object-length-of-year').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CAPITAL] = sanitizeText(document.getElementById('object-capital-city').value);
