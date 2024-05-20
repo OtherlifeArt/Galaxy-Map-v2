@@ -61,7 +61,7 @@
             </fieldset>
           </div>
           <!-- Search -->
-          <div class="field-wrapper">
+          <div class="select2-wrapper">
             <label for="object-search">Search Object</label>
             <select name="object-search" id="object-search">
               <option></option>
@@ -134,7 +134,7 @@
                     <span class="tooltiptext">Type as displayed in spreadsheet (readonly)</span>
                   </span>
                   <!-- Type -->
-                  <span class="tooltip grid-column-two field-wrapper" id="object-type-span">
+                  <span class="tooltip grid-column-two field-wrapper select2-wrapper" id="object-type-span">
                     <label for="object-type">Type</label>
                     <select name="object-type" id="object-type">
                     </select><!-- Trick : This comment removes space between elements
@@ -156,7 +156,7 @@
                     <span class="tooltiptext">Type classes as displayed in spreadsheet (readonly)</span>
                   </span>
                   <!-- Type Classes -->
-                  <span class="tooltip grid-column-two-to-three field-wrapper" id="object-type-classes-span">
+                  <span class="tooltip grid-column-two-to-three field-wrapper select2-wrapper" id="object-type-classes-span">
                   <label for="object-type-classes">Type classes</label>
                     <select id="object-type-classes" name="object-type-classes">
                     </select><!-- Trick : This comment removes space between elements
@@ -171,7 +171,7 @@
                     <input type="text" name="object-parent-raw" id="object-parent-raw" readonly>
                     <span class="tooltiptext">Object's parent as displayed in spreadsheet (readonly)</span>
                   </span>
-                  <span class="tooltip grid-column-one-to-four field-wrapper" id="object-parent-span">
+                  <span class="tooltip grid-column-one-to-four field-wrapper select2-wrapper" id="object-parent-span">
                     <label for="object-parent">Parent</label>
                     <select name="object-parent" id="object-parent">
                       <option></option>
@@ -358,57 +358,64 @@
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Native species "," (comma) separated</span>
                   </span>
-                  <!-- Known Resources -->
+                  <!-- Immigrant Species -->
                   <span class="tooltip grid-column-one field-wrapper">
+                    <label for="object-immigrant-species">Immigrant Species</label>
+                    <input type="text" name="object-immigrant-species" id="object-immigrant-species"><!-- Trick : This comment removes space between elements
+                    --><button class="object-source-entry-button">S</button>
+                    <span class="tooltiptext">Immigrant species "," (comma) separated</span>
+                  </span>
+                  <!-- Known Resources -->
+                  <span class="tooltip grid-column-two field-wrapper">
                     <label for="object-known-resources">Known Resources</label>
                     <input type="text" name="object-known-resources" id="object-known-resources"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Known resources "," (comma) separated</span>
                   </span>
                   <!-- Know Exports -->
-                  <span class="tooltip grid-column-two field-wrapper">
+                  <span class="tooltip grid-column-three field-wrapper">
                     <label for="object-known-exports">Known Exports</label>
                     <input type="text" name="object-known-exports" id="object-known-exports"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">List of Known Exports "," (comma) separated</span>
                   </span>
                   <!-- Know Imports -->
-                  <span class="tooltip grid-column-three field-wrapper">
+                  <span class="tooltip grid-column-one field-wrapper">
                     <label for="object-known-imports">Known Imports</label>
                     <input type="text" name="object-known-imports" id="object-known-imports"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">List of Known Imports "," (comma) separated</span>
                   </span>
                   <!-- Point of Interest -->
-                  <span class="tooltip grid-column-one field-wrapper">
+                  <span class="tooltip grid-column-two field-wrapper">
                     <label for="object-point-of-interest">Point of Interest</label>
                     <input type="text" name="object-point-of-interest" id="object-point-of-interest"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">List of Points of Interest "," (comma) separated</span>
                   </span>
                   <!-- Length of day -->
-                  <span class="tooltip grid-column-two field-wrapper">
+                  <span class="tooltip grid-column-three field-wrapper">
                     <label for="object-length-of-day">Length of Day</label>
                     <input type="number" step="0.000000000001" min="0" name="object-length-of-day" id="object-length-of-day"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Length of Day (in hours)</span>
                   </span>
                   <!-- Length of year -->
-                  <span class="tooltip grid-column-three field-wrapper">
+                  <span class="tooltip grid-column-one field-wrapper">
                     <label for="object-length-of-year">Length of Year</label>
                     <input type="number" step="0.000000000001" min="0" name="object-length-of-year" id="object-length-of-year"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Length of Year (in days)</span>
                   </span>
                   <!-- Capital -->
-                  <span class="tooltip grid-column-one field-wrapper">
+                  <span class="tooltip grid-column-two field-wrapper">
                     <label for="object-capital-city">Capital</label>
                     <input type="text" name="object-capital-city" id="object-capital-city"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
                     <span class="tooltiptext">Capital city name</span>
                   </span>
                   <!-- Starports -->
-                  <span class="tooltip grid-column-two field-wrapper">
+                  <span class="tooltip grid-column-three field-wrapper">
                     <label for="object-starports">Starports</label>
                     <input type="text" name="object-starports" id="object-starports"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>

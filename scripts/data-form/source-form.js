@@ -119,6 +119,9 @@ function getCustomColumnEntryName(formEntryId) {
     case "object-native-species":
       columnEntryName = "NATIVE_SPECIES";
       break;
+    case "object-immigrant-species":
+      columnEntryName = "IMMIGRANT_SPECIES";
+      break;
     case "object-known-environments":
       columnEntryName = "KNOWN_ENVIRONMENTS";
       break;

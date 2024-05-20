@@ -36,12 +36,27 @@ body {
   }
 }
 
-.field-wrapper {
-  
+/* Apply fixed 100% width for select 2 */
+.select2-wrapper > select, .select2-wrapper > span {
+width: 100% !important;
 }
 
-.field-wrapper > label {
-  flex: 0 0 100px; /* Fixed width for the label */
+/* .select2-select-wrapper {
+
+} */
+
+/* .field-wrapper {
+  
+} */
+
+/*.field-wrapper:first-child > label {
+  flex: 0 0 191px;
+  text-align: right;
+}*/
+
+ /* Fixed width for the label */
+.field-wrapper > label{
+  flex: 0 0 100px;
   text-align: right;
 }
 
