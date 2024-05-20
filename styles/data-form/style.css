@@ -28,6 +28,14 @@ body {
   grid-auto-rows: minmax(1px, auto);
 }
 
+.grid-wrapper-fixed-3-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-row-gap: 2px;
+  grid-column-gap: 10px;
+  grid-auto-rows: minmax(1px, auto);
+}
+
 
 /* Media query for wider screens to switch to 4 columns */
 @media (min-width: 2475px) {
@@ -324,19 +332,23 @@ input[readonly], textarea[readonly] {
   min-height: 0px;
 }
 
-#hyperroute-section-form-content {
+/* #hyperroute-section-form-content {
   overflow-y: auto;
-}
+} */
 
 .hyperroute-section-row {
   border: #292929 1px solid;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(14, 1fr);
 }
 
 .hyperroute-section-row > div:first-child {
-  flex: 10%;
+  grid-column: 1
 }
 
+.hyperroute-section-row > div:last-child {
+  grid-column: 2 / 15;
+}
 
 /************/
 /* TOOLTIPS */
