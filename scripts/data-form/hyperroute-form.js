@@ -8,8 +8,20 @@ async function listHyperroutes() {
 }
 
 async function loadHyperrouteArray() {
-  // Get data
+  // Get hyperroute data
   const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.HYPERROUTES.NAME, '!A2:M');
+  //  Get hyperroute section data
+  const sectionSheetRange = `!${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.LAST_COLUMN_REF()}`;
+  const sectionResult = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.HYPERROUTE_SECTIONS.NAME, sectionSheetRange);
+  const sectionArray = sectionResult.values.map((section) => {
+    const continuityString = canonLegendsUnlicencedToString([section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.CANON],section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LEGENDS],section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.UNLICENSED]]);
+    const period = prettifyDateFromDateTo([section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.DATE_FROM],section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.DATE_TO]]);
+    return {
+      id: sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.ID]),
+      hyperrouteId: sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.HYPERROUTE_ID]),
+      text: `{${section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A]} <--> ${section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B]}} [${continuityString}] ${period === "" ? "" : (period)}`
+    }
+  });
   // Populate hyperroute list
   hyperrouteArray = [];
   // console.log(spreadSheetData.values[0]);
@@ -19,8 +31,10 @@ async function loadHyperrouteArray() {
     const continuityString = canonLegendsUnlicencedToString([rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.CANON],rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.LEGENDS],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.UNLICENSED]]);
     const dateString = prettifyDateFromDateTo([rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_FROM],rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_TO]]);
     const dates = [rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_FROM], rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_TO]];
+    const id = sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ID]);
+    // Get sections
     hyperrouteArray.push({
-      id: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ID],
+      id: id,
       text: `${namesString} [${continuityString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
       name: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.NAME],
       altNames: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ALT_NAMES],
@@ -39,6 +53,7 @@ async function loadHyperrouteArray() {
       notes: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.NOTES]),
       interesting: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.INTERESTING]),
       isCertified: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.is_certified]),
+      sections: sectionArray.filter(section => section.hyperrouteId === id),
     });
   }
 }

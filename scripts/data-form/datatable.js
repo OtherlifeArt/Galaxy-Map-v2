@@ -49,7 +49,7 @@ function initDatatableEvents(datatableLabel) {
   } else if (datatableLabel === "hyperrouteDatatable") {
     table = hyperrouteDatatable;
   }
-  table.on('click', 'td.dt-control', function (e) {
+  table.on('click', 'td.dt-control', async function (e) {
     let tr = e.target.closest('tr');
     let row = table.row(tr);
  
@@ -59,7 +59,7 @@ function initDatatableEvents(datatableLabel) {
     }
     else {
         // Open this row
-        row.child(datatableChildContent(row.data(), datatableLabel)).show();
+        await row.child(datatableChildContent(row.data(), datatableLabel)).show();
     }
   });
 }
@@ -82,64 +82,73 @@ function datatableChildContent(rowData, datatableLabel) {
   urls += "</span>";
   if(datatableLabel === "objectDatatable") {
     return (
-      "<div>"+
-        "<div>Alt Names: "+rowData.altNames+"</div>"+
-        "<div>Capital at current level: "+rowData.isCapital+"</div>"+
-        "<div>In movie: "+rowData.inMovie+"</div>"+
-        "<div>Size: "+rowData.size+" km</div>"+
-        "<div>Length of Day: "+rowData.lengthOfDay+"</div>"+
-        "<div>Length of Year: "+rowData.lengthOfYear+"</div>"+
-        "<div>Orbital Position: "+rowData.orbitalRank+"</div>"+
-        "<div>Appearance: "+rowData.appearance+"</div>"+
-        "<div>Gravity: "+rowData.gravity+"</div>"+
-        "<div>Population: "+rowData.population+"</div>"+
-        "<div>Native Species: "+rowData.nativeSpecies+"</div>"+
-        "<div>Immigrant Species: "+rowData.immigrantSpecies+"</div>"+
-        "<div>Known Environments: "+rowData.knownEnvironments+"</div>"+
-        "<div>Known Climates: "+rowData.knownClimates+"</div>"+
-        "<div>Known Atmosphere: "+rowData.knownAtmosphere+"</div>"+
-        "<div>Known Surface Water: "+rowData.knownSurfaceWater+"</div>"+
-        "<div>Government: "+rowData.government+"</div>"+
-        "<div>Capital: "+rowData.capital+"</div>"+
-        "<div>Starports: "+rowData.capital+"</div>"+
-        "<div>Tech level: "+rowData.techLevel+"</div>"+
-        "<div>Known Resources: "+rowData.knownResources+"</div>"+  
-        "<div>Known Exports: "+rowData.knownExports+"</div>"+
-        "<div>Known Imports: "+rowData.knownImports+"</div>"+
-        "<div>Points of Interests: "+rowData.pointsOfInterest+"</div>"+
-      "</div>"+
-      "<div>"+
-        "<div>Placement certitude: "+rowData.placementCertitude+"</div>"+
-        "<div>Placement logic: "+rowData.placementLogic+"</div>"+
-        "<div>Is Certified : "+rowData.isCertified+"</div>"+
-        "<div>ID: "+rowData.id+"</div>"+
-        "<div>Last updated: "+rowData.lastUpdated+"</div>"+
-        "<div>Sorting ID: "+rowData.sortId+"</div>"+
-        "<div>Map Zoom Level: "+rowData.zoomLevel+"</div>"+
-        "<div>Parent ID: "+rowData.parentId+"</div>"+
-      "</div>"+
-      "<div>URLS: "+urls+"</div>"+
-      "<div>Desc: "+rowData.desc+"</div>"+
-      "<div>Interesting: "+rowData.interesting+"</div>"+
-      "<div>Notes: "+rowData.notes+"</div>"
+      "<div class='datatable-child-row-wrapper'>"+
+        "<div class='datatable-child-row-element-data'>"+
+          "<div><b><i>Alt Names: </i></b>"+rowData.altNames+"</div>"+
+          "<div><b><i>Capital at current level: </i></b>"+rowData.isCapital+"</div>"+
+          "<div><b><i>In movie: </i></b>"+rowData.inMovie+"</div>"+
+          "<div><b><i>Size: </i></b>"+(rowData.size === "" ? "" : rowData.size + " km" )+"</div>"+
+          "<div><b><i>Length of Day: </i></b>"+(rowData.lengthOfDay === "" ? "" : rowData.size + " hours" )+"</div>"+
+          "<div><b><i>Length of Year: </i></b>"+(rowData.lengthOfYear === "" ? "" : rowData.size + " days" )+"</div>"+
+          "<div><b><i>Orbital Position: </i></b>"+rowData.orbitalRank+"</div>"+
+          "<div><b><i>Appearance: </i></b>"+rowData.appearance+"</div>"+
+          "<div><b><i>Gravity: </i></b>"+rowData.gravity+"</div>"+
+          "<div><b><i>Population: </i></b>"+rowData.population+"</div>"+
+          "<div><b><i>Native Species: </i></b>"+rowData.nativeSpecies+"</div>"+
+          "<div><b><i>Immigrant Species: </i></b>"+rowData.immigrantSpecies+"</div>"+
+          "<div><b><i>Known Environments: </i></b>"+rowData.knownEnvironments+"</div>"+
+          "<div><b><i>Known Climates: </i></b>"+rowData.knownClimates+"</div>"+
+          "<div><b><i>Known Atmosphere: </i></b>"+rowData.knownAtmosphere+"</div>"+
+          "<div><b><i>Known Surface Water: </i></b>"+rowData.knownSurfaceWater+"</div>"+
+          "<div><b><i>Government: </i></b>"+rowData.government+"</div>"+
+          "<div><b><i>Capital: </i></b>"+rowData.capital+"</div>"+
+          "<div><b><i>Starports: </i></b>"+rowData.starports+"</div>"+
+          "<div><b><i>Tech level: </i></b>"+rowData.techLevel+"</div>"+
+          "<div><b><i>Known Resources: </i></b>"+rowData.knownResources+"</div>"+  
+          "<div><b><i>Known Exports: </i></b>"+rowData.knownExports+"</div>"+
+          "<div><b><i>Known Imports: </i></b>"+rowData.knownImports+"</div>"+
+          "<div><b><i>Points of Interests: </i></b>"+rowData.pointsOfInterest+"</div>"+
+        "</div>"+
+        "<div class='datatable-child-row-tech-data'>"+
+          "<div><b><i>Placement certitude: </i></b>"+rowData.placementCertitude+"</div>"+
+          "<div><b><i>Placement logic: </i></b>"+rowData.placementLogic+"</div>"+
+          "<div><b><i>Is Certified : </i></b>"+rowData.isCertified+"</div>"+
+          "<div><b><i>ID: </i></b>"+rowData.id+"</div>"+
+          "<div><b><i>Last updated: </i></b>"+rowData.lastUpdated+"</div>"+
+          "<div><b><i>Sorting ID: </i></b>"+rowData.sortId+"</div>"+
+          "<div><b><i>Map Zoom Level: </i></b>"+rowData.zoomLevel+"</div>"+
+          "<div><b><i>Parent ID: </i></b>"+rowData.parentId+"</div>"+
+        "</div>"+
+        "<div class='object-datatable-child-row-3'><b><i>URLS: </i></b>"+urls+"</div>"+
+        "<div class='object-datatable-child-row-4'><b><i>Desc: </i></b>"+rowData.desc+"</div>"+
+        "<div class='object-datatable-child-row-5'><b><i>Interesting: </i></b>"+rowData.interesting+"</div>"+
+        "<div class='object-datatable-child-row-6'><b><i>Notes: </i></b>"+rowData.notes+"</div>"+
+      "</div>"
     );
   } else if (datatableLabel === "hyperrouteDatatable") {
+    let formatedSections = "";
+    rowData.sections.forEach((section) => {
+      formatedSections += "<div>"+section.text+"</div>";
+    });
     return (
-      "<div>"+
-        "<div>Alt Names: "+rowData.altNames+"</div>"+
-      "</div>"+
-      "<div>"+
-        "<div>Is Certified : "+rowData.isCertified+"</div>"+
-        "<div>ID: "+rowData.id+"</div>"+
-        "<div>Last updated: "+rowData.lastUpdated+"</div>"+
-        "<div>Sorting ID: "+rowData.sortId+"</div>"+
-        "<div>Map Zoom Level: "+rowData.zoomLevel+"</div>"+
-        "<div>Parent ID: "+rowData.parentId+"</div>"+
-      "</div>"+
-      "<div>URLS: "+urls+"</div>"+
-      "<div>Desc: "+rowData.desc+"</div>"+
-      "<div>Interesting: "+rowData.interesting+"</div>"+
-      "<div>Notes: "+rowData.notes+"</div>"
+      "<div class='datatable-child-row-wrapper'>"+
+        "<div class='datatable-child-row-element-data'>"+
+          "<div><b><i>Alt Names: </i></b>"+rowData.altNames+"</div>"+
+        "</div>"+
+        "<div class='datatable-child-row-tech-data'>"+
+          "<div><b><i>ID: </i></b>"+rowData.id+"</div>"+
+          "<div><b><i>Last updated: </i></b>"+rowData.lastUpdated+"</div>"+
+          "<div><b><i>Sorting ID: </i></b>"+rowData.sortId+"</div>"+
+          "<div><b><i>Parent ID: </i></b>"+rowData.parentId+"</div>"+
+          "<div><b><i>Map Zoom Level: </i></b>"+rowData.zoomLevel+"</div>"+
+          "<div><b><i>Is Certified : </i></b>"+rowData.isCertified+"</div>"+
+        "</div>"+
+        "<div class='datatable-child-row-3'><b><i>URLS: </i></b>"+urls+"</div>"+
+        "<div class='datatable-child-row-4'><b><i>Desc: </i></b>"+rowData.desc+"</div>"+
+        "<div class='datatable-child-row-5'><b><i>Interesting: </i></b>"+rowData.interesting+"</div>"+
+        "<div class='datatable-child-row-6'><b><i>Notes: </i></b>"+rowData.notes+"</div>"+
+        "<div class='datatable-child-row-hyperspace-sections'><b><i>Sections: </i></b><div>"+formatedSections+"</div></div>"+
+      "</div>"
     );
   }
 }
