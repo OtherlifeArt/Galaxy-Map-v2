@@ -36,6 +36,19 @@
           <button id="signout-button" onclick="handleSignoutClick()">Sign Out</button>
         </div>
         <br/>
+        <!-- Refresh buttons -->
+        <div id="refresh-buttons">
+          <fieldset>
+            <legend>Refresh DATA</legend>
+            <button id="refresh-astro-objects-button" onclick="refreshForm();" disabled>Astronomical Objects</button>
+            <!-- <button id="refresh-types-button" onclick="refreshTypeSelect2();" disabled>Types</button>
+            <button id="refresh-type-classes-button" onclick="refreshTypeClassesSelect2();" disabled>Type Classes</button> -->
+            <button id="refresh-astro-object-datatable-button" onclick="refreshDatatable('objectDatatable', true);" disabled>Astronomical Object Datatable</button>
+            <button id="refresh-hyperroute-and-sections-button" onclick="refreshHyperrouteForm();" disabled>Hyperroutes & Sections</button>
+            <button id="refresh-hyperroute-datatable-button" onclick="refreshDatatable('hyperrouteDatatable', true);" disabled>Hyperroutes Datatable</button>
+            <button id="refresh-dashboard-button" disabled>Dashboard</button>
+          </fieldset>
+        </div>
         <!-- Tab links -->
         <div class="tab">
           <button id="default-tab" class="tablinks" onclick="openSection(event, 'astro-object-tab')">Astronomical Object</button>
@@ -50,16 +63,6 @@
         <div id="astro-object-tab" class="tabcontent">
           <h3>Astronomical Object FORM</h3>
           <pre id="content" style="white-space: pre-wrap;"></pre>
-          <!-- Refresh buttons -->
-          <div id="refresh-buttons">
-            <fieldset>
-              <legend>Refresh DATA</legend>
-              <button disabled>Astronomical Objects</button>
-              <button disabled>Types</button>
-              <button disabled>Type Classes</button>
-              <button disabled>Object Sources</button>
-            </fieldset>
-          </div>
           <!-- Search -->
           <div class="select2-wrapper">
             <label for="object-search">Search Object</label>
@@ -798,13 +801,6 @@
         <!-- Dashboard tab -->
         <div id="dashboard-tab" class="tabcontent">
           <h3>Dashboard</h3>
-          <!-- Refresh buttons -->
-          <div id="dashboard-refresh-buttons">
-            <fieldset>
-              <legend>Refresh DATA</legend>
-              <button id="refresh-dashboard">Dashboard</button>
-            </fieldset>
-          </div>
           <div id="dashboard-container">
             <!-- 1st column -->
             <div></div>

@@ -342,15 +342,22 @@ async function initDataLoad() {
   
   // Init Astronomical Objects
   await initAstronomicalObjects(); // Object, type, type classes, object sources
+  document.getElementById("refresh-astro-objects-button").disabled = false;
+  // document.getElementById("refresh-types-button").disabled = false;
+  // document.getElementById("refresh-type-classes-button").disabled = false;
   // Init hyper routes
   await initHyperroutes();
+  document.getElementById("refresh-hyperroute-and-sections-button").disabled = false;
   // Dashboard
   initDashboard();
+  document.getElementById("refresh-dashboard-button").disabled = false;
   // Widgets
   initWidgets();
   // Datatables
   loadObjectDatatable();
+  document.getElementById("refresh-astro-object-datatable-button").disabled = false;
   loadHyperrouteDatatable();
+  document.getElementById("refresh-hyperroute-datatable-button").disabled = false;
 }
 
 /* MAIN */
@@ -358,6 +365,16 @@ async function initDataLoad() {
 // Activate object tab
 openSection(undefined, 'astro-object-tab');
 document.querySelector("#default-tab").className += " active";
+
+// Disable refresh buttons
+document.getElementById("refresh-astro-objects-button").disabled = true;
+// document.getElementById("refresh-types-button").disabled = true;
+// document.getElementById("refresh-type-classes-button").disabled = true;
+document.getElementById("refresh-astro-object-datatable-button").disabled = true;
+document.getElementById("refresh-hyperroute-and-sections-button").disabled = true;
+document.getElementById("refresh-hyperroute-datatable-button").disabled = true;
+document.getElementById("refresh-dashboard-button").disabled = true;
+
 
 
 /* EVENTS */

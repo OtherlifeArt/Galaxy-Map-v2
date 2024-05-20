@@ -27,19 +27,31 @@ const HYPERROUTE_DATATABLE_PARAMS = {
   ]
 }
 
-function refreshDatatable(datatableLabel) {
+async function refreshDatatable(datatableLabel, reloadData = false) {
   let datatable;
   let data;
+  let refreshButtonId;
   if(datatableLabel === "objectDatatable") {
+    refreshButtonId = "refresh-astro-object-datatable-button";
+    document.getElementById(refreshButtonId).disabled = true;
     datatable = objectDatatable;
+    if(reloadData) {
+      await refreshForm();
+    }
     data = astronomicalObjectSearchArray;
   } else if (datatableLabel === "hyperrouteDatatable") {
+    refreshButtonId = "refresh-hyperroute-datatable-button";
+    document.getElementById(refreshButtonId).disabled = true;
+    if(reloadData) {
+      await refreshHyperrouteForm();
+    }
     datatable = hyperrouteDatatable;
     data = hyperrouteArray;
   }
   datatable.clear();
   datatable.rows.add(data);
   datatable.draw();
+  document.getElementById(refreshButtonId).disabled = false;
 }
 
 function initDatatableEvents(datatableLabel) {

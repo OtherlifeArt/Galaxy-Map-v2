@@ -117,10 +117,7 @@ async function initAstroObjectsSelect2AndLinkedEvents() {
   });
 }
 
-/**
- * List Astronomical types
- */
-async function listTypes() {
+async function listTypeArray() {
   // Get data
   const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECT_TYPES.NAME, '!A2:D');
   // Populate select2 search array
@@ -136,6 +133,28 @@ async function listTypes() {
       parentId: rowValues[2],
     });
   }
+}
+
+/**
+ * List Astronomical types
+ */
+async function listTypes() {
+  // Get data
+  // const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECT_TYPES.NAME, '!A2:D');
+  // // Populate select2 search array
+  // astronomicalObjectTypes = [];
+  // // console.log(spreadSheetData.values[0]);
+  // for(i=0; i<spreadSheetData.values.length; i++){
+  //   const rowValues = spreadSheetData.values[i];
+  //   const labelString = rowValues[0];
+  //   const typeString = rowValues[2] ? `(${rowValues[2]})` : "";
+  //   astronomicalObjectTypes.push({
+  //     id: labelString,
+  //     text: `${labelString} ${typeString}`,
+  //     parentId: rowValues[2],
+  //   });
+  // }
+  await listTypeArray();
   // console.log("OBJECT TYPE List : ", astronomicalObjectTypes);
   // Load select2
   loadTypeSelect2();
@@ -180,6 +199,7 @@ async function initFormSelect2() {
  * Reload form content (data) and refresh display
  */
 async function refreshForm() {
+  document.getElementById("refresh-astro-objects-button").disabled = true;
   await loadAstronomicalObjectArray();
   $(document).ready(function() {
     // Object
@@ -198,6 +218,7 @@ async function refreshForm() {
     //     data: astronomicalObjectSearchArray
     // });
   });
+  document.getElementById("refresh-astro-objects-button").disabled = false;
 }
 
 /**
@@ -395,6 +416,21 @@ function loadTypeSelect2() {
   });
 }
 
+async function refreshTypeSelect2() {
+  document.getElementById("refresh-types-button").disabled = true;
+  await listTypeArray();
+  $(document).ready(function() {
+    // Reset select2
+    $("#object-type").empty().trigger('change');
+    $("#object-type").select2({
+      data: astronomicalObjectTypes,
+      placeholder: 'Astronomical Type ...',
+      allowClear: false
+    });
+  });
+  document.getElementById("refresh-types-button").disabled = false;
+}
+
 /**
  * Load type class selects function of type
  */
@@ -423,6 +459,16 @@ function loadTypeClassesSelect2(matchingTypes) {
       placeholder: 'Astronomical Type Class ...',
       templateResult: formatTypeClassResult,
     });
+  });
+}
+
+async function refreshTypeClassesSelect2() {
+  document.getElementById("refresh-type-classes-button").disabled = true;
+  await listTypeClasses();
+  $(document).ready(function() {
+    $("#object-type").trigger('change');
+    loadTypeClasses();
+    document.getElementById("refresh-type-classes-button").disabled = false;
   });
 }
 

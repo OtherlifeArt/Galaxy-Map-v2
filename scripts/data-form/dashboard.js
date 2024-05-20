@@ -209,8 +209,10 @@ function initDashboard() {
 /**********/
 /* EVENTS */
 /**********/
-document.getElementById('refresh-dashboard').addEventListener('click', async function (e) {
+document.getElementById('refresh-dashboard-button').addEventListener('click', async function (e) {
+  document.getElementById("refresh-dashboard-button").disabled = true;
   await refreshForm();
   initDashboard();
   initWidgets();
+  document.getElementById("refresh-dashboard-button").disabled = false;
 });

@@ -118,6 +118,7 @@ function generateHierarchicalStringOnHyperrouteParentSelect() {
  * Reload form content (data) and refresh display
  */
 async function refreshHyperrouteForm() {
+  document.getElementById("refresh-hyperroute-and-sections-button").disabled = true;
   $(document).ready(async function() {
     await loadHyperrouteArray();
     // Object
@@ -126,6 +127,7 @@ async function refreshHyperrouteForm() {
     $("#hyperroute-search").empty().val('').trigger('change');
     loadHyperrouteFormSelect2();
   });
+  document.getElementById("refresh-hyperroute-and-sections-button").disabled = false;
 }
 
 async function loadHyperrouteForm(hyperrouteId) {
