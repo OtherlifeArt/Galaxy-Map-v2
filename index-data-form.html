@@ -165,12 +165,13 @@
                 </span>
                 </div>
                 <div class="grid-wrapper">
-                  <!-- Parent -->
+                  <!-- Parent Display -->
                   <span class="tooltip grid-column-one-to-four field-wrapper" id="object-parent-raw-span">
                     <label for="object-parent-raw">Displayed Parent</label>
                     <input type="text" name="object-parent-raw" id="object-parent-raw" readonly>
                     <span class="tooltiptext">Object's parent as displayed in spreadsheet (readonly)</span>
                   </span>
+                  <!-- Parent Select -->
                   <span class="tooltip grid-column-one-to-four field-wrapper select2-wrapper" id="object-parent-span">
                     <label for="object-parent">Parent</label>
                     <select name="object-parent" id="object-parent">
@@ -213,19 +214,19 @@
                 </div>
                 <div class="grid-wrapper">
                   <!-- Canon -->
-                  <span class="tooltip tooltip grid-column-one field-wrapper">
+                  <span class="tooltip grid-column-one field-wrapper">
                     <label for="object-canon">Canon</label>
                     <input type="checkbox" name="object-canon" id="object-canon">
                     <span class="tooltiptext">Is object Canon ("© Disney" canon) ?</span>
                   </span>
                   <!-- Legends -->
-                  <span class="tooltip tooltip grid-column-two field-wrapper">
+                  <span class="tooltip grid-column-two field-wrapper">
                     <label for="object-legends">Legends</label>
                     <input type="checkbox" name="object-legends" id="object-legends">
                     <span class="tooltiptext">Is object Legends (original/old canon) ?</span>
                   </span>
                   <!-- Unlicensed -->
-                  <span class="tooltip tooltip grid-column-three field-wrapper">
+                  <span class="tooltip grid-column-three field-wrapper">
                     <label for="object-unlicensed">Unlicensed</label>
                     <input type="checkbox" name="object-unlicensed" id="object-unlicensed">
                     <span class="tooltiptext">Is object unlicensed (neither Canon nor Legends) ?</span>
@@ -581,7 +582,7 @@
         <div id="hyper-route-tab" class="tabcontent">
           <h3>Hyper Route FORM</h3>
           <!-- Search -->
-          <div>
+          <div class="select2-wrapper">
             <label for="hyperroute-search">Search Hyperroute</label>
             <select name="hyperroute-search" id="hyperroute-search">
               <option></option>
@@ -592,70 +593,71 @@
             <form id="hyperroute-form">
               <fieldset>
                 <legend>Hyperroute Form</legend>
-                <div>
+                <div class="grid-wrapper">
                   <!-- ID -->
-                  <span class="tooltip">
+                  <span class="tooltip grid-column-one field-wrapper">
                     <label for="hyperroute-tech-id">Technical ID</label>
                     <input type="text" name="hyperroute-tech-id" id="hyperroute-tech-id" required readonly>
                     <span class="tooltiptext">Readonly ID, created automaticly at hyperroute creation, stay the same from hyperroute creation to deletion - not to change even in spreadsheet</span>
                   </span>
                   <!-- Sorting/Human ID -->
-                  <span class="tooltip">
+                  <span class="tooltip grid-column-two field-wrapper">
                     <label for="hyperroute-human-id">Sorting ID</label>
                     <input type="text" name="hyperroute-human-id" id="hyperroute-human-id" readonly>
                     <span class="tooltiptext">ID used to sort data in spreadsheet, at the moment sorting is done by grid coordinates</span>
                   </span>
                   <!-- Updated At -->
-                  <span class="tooltip">
-                    <label for="hyperroute-updated-at">Updated at</label>
+                  <span class="tooltip grid-column-three field-wrapper">
+                    <label for="hyperroute-updated-at">Updated At</label>
                     <input type="text" name="hyperroute-updated-at" id="hyperroute-updated-at" readonly>
                     <span class="tooltiptext">Last time updated - no data means never updated, hyperroute may need to be cheched</span>
                   </span>
                   <!-- Are Data certified ? -->
-                  <span class="tooltip">
-                    <label for="hyperroute-data-certified">Publish on map ?</label>
+                  <span class="tooltip field-wrapper grid-column-media-queries-one-or-four">
+                    <label for="hyperroute-data-certified">Publish on Map</label>
                     <input type="checkbox" name="hyperroute-data-certified" id="hyperroute-data-certified">
                     <span class="tooltiptext">Are data fully checked or sufficient, and ready for publication ?</span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- hyperroute Name -->
-                  <span class="tooltip" id="hyperroute-name-span">
-                    <label for="hyperroute-name">hyperroute Name</label>
+                  <span class="tooltip grid-column-one-to-two field-wrapper" id="hyperroute-name-span">
+                    <label for="hyperroute-name">Name</label>
                     <input type="text" name="hyperroute-name" id="hyperroute-name" required/><!-- Trick : This comment removes space between elements
                       --><button class="hyperroute-source-entry-button">S</button>
                     <span class="tooltiptext">Full name of astronomical hyperroute (No alternate names)</span>
                   </span>
+                  <!-- Conjectural name -->
+                  <span class="tooltip grid-column-three field-wrapper">
+                    <label for="hyperroute-conjectural-name">Conjectural Name</label>
+                    <input type="checkbox" name="hyperroute-conjectural-name" id="hyperroute-conjectural-name">
+                    <span class="tooltiptext">Name isn't known/definite (yet)</span>
+                  </span>
                   <!-- hyperroute Alternative Names -->
-                  <span class="tooltip" id="hyperroute-alt-name-span">
-                    <label for="hyperroute-alt-name">hyperroute Alt Names</label>
+                  <span class="tooltip grid-column-one-to-four field-wrapper" id="hyperroute-alt-name-span">
+                    <label for="hyperroute-alt-name">Alt Names</label>
                     <input type="text" name="hyperroute-alt-name" id="hyperroute-alt-name"><!-- Trick : This comment removes space between elements
                     --><button class="hyperroute-source-entry-button">S</button>
                     <span class="tooltiptext">Alternate names separated by "/" (slash) character</span>
                   </span>
-                  <!-- Conjectural name -->
-                  <span class="tooltip">
-                    <label for="hyperroute-conjectural-name">Conjectural name ?</label>
-                    <input type="checkbox" name="hyperroute-conjectural-name" id="hyperroute-conjectural-name">
-                    <span class="tooltiptext">Name isn't known/definite (yet)</span>
-                  </span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- Level -->
-                  <span class="tooltip">
-                    <label for="hyperroute-level">Route level</label>
+                  <span class="tooltip grid-column-one field-wrapper">
+                    <label for="hyperroute-level">Route Level</label>
                     <input type="number" step="1" min="0" name="hyperroute-level" id="hyperroute-level"><!-- Trick : This comment removes space between elements
                     --><button class="hyperroute-source-entry-button">S</button>
                     <span class="tooltiptext">Level of hyperroute by importance : main/major=1, important/secondary=2, tertiary/lesser=3, 4=secret/unknown</span>
                   </span>
                 </div>
-                <div>
-                  <!-- Parent -->
-                  <span class="tooltip"  id="hyperroute-parent-raw-span">
+                <div class="grid-wrapper">
+                  <!-- Parent Display -->
+                  <span class="tooltip grid-column-one-to-four field-wrapper" id="hyperroute-parent-raw-span">
                     <label for="hyperroute-parent-raw">Displayed Parents</label>
                     <input type="text" name="hyperroute-parent-raw" id="hyperroute-parent-raw" readonly>
                     <span class="tooltiptext">hyperroute's parent as displayed in spreadsheet (readonly)</span>
                   </span>
-                  <span class="tooltip" id="hyperroute-parent-span">
+                  <!-- Parent Select -->
+                  <span class="tooltip grid-column-one-to-four field-wrapper select2-wrapper" id="hyperroute-parent-span">
                     <label for="hyperroute-parent">Parent</label>
                     <select name="hyperroute-parent" id="hyperroute-parent">
                       <option></option>
@@ -664,98 +666,99 @@
                     <span class="tooltiptext">Parent (with discriminating details for ambiguate hyperroute names)</span>
                   </span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- Date From -->
-                  <span class="tooltip">
-                    <label for="hyperroute-datefrom">Date (Year) : From</label>
+                  <span class="tooltip grid-column-one field-wrapper">
+                    <label for="hyperroute-datefrom">Date: From</label>
                     <input type="number" step="0.01" name="hyperroute-datefrom" id="hyperroute-datefrom"><!-- Trick : This comment removes space between elements
                     --><button class="hyperroute-source-entry-button">S</button>
                     <span class="tooltiptext">Date from hyperroute data are applicable (new state, new name ...)</span>
                   </span>
                   <!-- Date To -->
-                  <span class="tooltip">
+                  <span class="tooltip grid-column-two field-wrapper">
                     <label for="hyperroute-dateto">To</label>
                     <input type="number" step="0.01" name="hyperroute-dateto" id="hyperroute-dateto"><!-- Trick : This comment removes space between elements
                     --><button class="hyperroute-source-entry-button">S</button>
                     <span class="tooltiptext">Date from hyperroute data are no more applicable (state change, name change ...)</span>
                   </span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- Canon -->
-                  <span class="tooltip">
-                    <label for="hyperroute-canon">Canon ?</label>
+                  <span class="tooltip grid-column-one field-wrapper">
+                    <label for="hyperroute-canon">Canon</label>
                     <input type="checkbox" name="hyperroute-canon" id="hyperroute-canon">
                     <span class="tooltiptext">Is hyperroute Canon ("© Disney" canon) ?</span>
                   </span>
                   <!-- Legends -->
                   <span class="tooltip">
-                    <label for="hyperroute-legends">Legends ?</label>
+                    <label for="hyperroute-legends grid-column-two field-wrapper">Legends</label>
                     <input type="checkbox" name="hyperroute-legends" id="hyperroute-legends">
                     <span class="tooltiptext">Is hyperroute Legends (original/old canon) ?</span>
                   </span>
                   <!-- Unlicensed -->
-                  <span class="tooltip">
-                    <label for="hyperroute-unlicensed">Unlicensed ?</label>
+                  <span class="tooltip grid-column-three field-wrapper">
+                    <label for="hyperroute-unlicensed">Unlicensed</label>
                     <input type="checkbox" name="hyperroute-unlicensed" id="hyperroute-unlicensed">
                     <span class="tooltiptext">Is hyperroute unlicensed (neither Canon nor Legends) ?</span>
                   </span>
                 </div>
+                <div class="grid-wrapper">
                   <!-- GEOM -->
-                  <span class="tooltip">
+                  <span class="tooltip grid-column-one field-wrapper">
                     <label for="hyperroute-geom">GEOM</label>
                     <textarea name="hyperroute-geom" id="hyperroute-geom" readonly></textarea>
                     <span class="tooltiptext">Geometry for complex objects like lines, polygons …</span>
                   </span>
                   <!-- GEOM TYPE -->
-                  <span class="tooltip">
+                  <span class="tooltip grid-column-two field-wrapper">
                     <label for="hyperroute-geom-type">GEOM TYPE</label>
                     <input type="text" name="hyperroute-geom-type" id="hyperroute-geom-type"/>
                     <span class="tooltiptext">Used to build Geojson files.</span>
                   </span>
-                <div>
+                </div>
+                <div class="grid-wrapper">
                   <!-- Desc -->
-                  <span class="tooltip">
+                  <span class="tooltip grid-column-one-to-three field-wrapper">
                     <label for="hyperroute-desc">Description</label>
                     <textarea id="hyperroute-desc" name="hyperroute-desc"></textarea><!-- Trick : This comment removes space between elements
                     --><button class="hyperroute-source-entry-button">S</button>
                     <span class="tooltiptext">hyperroute description</span>
                   </span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- Notes -->
-                  <span class="tooltip">
+                  <span class="tooltip grid-column-one-to-two field-wrapper">
                     <label for="hyperroute-notes">Notes</label>
                     <textarea name="hyperroute-notes" id="hyperroute-notes"></textarea>
                     <span class="tooltiptext">Notes</span>
                   </span>
                   <!-- Interesting -->
-                  <span class="tooltip">
+                  <span class="tooltip grid-column-three field-wrapper">
                     <label for="hyperroute-interesting">Interesting</label>
                     <textarea name="hyperroute-interesting" id="hyperroute-interesting"></textarea><!-- Trick : This comment removes space between elements
                     --><button class="hyperroute-source-entry-button">S</button>
                     <span class="tooltiptext">Additionnal elements of interest</span>
                   </span>
-                  <br/>
                   <!-- Sources URL -->
-                  <span class="tooltip">
+                  <span class="tooltip grid-column-one-to-two field-wrapper">
                     <label for="hyperroute-sources">Source URLS</label>
                     <textarea name="hyperroute-sources" id="hyperroute-sources"></textarea>
                     <span class="tooltiptext">URLS "," (comma) separated</span>
                   </span>
                   <!-- Wiki data ID -->
-                  <span class="tooltip">
+                  <span class="tooltip grid-column-three field-wrapper">
                     <label for="hyperroute-wikidata-id">Wikidata ID</label>
                     <textarea name="hyperroute-wikidata-id" id="hyperroute-wikidata-id"></textarea>
                     <span class="tooltiptext">ID from wiki data website : https://www.wikidata.org</span>
                   </span>
                   <!-- Sources Display -->
-                  <span id="hyperroute-url-displayer">
+                  <span id="hyperroute-url-displayer" class="tooltip grid-column-one-to-three grid-wrapper">
                   </span>
                 </div>
-                <div>
+                <div class="grid-wrapper">
                   <!-- Zoom level -->
-                  <span class="tooltip">
-                    <label for="hyperroute-zoom-level">Zoom level</label>
+                  <span class="tooltip grid-column-one field-wrapper">
+                    <label for="hyperroute-zoom-level">Zoom Level</label>
                     <input type="text" name="hyperroute-zoom-level" id="hyperroute-zoom-level">
                     <span class="tooltiptext">Technical data for map display</span>
                   </span>
