@@ -102,7 +102,7 @@ async function openDataFieldObjectSourceModal(eventTarget) {
       const sourceRow = sourceRows[sourceRowIndex];
       console.log(sourceRow);
       // ROW
-      let row = document.createElement("tr");
+      let row = document.createElement("div");
       // BUTTONS
       addActionCellToSourceModalTable(row, "OBJECT_SOURCES", "modal-object-source-id");
       // Source Row ID
@@ -164,7 +164,7 @@ async function openDataFieldHyperrouteSourceModal(eventTarget) {
       const sourceRow = sourceRows[sourceRowIndex];
       console.log(sourceRow);
       // ROW
-      let row = document.createElement("tr");
+      let row = document.createElement("div");
       // BUTTONS
       addActionCellToSourceModalTable(row, "HYPERROUTE_SOURCES", "modal-hyperroute-source-id");
       // Source Row ID
@@ -264,7 +264,7 @@ function saveDataFromHyperrouteSourceModal() {
  * Add new button to source modal content
  */
 function addActionCellToSourceModalTable(parentRow, sheetNameLabel, elementIdClassName) {
-  let sourceAction = document.createElement("td");
+  let sourceAction = document.createElement("span");
   let deleteButton = document.createElement("button");
   deleteButton.textContent = "Delete Row";
   deleteButton.style.backgroundColor = "red";
@@ -281,62 +281,62 @@ function addActionCellToSourceModalTable(parentRow, sheetNameLabel, elementIdCla
  * Add hidden text cell to source modal content
  */
 function addHiddenTextCellToSourceModalTable(parentRow, textContent, className) {
-  let hiddenTextTd = document.createElement("td");
-  hiddenTextTd.appendChild(document.createTextNode(sanitizeText(textContent)));
-  hiddenTextTd.style.display = "none";
-  hiddenTextTd.classList.add(className);
-  parentRow.appendChild(hiddenTextTd);
+  let hiddenTextSpan = document.createElement("span");
+  hiddenTextSpan.appendChild(document.createTextNode(sanitizeText(textContent)));
+  hiddenTextSpan.style.display = "none";
+  hiddenTextSpan.classList.add(className);
+  parentRow.appendChild(hiddenTextSpan);
 }
 
 /**
  * Add select2 cell to source modal content
  */
 function addSelect2SourceCellToSourceModalContent(parentRow, selectedDataID, className) {
-  let sourceCellTd = document.createElement("td");
+  let sourceCellSpan = document.createElement("span");
   let sourceCellSelect = document.createElement("select");
   sourceCellSelect.classList.add("modal-source-field");
   sourceCellSelect.classList.add(className);
   loadSourcesSelect2(sourceCellSelect, selectedDataID);
-  sourceCellTd.appendChild(sourceCellSelect);
-  parentRow.appendChild(sourceCellTd);
+  sourceCellSpan.appendChild(sourceCellSelect);
+  parentRow.appendChild(sourceCellSpan);
 }
 
 /**
  * Add input type text cell to source modal content
  */
 function addInputTextCellToSourceModalContent(parentRow, textContent, className) {
-  let inputTextTd = document.createElement("td");
+  let inputTextSpan = document.createElement("span");
   let inputText = document.createElement("input");
   inputText.setAttribute('type', 'text');
   inputText.value = sanitizeText(textContent);
   inputText.classList.add(className);
-  inputTextTd.appendChild(inputText);
-  parentRow.appendChild(inputTextTd);
+  inputTextSpan.appendChild(inputText);
+  parentRow.appendChild(inputTextSpan);
 }
 
 /**
  * Add text area cell to source modal content
  */
 function addTextAreaCellToSourceModalContent(parentRow, textContent, className) {
-  let textAreaTd = document.createElement("td");
+  let textAreaSpan = document.createElement("span");
   let textArea = document.createElement("textarea");
   textArea.value = sanitizeText(textContent);
   textArea.classList.add(className);
-  textAreaTd.appendChild(textArea);
-  parentRow.appendChild(textAreaTd);
+  textAreaSpan.appendChild(textArea);
+  parentRow.appendChild(textAreaSpan);
 }
 
 /**
  * Add input checkbox cell to source modal content
  */
 function addInputCheckboxCellToSourceModalContent(parentRow, textContent, className) {
-  let textAreaTd = document.createElement("td");
+  let textAreaSpan = document.createElement("span");
   let checkbox = document.createElement("input");
   checkbox.setAttribute('type', 'checkbox');
   checkbox.checked = sanitizeText(textContent) === "YES" || sanitizeText(textContent).toUpperCase() === "TRUE";
   checkbox.classList.add(className);
-  textAreaTd.appendChild(checkbox);
-  parentRow.appendChild(textAreaTd);
+  textAreaSpan.appendChild(checkbox);
+  parentRow.appendChild(textAreaSpan);
 }
 
 /**
@@ -363,7 +363,7 @@ function addNewEmptyLineOnSourceModalTable() {
       alert(`Unknown sheet ID ${sourceSheetId} !`);
       break;
   }
-  let row = document.createElement("tr"); // ROW
+  let row = document.createElement("div"); // ROW
   addActionCellToSourceModalTable(row, sheetNameLabel, elementIdClassName); // BUTTONS
   addHiddenTextCellToSourceModalTable(row, generateUUIDv7(), elementIdClassName); // Source Row ID
   addSelect2SourceCellToSourceModalContent(row, null, "modal-source-id"); // Source from list

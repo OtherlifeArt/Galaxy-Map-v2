@@ -84,14 +84,8 @@ width: 100% !important;
   /*max-width: calc(100% - 160px); /* Adjust width considering the label width and margin */
 }
 
-.field-wrapper > input[type=checkbox] {
-  /* flex: 1; */
-  /* max-width: calc(100% - 160px); /* Adjust width considering the label width and margin */
-  /* max-width: 100%; /* Adjust width considering the label width and margin */
-  /* margin-left: 0;
-  margin-right: 100%; */
-  /* margin-right: 10px; */
-}
+/* .field-wrapper > input[type=checkbox] {
+} */
 
 
 .grid-column-one {
@@ -261,11 +255,11 @@ input[readonly], textarea[readonly] {
   table-layout: auto;
 }
 
-#source-modal-table th {
+#source-modal-table > div:first-child {
   background-color: #ddd;
 }
 
-#source-modal-table td, #source-modal-table th {
+#source-modal-table > div:first-child > span, #source-modal-table-body > div > span {
   border: 1px solid grey; 
   /* width: min-content !important; */
 }
@@ -276,71 +270,33 @@ input[readonly], textarea[readonly] {
   max-width: 100%;
 } */
  
-#source-modal-table {
+#source-modal-table > div:first-child, #source-modal-table-body > div {
   display: grid;
   border-collapse: collapse;
   width: 100%;
   grid-auto-flow: column;
-  grid-template-columns: 3fr 25fr 25fr 17fr 3fr 3fr 23fr;
+  grid-template-columns: 70px 25% 25% 17% 70px 80px;
 }
 
-#source-modal-table thead, #source-modal-table tbody, #source-modal-table tr {
-  display: contents;
-}
-
-#source-modal-table th, #source-modal-table td {
+#source-modal-table > div:first-child > span, #source-modal-table-body > div > span {
   display: flex;
+  position: relative;
+  align-items: center;
 }
 
-#source-modal-table th > *, #source-modal-table td > * {
+#source-modal-table > div:first-child > span > * {
   flex: 1;
+  text-align: center;
 }
 
-/* Define column widths using CSS Grid */
-#source-modal-table th:nth-child(1), #source-modal-table td:nth-child(1) {
-  grid-column: 1;
-  /* width: 80px; */
-  width: 3%;
+#source-modal-table-body > div > span > * {
+  flex: 1;
+  width: 100%;
 }
 
-/* #source-modal-table th:nth-child(2), #source-modal-table td:nth-child(2) {
-  grid-column: 2;
-} */
 
-#source-modal-table th:nth-child(3), #source-modal-table td:nth-child(3) {
-  grid-column: 3;
-  width: 25%;
-}
-
-#source-modal-table th:nth-child(4), #source-modal-table td:nth-child(4) {
-  grid-column: 4;
-  width: 25%;
-}
-
-#source-modal-table th:nth-child(5), #source-modal-table td:nth-child(5) {
-  grid-column: 5;
-  width: 16%;
-}
-
-#source-modal-table th:nth-child(6), #source-modal-table td:nth-child(6) {
-  grid-column: 6;
-  /* width: 80px; */
-  width: 3%;
-}
-
-#source-modal-table th:nth-child(7), #source-modal-table td:nth-child(7) {
-  grid-column: 7;
-  /* width: 80px; */
-  width: 3%;
-}
-
-#source-modal-table th:nth-child(8), #source-modal-table td:nth-child(8) {
-  grid-column: 8;
-  width: 23%;
-}
-
-/* #source-modal-table th, td {
-  width: 1fr; /* Using fraction units to make columns responsive
+/* #source-modal-table thead, #source-modal-table tbody, #source-modal-table tr {
+  display: contents;
 } */
 
 /********/
