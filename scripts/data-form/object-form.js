@@ -125,12 +125,12 @@ async function listTypeArray() {
   // console.log(spreadSheetData.values[0]);
   for(i=0; i<spreadSheetData.values.length; i++){
     const rowValues = spreadSheetData.values[i];
-    const labelString = rowValues[0];
-    const typeString = rowValues[2] ? `(${rowValues[2]})` : "";
+    const labelString = sanitizeText(rowValues[0]);
+    const typeString = rowValues[2] ? `(${sanitizeText(rowValues[2])})` : "";
     astronomicalObjectTypes.push({
       id: labelString,
       text: `${labelString} ${typeString}`,
-      parentId: rowValues[2],
+      parentId: sanitizeText(rowValues[2]),
     });
   }
 }
