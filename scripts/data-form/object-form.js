@@ -217,8 +217,13 @@ async function refreshForm() {
     // $('#object-parent').select2({
     //     data: astronomicalObjectSearchArray
     // });
+    document.getElementById("refresh-astro-objects-button").disabled = false;
+    // Reload previously loaded object
+    const objectId = document.getElementById("object-tech-id").value;
+    if(objectId !== undefined && objectId !== ""){
+      $("#object-search").val(objectId).trigger('change');
+    }
   });
-  document.getElementById("refresh-astro-objects-button").disabled = false;
 }
 
 /**

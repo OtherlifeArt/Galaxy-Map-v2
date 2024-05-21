@@ -125,8 +125,13 @@ async function refreshHyperrouteForm() {
     document.getElementById("hyperroute-search").value = "";
     $("#hyperroute-search").empty().val('').trigger('change');
     loadHyperrouteFormSelect2();
+    document.getElementById("refresh-hyperroute-and-sections-button").disabled = false;
+    // Reload previously loaded object
+    const hyperrouteId = document.getElementById("hyperroute-tech-id").value;
+    if(hyperrouteId !== undefined && hyperrouteId !== ""){
+      $("#hyperroute-search").val(hyperrouteId).trigger('change');
+    }
   });
-  document.getElementById("refresh-hyperroute-and-sections-button").disabled = false;
 }
 
 async function loadHyperrouteForm(hyperrouteId) {
