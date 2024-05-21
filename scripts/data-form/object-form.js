@@ -30,38 +30,38 @@ async function loadAstronomicalObjectArray() {
   astronomicalObjectSearchArray = [];
   for(i=0; i<spreadSheetData.values.length; i++){
     const rowValues = spreadSheetData.values[i];
-    const namesString = `${rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]}${rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES] === "" ? "" : "/"+rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES]}`;
-    let typeString = rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE];
-    if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES] !== "" && rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES] !== undefined) {
-      typeString += " - "+rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES];
+    const namesString = `${sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME])}${sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES]) === "" ? "" : "/"+sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES])}`;
+    let typeString = sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE]);
+    if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES] !== undefined && sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES]) !== "") {
+      typeString += " - "+sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES]);
     }
-    const continuityString = canonLegendsUnlicencedToString([rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.UNLICENSED]]);
+    const continuityString = canonLegendsUnlicencedToString([sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON]),sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS]),sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.UNLICENSED])]);
     const dateString = prettifyDateFromDateTo([rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO]]);
-    const grid = rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID] === "" || rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID] ===  undefined ? [] : [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_GRID], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID]];
+    const grid = rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID] ===  undefined || sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID]) === "" ? [] : [sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_GRID]), sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID])];
     let coords = [];
-    if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] !== "" && rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] !== undefined) {
-      if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD] !== "" && rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD] !== undefined) {
-        coords = [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]];
+    if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] !== undefined && sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]) !== "") {
+      if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD] !== undefined && sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD]) !== "") {
+        coords = [sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD]), sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD])];
       } else {
-        coords = [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD]];
+        coords = [sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD]), sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]), sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD])];
       }
     }
-    const dates = [rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM], rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO]];
+    const dates = [sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM]), sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO])];
     astronomicalObjectSearchArray.push({
-      id: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID],
-      humanName: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_NAME],
-      name: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME],
-      altNames: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES],
+      id: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]),
+      humanName: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_NAME]),
+      name: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]),
+      altNames: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES]),
       text: `${namesString} (${typeString}) [${continuityString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
-      objectType: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE],
-      objectTypeClass: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES],
-      parentId: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID],
-      humanParent: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN],
+      objectType: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE]),
+      objectTypeClass: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES]),
+      parentId: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]),
+      humanParent: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN]),
       dates: dates,
       grid: grid,
       coords: coords,
       continuityString: continuityString,
-      inMovie: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IN_MOVIES],
+      inMovie: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IN_MOVIES]),
       conjName: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_NAME]),
       conjType: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_TYPE]),
       desc: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DESC]),

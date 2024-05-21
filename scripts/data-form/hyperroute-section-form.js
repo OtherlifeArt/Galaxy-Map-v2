@@ -337,7 +337,7 @@ function convertHyperrouteSectionFormToArray() {
     const locationAId = sanitizeText(domSection.querySelector('.hyperroute-section-location-a-id').value);
     const locationBId = sanitizeText(domSection.querySelector('.hyperroute-section-location-b-id').value);
     const locationAName = locationAId === "" ? "" : astronomicalObjectSearchArray.find(astroObject => astroObject.id === locationAId).text;
-    const locationBName = locationBId === "" ? "" : astronomicalObjectSearchArray.find(astroObject => astroObject.id === locationAId).text;
+    const locationBName = locationBId === "" ? "" : astronomicalObjectSearchArray.find(astroObject => astroObject.id === locationBId).text;
     const averageTravelTime = averageTravelTimeArrayToString([
       sanitizeText(domSection.querySelector('.hyperroute-section-travel-time-day').value),
       sanitizeText(domSection.querySelector('.hyperroute-section-travel-time-hour').value),

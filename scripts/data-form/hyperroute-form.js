@@ -14,12 +14,12 @@ async function loadHyperrouteArray() {
   const sectionSheetRange = `!${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.LAST_COLUMN_REF()}`;
   const sectionResult = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.HYPERROUTE_SECTIONS.NAME, sectionSheetRange);
   const sectionArray = sectionResult.values.map((section) => {
-    const continuityString = canonLegendsUnlicencedToString([section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.CANON],section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LEGENDS],section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.UNLICENSED]]);
-    const period = prettifyDateFromDateTo([section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.DATE_FROM],section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.DATE_TO]]);
+    const continuityString = canonLegendsUnlicencedToString([sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.CANON]),sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LEGENDS]),sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.UNLICENSED])]);
+    const period = prettifyDateFromDateTo([sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.DATE_FROM]),sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.DATE_TO])]);
     return {
       id: sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.ID]),
       hyperrouteId: sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.HYPERROUTE_ID]),
-      text: `{${section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A]} <--> ${section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B]}} [${continuityString}] ${period === "" ? "" : (period)}`
+      text: `{${sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A])} <--> ${sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B])}} [${continuityString}] ${period === "" ? "" : (period)}`
     }
   });
   // Populate hyperroute list
@@ -27,19 +27,18 @@ async function loadHyperrouteArray() {
   // console.log(spreadSheetData.values[0]);
   for(i=0; i<spreadSheetData.values.length; i++){
     const rowValues = spreadSheetData.values[i];
-    const namesString = `${rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.NAME]}${rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ALT_NAMES] === "" ? "" : "/"+rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ALT_NAMES]}`;
-    const continuityString = canonLegendsUnlicencedToString([rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.CANON],rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.LEGENDS],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.UNLICENSED]]);
-    const dateString = prettifyDateFromDateTo([rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_FROM],rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_TO]]);
-    const dates = [rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_FROM], rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_TO]];
+    const namesString = `${sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.NAME])}${sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ALT_NAMES]) === "" ? "" : "/"+sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ALT_NAMES])}`;
+    const continuityString = canonLegendsUnlicencedToString([sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.CANON]),sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.LEGENDS]),sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.UNLICENSED])]);
+    const dateString = prettifyDateFromDateTo([sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_FROM]),sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_TO])]);
+    const dates = [sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_FROM]), sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.DATE_TO])];
     const id = sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ID]);
-    // Get sections
     hyperrouteArray.push({
       id: id,
       text: `${namesString} [${continuityString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
-      name: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.NAME],
-      altNames: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ALT_NAMES],
-      parentId: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.PARENT_ID],
-      parentName: rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.PARENT_NAME],
+      name: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.NAME]),
+      altNames: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ALT_NAMES]),
+      parentId: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.PARENT_ID]),
+      parentName: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.PARENT_NAME]),
       dates: dates,
       continuityString: continuityString,
       level: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.TRADE_ROUTE_LEVEL]),
