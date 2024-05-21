@@ -179,7 +179,7 @@ function loadObjectDatatable() {
         render: function (data, type, row) {
             return `
                 <button class="edit-btn" onclick="datatableEditOnForm('${data.id}', 'objectDatatable')">Edit</button>
-                <button class="view-btn" onclick="datatableGoToMap('${data.id}')">Show on Map (WIP)</button>
+                <button class="view-btn" onclick="datatableGoToMap('${data.id}', 'astronomicalObject')">Show on Map</button>
             `;
         }
       },
@@ -273,7 +273,7 @@ function loadHyperrouteDatatable() {
         render: function (data, type, row) {
             return `
                 <button class="edit-btn" onclick="datatableEditOnForm('${data.id}', 'hyperrouteDatatable')">Edit</button>
-                <button class="view-btn" onclick="datatableGoToMap('${data.id}')">Show on Map (WIP)</button>
+                <button class="view-btn" onclick="datatableGoToMap('${data.id}', 'hyperroute')">Show on Map</button>
             `;
         }
       },
@@ -366,4 +366,15 @@ function datatableEditOnForm(itemId, datatableName) {
     // Set active tab
     document.getElementById("hyperroute-tab").classList.add("active");
   }
+}
+
+function datatableGoToMap(itemId, itemType) {
+  let element;
+  if(itemType === "astronomicalObject") {
+    element = astronomicalObjectSearchArray.find(object => object.id === itemId);
+  } else if (itemType === "hyperroute") {
+    element = hyperrouteArray.find(object => object.id === itemId);
+  }
+  // TODO search item by id
+  performSearch(element.name);
 }

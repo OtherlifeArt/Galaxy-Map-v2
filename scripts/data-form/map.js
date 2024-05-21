@@ -220,6 +220,24 @@ searchControl.on('search:locationfound', function(e) {
 
 map.addControl(searchControl);  //inizialize search control
 
+/**
+ * Search programmatically on map by name
+ * TODO search item by id
+ * TODO search why it doesn't work on first try
+ */
+async function performSearch(query) {
+  if(!isLeafletSearchControlAlreadyInitialized) {
+    isLeafletSearchControlAlreadyInitialized = true;
+    setTimeout(function () {
+      performSearch(query) 
+    }, 500);
+  }
+  searchControl.expand(); // Open search input
+  searchControl.searchText(query); // Trigger search control search function
+  // searchControl._input.value = query; // Set the search input value
+  searchControl._handleSubmit({});// Trigger the search
+}
+
 /////////////// COLOR LEGEND //////////////////////
 
 // Define the legend control

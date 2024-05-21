@@ -329,6 +329,8 @@ let selectedHyperroute;
 window.dataToUpdate = [];
 window.fromJQuery = {
 };
+// Trick to make leaflet search control work on the first try
+let isLeafletSearchControlAlreadyInitialized = false;
 
 // Datatable
 let objectDatatable;
