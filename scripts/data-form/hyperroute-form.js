@@ -19,7 +19,7 @@ async function loadHyperrouteArray() {
     return {
       id: sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.ID]),
       hyperrouteId: sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.HYPERROUTE_ID]),
-      text: `{${sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A])} <--> ${sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B])}} [${continuityString}] ${period === "" ? "" : (period)}`
+      text: `{${sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A]) === "" ? "?" : sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A])} <--> ${sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B])}} [${continuityString}] ${period === "" ? "" : (period)}`
     }
   });
   // Populate hyperroute list
@@ -100,8 +100,8 @@ function loadFormOnHyperrouteSelect() {
     const hyperrouteId = $("#hyperroute-search").val();
     console.log(`Selected value (hyperrouteId) : ${hyperrouteId}`);
     await loadHyperrouteForm(hyperrouteId);
-    highlightHyperrouteSourceButtonsIfSourced(hyperrouteId);
-    loadHyperrouteSections();
+    await highlightHyperrouteSourceButtonsIfSourced(hyperrouteId);
+    await loadHyperrouteSections(hyperrouteId);
   });
 }
 

@@ -1,10 +1,9 @@
 /**
  * Load all hyperroute sections
  */
-async function loadHyperrouteSections() {
+async function loadHyperrouteSections(hyperrouteId) {
   resetHyperrouteSectionDivOnForm(); // Reset section list
   // Search for all sections
-  const hyperrouteId = sanitizeText(document.getElementById('hyperroute-tech-id').value);
   const sheetRange = `!${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.LAST_COLUMN_REF()}`;
   const result = await searchForSpreadSheetValueByElementID(SPREADSHEET_ID, SHEETS.HYPERROUTE_SECTIONS, sheetRange, SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.HYPERROUTE_ID, hyperrouteId);
   if(result.length > 0) {
@@ -12,6 +11,7 @@ async function loadHyperrouteSections() {
     result.forEach(hyperrouteSection => {
       addHyperrouteSectionDivOnForm(hyperrouteSection);
     });
+    document.getElementById("hyperroute-section-number").innerHTML = result.length;
   } else {
     console.log("No Hyperroute section found !");
   }

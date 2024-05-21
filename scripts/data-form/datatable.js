@@ -159,7 +159,7 @@ function datatableChildContent(rowData, datatableLabel) {
         "<div class='datatable-child-row-4'><b><i>Desc: </i></b>"+rowData.desc+"</div>"+
         "<div class='datatable-child-row-5'><b><i>Interesting: </i></b>"+rowData.interesting+"</div>"+
         "<div class='datatable-child-row-6'><b><i>Notes: </i></b>"+rowData.notes+"</div>"+
-        "<div class='datatable-child-row-hyperspace-sections'><b><i>Sections: </i></b><div>"+formatedSections+"</div></div>"+
+        "<div class='datatable-child-row-hyperspace-sections'><i><b>Sections: </b>"+rowData.sections.length+"</i><div>"+formatedSections+"</div></div>"+
       "</div>"
     );
   }
