@@ -11,7 +11,7 @@ async function loadHyperrouteSections(hyperrouteId) {
     result.forEach(hyperrouteSection => {
       addHyperrouteSectionDivOnForm(hyperrouteSection);
     });
-    document.getElementById("hyperroute-section-number").innerHTML = result.length;
+    document.getElementById("hyperroute-section-number").innerHTML = result.length; // Update Hyperroute count
   } else {
     console.log("No Hyperroute section found !");
   }
@@ -32,6 +32,7 @@ function addEmptyHyperrouteSectionDivOnForm(e) {
     sectionDataArray = [];
     sectionDataArray[HYPERROUTE_SECTION_COLUMN.ID] = generateUUIDv7();
     addHyperrouteSectionDivOnForm(sectionDataArray);
+    document.getElementById("hyperroute-section-number").innerHTML = parseInt(document.getElementById("hyperroute-section-number").innerHTML) + 1; // Update Hyperroute count
   }
 }
 
@@ -120,6 +121,7 @@ async function deleteHyperrouteSectionRow(eventTarget) {
     }
     // Remove row
     row.remove();
+    document.getElementById("hyperroute-section-number").innerHTML = parseInt(document.getElementById("hyperroute-section-number").innerHTML) - 1; // Update Hyperroute count
   }
 }
 
