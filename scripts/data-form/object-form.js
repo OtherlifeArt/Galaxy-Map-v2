@@ -649,8 +649,9 @@ async function populateValidationTable(currentData, newData) {
  * Example : Dolduur sector < Mid Rim < The Galaxy
  * 
  * @param objectID UUID
+ * @param parentObjectId UUID (default null) Used only for first parent level
  */
-async function getParentHierarchy(objectID) {
+async function getParentHierarchy(objectID, parentObjectId=null) {
   const previousParentValue = document.getElementById('object-parent-raw').value;
   const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, '!A2:F');
   const data = spreadSheetData.values;
@@ -681,7 +682,12 @@ async function getParentHierarchy(objectID) {
       break;
     }
     // }
-    currentDataRow = data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] === currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]); // parentID
+    if(parentObjectId) {
+      currentDataRow = data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] === parentObjectId); // parentID
+      parentObjectId = null; // Only usefull for 1st level
+    } else {
+      currentDataRow = data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] === currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]); // parentID
+    }
   }
   if(parentString === undefined || parentString === null || parentString === "") {
     console.log("parent string : ", parentString);

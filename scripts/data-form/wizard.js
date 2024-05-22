@@ -109,6 +109,9 @@ function createObjectParentWizardStructure(parentDiv) {
   const suggestionSelectDivSelectLabel = document.createElement('label');
   suggestionSelectDivSelectLabel.innerHTML = 'Sugested Parents :';
   suggestionSelectDivSelect.id = 'object-parent-wizard-suggestion-select';
+  suggestionSelectDivSelect.addEventListener('change', function(){
+    spreadSelectSelectionToSelect2(this.value);
+  });
   suggestionSelectFieldset.appendChild(suggestionSelectDivSelectLabel);
   const select2Div = document.createElement('div');
   const select2DivSelect = document.createElement('select');
@@ -133,13 +136,17 @@ function createObjectParentWizardStructure(parentDiv) {
       // width: 'style',
     });
     $("#object-parent-wizard-select2-select").val('').trigger('change'); // unselect everything
+    $("#object-parent-wizard-select2-select").on('change', function() { // store value on change
+      const objectId = $("#object-parent-wizard-select2-select").val();
+      objectParentWizardStoreFilledObjects(objectId);
+    });
   });
 }
 
 function createObjectParentWizardStorageData() {
   objectParentWizard = {
     currentObjectId: "", // Store id of object viewed in last stage
-    updatedObjects: [], // Store object with new values for parent (id + parent ID + parent text)
+    updatedObjects: {}, // Store object with new values for parent (id + parent ID + parent text)
   }
 }
 
@@ -228,6 +235,12 @@ function objectParentWizardLoadObject() {
     opt.innerHTML = suggestedObject.text;
     suggestionSelect.appendChild(opt);
   });
+  // Load parent in select2 if it exists
+  const currentObjectId = objectParentWizard.currentObjectId;
+  const valueToLoad = objectParentWizard.updatedObjects[currentObjectId] ?? "";
+  $(document).ready(function() {
+    $("#object-parent-wizard-select2-select").val(valueToLoad).trigger('change'); // load stored value or no value
+    });
 }
 
 function createSuggestionObjectArray(object) {
@@ -381,16 +394,16 @@ function createSuggestionObjectArray(object) {
   };
   const stringToRemoveFromArrayToSearchFor = ["the", "of", "region", "sector", "system", "station", "field", "worlds", "province", "nebula", "cluster"];
 
-  console.log("Name : ", object.name);
-  console.log("Alt Name : ", object.altNames);
-  console.log("Parent Name : ", object.humanParent);
+  // console.log("Name : ", object.name);
+  // console.log("Alt Name : ", object.altNames);
+  // console.log("Parent Name : ", object.humanParent);
 
   // Create string array to search for suggestions
   // let stringArrayToSearchFor = (object) => {
   let stringArrayToSearchFor = [];
   stringArrayToSearchFor = [...stringArrayToSearchFor, ...object.name.split(" ")];
-  stringArrayToSearchFor = [...stringArrayToSearchFor, ...object.altNames.replace(/[/]/g, " ").replace(/[<>()[\]]/g, "").replace(/  +/g, ' ').split(" ")];
-  stringArrayToSearchFor = [...stringArrayToSearchFor, ...object.humanParent.replace(/[/,;]/g, " ").replace(/[<>()[\]]/g, "").replace(/  +/g, ' ').split(" ").toReversed()];
+  stringArrayToSearchFor = [...stringArrayToSearchFor, ...object.altNames.replace(/[/]/g, " ").replace(/[?<>()[\]]/g, "").replace(/  +/g, ' ').split(" ")];
+  stringArrayToSearchFor = [...stringArrayToSearchFor, ...object.humanParent.replace(/[/,;]/g, " ").replace(/[?<>()[\]]/g, "").replace(/  +/g, ' ').split(" ").toReversed()];
   stringArrayToSearchFor = [...new Set(stringArrayToSearchFor)].sort((a, b) => b.length - a.length).filter(elm => elm); // Sort descending, longer item first ; remove duplicates with Set ; remove empty string, undefined  or null value with filter
   stringArrayToSearchFor = stringArrayToSearchFor.filter( ( el ) => !stringToRemoveFromArrayToSearchFor.includes( el.toLowerCase()) ); // Remove words determined by another array
   
@@ -401,7 +414,7 @@ function createSuggestionObjectArray(object) {
     }
     if(objectTypeToConsider[object.objectType].includes(element.objectType)) {
       // Find with alt names
-      let altNameWordFound = element.altNames.replace(/[/,;]/g, " ").replace(/[<>()[\]]/g, "").replace(/  +/g, ' ').split(" ").find(word => stringArrayToSearchFor.includes(word));
+      let altNameWordFound = element.altNames.replace(/[/,;]/g, " ").replace(/[?<>()[\]]/g, "").replace(/  +/g, ' ').split(" ").find(word => stringArrayToSearchFor.includes(word));
       if(altNameWordFound !== undefined) {
         if(suggestions["by-alt-names"][altNameWordFound.length] === undefined) {
           suggestions["by-alt-names"][altNameWordFound.length] = [];
@@ -419,7 +432,7 @@ function createSuggestionObjectArray(object) {
         return;
       }
       // Find with parents
-      let parentHumanWordFound = element.humanParent.replace(/[/,;]/g, " ").replace(/[<>()[\]]/g, "").replace(/  +/g, ' ').split(" ").find(word => stringArrayToSearchFor.includes(word));
+      let parentHumanWordFound = element.humanParent.replace(/[/,;]/g, " ").replace(/[?<>()[\]]/g, "").replace(/  +/g, ' ').split(" ").find(word => stringArrayToSearchFor.includes(word));
       if(parentHumanWordFound !== undefined) {
         if(suggestions["by-parent-name"][parentHumanWordFound.length] === undefined) {
           suggestions["by-parent-name"][parentHumanWordFound.length] = [];
@@ -437,15 +450,51 @@ function createSuggestionObjectArray(object) {
     , ...suggestions["by-name"].reverse().flat(), ...suggestions["by-alt-names"].reverse().flat(), ...suggestions["by-parent-name"].reverse().flat()
   ];
 
-  console.log("Object Suggestions : ",suggestions);
+  // console.log("Object Suggestions : ",suggestions);
   return suggestions;
 }
 
 
-function objectParentWizardStoreFilledObjects() {
-  document.getElementById('object-parent-wizard-save-stage-button').disabled = false;
+function objectParentWizardStoreFilledObjects(objectId) {
+  const currentObjectId = objectParentWizard.currentObjectId;
+  objectParentWizard.updatedObjects[currentObjectId] = objectId;
+  for (const key in objectParentWizard.updatedObjects) {
+    console.log(`${key}: ${obj[key]}`);
+    if(objectParentWizard.updatedObjects[key]) {
+      document.getElementById('object-parent-wizard-save-stage-button').disabled = false;
+      break;
+    }
+    document.getElementById('object-parent-wizard-save-stage-button').disabled = true;
+  }
 }
 
-function objectParentWizardSaveFilledObjects() {
+async function objectParentWizardSaveFilledObjects() {
   document.getElementById('object-parent-wizard-save-stage-button').disabled = true;
+  let objectArrayToUpdate = [];
+  Object.keys(objectParentWizard.updatedObjects).filter(async (key) => {
+    if(obj[key] !== null) {
+      object = [];
+      object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] = key;
+      object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID] = key;
+      object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN] = await getParentHierarchy(objectID);
+      objectArrayToUpdate.push(object);
+    }
+  });
+  // update array
+  const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}`; // Id must be first column
+  const cellRangeToUpdate = `!${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID)}:${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN)}`; // Id must be first column
+  const updateResult = updateSpreadSheetBatchCellRangeData(SPREADSHEET_ID, SHEETS.OBJECTS, sheetRange, SPREADSHEET_HEADERS.OBJECT.COLUMNS.ID, objectArrayToUpdate, cellRangeToUpdate);
+  if(updateResult) {
+    alert(`Object parents are sucessfully updated !`);
+    // Reload wizard
+    initWizard();
+  } else {
+    alert("Error encoutered on Object parents update ! Check console (F12) for more details");
+  }
+}
+
+function spreadSelectSelectionToSelect2(objectID) {
+  $(document).ready(function() {
+    $("#object-parent-wizard-select2-select").val(objectID).trigger('change'); // select value
+  });
 }

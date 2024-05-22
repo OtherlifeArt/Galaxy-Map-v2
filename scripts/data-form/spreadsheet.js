@@ -143,7 +143,22 @@ function updateSpreadSheetRowData(spreadsheetId, sheetIdNameEntry, sheetRange, o
  * @param {*} batchDataRowToUpdate 
  * @returns {boolean}
  */
-async function updateSpreadSheetBatchRowData(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, batchDataRowToUpdate) {
+function updateSpreadSheetBatchRowData(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, batchDataRowToUpdate) {
+  return updateSpreadSheetBatchCellRangeData(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, batchDataRowToUpdate, null);
+}
+
+/**
+ * Update spreadsheet multiple row data with selected cell ranges
+ * 
+ * @param {String} spreadsheetId ex: SPREADSHEET_ID
+ * @param {{ID: string, NAME: string}} sheetIdNameEntry ex: SHEETS.HYPERROUTES
+ * @param {*} @param {String} sheetRange ex: `!${SPREADSHEET_HEADERS.HYPERROUTES.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTES.LAST_COLUMN_REF()}`
+ * @param {*} objectIdColumnNumber 
+ * @param {*} batchDataRowToUpdate 
+ * @param {*} cellRangeToUpdate ex: "A:B" (Best to use column and convert them to number)
+ * @returns {boolean}
+ */
+async function updateSpreadSheetBatchCellRangeData(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, batchDataRowToUpdate, cellRangeToUpdate) {
   let response;
   try {
     // Fetch first 10 files
@@ -180,14 +195,21 @@ async function updateSpreadSheetBatchRowData(spreadsheetId, sheetIdNameEntry, sh
     //console.log('Row where the values are found: ', values.filter(row => batchDataRowToUpdate.map(dataRowToUpdate => dataRowToUpdate[objectIdColumnNumber]).has(row[objectIdColumnNumber])));  // Too slow, only for debugging purpose
   }
 
-  const sheetRangeArray = sheetRange.split(":");
-  let batchData = [];
+  // Define range
+  let sheetRangeArray;
 
+  if(cellRangeToUpdate) {
+    sheetRangeArray = cellRangeToUpdate.split(":");
+  } else {
+    sheetRangeArray = sheetRange.split(":");
+  }
+  
   // Build data to batch update
+  let batchData = [];
   for (let index = 0; index < rowToUpdateIndexes.length; index++) {
     const spreadsheetRowIndex = rowToUpdateIndexes[index];
-    const dataRowToUpdate = batchDataRowToUpdate[index];
     const newSheetRange = `${sheetRangeArray[0]}${spreadsheetRowIndex}:${sheetRangeArray[1]}${spreadsheetRowIndex}`;
+    const dataRowToUpdate = batchDataRowToUpdate[index];
     // Append to data array
     batchData.push({
       range: sheetIdNameEntry.NAME + newSheetRange,

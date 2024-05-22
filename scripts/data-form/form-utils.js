@@ -169,3 +169,13 @@ function getValueFromCheckboxElementState(checkboxDOMElement, trueFalseIndetermi
     return trueFalseIndeterminedOutputArray[1];
   }
 }
+
+/**
+ * Convert column number to spreadsheet leter reference (Max 2 letters : ZZ)
+ * @param {int} number 
+ */
+function convertSpreadsheetColumnNumberToLetters(number) {
+  const FIRST_CHAR = number / 26 >= 1 ? String.fromCharCode(64 + parseInt(number / 26)) : "";
+  const LAST_CHAR = String.fromCharCode(65 + number % 26);
+  return FIRST_CHAR + LAST_CHAR;
+}
