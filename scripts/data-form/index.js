@@ -336,6 +336,9 @@ let isLeafletSearchControlAlreadyInitialized = false;
 let objectDatatable;
 let hyperrouteDatatable;
 
+// Wizard
+let objectParentWizard;
+
 /* FUNCTIONS */
 /**
  * Load all data lists, refresh/init dashboard
@@ -360,6 +363,8 @@ async function initDataLoad() {
   document.getElementById("refresh-astro-object-datatable-button").disabled = false;
   loadHyperrouteDatatable();
   document.getElementById("refresh-hyperroute-datatable-button").disabled = false;
+  // Wizard
+  initWizard();
 }
 
 /* MAIN */

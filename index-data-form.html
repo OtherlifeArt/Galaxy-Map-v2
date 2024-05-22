@@ -57,6 +57,7 @@
           <button class="tablinks" onclick="openSection(event, 'hyperroute-datatable-tab')">Hyperroute Datatable</button>
           <button class="tablinks" onclick="openSection(event, 'automation-tools-tab')">Automated Tools</button>
           <button class="tablinks" onclick="openSection(event, 'dashboard-tab')">Dashboard</button>
+          <button class="tablinks" onclick="openSection(event, 'wizard-tab')">Wizard</button>
         </div>
 
         <!-- Astronomical Object Tab -->
@@ -798,6 +799,7 @@
           <button id="downloadPolygonsButton" value="MultiPolygon">Download AREAS GeoJSON</button>
         </div>
         <!-- Automation tools tab end -->
+
         <!-- Dashboard tab -->
         <div id="dashboard-tab" class="tabcontent">
           <h3>Dashboard</h3>
@@ -809,6 +811,16 @@
           </div>
         </div>
         <!-- Dashboard tab end -->
+
+        <!-- Wizard tab -->
+        <div id="wizard-tab" class="tabcontent">
+          <h3>Wizard</h3>
+          <div id="wizard-container">
+          </div>
+        </div>
+        <!-- Dashboard tab end -->
+
+
       </div>
       <!-- Tool div end -->
       <!-- Map div -->
@@ -1029,6 +1041,8 @@
     <script src="scripts/data-form/dashboard.js"></script>
     <!-- Form Datatable -->
     <script src="scripts/data-form/datatable.js"></script>
+    <!-- Wizard -->
+    <script src="scripts/data-form/wizard.js"></script>
     <!-- Google API -->
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
     <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>

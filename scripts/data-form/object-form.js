@@ -376,11 +376,12 @@ async function loadObjectForm(objectID) {
       let div = urlDisplayerSpan.appendChild(document.createElement("div"));
       div.appendChild(element);
     }
-
     document.getElementById('object-wikidata-id').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.WIKI_DATA_ID]); // WikidataID
     // Wiki DATA display
-    let div = urlDisplayerSpan.appendChild(document.createElement("div"));
-    div.appendChild(separateStringToLinkList(WIKIDATA_PAGE_PREFIX + sanitizeText(document.getElementById('object-wikidata-id').value), ",")[0]);
+    if(sanitizeText(document.getElementById('object-wikidata-id').value) !== "") {
+      let div = urlDisplayerSpan.appendChild(document.createElement("div"));
+      div.appendChild(separateStringToLinkList(WIKIDATA_PAGE_PREFIX + sanitizeText(document.getElementById('object-wikidata-id').value), ",")[0]);
+    }
 
     document.getElementById('object-zoom-level').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ZOOM_LEVEL]); // Zoom level
     document.getElementById('object-tooltip-permanent').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.tooltip_permanent]); // Tooltip permanent

@@ -34,7 +34,7 @@ function openSection(evt, sectionName) {
 /***************/
 
 function generateCollapsibleWidget(parentDiv, collapsibleButtonInnerHTML, content, containerDivId) {
-  document.getElementById(containerDivId)?.remove(); // remove
+  document.getElementById(containerDivId)?.remove(); // remove content
   // add
   let contentDiv = document.createElement('div');
   contentDiv.classList.add("collapsible-content");
@@ -44,6 +44,7 @@ function generateCollapsibleWidget(parentDiv, collapsibleButtonInnerHTML, conten
   collapsibleButton.innerHTML = collapsibleButtonInnerHTML;
   let containerDiv = document.createElement('div');
   contentDiv.appendChild(content);
+  containerDiv.id = containerDivId;
   containerDiv.appendChild(collapsibleButton);
   containerDiv.appendChild(contentDiv);
   parentDiv.appendChild(containerDiv);
