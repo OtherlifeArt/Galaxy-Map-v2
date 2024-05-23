@@ -171,7 +171,7 @@ function getValueFromCheckboxElementState(checkboxDOMElement, trueFalseIndetermi
 }
 
 /**
- * Convert column number to spreadsheet leter reference (Max 2 letters : ZZ)
+ * Convert column number to spreadsheet letter reference (Max 2 letters : ZZ)
  * @param {int} number 
  */
 function convertSpreadsheetColumnNumberToLetters(number) {

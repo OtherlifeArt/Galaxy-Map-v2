@@ -129,8 +129,8 @@ async function searchForSpreadSheetValueByElementID(spreadsheetId, sheetIdNameEn
 /**
  * Update spreadsheet single row data (and keep compatibility with old/commented, to remove function)
  */
-function updateSpreadSheetRowData(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, dataRowToUpdate) {
-  return updateSpreadSheetBatchRowData(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, [dataRowToUpdate]);
+async function updateSpreadSheetRowData(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, dataRowToUpdate) {
+  return await updateSpreadSheetBatchRowData(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, [dataRowToUpdate]);
 }
 
 /**
@@ -143,8 +143,8 @@ function updateSpreadSheetRowData(spreadsheetId, sheetIdNameEntry, sheetRange, o
  * @param {*} batchDataRowToUpdate 
  * @returns {boolean}
  */
-function updateSpreadSheetBatchRowData(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, batchDataRowToUpdate) {
-  return updateSpreadSheetBatchCellRangeData(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, batchDataRowToUpdate, null);
+async function updateSpreadSheetBatchRowData(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, batchDataRowToUpdate) {
+  return await updateSpreadSheetBatchCellRangeData(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, batchDataRowToUpdate, null);
 }
 
 /**
@@ -155,7 +155,7 @@ function updateSpreadSheetBatchRowData(spreadsheetId, sheetIdNameEntry, sheetRan
  * @param {*} @param {String} sheetRange ex: `!${SPREADSHEET_HEADERS.HYPERROUTES.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTES.LAST_COLUMN_REF()}`
  * @param {*} objectIdColumnNumber 
  * @param {*} batchDataRowToUpdate 
- * @param {*} cellRangeToUpdate ex: "A:B" (Best to use column and convert them to number)
+ * @param {Array} cellRangeToUpdate ex: "[0,1]" (Numbers are automatically converted to columns letter reference until ZZ : column 702, A is column 0)
  * @returns {boolean}
  */
 async function updateSpreadSheetBatchCellRangeData(spreadsheetId, sheetIdNameEntry, sheetRange, objectIdColumnNumber, batchDataRowToUpdate, cellRangeToUpdate) {
@@ -179,12 +179,11 @@ async function updateSpreadSheetBatchCellRangeData(spreadsheetId, sheetIdNameEnt
     return false;
   }
 
-  // Find all rows matching technical Ids
+  // Find all row indexes matching technical Ids
   const rowToUpdateIndexes = batchDataRowToUpdate.map(dataRowToUpdate => {
     // Find index in spreadsheetrow where the ID cell matches the ID of data to update
     return values.findIndex(row => row[objectIdColumnNumber] === dataRowToUpdate[objectIdColumnNumber]) + 1;
-  // and sort the array with ascending values
-  }).sort((a, b) => a - b);
+  }); // .sort((a, b) => a - b); // and sort the array with ascending values
   
   if(rowToUpdateIndexes.length < 1) {
     console.log('Values not found.');
@@ -198,8 +197,14 @@ async function updateSpreadSheetBatchCellRangeData(spreadsheetId, sheetIdNameEnt
   // Define range
   let sheetRangeArray;
 
+  // Only for batch cell update
   if(cellRangeToUpdate) {
-    sheetRangeArray = cellRangeToUpdate.split(":");
+    sheetRangeArray = [`!${convertSpreadsheetColumnNumberToLetters(cellRangeToUpdate[0])}`, `${convertSpreadsheetColumnNumberToLetters(cellRangeToUpdate[1])}` ]; // Convert range number to letter
+    // Keep only desired cells
+    batchDataRowToUpdate = batchDataRowToUpdate.map(dataRowToUpdate => {
+      return dataRowToUpdate.slice(cellRangeToUpdate[0], (cellRangeToUpdate[1]+1));
+    });
+  // Only for batch whole row update
   } else {
     sheetRangeArray = sheetRange.split(":");
   }
@@ -231,7 +236,7 @@ async function updateSpreadSheetBatchCellRangeData(spreadsheetId, sheetIdNameEnt
     document.getElementById('content').innerText = err.message;
     console.log(err);
     console.error(err.message);
-    // alert(err.message);
+    alert(err.message);
     return false;
   }
   console.log("Object updated :", response.result);

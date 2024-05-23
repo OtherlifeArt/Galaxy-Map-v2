@@ -459,7 +459,7 @@ function objectParentWizardStoreFilledObjects(objectId) {
   const currentObjectId = objectParentWizard.currentObjectId;
   objectParentWizard.updatedObjects[currentObjectId] = objectId;
   for (const key in objectParentWizard.updatedObjects) {
-    console.log(`${key}: ${obj[key]}`);
+    // console.log(`${key}: ${obj[key]}`);
     if(objectParentWizard.updatedObjects[key]) {
       document.getElementById('object-parent-wizard-save-stage-button').disabled = false;
       break;
@@ -471,23 +471,25 @@ function objectParentWizardStoreFilledObjects(objectId) {
 async function objectParentWizardSaveFilledObjects() {
   document.getElementById('object-parent-wizard-save-stage-button').disabled = true;
   let objectArrayToUpdate = [];
-  Object.keys(objectParentWizard.updatedObjects).filter(async (key) => {
-    if(obj[key] !== null) {
-      object = [];
+  for (const [key, value] of Object.entries(objectParentWizard.updatedObjects)) {
+    if(value !== undefined && value !== null) {
+      let object = [];
       object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] = key;
-      object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID] = key;
-      object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN] = await getParentHierarchy(objectID);
+      object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID] = value;
+      object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN] = await getParentHierarchy(key);
       objectArrayToUpdate.push(object);
     }
-  });
+  }
   // update array
-  const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}`; // Id must be first column
-  const cellRangeToUpdate = `!${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID)}:${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN)}`; // Id must be first column
-  const updateResult = updateSpreadSheetBatchCellRangeData(SPREADSHEET_ID, SHEETS.OBJECTS, sheetRange, SPREADSHEET_HEADERS.OBJECT.COLUMNS.ID, objectArrayToUpdate, cellRangeToUpdate);
+  const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}`;
+  const cellRangeToUpdate = [ SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID, SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN];
+  const updateResult = await updateSpreadSheetBatchCellRangeData(SPREADSHEET_ID, SHEETS.OBJECTS, sheetRange, SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID, objectArrayToUpdate, cellRangeToUpdate);
   if(updateResult) {
     alert(`Object parents are sucessfully updated !`);
-    // Reload wizard
+    // Reload wizard and objects
     initWizard();
+    refreshForm();
+    refreshDatatable("objectDatatable");
   } else {
     alert("Error encoutered on Object parents update ! Check console (F12) for more details");
   }
