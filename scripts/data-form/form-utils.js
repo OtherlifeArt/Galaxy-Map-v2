@@ -179,3 +179,17 @@ function convertSpreadsheetColumnNumberToLetters(number) {
   const LAST_CHAR = String.fromCharCode(65 + number % 26);
   return FIRST_CHAR + LAST_CHAR;
 }
+
+/**
+ * Convert object name to display name for spreadsheet
+ * 
+ * @param {String} objectName 
+ * @param {String} orbitalRank
+ */
+function convertObjectNameToHumanReadableName(objectName, altNames, orbitalRank) {
+  let humanReadableName = (orbitalRank !== "" ? "  "+orbitalRank.toString()+". " : "") + objectName;
+  if(altNames !== "") {
+    humanReadableName += " / "+altNames.split("/").join(" / ").replace(/  +/g, ' '); // Format name list (space,slash,space) and remove multiple spaces
+  }
+  return humanReadableName;
+}

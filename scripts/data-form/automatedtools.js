@@ -92,27 +92,63 @@ function fetchSheetDataPoints(spreadsheetId, sheetName) {
  * Batch update object parent name into spreadsheet
  */
 async function batchUpdateAllObjectReadableNames() {
-
+  document.getElementById('spreadsheet-data-batch-update-object-readable-names-button').disabled = true;
+  let batchDataCellToUpdate = [];
+  // get all objects
+  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, `!${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID)}2:${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ORBITAL_RANK)}`);
+  const data = spreadSheetData.values;
+  for (const object of data) {
+    let objectToUpdate = [];
+    const objectId = object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID];
+    const objectName = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]);
+    const orbitalRank = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ORBITAL_RANK]);
+    const altName = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES]);
+    // Generate readable name
+    const nameString = convertObjectNameToHumanReadableName(objectName, altName, orbitalRank);
+    // compare new and old parent string, update if different
+    if(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_NAME] !== nameString) {
+      objectToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] = objectId;
+      objectToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_NAME] = nameString;
+      // console.log(objectToUpdate);
+      batchDataCellToUpdate.push(objectToUpdate);
+    }
+  }
+  // Update parent names
+  const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}`;
+  const cellRangeToUpdate = [ SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_NAME, SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_NAME];
+  const updateResult = await updateSpreadSheetBatchCellRangeData(SPREADSHEET_ID, SHEETS.OBJECTS, sheetRange, SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID, batchDataCellToUpdate, cellRangeToUpdate);
+  if(updateResult) {
+    alert(`Object readable names are sucessfully updated into spreadsheet ! Reloading form`);
+    // Reload wizard and objects
+    await refreshForm();
+    refreshDatatable("objectDatatable");
+    initWizard();
+  } else {
+    alert("Error encoutered on Object readable name update ! Check console (F12) for more details");
+  }
+  document.getElementById('spreadsheet-data-batch-update-object-readable-names-button').disabled = false;
 }
 
 /**
  * Batch update object human readable name into spreadsheet
  */
 async function batchUpdateAllObjectParentReadableNames() {
+  document.getElementById('spreadsheet-data-batch-update-object-redable-parent-names-button').disabled = true;
   let batchDataCellToUpdate = [];
   // get all objects
   const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, `!${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID)}2:${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN)}`);
   const data = spreadSheetData.values;
   for (const object of data) {
     let objectToUpdate = [];
-    const objectId = object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID];
+    const objectId = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]);
+    const parentID = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]);
     // Generate parent hierarchy string
-    const parentNameString =  await getParentHierarchy(objectId, null, data);
+    const parentNameString =  await getParentHierarchy(objectId, null, data, false);
     // compare new and old parent string, update if different
-    if(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN] !== parentNameString) {
+    if(parentID != "" && object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN] !== parentNameString) {
       objectToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] = objectId;
       objectToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN] = parentNameString;
-      console.log(objectToUpdate);
+      // console.log(objectToUpdate);
       batchDataCellToUpdate.push(objectToUpdate);
     }
   }
@@ -129,6 +165,7 @@ async function batchUpdateAllObjectParentReadableNames() {
   } else {
     alert("Error encoutered on Object parent name update ! Check console (F12) for more details");
   }
+  document.getElementById('spreadsheet-data-batch-update-object-redable-parent-names-button').disabled = false;
 } 
 
 /**

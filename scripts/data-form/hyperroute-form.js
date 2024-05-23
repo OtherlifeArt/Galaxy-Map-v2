@@ -221,7 +221,7 @@ async function getHyperrouteParentHierarchy(hyperrouteId) {
     // if(currentDataRow !== undefined && currentDataRow !== null && currentDataRow !== "") {
     if(currentDataRow[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.PARENT_ID] === currentDataRow[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ID]) {
       alert(
-        `Can't display parent hierarchy cause of hyperroute referencing itself :
+        `Can't generate parent hierarchy cause of hyperroute referencing itself :
         Hyperroute ID : ${currentDataRow[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ID]}
         Hyperroute Name : ${currentDataRow[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.NAME]}
         Hyperroute Parent ID : ${currentDataRow[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.PARENT_ID]}`

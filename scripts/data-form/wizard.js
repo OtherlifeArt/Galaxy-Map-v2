@@ -1,6 +1,7 @@
 const DOM_WIZARD_CONTAINER = document.getElementById('wizard-container');
 
 function initWizard() {
+  document.getElementById('refresh-wizard-button').disabled = true;
   // Empty dashboard content
   DOM_WIZARD_CONTAINER.innerHTML = '';
   // Recreate wizard pannels
@@ -8,6 +9,7 @@ function initWizard() {
   document.getElementById('object-parent-wizard-previous-button').disabled = true;
   document.getElementById('object-parent-wizard-save-stage-button').disabled = true;
   updateCollapsible();
+  document.getElementById('refresh-wizard-button').disabled = false;
 }
 
 function createObjectParentWizard(parentDiv) {
@@ -500,3 +502,13 @@ function spreadSelectSelectionToSelect2(objectID) {
     $("#object-parent-wizard-select2-select").val(objectID).trigger('change'); // select value
   });
 }
+
+/**
+ * Event listeners
+ */
+
+document.getElementById('refresh-wizard-button').addEventListener('click', async function () {
+  await refreshForm();
+  refreshDatatable("objectDatatable");
+  initWizard();
+});

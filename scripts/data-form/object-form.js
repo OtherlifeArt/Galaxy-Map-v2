@@ -525,7 +525,7 @@ async function convertFormValuesToData() {
   window.dataToUpdate.length = 0; // reset array
   let orbitalRank = sanitizeText(document.getElementById('object-orbital-rank').value);
   let name = sanitizeText(document.getElementById('object-name').value);
-  let humanName = (orbitalRank !== "" ? "  "+orbitalRank.toString()+". " : "") + name;
+  let humanName = convertObjectNameToHumanReadableName(name, orbitalRank);
   // let humanParent = getParentHierarchy(window.selectedAstronomicalObject[SPREADSHEET_HEADERS.ID]);
   
   // Making sure document.ready is ready before continuing....
@@ -651,8 +651,9 @@ async function populateValidationTable(currentData, newData) {
  * @param objectID UUID
  * @param parentObjectId UUID (default null) Used only for first parent level
  * @param data spreadSheetData.values | null (default null)
+ * @param displayObject display object in parent hierarchy ? (default true)
  */
-async function getParentHierarchy(objectID, parentObjectId=null, data=null) {
+async function getParentHierarchy(objectID, parentObjectId=null, data=null, displayObject=true) {
   const previousParentValue = document.getElementById('object-parent-raw').value;
   if(data === null) {
     const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, '!A2:F');
@@ -669,7 +670,7 @@ async function getParentHierarchy(objectID, parentObjectId=null, data=null) {
     // if(currentDataRow !== undefined && currentDataRow !== null && currentDataRow !== "") {
     if(currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID] === currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]) {
       alert(
-        `Can't display parent hierarchy cause of object referencing itself :
+        `Can't generate parent hierarchy cause of object referencing itself :
         Object ID : ${currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]}
         Object Name : ${currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]}
         Object Parent ID : ${currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]}`
@@ -679,7 +680,11 @@ async function getParentHierarchy(objectID, parentObjectId=null, data=null) {
     if(parentString !== "") {
       parentString += " < ";
     }
-    parentString += currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME];
+    // Permit to display or not first object in parent hierarchy
+    if(displayObject) {
+      parentString += currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME];
+    }
+    displayObject = true; // We want next level object to be displayed
     // Parent ID is missing
     if(currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID] === "") {
       break;
@@ -693,7 +698,7 @@ async function getParentHierarchy(objectID, parentObjectId=null, data=null) {
     }
   }
   if(parentString === undefined || parentString === null || parentString === "") {
-    console.log("parent string : ", parentString);
+    // console.log("parent string : ", parentString);
     return previousParentValue;
   } else {
     return parentString;
