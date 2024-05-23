@@ -195,6 +195,40 @@ function countObjectArrayByEmptyArray(objectArray, arrayKey) {
   return objectCountByKey;
 }
 
+/**
+ * Build table with objects referencing them as their own parent
+ * 
+ * @param {*} parentDiv 
+ */
+function displayObjectHavingThemselvesAsParent(parentDiv) {
+  // Build table
+  let table = document.createElement('table');
+  table.classList.add("dashboard-table");
+  // Table headers
+  let tableHeader = table.createTHead();
+  let tableHeaderRow = tableHeader.insertRow(0);
+  let objectHumanIdCell = tableHeaderRow.insertCell(0);
+  objectHumanIdCell.innerHTML = "<b>Object Sort ID</b>";
+  let objectHumanNameCell = tableHeaderRow.insertCell(1);
+  objectHumanNameCell.innerHTML = "<b>Object Readable Name</b>";
+  // Add table body
+  let tableBody = table.createTBody();
+  // Build table content from object ids
+  const foundObjects = astronomicalObjectSearchArray.filter((object) => object.id === object.parentId);
+  let totalIncorrectValues = foundObjects.length;
+  for (const object of foundObjects) {
+    let row = tableBody.insertRow();
+    let objectHumanIdCell = row.insertCell();
+    objectHumanIdCell.innerHTML = object.sortId;
+    let objectReadableNameCell = row.insertCell();
+    objectReadableNameCell.innerHTML = object.humanName; 
+  }
+  // generate widget
+  const collapsibleButtonInnerHTML = `${totalIncorrectValues} objects referencing themselves as parent`;
+  const containerDivId = "dashboard-table-object-as-parent";
+  generateCollapsibleWidget(parentDiv, collapsibleButtonInnerHTML, table, containerDivId);
+}
+
 /* Init dashboard functions */
 function initDashboard() {
   // Empty dashboard content
@@ -204,6 +238,7 @@ function initDashboard() {
   objectByTypeTable(DASHBOARD_DIVS[0]);
   objectByParentTable(DASHBOARD_DIVS[0]);
   objectCoordinateByType(DASHBOARD_DIVS[0]);
+  displayObjectHavingThemselvesAsParent(DASHBOARD_DIVS[0]);
 }
 
 /**********/
