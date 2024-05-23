@@ -26,6 +26,30 @@ function createObjectParentWizardStructure(parentDiv) {
   rootDiv.id = 'object-parent-wizard-content';
   const firstColumnDiv = document.createElement('div');
   const secondColumnDiv = document.createElement('div');
+  // buttons
+  const buttonSpan = document.createElement('span');
+  firstColumnDiv.appendChild(buttonSpan);
+  const previousObjectButton = document.createElement('button');
+  previousObjectButton.innerHTML = 'Previous';
+  previousObjectButton.id = 'object-parent-wizard-previous-button';
+  previousObjectButton.addEventListener('click', function(){
+    objectParentWizardLoadPreviousObject();
+  });
+  buttonSpan.appendChild(previousObjectButton);
+  const stageSaveButton = document.createElement('button');
+  stageSaveButton.innerHTML = 'Save Filled Objects';
+  stageSaveButton.id = 'object-parent-wizard-save-stage-button';
+  stageSaveButton.addEventListener('click', function(){
+    objectParentWizardSaveFilledObjects();
+  });
+  buttonSpan.appendChild(stageSaveButton);
+  const nextObjectButton = document.createElement('button');
+  nextObjectButton.innerHTML = 'Next';
+  nextObjectButton.id = 'object-parent-wizard-next-button';
+  nextObjectButton.addEventListener('click', function(){
+    objectParentWizardLoadNextObject();
+  });
+  buttonSpan.appendChild(nextObjectButton);
   // object data fieldset
   const objectFieldset = document.createElement('fieldset');
   const objectFieldsetLegend = document.createElement('legend');
@@ -80,30 +104,6 @@ function createObjectParentWizardStructure(parentDiv) {
   objectDataSortIdDiv.appendChild(objectDataSortIdLabel);
   objectDataSortIdDiv.appendChild(objectDataSortId);
   objectFieldset.appendChild(objectDataSortIdDiv);
-  // buttons
-  const buttonSpan = document.createElement('span');
-  firstColumnDiv.appendChild(buttonSpan);
-  const previousObjectButton = document.createElement('button');
-  previousObjectButton.innerHTML = 'Previous';
-  previousObjectButton.id = 'object-parent-wizard-previous-button';
-  previousObjectButton.addEventListener('click', function(){
-    objectParentWizardLoadPreviousObject();
-  });
-  buttonSpan.appendChild(previousObjectButton);
-  const stageSaveButton = document.createElement('button');
-  stageSaveButton.innerHTML = 'Save Filled Objects';
-  stageSaveButton.id = 'object-parent-wizard-save-stage-button';
-  stageSaveButton.addEventListener('click', function(){
-    objectParentWizardSaveFilledObjects();
-  });
-  buttonSpan.appendChild(stageSaveButton);
-  const nextObjectButton = document.createElement('button');
-  nextObjectButton.innerHTML = 'Next';
-  nextObjectButton.id = 'object-parent-wizard-next-button';
-  nextObjectButton.addEventListener('click', function(){
-    objectParentWizardLoadNextObject();
-  });
-  buttonSpan.appendChild(nextObjectButton);
   // Suggestion div
   const suggestionSelectFieldset = document.createElement('fieldset');
   const suggestionSelectFieldsetLegend = document.createElement('legend');
@@ -528,9 +528,11 @@ function createInnerObjectSystemBuilderWizardStructure(parentDiv) {
   const firstColumnDiv = document.createElement('div');
   const secondColumnDiv = document.createElement('div');
   // Select
+  const systemSelect2Div = document.createElement('div');
   const systemSelect2 = document.createElement('select');
   systemSelect2.id = 'system-builder-wizard-system-select';
-  firstColumnDiv.appendChild(systemSelect2);
+  systemSelect2Div.appendChild(systemSelect2);
+  firstColumnDiv.appendChild(systemSelect2Div);
   // Load select 2
   $(document).ready(function() {
     $("#system-builder-wizard-system-select").select2({
@@ -545,30 +547,6 @@ function createInnerObjectSystemBuilderWizardStructure(parentDiv) {
       loadInnerSystemObject(selectedIndex);
     });
   });
-  // object data fieldset
-  const systemFieldset = document.createElement('fieldset');
-  const systemFieldsetLegend = document.createElement('legend');
-  systemFieldsetLegend.textContent = 'System';
-  systemFieldset.appendChild(systemFieldsetLegend);
-  firstColumnDiv.appendChild(systemFieldset);
-  const systemNameDiv = document.createElement('div');
-  systemNameDiv.id = 'system-builder-wizard-system-name';
-  const systemTableDiv = document.createElement('div');
-  // System table
-  const systemTable = document.createElement('table');
-  systemTable.id = 'system-builder-wizard-table';
-  // Table headers
-  const systemTableHead = document.createElement('thead');
-  systemTableHead.id = 'system-builder-wizard-table-head';
-  // Body
-  const systemTableBody = document.createElement('tbody');
-  systemTableBody.id = 'system-builder-wizard-table-body';
-  // Append to parent elements
-  systemTable.appendChild(systemTableHead);
-  systemTable.appendChild(systemTableBody);
-  systemTableDiv.appendChild(systemTable);
-  systemFieldset.appendChild(systemNameDiv);
-  systemFieldset.appendChild(systemTableDiv);
   // buttons
   const buttonSpan = document.createElement('span');
   firstColumnDiv.appendChild(buttonSpan);
@@ -592,31 +570,31 @@ function createInnerObjectSystemBuilderWizardStructure(parentDiv) {
   nextObjectButton.addEventListener('click', function(){
     objectSystemBuilderLoadNextObject();
   });
-  buttonSpan.appendChild(nextObjectButton);
-  // Suggestion div
-  // const suggestionSelectFieldset = document.createElement('fieldset');
-  // const suggestionSelectFieldsetLegend = document.createElement('legend');
-  // suggestionSelectFieldsetLegend.textContent = 'Object Parent Selection';
-  // suggestionSelectFieldset.appendChild(suggestionSelectFieldsetLegend);
-  // firstColumnDiv.appendChild(suggestionSelectFieldset);
-  // const suggestionSelectDivSelect = document.createElement('select');
-  // const suggestionSelectDivSelectLabel = document.createElement('label');
-  // suggestionSelectDivSelectLabel.innerHTML = 'Sugested Parents :';
-  // suggestionSelectDivSelect.id = 'object-parent-wizard-suggestion-select';
-  // suggestionSelectDivSelect.addEventListener('change', function(){
-  //   spreadSelectSelectionToSelect2(this.value);
-  // });
-  // suggestionSelectFieldset.appendChild(suggestionSelectDivSelectLabel);
-  // const select2Div = document.createElement('div');
-  // const select2DivSelect = document.createElement('select');
-  // select2DivSelect.id = 'object-parent-wizard-select2-select';
-  // suggestionSelectFieldset.appendChild(document.createElement("br"));
-  // suggestionSelectFieldset.appendChild(suggestionSelectDivSelect);
-  // suggestionSelectFieldset.appendChild(document.createElement("hr"));
-  // select2Div.appendChild(select2DivSelect);
-  // suggestionSelectFieldset.appendChild(select2Div);
-  // secondColumnDiv.appendChild(suggestionSelectFieldset);
-  
+  buttonSpan.appendChild(nextObjectButton); 
+  // object data fieldset
+  const systemFieldset = document.createElement('fieldset');
+  const systemFieldsetLegend = document.createElement('legend');
+  systemFieldsetLegend.textContent = 'System';
+  systemFieldset.appendChild(systemFieldsetLegend);
+  firstColumnDiv.appendChild(systemFieldset);
+  const systemNameDiv = document.createElement('div');
+  systemNameDiv.id = 'system-builder-wizard-system-name';
+  const systemTableDiv = document.createElement('div');
+  // System table
+  const systemTable = document.createElement('table');
+  systemTable.id = 'system-builder-wizard-table';
+  // Table headers
+  const systemTableHead = document.createElement('thead');
+  systemTableHead.id = 'system-builder-wizard-table-head';
+  // Body
+  const systemTableBody = document.createElement('tbody');
+  systemTableBody.id = 'system-builder-wizard-table-body';
+  // Append to parent elements
+  systemTable.appendChild(systemTableHead);
+  systemTable.appendChild(systemTableBody);
+  systemTableDiv.appendChild(systemTable);
+  systemFieldset.appendChild(systemNameDiv);
+  systemFieldset.appendChild(systemTableDiv); 
   // Structure
   rootDiv.appendChild(firstColumnDiv);
   rootDiv.appendChild(secondColumnDiv);
@@ -636,6 +614,7 @@ function generateInnerSystemTable(systemIndex) {
   // Build table header
   const tableHeadColumns = {
     "name": "Name",
+    "continuityString": "Continuity",
     "objectType": "Type",
     "objectTypeClass": "Type Class",
     "orbitalRank": "Position",
@@ -652,13 +631,24 @@ function generateInnerSystemTable(systemIndex) {
     systemTableHeadRow.appendChild(systemTableHeadCell);
   }
   // Build table Body
+  generateInnerSystemTableRow (systemTableBody, currentSystem, tableHeadColumns);
+}
+
+function generateInnerSystemTableRow (systemTableBody, currentSystem, tableHeadColumns, level=0) {
   for (const innerSystemObject of currentSystem.innerObjects) {
     const systemTableBodyRow = document.createElement("tr");
     systemTableBody.appendChild(systemTableBodyRow);
     for (const columnKey in tableHeadColumns) {
       const systemTableBodyCell = document.createElement("td");
-      systemTableBodyCell.innerHTML = innerSystemObject[columnKey];
+      if(columnKey === "name" && level > 0) {
+        systemTableBodyCell.innerHTML = "  ".repeat(level-1) + "├─" + " " + innerSystemObject[columnKey];
+      } else {
+        systemTableBodyCell.innerHTML = innerSystemObject[columnKey];
+      }
       systemTableBodyRow.appendChild(systemTableBodyCell);
+    }
+    if(innerSystemObject["innerObjects"].length > 0) {
+      generateInnerSystemTableRow (systemTableBody, innerSystemObject, tableHeadColumns, level+1);
     }
   }
 }
@@ -697,6 +687,10 @@ function objectSystemBuilderLoadPreviousObject() {
   }
 }
 
+function objectSystemBuilderSaveConfiguration() {
+  alert("Nothing to See Here... Move Along... Move Along");
+}
+
 /**
  * Return star systems and their inner objects (Deep copy of arrays - doesn't alter object array)
  * TODO : systems of system (moon systems for example)
@@ -706,14 +700,27 @@ function generateWizardObjectSystems() {
   astronomicalObjectSearchArray.forEach((object) => {
     if(object.objectType.toLowerCase() === "star system") {
       let system = JSON.parse(JSON.stringify(object)); // Deep copy
-      let innerObjects = structuredClone( // Deep copy
-        astronomicalObjectSearchArray.filter(innerObject => innerObject.parentId === object.id)
-        .toSorted((a,b) => a.orbitalRank - b.orbitalRank) // Ascending sort with orbital position
-      );
-      system["innerObjects"] = innerObjects;
+      system["innerObjects"] = generateWizardObjectInnerSystem(object.id);
       wizardObjectSystemStore.push(system);
     }
   });
+}
+
+function generateWizardObjectInnerSystem(parentObjectId) {
+  let objects = [];
+  astronomicalObjectSearchArray.forEach(object => {
+    if(object.parentId === parentObjectId) {
+      //parentObject["innerObjects"] = generateWizardObjectInnerSystem(object); // TODO
+      let currentObject = JSON.parse(JSON.stringify(object));
+      if(object.id !== object.parentId) {
+        currentObject["innerObjects"] = generateWizardObjectInnerSystem(object.id);
+      } else {
+        console.error(`System generator : ignored object ${object.name} with id ${object.id} because it is mistakenly its own parent`);
+      }
+      objects.push(currentObject);
+    }
+  });
+  return objects.toSorted((a,b) => a.orbitalRank - b.orbitalRank); // return sorted array by orbital positions
 }
 
 /**

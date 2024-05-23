@@ -590,6 +590,7 @@ input[readonly], textarea[readonly] {
 #system-builder-wizard-table td, 
 #system-builder-wizard-table th {
   border: 1px solid #888;
+  white-space: pre-wrap; /* Keep leading/trailing white spaces for hierarchy */
 }
 
 #system-builder-wizard-table th {
