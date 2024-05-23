@@ -167,6 +167,9 @@ function getCustomColumnEntryName(formEntryId) {
     case "object-placement-certitude":
       columnEntryName = "PLACEMENT_CERTITUDE";
       break;
+    case "object-distance-to-parent":
+      columnEntryName = "DISTANCES_TO_PARENT";
+      break;
     // Hyperroute
     case "hyperroute-name":
       columnEntryName = "NAME";
@@ -194,8 +197,8 @@ function getCustomColumnEntryName(formEntryId) {
         break;
     // Debug
     default:
-      console.log(`Entry with ID ${formEntryId} not referenced !`);
-      alert("Source error : entry unknown - check console (F12)");
+      console.log(`Source entry with ID ${formEntryId} not referenced !`);
+      alert(`Source error : Entry with ID ${formEntryId} unknown - check console (F12)`);
       break;
   }
   return columnEntryName;

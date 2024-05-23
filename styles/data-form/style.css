@@ -580,6 +580,21 @@ input[readonly], textarea[readonly] {
   width: 100%;
 }
 
+#system-builder-wizard-table {
+  border: 1px solid #888;
+  border-collapse: collapse;
+  table-layout: auto;
+  background-color: white;
+}
+
+#system-builder-wizard-table td, 
+#system-builder-wizard-table th {
+  border: 1px solid #888;
+}
+
+#system-builder-wizard-table th {
+  background-color: #ddd;
+}
 
 
 /********************/

@@ -97,6 +97,7 @@ async function loadAstronomicalObjectArray() {
       urls: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL]).split(","),
       wikidataId: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.WIKI_DATA_ID]),
       isCertified: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.is_certified]),
+      distanceToParent: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DISTANCE_TO_PARENT]),
     });
   }
   console.log("Astro Object List",astronomicalObjectSearchArray);
@@ -366,6 +367,8 @@ async function loadObjectForm(objectID) {
     document.getElementById('object-starports').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.STARPORTS]); // Starports
     document.getElementById('object-notes').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES]); // Notes
     document.getElementById('object-interesting').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING]); // Interesting
+    document.getElementById('object-distance-to-parent').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DISTANCE_TO_PARENT]); // Distance to parent
+
     document.getElementById('object-sources').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL]); // Sources
     let urlList = separateStringToLinkList(sanitizeText(document.getElementById('object-sources').value), ",");
     console.log(urlList);
@@ -586,6 +589,7 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.STARPORTS] = sanitizeText(document.getElementById('object-starports').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES] = sanitizeText(document.getElementById('object-notes').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING] = sanitizeText(document.getElementById('object-interesting').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DISTANCE_TO_PARENT] = sanitizeText(document.getElementById('object-distance-to-parent').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL] = sanitizeText(document.getElementById('object-sources').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ZOOM_LEVEL] = sanitizeText(document.getElementById('object-zoom-level').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.tooltip_permanent] = sanitizeText(document.getElementById('object-tooltip-permanent').value);

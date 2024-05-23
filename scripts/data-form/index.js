@@ -96,6 +96,7 @@ const SPREADSHEET_HEADERS = {
       CAPITAL: 58,
       STARPORTS: 59,
       IMMIGRANT_SPECIES: 60,
+      DISTANCE_TO_PARENT: 61,
     },
     FIRST_COLUMN_REF: 'A',
     LAST_COLUMN_REF: () => {
@@ -338,6 +339,8 @@ let hyperrouteDatatable;
 
 // Wizard
 let objectParentWizard;
+let objectSystemWizard;
+let wizardObjectSystemStore;
 
 /* FUNCTIONS */
 /**
@@ -381,6 +384,7 @@ document.getElementById("refresh-astro-object-datatable-button").disabled = true
 document.getElementById("refresh-hyperroute-and-sections-button").disabled = true;
 document.getElementById("refresh-hyperroute-datatable-button").disabled = true;
 document.getElementById("refresh-dashboard-button").disabled = true;
+document.getElementById("refresh-wizard-button").disabled = true;
 
 
 
