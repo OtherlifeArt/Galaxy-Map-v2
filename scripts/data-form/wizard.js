@@ -485,11 +485,11 @@ async function objectParentWizardSaveFilledObjects() {
   const cellRangeToUpdate = [ SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID, SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID];
   const updateResult = await updateSpreadSheetBatchCellRangeData(SPREADSHEET_ID, SHEETS.OBJECTS, sheetRange, SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID, objectArrayToUpdate, cellRangeToUpdate);
   if(updateResult) {
-    alert(`Object parents are sucessfully updated !`);
+    alert(`Object parents are sucessfully updated into spreadsheet ! Reloading form`);
     // Reload wizard and objects
-    initWizard();
-    refreshForm();
+    await refreshForm();
     refreshDatatable("objectDatatable");
+    initWizard();
   } else {
     alert("Error encoutered on Object parents update ! Check console (F12) for more details");
   }

@@ -80,5 +80,65 @@ function fetchSheetDataPoints(spreadsheetId, sheetName) {
     });
   }
 
+
+  /**
+   * MAP DATA EVENT LISTENERS
+   */
   // Add event listener to download button
   document.getElementById('downloadPointsButton').addEventListener('click', downloadPointsGeoJSON);
+
+
+/**
+ * Batch update object parent name into spreadsheet
+ */
+async function batchUpdateAllObjectReadableNames() {
+
+}
+
+/**
+ * Batch update object human readable name into spreadsheet
+ */
+async function batchUpdateAllObjectParentReadableNames() {
+  let batchDataCellToUpdate = [];
+  // get all objects
+  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, `!${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID)}2:${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN)}`);
+  const data = spreadSheetData.values;
+  for (const object of data) {
+    let objectToUpdate = [];
+    const objectId = object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID];
+    // Generate parent hierarchy string
+    const parentNameString =  await getParentHierarchy(objectId, null, data);
+    // compare new and old parent string, update if different
+    if(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN] !== parentNameString) {
+      objectToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] = objectId;
+      objectToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN] = parentNameString;
+      console.log(objectToUpdate);
+      batchDataCellToUpdate.push(objectToUpdate);
+    }
+  }
+  // Update parent names
+  const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}`;
+  const cellRangeToUpdate = [ SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN, SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN];
+  const updateResult = await updateSpreadSheetBatchCellRangeData(SPREADSHEET_ID, SHEETS.OBJECTS, sheetRange, SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID, batchDataCellToUpdate, cellRangeToUpdate);
+  if(updateResult) {
+    alert(`Object parents names are sucessfully updated into spreadsheet ! Reloading form`);
+    // Reload wizard and objects
+    await refreshForm();
+    refreshDatatable("objectDatatable");
+    initWizard();
+  } else {
+    alert("Error encoutered on Object parent name update ! Check console (F12) for more details");
+  }
+} 
+
+/**
+ * Spreadsheet DATA EVENT LISTENERS
+ */
+// Event listener to batch update object parent name into spreadsheet
+document.getElementById('spreadsheet-data-batch-update-object-readable-names-button').addEventListener('click', function() {
+  batchUpdateAllObjectReadableNames()
+});
+// Event listener to batch update object human readable name into spreadsheet
+document.getElementById('spreadsheet-data-batch-update-object-redable-parent-names-button').addEventListener('click', function() {
+  batchUpdateAllObjectParentReadableNames()
+});

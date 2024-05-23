@@ -650,11 +650,14 @@ async function populateValidationTable(currentData, newData) {
  * 
  * @param objectID UUID
  * @param parentObjectId UUID (default null) Used only for first parent level
+ * @param data spreadSheetData.values | null (default null)
  */
-async function getParentHierarchy(objectID, parentObjectId=null) {
+async function getParentHierarchy(objectID, parentObjectId=null, data=null) {
   const previousParentValue = document.getElementById('object-parent-raw').value;
-  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, '!A2:F');
-  const data = spreadSheetData.values;
+  if(data === null) {
+    const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, '!A2:F');
+    data = spreadSheetData.values;
+  }
   // Get parents recursively
   let currentObjectID = objectID;
   // console.log("objectID : ", objectID);
