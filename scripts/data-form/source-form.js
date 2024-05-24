@@ -170,6 +170,9 @@ function getCustomColumnEntryName(formEntryId) {
     case "object-distance-to-parent":
       columnEntryName = "DISTANCES_TO_PARENT";
       break;
+    case "object-gravity":
+      columnEntryName = "GRAVITY";
+      break;
     // Hyperroute
     case "hyperroute-name":
       columnEntryName = "NAME";

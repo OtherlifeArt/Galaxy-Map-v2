@@ -619,6 +619,7 @@ function generateInnerSystemTable(systemIndex) {
     "objectType": "Type",
     "objectTypeClass": "Type Class",
     "orbitalRank": "Position",
+    "gravity": "Gravity",
     "size": "Size in km",
     "distanceToParent": "Distance to Parent in km",
     "lengthOfDay": "Rotation Period (Length of day in hour)",

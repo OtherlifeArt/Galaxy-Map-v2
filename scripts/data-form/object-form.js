@@ -369,6 +369,7 @@ async function loadObjectForm(objectID) {
     document.getElementById('object-notes').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES]); // Notes
     document.getElementById('object-interesting').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING]); // Interesting
     document.getElementById('object-distance-to-parent').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DISTANCE_TO_PARENT]); // Distance to parent
+    document.getElementById('object-gravity').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GRAVITY]); // GRAVITY
 
     document.getElementById('object-sources').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL]); // Sources
     let urlList = separateStringToLinkList(sanitizeText(document.getElementById('object-sources').value), ",");
@@ -592,6 +593,7 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES] = sanitizeText(document.getElementById('object-notes').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING] = sanitizeText(document.getElementById('object-interesting').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DISTANCE_TO_PARENT] = sanitizeText(document.getElementById('object-distance-to-parent').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GRAVITY] = sanitizeText(document.getElementById('object-gravity').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL] = sanitizeText(document.getElementById('object-sources').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ZOOM_LEVEL] = sanitizeText(document.getElementById('object-zoom-level').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.tooltip_permanent] = sanitizeText(document.getElementById('object-tooltip-permanent').value);
