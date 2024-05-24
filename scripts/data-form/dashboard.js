@@ -207,9 +207,11 @@ function displayObjectHavingThemselvesAsParent(parentDiv) {
   // Table headers
   let tableHeader = table.createTHead();
   let tableHeaderRow = tableHeader.insertRow(0);
-  let objectHumanIdCell = tableHeaderRow.insertCell(0);
+  let objectIdCell = tableHeaderRow.insertCell(0);
+  objectIdCell.innerHTML = "<b>ID</b>";
+  let objectHumanIdCell = tableHeaderRow.insertCell(1);
   objectHumanIdCell.innerHTML = "<b>Object Sort ID</b>";
-  let objectHumanNameCell = tableHeaderRow.insertCell(1);
+  let objectHumanNameCell = tableHeaderRow.insertCell(2);
   objectHumanNameCell.innerHTML = "<b>Object Readable Name</b>";
   // Add table body
   let tableBody = table.createTBody();
@@ -218,6 +220,8 @@ function displayObjectHavingThemselvesAsParent(parentDiv) {
   let totalIncorrectValues = foundObjects.length;
   for (const object of foundObjects) {
     let row = tableBody.insertRow();
+    let objectIdCell = row.insertCell();
+    objectIdCell.innerHTML = object.id;
     let objectHumanIdCell = row.insertCell();
     objectHumanIdCell.innerHTML = object.sortId;
     let objectReadableNameCell = row.insertCell();

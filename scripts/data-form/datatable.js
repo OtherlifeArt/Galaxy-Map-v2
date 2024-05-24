@@ -103,6 +103,7 @@ function datatableChildContent(rowData, datatableLabel) {
           "<div><b><i>Length of Day: </i></b>"+(rowData.lengthOfDay === "" ? "" : rowData.size + " hours" )+"</div>"+
           "<div><b><i>Length of Year: </i></b>"+(rowData.lengthOfYear === "" ? "" : rowData.size + " days" )+"</div>"+
           "<div><b><i>Orbital Position: </i></b>"+rowData.orbitalRank+"</div>"+
+          "<div><b><i>Distance to Parent: </i></b>"+(rowData.distanceToParent === "" ? "" : rowData.distanceToParent + " km" )+"</div>"+
           "<div><b><i>Appearance: </i></b>"+rowData.appearance+"</div>"+
           "<div><b><i>Gravity: </i></b>"+rowData.gravity+"</div>"+
           "<div><b><i>Population: </i></b>"+rowData.population+"</div>"+

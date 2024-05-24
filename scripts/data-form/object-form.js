@@ -25,7 +25,8 @@ async function listObjects() {
  */
 async function loadAstronomicalObjectArray() {
   // Get data
-  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, '!A2:BI');
+  const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}2:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}`;
+  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, sheetRange);
   // Populate select2 search array
   astronomicalObjectSearchArray = [];
   for(i=0; i<spreadSheetData.values.length; i++){
