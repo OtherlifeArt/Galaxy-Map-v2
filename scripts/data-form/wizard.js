@@ -131,7 +131,8 @@ function createObjectParentWizardStructure(parentDiv) {
   rootDiv.appendChild(firstColumnDiv);
   rootDiv.appendChild(secondColumnDiv);
   // Into collapsible
-  generateCollapsibleWidget(parentDiv, 'Object Parent', rootDiv, 'object-parent-wizard');
+  const orphanObjectNumber = astronomicalObjectSearchArray.filter(o => o.parentId === "").length;
+  generateCollapsibleWidget(parentDiv, `Object Parent (${orphanObjectNumber} orphan objects)`, rootDiv, 'object-parent-wizard');
   // Select2 init
   $(document).ready(function() {
     $('#object-parent-wizard-select2-select').select2({
