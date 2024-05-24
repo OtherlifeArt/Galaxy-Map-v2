@@ -529,7 +529,8 @@ async function convertFormValuesToData() {
   window.dataToUpdate.length = 0; // reset array
   let orbitalRank = sanitizeText(document.getElementById('object-orbital-rank').value);
   let name = sanitizeText(document.getElementById('object-name').value);
-  let humanName = convertObjectNameToHumanReadableName(name, orbitalRank);
+  let altNames = window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES] = sanitizeText(document.getElementById('object-alt-name').value);
+  let humanName = convertObjectNameToHumanReadableName(name, altNames, orbitalRank);
   // let humanParent = getParentHierarchy(window.selectedAstronomicalObject[SPREADSHEET_HEADERS.ID]);
   
   // Making sure document.ready is ready before continuing....
@@ -548,7 +549,7 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_ID] = sanitizeText(document.getElementById('object-human-id').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_NAME] = humanName;
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME] = name;
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES] = sanitizeText(document.getElementById('object-alt-name').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES] = altNames;
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.is_certified] = getValueFromCheckboxState('object-data-certified', PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IS_CAPITAL] = getValueFromCheckboxState('object-capital', PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE] = sanitizeText(document.getElementById('object-type').value);

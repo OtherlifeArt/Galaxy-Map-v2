@@ -644,7 +644,14 @@ function generateInnerSystemTableRow (systemTableBody, currentSystem, tableHeadC
       if(columnKey === "name" && level > 0) {
         systemTableBodyCell.innerHTML = "  ".repeat(level-1) + "├─" + " " + innerSystemObject[columnKey];
       } else {
-        systemTableBodyCell.innerHTML = innerSystemObject[columnKey];
+        // If empty cell we insert input type text field
+        if(innerSystemObject[columnKey] === "") {
+          const inputText = document.createElement("input");
+          inputText.type = "text";
+          systemTableBodyCell.appendChild(inputText);
+        } else {
+          systemTableBodyCell.innerHTML = innerSystemObject[columnKey];
+        }
       }
       systemTableBodyRow.appendChild(systemTableBodyCell);
     }
