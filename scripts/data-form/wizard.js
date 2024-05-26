@@ -757,6 +757,43 @@ function generateWizardObjectInnerSystem(parentObjectId) {
  */
 function objectSystemBuilderGenerateSystem() {
   objectSystemBuilderStoreFilledData();
+  /* Simplified Method for Estimating Orbits */
+  // 1. Assign Masses to Bodies
+  // - Use typical mass ranges for different types of celestial bodies (e.g., terrestrial planets, gas giants, etc.).
+
+  // 2. Assign Semi-Major Axes
+  // - The semi-major axis 𝑎 a is the average distance of the orbiting body from the star.
+  // - Use empirical distributions such as the Titius-Bode law for initial guesses: a_n = a_0 + d * (1.5^n)
+  //      where a_0 is a starting distance, d is a scaling factor, and n is the orbit index.
+
+  // Seems better to use generalized Titius-Bode Relation
+  // A common form of the generalized Titius-Bode relation is: a_n = a_0 + d * c^n
+  // a_n is the semi-major axis of the n-th planet
+  // a_0 is the semi-major axis of the innermost planet (starting point).
+  // d is a scaling factor
+  // c is a constant factor representing the ratio of successive orbits.
+  // n is the index of the planet (starting from 0 for the innermost planet).
+  // example : 
+  // 1. Choose Parameters:
+  // Determine a_0, the distance of the first planet.
+  // Choose d and c based on the system you are modeling. In the classical Titius-Bode law for the Solar System, a_0≈0.4 AU, d≈0.3 AU, and c≈2
+  // 2. Calculate Semi-Major Axes:
+  // For each planet index n, compute a_n
+
+  // 3. Assign Orbital Eccentricities:
+  // - Assign eccentricities e based on statistical distributions
+  //    - Terrestrial planets: e ≈ 0.0 to 0.3
+  //    - Gas giants: e ≈ 0.0 to 0.4
+  // - A simple method could be: e = random(0, e_max) where e_max is the maximum expected eccentricity for the body type.
+
+  // 4. Assign Orbital Inclinations:
+  // - Inclinations i are usually small for planets in a system, but can be higher for comets and asteroids.
+  // For planets : i = random (0.5°)
+  // For asteroids and comets : i = random (0.3°)
+
+  // 5. Generate Orbital Parameters:
+  // True Anomaly (ν), Argument of Periapsis (ω), and Longitude of Ascending Node (Ω) can be randomly assigned or based on distribution models.
+
 }
 
 /**
