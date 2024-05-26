@@ -405,11 +405,10 @@ function createSuggestionObjectArray(object) {
   // console.log("Parent Name : ", object.humanParent);
 
   // Create string array to search for suggestions
-  // let stringArrayToSearchFor = (object) => {
   let stringArrayToSearchFor = [];
   stringArrayToSearchFor = [...stringArrayToSearchFor, ...object.name.split(" ")];
   stringArrayToSearchFor = [...stringArrayToSearchFor, ...object.altNames.replace(/[/]/g, " ").replace(/[?<>()[\]]/g, "").replace(/  +/g, ' ').split(" ")];
-  stringArrayToSearchFor = [...stringArrayToSearchFor, ...object.humanParent.replace(/[/,;]/g, " ").replace(/[?<>()[\]]/g, "").replace(/  +/g, ' ').split(" ").toReversed()];
+  stringArrayToSearchFor = [...stringArrayToSearchFor, ...object.humanParent.replace(/[/,;]/g, " ").replace(/[?<>()[\]]/g, "").replace(/  +/g, ' ').split(" ").toReversed()]; // reversing term cause often, parent names are included in names, alt names and parent text in lastest position
   stringArrayToSearchFor = [...new Set(stringArrayToSearchFor)].sort((a, b) => b.length - a.length).filter(elm => elm); // Sort descending, longer item first ; remove duplicates with Set ; remove empty string, undefined  or null value with filter
   stringArrayToSearchFor = stringArrayToSearchFor.filter( ( el ) => !stringToRemoveFromArrayToSearchFor.includes( el.toLowerCase()) ); // Remove words determined by another array
   
@@ -451,7 +450,7 @@ function createSuggestionObjectArray(object) {
     }
   });
 
-  // Reorder array with priorities removing duplicates
+  // Reorder array with priorities removing duplicates and reversing array to have words with more letter suggested first cause they gives punctually good matching result
   suggestions = [
     , ...suggestions["by-name"].reverse().flat(), ...suggestions["by-alt-names"].reverse().flat(), ...suggestions["by-parent-name"].reverse().flat()
   ];
@@ -551,6 +550,7 @@ function createInnerObjectSystemBuilderWizardStructure(parentDiv) {
   // buttons
   const buttonSpan = document.createElement('span');
   firstColumnDiv.appendChild(buttonSpan);
+  // Previous button
   const previousObjectButton = document.createElement('button');
   previousObjectButton.innerHTML = 'Previous';
   previousObjectButton.id = 'system-builder-wizard-previous-button';
@@ -558,6 +558,31 @@ function createInnerObjectSystemBuilderWizardStructure(parentDiv) {
     objectSystemBuilderLoadPreviousObject();
   });
   buttonSpan.appendChild(previousObjectButton);
+  // Next button
+  const nextObjectButton = document.createElement('button');
+  nextObjectButton.innerHTML = 'Next';
+  nextObjectButton.id = 'system-builder-wizard-next-button';
+  nextObjectButton.addEventListener('click', function(){
+    objectSystemBuilderLoadNextObject();
+  });
+  buttonSpan.appendChild(nextObjectButton);
+  // Generate button
+  const generateSystemButton = document.createElement('button');
+  generateSystemButton.innerHTML = 'Generate System';
+  generateSystemButton.id = 'system-builder-wizard-generate-system-button';
+  generateSystemButton.addEventListener('click', function(){
+    objectSystemBuilderGenerateSystem();
+  });
+  buttonSpan.appendChild(generateSystemButton);
+  // Generate preudo random data button
+  const generatePseudoRandomDataButton = document.createElement('button');
+  generatePseudoRandomDataButton.innerHTML = 'Generate System';
+  generatePseudoRandomDataButton.id = 'system-builder-wizard-generate-pseudo-random-data-button';
+  generatePseudoRandomDataButton.addEventListener('click', function(){
+    objectSystemBuilderGeneratePseudoRandomData();
+  });
+  buttonSpan.appendChild(generatePseudoRandomDataButton);
+  // Save button
   const stageSaveButton = document.createElement('button');
   stageSaveButton.innerHTML = 'Save Filled Objects';
   stageSaveButton.id = 'system-builder-wizard-save-stage-button';
@@ -565,13 +590,6 @@ function createInnerObjectSystemBuilderWizardStructure(parentDiv) {
     objectSystemBuilderSaveConfiguration();
   });
   buttonSpan.appendChild(stageSaveButton);
-  const nextObjectButton = document.createElement('button');
-  nextObjectButton.innerHTML = 'Next';
-  nextObjectButton.id = 'system-builder-wizard-next-button';
-  nextObjectButton.addEventListener('click', function(){
-    objectSystemBuilderLoadNextObject();
-  });
-  buttonSpan.appendChild(nextObjectButton); 
   // object data fieldset
   const systemFieldset = document.createElement('fieldset');
   const systemFieldsetLegend = document.createElement('legend');
@@ -681,6 +699,7 @@ function loadInnerSystemObject (systemIndex) {
 }
 
 function objectSystemBuilderLoadNextObject() {
+  objectSystemBuilderStoreFilledData();
   loadInnerSystemObject(++objectSystemWizard.currentSystemIndex);
   document.getElementById('system-builder-wizard-previous-button').disabled = false;
   if(objectSystemWizard.currentSystemIndex === wizardObjectSystemStore.length -1) {
@@ -689,6 +708,7 @@ function objectSystemBuilderLoadNextObject() {
 }
 
 function objectSystemBuilderLoadPreviousObject() {
+  objectSystemBuilderStoreFilledData();
   loadInnerSystemObject(--objectSystemWizard.currentSystemIndex);
   document.getElementById('system-builder-wizard-next-button').disabled = false;
   if(objectSystemWizard.currentSystemIndex === 0) {
@@ -730,6 +750,27 @@ function generateWizardObjectInnerSystem(parentObjectId) {
     }
   });
   return objects.toSorted((a,b) => a.orbitalRank - b.orbitalRank); // return sorted array by orbital positions
+}
+
+/**
+ * Generate system coordinates and draw result on preview
+ */
+function objectSystemBuilderGenerateSystem() {
+  objectSystemBuilderStoreFilledData();
+}
+
+/**
+ * Generate data for empty but useful fields/property using random and according to other fields
+ */
+function objectSystemBuilderGeneratePseudoRandomData() {
+  objectSystemBuilderStoreFilledData();
+}
+
+/**
+ * Store filled input fields with data
+ */
+function objectSystemBuilderStoreFilledData() {
+  
 }
 
 /**

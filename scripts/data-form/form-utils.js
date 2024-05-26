@@ -193,3 +193,52 @@ function convertObjectNameToHumanReadableName(objectName, altNames, orbitalRank)
   }
   return humanReadableName;
 }
+
+/**
+ * Gaussian randon generator
+ * @param {*} mean the maximum of the graph
+ * @param {*} stdev standard deviation
+ * @returns 
+ */
+// Standard Normal variate using Box-Muller transform.
+function gaussianRandom(mean=0, stdev=1) {
+  const u = 1 - Math.random(); // Converting [0,1) to (0,1]
+  const v = Math.random();
+  const z = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+  // Transform to the desired mean and standard deviation:
+  return z * stdev + mean;
+}
+
+/**
+ * Probability density function
+ * @param {*} x middle value for highest result
+ * @param {*} a minimum bounding
+ * @param {*} b maximum bounding
+ * @returns 
+ */
+function betaPDF(x, a, b) {
+  // Beta probability density function impementation
+  // using logarithms, no factorials involved.
+  // Overcomes the problem with large integers
+  return Math.exp(lnBetaPDF(x, a, b))
+}
+function lnBetaPDF(x, a, b) {
+      // Log of the Beta Probability Density Function
+  return ((a-1)*Math.log(x) + (b-1)*Math.log(1-x)) - lnBetaFunc(a,b)
+}
+function lnBetaFunc(a, b) {
+  // Log Beta Function
+  // ln(Beta(x,y))
+  foo = 0.0;
+
+  for (i=0; i<a-2; i++) {
+      foo += Math.log(a-1-i);
+  }
+  for (i=0; i<b-2; i++) {
+      foo += Math.log(b-1-i);
+  }
+  for (i=0; i<a+b-2; i++) {
+      foo -= Math.log(a+b-1-i);
+  }
+  return foo
+}

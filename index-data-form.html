@@ -226,7 +226,7 @@
                     <label for="object-distance-to-parent">Distance to Parent</label>
                     <input type="text" step="0.00000001" min="0" name="object-distance-to-parent" id="object-distance-to-parent"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
-                    <span class="tooltiptext">Distance between Object and its Parent (in kilometers - can be a comma "," separated list) </span>
+                    <span class="tooltiptext">Distance between Object and its Parent (in kilometers - can be an hyphen "-" separated list if there are 2 values for ellipses) </span>
                   </span>
                 </div>
                 <div class="grid-wrapper">
@@ -1063,6 +1063,7 @@
     <!-- Form Datatable -->
     <script src="scripts/data-form/datatable.js"></script>
     <!-- Wizard -->
+    <script src="scripts/data-form/wizard-system-generator-database.js"></script>
     <script src="scripts/data-form/wizard.js"></script>
     <!-- Google API -->
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
