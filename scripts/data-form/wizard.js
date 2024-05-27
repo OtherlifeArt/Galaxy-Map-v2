@@ -780,6 +780,15 @@ function objectSystemBuilderGenerateSystem() {
   // 2. Calculate Semi-Major Axes:
   // For each planet index n, compute a_n
 
+  // Seems even better to use Hill Radius and Mutual Hill Stability method
+  // In multi-planet systems, the concept of the Hill radius (the region where a planet's gravity dominates over the star's gravity) can be used to ensure that planets are spaced far enough apart to be dynamically stable.
+  // R_H = a (m/3M*)^1/3
+  // R_H is the Hill radius,
+  // a is the semi-major axis of the planet,
+  // m is the mass of the planet,
+  // M∗ is the mass of the star.
+  // Planets should be separated by several mutual Hill radii to avoid close encounters and instability.
+
   // 3. Assign Orbital Eccentricities:
   // - Assign eccentricities e based on statistical distributions
   //    - Terrestrial planets: e ≈ 0.0 to 0.3
@@ -794,6 +803,71 @@ function objectSystemBuilderGenerateSystem() {
   // 5. Generate Orbital Parameters:
   // True Anomaly (ν), Argument of Periapsis (ω), and Longitude of Ascending Node (Ω) can be randomly assigned or based on distribution models.
 
+}
+
+/**
+ * Returns list of semi-major axis for orbiting body using Titius-Bode relation
+ * 
+ * @param {float} innerMostBodySemiMajorAxis is the semi-major axis of the innermost planet (positive float in AU)
+ * @param {float} scalingFactor is a constant that determines the rate of spacing (positive float)
+ * @param {} constantFactor is a constant factor representing the ratio of successive orbits (positive float)
+ * @param {int} numberOfOrbitingBodies is the planet number (positive int)
+ * @returns a list of semi major axis for orbitting bodies
+ */
+function objectSystemBuilderComputeBodiesSemiMajorAxisUsingTitiusBodeLaw() {
+  let semiMajorAxis = [];
+  for (let index = 0; index < numberOfOrbitingBodies; index++) {
+    semiMajorAxis.push(innerMostBodySemiMajorAxis + scalingFactor * Math.pow(constantFactor,numberOfOrbitingBodies));
+  }
+  return semiMajorAxis;
+}
+
+/**
+ * Calculate Hill radius : radius between stable bodies
+ * 
+ * @param {float} semiMajorAxisOfOrbitingBody positive float in AU
+ * @param {float} orbitingBodyMass positive float in Earth Mass (M⊕)
+ * @param {float} centralBodyMass positive float in Solar Mass (M⊙)
+ * @returns hill radius of orbiting body in AU
+ */
+function objectSystemBuilderComputeHillRadius(semiMajorAxisOfOrbitingBody, orbitingBodyMass, centralBodyMass) {
+  return semiMajorAxisOfOrbitingBody * (orbitingBodyMass / (3 * centralBodyMass))^(1/3);
+}
+
+objectSystemBuilderComputeBodiesSemiMajorAxisHillRadius () {
+
+}
+
+/**
+ * Returns list of semi-major axis for orbiting body using logarithmic distribution
+ * 
+ * @param {float} semiMajorAxisScale is a constant that scales the distance positive float in AU
+ * @param {float} rateOfSpacing is a constant that determines the rate of spacing. (positive float)
+ * @param {int} numberOfOrbitingBodies is the planet number (positive int)
+ * @returns semi major axis list for the n bodies
+ */
+function objectSystemBuilderComputeBodiesSemiMajorAxisUsingPowerLawDistribution(semiMajorAxisScale, rateOfSpacing, numberOfOrbitingBodies) {
+  let semiMajorAxis = [];
+  for (let index = 1; index < numberOfOrbitingBodies+1; index++) {
+    semiMajorAxis.push(semiMajorAxisScale * Math.exp(rateOfSpacing*index));
+  }
+  return semiMajorAxis;
+}
+
+/**
+ * Returns list of semi-major axis for orbiting body using power law distribution
+ * 
+ * @param {float} innerMostBodySemiMajorAxis is the semi-major axis of the innermost planet (positive float in AU)
+ * @param {float} rateOfSpacing is a constant that determines the rate of spacing (positive float)
+ * @param {int} numberOfOrbitingBodies is the planet number (positive int)
+ * @returns semi major axis list for the n bodies
+ */
+function objectSystemBuilderComputeBodiesSemiMajorAxisUsingLogarithmicDistribution(innerMostBodySemiMajorAxis, rateOfSpacing, numberOfOrbitingBodies) {
+  let semiMajorAxis = [];
+  for (let index = 0; index < numberOfOrbitingBodies; index++) {
+    semiMajorAxis.push(innerMostBodySemiMajorAxis * Math.pow(index, rateOfSpacing));
+  }
+  return semiMajorAxis;
 }
 
 /**
