@@ -823,19 +823,33 @@ function objectSystemBuilderComputeBodiesSemiMajorAxisUsingTitiusBodeLaw() {
 }
 
 /**
- * Calculate Hill radius : radius between stable bodies
+ * Calculate Hill radius stability forst first object
  * 
  * @param {float} semiMajorAxisOfOrbitingBody positive float in AU
  * @param {float} orbitingBodyMass positive float in Earth Mass (M⊕)
  * @param {float} centralBodyMass positive float in Solar Mass (M⊙)
  * @returns hill radius of orbiting body in AU
  */
-function objectSystemBuilderComputeHillRadius(semiMajorAxisOfOrbitingBody, orbitingBodyMass, centralBodyMass) {
+function objectSystemBuilderComputeHillRadiusForFirstBody(semiMajorAxisOfOrbitingBody, orbitingBodyMass, centralBodyMass) {
   return semiMajorAxisOfOrbitingBody * (orbitingBodyMass / (3 * centralBodyMass))^(1/3);
 }
 
-objectSystemBuilderComputeBodiesSemiMajorAxisHillRadius () {
+function objectSystemBuilderComputeMutualHillRadius() {
+   // TODO
+}
 
+function objectSystemBuilderComputeBodiesSemiMajorAxisHillStability (mutualHRadiusFactorRange=[3,5], centralBodyMass, massOfOrbitingBodies, firstBodySemiMajorAxis) {
+  let semiMajorAxis = [];
+  // Calculate first body hill radius
+  let firstBodyHillRadius = objectSystemBuilderComputeHillRadiusForFirstBody(firstBodySemiMajorAxis, massOfOrbitingBodies[0], centralBodyMass);
+  // Calculate each body semi-major axis
+  for (let bodyIndex = 0; bodyIndex < massOfOrbitingBodies.length-1; bodyIndex++) {
+    const previousBodyMass = massOfOrbitingBodies[bodyIndex];
+    const nextBodyMass = massOfOrbitingBodies[bodyIndex+1];
+    // Calculate Mutual hill radius
+    const mutualHillRadius = objectSystemBuilderComputeMutualHillRadius();  // TODO
+  }
+  return semiMajorAxis;
 }
 
 /**
