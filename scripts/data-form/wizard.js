@@ -838,6 +838,7 @@ function objectSystemBuilderComputeMutualHillRadius() {
    // TODO
 }
 
+// Semi major axis guess must be done using tituis-bode, power law or logarithmic distribution
 function objectSystemBuilderComputeBodiesSemiMajorAxisHillStability (mutualHRadiusFactorRange=[3,5], centralBodyMass, massOfOrbitingBodies, firstBodySemiMajorAxis) {
   let semiMajorAxis = [];
   // Calculate first body hill radius
