@@ -187,7 +187,7 @@ function convertSpreadsheetColumnNumberToLetters(number) {
  * @param {String} orbitalRank
  */
 function convertObjectNameToHumanReadableName(objectName, altNames, orbitalRank) {
-  let humanReadableName = (orbitalRank !== "" ? "  "+orbitalRank.toString()+". " : "") + objectName;
+  let humanReadableName = (orbitalRank !== "" ? "╚═ "+orbitalRank.toString()+". " : "") + objectName;
   if(altNames !== "") {
     humanReadableName += " / "+altNames.split("/").join(" / ").replace(/  +/g, ' '); // Format name list (space,slash,space) and remove multiple spaces
   }

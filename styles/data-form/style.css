@@ -387,7 +387,7 @@ input[readonly], textarea[readonly] {
   border-radius: 6px;
   padding: .5rem;
   position: absolute;
-  z-index: 1;
+  z-index: 10000;
   bottom: 115%;
   left: 50%;
   margin-left: -60px;
@@ -553,6 +553,10 @@ input[readonly], textarea[readonly] {
 
 .dashboard-warning-value {
   background-color: #e1a900;
+}
+
+.dashboard-modified-value {
+  background-color: lightcyan;
 }
 
 /*****************/

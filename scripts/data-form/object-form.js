@@ -318,6 +318,7 @@ async function loadObjectForm(objectID) {
     document.getElementById('object-updated-at').value = updateDate; // Updated At
     setCheckboxStateFromValue('object-data-certified', sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.is_certified]), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY); // Data certified ?
     document.getElementById('object-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]); // Name
+    document.getElementById('object-name-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_NAME]); // Human Name
     document.getElementById('object-alt-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES]); // Alt Names
     setCheckboxStateFromValue('object-capital', sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IS_CAPITAL]), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY); // Capital
     document.getElementById('object-type-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE]); // Type RAW DATA
@@ -751,9 +752,38 @@ async function highlightSourceButtonsIfSourced (objectId) {
   });
 }
 
+function updateHumanReadableFormField() {
+  const name = document.getElementById('object-name').value;
+  const altNames = document.getElementById('object-alt-name').value;
+  const orbitalRank = document.getElementById('object-orbital-rank').value;
+  document.getElementById('object-name-raw').value = convertObjectNameToHumanReadableName(name, altNames, orbitalRank);
+}
+
 /**********/
 /* EVENTS */
 /**********/
+
+/**
+ * Fill human readable ID
+ */
+document.getElementById("object-name-raw").addEventListener('change', function() {
+  updateHumanReadableFormField();
+});
+
+/**
+ * Fill human readable ID
+ */
+document.getElementById("object-name").addEventListener('change', function() {
+  updateHumanReadableFormField();
+});
+
+/**
+ * Fill human readable ID
+ */
+document.getElementById("object-orbital-rank").addEventListener('change', function() {
+  updateHumanReadableFormField();
+});
+
 
 async function showDataAndUpdate() {
   // Convertion work

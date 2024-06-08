@@ -101,8 +101,15 @@
                     <label for="object-data-certified">Publish on map</label>
                     <input type="checkbox" name="object-data-certified" id="object-data-certified">
                     <span class="tooltiptext">Are data fully checked or sufficient, and ready for publication ?</span>
+                  </span>
                 </div>
                 <div class="grid-wrapper">
+                  <!-- Human readable Name -->
+                  <span class="tooltip grid-column-one-to-four field-wrapper" id="object-name-raw-span">
+                    <label for="object-name-raw">Human Readable Name</label>
+                    <input type="text" name="object-name-raw" id="object-name-raw" readonly/>
+                    <span class="tooltiptext">Displayed name of astronomical object</span>
+                  </span>
                   <!-- Object Name -->
                   <span class="tooltip grid-column-one-to-two field-wrapper" id="object-name-span">
                     <label for="object-name">Name</label>
@@ -116,8 +123,8 @@
                     <input type="checkbox" name="object-conjectural-name" id="object-conjectural-name">
                     <span class="tooltiptext">Name isn't known/definite (yet)</span>
                   </span>
+                  <!-- Capital object within its hierarchy level -->
                   <span class="tooltip grid-column-media-queries-one-or-four field-wrapper">
-                    <!-- Capital object within its hierarchy level -->
                     <label for="object-capital">Capital</label>
                     <input type="checkbox" name="object-capital" id="object-capital"><!-- Trick : This comment removes space between elements
                     --><button class="object-source-entry-button">S</button>
@@ -1064,6 +1071,7 @@
     <script src="scripts/data-form/datatable.js"></script>
     <!-- Wizard -->
     <script src="scripts/data-form/wizard-system-generator-database.js"></script>
+    <script src="scripts/data-form/wizard-system-generator-formulas.js"></script>
     <script src="scripts/data-form/wizard.js"></script>
     <!-- Google API -->
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
