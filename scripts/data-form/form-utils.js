@@ -187,11 +187,13 @@ function convertSpreadsheetColumnNumberToLetters(number) {
  * @param {String} orbitalRank
  */
 function convertObjectNameToHumanReadableName(objectName, altNames, orbitalRank) {
-  let humanReadableName = (orbitalRank !== "" ? "╚═ "+orbitalRank.toString()+". " : "") + objectName;
+  const spacesFromParent = // TODO
+  let humanReadableNamePrefix = (orbitalRank !== "" ? spacesFromParent + "  ╚═ "+orbitalRank.toString()+". " : "") + objectName;
+  let humanReadableName = "";
   if(altNames !== "") {
-    humanReadableName += " / "+altNames.split("/").join(" / ").replace(/  +/g, ' '); // Format name list (space,slash,space) and remove multiple spaces
+    humanReadableName = " / "+altNames.split("/").join(" / ").replace(/  +/g, ' '); // Format name list (space,slash,space) and remove multiple spaces
   }
-  return humanReadableName;
+  return humanReadableNamePrefix + humanReadableName;
 }
 
 /**
