@@ -1097,11 +1097,13 @@ function objectSystemBuilderGenerateSystem(method) {
     // Check data before generating system
     const kepler3rdLawMissingData = objectSystemBuilderCheckForMandatoryMissingDataToUseKeplerThirdLaw();
     if(kepler3rdLawMissingData.missingData) {
-      alert("You are missing following data to use Kepler 3rd law to calculate object orbit radii (object semi-major axes) :\n\n" + kepler3rdLawMissingData.message + "\n\nIf you don't have them and don't want to random fill them consider using the next methods to complete system generation");
-    } else {
-      // TODO : find masses function of object types and diameters
-      const message = objectSystemBuilderFindObjectsSemiMajorAxisUsingKeplerThirdLaw(wizardObjectSystemStore[objectSystemWizard.currentSystemIndex]);
-      alert(message);
+      const randomGenerate = confim("You are missing following data to use Kepler 3rd law to calculate object orbit radii (object semi-major axes) :\n\n" + kepler3rdLawMissingData.message + "\n\nDo you want to pseudo-random genrate them ?\n\nIf you don't have them and don't want to random fill/generate them consider using the next methods to complete system generation");
+      if(randomGenerate) {
+        // TODO : find masses function of object types and diameters
+        // TODO : generate orbital periods
+        const message = objectSystemBuilderFindObjectsSemiMajorAxisUsingKeplerThirdLaw(wizardObjectSystemStore[objectSystemWizard.currentSystemIndex]);
+        alert(message);
+      }
     }
   }
 }
