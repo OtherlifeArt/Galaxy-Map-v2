@@ -532,7 +532,8 @@ async function convertFormValuesToData() {
   let orbitalRank = sanitizeText(document.getElementById('object-orbital-rank').value);
   let name = sanitizeText(document.getElementById('object-name').value);
   let altNames = window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES] = sanitizeText(document.getElementById('object-alt-name').value);
-  let humanName = convertObjectNameToHumanReadableName(name, altNames, orbitalRank);
+  const objectId = sanitizeText(document.getElementById('object-tech-id').value);
+  let humanName = convertObjectNameToHumanReadableName(name, altNames, orbitalRank, objectId);
   // let humanParent = getParentHierarchy(window.selectedAstronomicalObject[SPREADSHEET_HEADERS.ID]);
   
   // Making sure document.ready is ready before continuing....
@@ -547,7 +548,7 @@ async function convertFormValuesToData() {
     // Below will only run after document is ready
 
     // Data array populating
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] = sanitizeText(document.getElementById('object-tech-id').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] = objectId;
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_ID] = sanitizeText(document.getElementById('object-human-id').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_NAME] = humanName;
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME] = name;
@@ -756,7 +757,8 @@ function updateHumanReadableFormField() {
   const name = document.getElementById('object-name').value;
   const altNames = document.getElementById('object-alt-name').value;
   const orbitalRank = document.getElementById('object-orbital-rank').value;
-  document.getElementById('object-name-raw').value = convertObjectNameToHumanReadableName(name, altNames, orbitalRank);
+  const objectId = document.getElementById('object-tech-id').value;
+  document.getElementById('object-name-raw').value = convertObjectNameToHumanReadableName(name, altNames, orbitalRank, objectId);
 }
 
 /**********/

@@ -186,14 +186,25 @@ function convertSpreadsheetColumnNumberToLetters(number) {
  * @param {String} objectName 
  * @param {String} orbitalRank
  */
-function convertObjectNameToHumanReadableName(objectName, altNames, orbitalRank) {
-  const spacesFromParent = // TODO
-  let humanReadableNamePrefix = (orbitalRank !== "" ? spacesFromParent + "  ╚═ "+orbitalRank.toString()+". " : "") + objectName;
-  let humanReadableName = "";
-  if(altNames !== "") {
-    humanReadableName = " / "+altNames.split("/").join(" / ").replace(/  +/g, ' '); // Format name list (space,slash,space) and remove multiple spaces
+function convertObjectNameToHumanReadableName(objectName, altNames, orbitalRank, objectID) {
+  const object = astronomicalObjectSearchArray.find(currentObject => currentObject.id === objectID);
+  // Find level of hierarchy for system inner object
+  const innerSystemObjects = ["Star", "Star Barycenter", "Asteroid Field", "Rings", "Comet", "Asteroid", "Dwarf Moon", "Moon", "Dwarf Planet", "Rogue Planet", "Planet Barycenter", "Planet", "Asteroid Belt", "Artificial Object", "Comet Cluster", "Cometary Cloud"];
+  let parentLevel = 0;
+  let objectParent = object;
+  if(innerSystemObjects.includes(object.objectType) && orbitalRank !== "") {
+    do {
+      parentLevel++;
+      objectParent = astronomicalObjectSearchArray.find(currentObject => currentObject.id === objectParent.parentId);
+    } while ((objectParent !== undefined || objectParent !== null) && objectParent.objectType !== "Star System");
+  } else {
+    parentLevel = 1;
   }
-  return humanReadableNamePrefix + humanReadableName;
+  let humanReadableName = (orbitalRank !== "" ? "     ".repeat(parentLevel) + "╚═ "+orbitalRank.toString()+". " : "") + objectName;
+  if(altNames !== "") {
+    humanReadableName += " / "+altNames.split("/").join(" / ").replace(/  +/g, ' '); // Format name list (space,slash,space) and remove multiple spaces
+  }
+  return humanReadableName;
 }
 
 /**

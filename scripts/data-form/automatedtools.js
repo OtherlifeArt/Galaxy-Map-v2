@@ -104,7 +104,7 @@ async function batchUpdateAllObjectReadableNames() {
     const orbitalRank = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ORBITAL_RANK]);
     const altName = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES]);
     // Generate readable name
-    const nameString = convertObjectNameToHumanReadableName(objectName, altName, orbitalRank);
+    const nameString = convertObjectNameToHumanReadableName(objectName, altName, orbitalRank, objectId);
     // compare new and old parent string, update if different
     if(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_NAME] !== nameString) {
       objectToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] = objectId;
