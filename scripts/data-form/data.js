@@ -31,7 +31,7 @@ $.getJSON(url_roads, function(data) {
 /************** POINTS ***************/
 function getPointColor(type) {
   return (
-      type === "Planet" || type === "Dwarf Planet"
+      type === "Planet" || type === "Dwarf Planet" || type === "Planet Barycenter"
           ? "#2FA044"
           : type === "Moon" || type === "Dwarf Moon"
           ? "#FEFEFE"
@@ -41,7 +41,7 @@ function getPointColor(type) {
           ? "#606261"
           : type === "Asteroid Field" || type === "Asteroid"
           ? "#1D204D"
-          : type === "Star" || type === "Star Cluster"
+          : type === "Star" || type === "Star Cluster" || type === "Star Barycenter"
           ? "#E5D91D"
           : type === "Comet" || type === "Comet Cluster" || type === "Cometary Cloud"
           ? "#EDAC0C"
