@@ -65,20 +65,21 @@ async function loadAstronomicalObjectArray() {
       inMovie: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IN_MOVIES]),
       conjName: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_NAME]),
       conjType: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_TYPE]),
-      desc: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DESC]),
       orbitalRank: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ORBITAL_RANK]),
       sortId: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_ID]),
       isCapital: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IS_CAPITAL]),
       placementCertitude: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_CERTITUDE]),
       placementLogic: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_LOGIC]),
-      nativeSpecies: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NATIVE_SPECIES]),
+      nativeSpecies: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NATIVE_SAPIENTS]),
       knownEnvironments: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ENVIRONMENTS]),
       interesting: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING]),
       notes: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES]),
       zoomLevel: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ZOOM_LEVEL]),
       lastUpdated: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.updated_at]),
       appearance: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.APPEARANCE_FROM_ORBIT]),
-      immigrantSpecies: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IMMIGRANT_SPECIES]),
+      immigrantSpecies: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IMMIGRANT_SAPIENTS]),
+      fauna: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.FAUNA]),
+      flora: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.FLORA]),
       population: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POPULATION]),
       size: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.SIZE]),
       gravity: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GRAVITY]),
@@ -349,11 +350,12 @@ async function loadObjectForm(objectID) {
     document.getElementById('object-coord-x').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD]); // X Coordinate
     document.getElementById('object-coord-y').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]); // Y Coordinate
     document.getElementById('object-coord-z').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD]); // Z Coordinate
-    document.getElementById('object-desc').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DESC]); // Description
     document.getElementById('object-placement-certitude').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_CERTITUDE]); // Placement certitude
     document.getElementById('object-placement-logic').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_LOGIC]); // Placement logic
-    document.getElementById('object-native-species').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NATIVE_SPECIES]); // Native species
-    document.getElementById('object-immigrant-species').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IMMIGRANT_SPECIES]); // Immigrant species
+    document.getElementById('object-native-sapients').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NATIVE_SAPIENTS]); // Native species
+    document.getElementById('object-immigrant-sapients').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IMMIGRANT_SAPIENTS]); // Immigrant species
+    document.getElementById('object-fauna').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.FAUNA]);// Fauna
+    document.getElementById('object-flora').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.FLORA]);// Flora
     document.getElementById('object-orbit-appearance').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.APPEARANCE_FROM_ORBIT]); // Appearance from orbit
     document.getElementById('object-known-climate').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_CLIMATES]); // Known Climates
     document.getElementById('object-known-atmosphere').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ATMOSPHERE]); // Known Atmosphere
@@ -574,11 +576,12 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD] = sanitizeText(document.getElementById('object-coord-x').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] = sanitizeText(document.getElementById('object-coord-y').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD] = sanitizeText(document.getElementById('object-coord-z').value);
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DESC] = sanitizeText(document.getElementById('object-desc').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_CERTITUDE] = sanitizeText(document.getElementById('object-placement-certitude').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_LOGIC] = sanitizeText(document.getElementById('object-placement-logic').value);
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NATIVE_SPECIES] = sanitizeText(document.getElementById('object-native-species').value);
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IMMIGRANT_SPECIES] = sanitizeText(document.getElementById('object-immigrant-species').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NATIVE_SAPIENTS] = sanitizeText(document.getElementById('object-native-sapients').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IMMIGRANT_SAPIENTS] = sanitizeText(document.getElementById('object-immigrant-sapients').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.FAUNA] = sanitizeText(document.getElementById('object-fauna').value); // Fauna
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.FLORA] = sanitizeText(document.getElementById('object-flora').value); // Flora
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.APPEARANCE_FROM_ORBIT] = sanitizeText(document.getElementById('object-orbit-appearance').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_CLIMATES] = sanitizeText(document.getElementById('object-known-climate').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ATMOSPHERE] = sanitizeText(document.getElementById('object-known-atmosphere').value);
