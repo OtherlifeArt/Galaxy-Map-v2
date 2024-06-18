@@ -2,7 +2,7 @@
  * Draw (again) all canvas elements
  */
 function drawCanvas() {
-  
+
 }
 
 /**
@@ -15,7 +15,14 @@ function drawTextInfoOnCanvas () {
 /**
  * Draw orbit
  */
-function drawOrbitOnVanvas () {
+function drawOrbitOnCanvas () {
+
+}
+
+/**
+ * Draw scale
+ */
+function drawScaleOnCanvas () {
 
 }
 

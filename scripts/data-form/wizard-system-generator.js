@@ -599,7 +599,7 @@ function objectSystemBuilderGenerateSystem(method) {
     // Check data before generating system
     const kepler3rdLawMissingData = objectSystemBuilderCheckForMandatoryMissingDataToUseKeplerThirdLaw();
     if(kepler3rdLawMissingData.missingData) {
-      const randomGenerate = confim("You are missing following data to use Kepler 3rd law to calculate object orbit radii (object semi-major axes) :\n\n" + kepler3rdLawMissingData.message + "\n\nDo you want to pseudo-random genrate them ?\n\nIf you don't have them and don't want to random fill/generate them consider using the next methods to complete system generation");
+      const randomGenerate = confim("You are missing following data to use Kepler 3rd law to calculate object orbit radii (object semi-major axes) :\n\n" + kepler3rdLawMissingData.message + "\n\nDo you want to pseudo-random generate them ?\n\nIf you don't have them and don't want to random fill/generate them consider using the next methods to complete system generation");
       if(randomGenerate) {
         // TODO : find masses function of object types and diameters
         // TODO : generate orbital periods
