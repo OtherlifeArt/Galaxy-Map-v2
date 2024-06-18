@@ -260,27 +260,27 @@ function createSuggestionObjectArray(object) {
     "Area" : [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
       "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star","Rings","Rogue Planet","Rogue Moon","Rogue Asteroid","Rogue Comet",
-      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field"
+      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field","Star Barycenter","Planet Barycenter"
     ],
     "Unknown": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
       "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star","Rings","Rogue Planet","Rogue Moon","Rogue Asteroid","Rogue Comet",
-      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field"
+      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field","Star Barycenter","Planet Barycenter"
     ],
     "Location": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
       "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star","Rings","Rogue Planet","Rogue Moon","Rogue Asteroid","Rogue Comet",
-      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field"
+      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field","Star Barycenter","Planet Barycenter"
     ],
     "Exotic": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
       "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star","Rings","Rogue Planet","Rogue Moon","Rogue Asteroid","Rogue Comet",
-      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field"
+      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field","Star Barycenter","Planet Barycenter"
     ],
     "Anomaly": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
       "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star","Rings","Rogue Planet","Rogue Moon","Rogue Asteroid","Rogue Comet",
-      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field"
+      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field","Star Barycenter","Planet Barycenter"
     ],
     "Void Space": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
@@ -289,12 +289,12 @@ function createSuggestionObjectArray(object) {
     "Artificial Object": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
       "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star","Rings","Rogue Planet","Rogue Moon","Rogue Asteroid","Rogue Comet",
-      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field"
+      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field","Star Barycenter","Planet Barycenter"
     ],
     "Natural Object": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
       "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star","Rings","Rogue Planet","Rogue Moon","Rogue Asteroid","Rogue Comet",
-      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field"
+      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field","Star Barycenter","Planet Barycenter"
     ],
     "Universe": [],
     "Galaxy Cluster": ["Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe"],
@@ -333,7 +333,7 @@ function createSuggestionObjectArray(object) {
     "Rings": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
       "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star","Rings","Rogue Planet","Rogue Moon","Rogue Asteroid","Rogue Comet",
-      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field"
+      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field","Star Barycenter","Planet Barycenter"
     ],
     "Rogue Planet": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
@@ -353,47 +353,49 @@ function createSuggestionObjectArray(object) {
     ],
     "Planet": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
-      "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star"
+      "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star","Star Barycenter","Planet Barycenter"
     ],
     "Dwarf Planet": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
-      "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star","Rings",
+      "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star","Rings","Star Barycenter","Planet Barycenter"
     ],
     "Moon": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
       "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star","Rings","Rogue Planet",
-      "Planet","Dwarf Planet"
+      "Planet","Dwarf Planet","Planet Barycenter"
     ],
     "Dwarf Moon": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
       "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star","Rings","Rogue Planet","Rogue Moon",
-      "Planet","Dwarf Planet","Moon"
+      "Planet","Dwarf Planet","Moon","Planet Barycenter"
     ],
     "Asteroid": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
       "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star","Rings","Rogue Planet","Rogue Moon","Rogue Asteroid","Rogue Comet",
-      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field"
+      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Comet","Comet Cluster","Cometary Cloud","Asteroid Belt","Asteroid Field","Star Barycenter","Planet Barycenter"
     ],
     "Comet": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
-      "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System"
+      "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star Barycenter"
     ],
     "Comet Cluster": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
-      "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System"
+      "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star Barycenter"
     ],
     "Cometary Cloud": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
-      "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System"
+      "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star Barycenter"
     ],
     "Asteroid Belt": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
-      "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System"
+      "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star Barycenter","Planet Barycenter",
+      "Rogue Planet","Rogue Moon","Rogue Asteroid","Rogue Comet",
+      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Asteroid Field"
     ],
     "Asteroid Field": [
       "Unknown","Location","Exotic","Anomaly","Void Space","Artificial Object","Natural Object","Universe","Galaxy Cluster","Galaxy Group","Galaxy","Quasar",
       "Region","Sector","Interstellar Matter","Nebula","Interstellar Cloud","Star Cluster","Star System","Star","Rings","Rogue Planet","Rogue Moon","Rogue Asteroid","Rogue Comet",
-      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Asteroid Belt","Asteroid Field"
+      "Planet","Dwarf Planet","Moon","Dwarf Moon","Asteroid","Asteroid Belt","Asteroid Field","Star Barycenter","Planet Barycenter",
     ],
     "Hyperspace Route": ["Hyperspace Route","Hyperspace route section"],
     "Hyperspace route section": [],

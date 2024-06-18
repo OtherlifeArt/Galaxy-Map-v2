@@ -109,6 +109,8 @@ function datatableChildContent(rowData, datatableLabel) {
           "<div><b><i>Population: </i></b>"+rowData.population+"</div>"+
           "<div><b><i>Native Species: </i></b>"+rowData.nativeSpecies+"</div>"+
           "<div><b><i>Immigrant Species: </i></b>"+rowData.immigrantSpecies+"</div>"+
+          "<div><b><i>Fauna: </i></b>"+rowData.fauna+"</div>"+
+          "<div><b><i>Flora: </i></b>"+rowData.flora+"</div>"+
           "<div><b><i>Known Environments: </i></b>"+rowData.knownEnvironments+"</div>"+
           "<div><b><i>Known Climates: </i></b>"+rowData.knownClimates+"</div>"+
           "<div><b><i>Known Atmosphere: </i></b>"+rowData.knownAtmosphere+"</div>"+
@@ -133,7 +135,7 @@ function datatableChildContent(rowData, datatableLabel) {
           "<div><b><i>Parent ID: </i></b>"+rowData.parentId+"</div>"+
         "</div>"+
         "<div class='object-datatable-child-row-3'><b><i>URLS: </i></b>"+urls+"</div>"+
-        "<div class='object-datatable-child-row-4'><b><i>Desc: </i></b>"+rowData.desc+"</div>"+
+        // "<div class='object-datatable-child-row-4'><b><i>Desc: </i></b>"+rowData.desc+"</div>"+
         "<div class='object-datatable-child-row-5'><b><i>Interesting: </i></b>"+rowData.interesting+"</div>"+
         "<div class='object-datatable-child-row-6'><b><i>Notes: </i></b>"+rowData.notes+"</div>"+
       "</div>"

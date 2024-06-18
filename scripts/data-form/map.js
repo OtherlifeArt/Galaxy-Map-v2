@@ -248,7 +248,7 @@ legend.onAdd = function (map) {
     div.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; // White background with 0.8% opacity
     
     var types = ["Planet", "Moon", "Star System", "Artificial object", "Asteroid", "Star",  "Comet",  "Nebula", "Location", "Exotic", "Unknown"];
-    var labels = ["Planet / Dwarf Planet", "Moon / Dwarf Moon", "Star System", "Artificial object", "Asteroid Field / Asteroid", "Star / Star Cluster", "Comet / Comet Cluster / Cometary Cloud", "Nebula", "Location", "Exotic", "Unknown"];
+    var labels = ["Planet / Dwarf Planet / Planet Barycenter", "Moon / Dwarf Moon", "Star System", "Artificial object", "Asteroid Field / Asteroid", "Star / Star Barycenter / Star Cluster", "Comet / Comet Cluster / Cometary Cloud", "Nebula", "Location", "Exotic", "Unknown"];
     // Loop through all types and generate a label with corresponding color and circle symbol
     for (var i = 0; i < types.length; i++) {
         var type = types[i];
