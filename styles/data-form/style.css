@@ -601,6 +601,16 @@ input[readonly], textarea[readonly] {
   background-color: #ddd;
 }
 
+/* Canvas */
+#system-builder-preview-wrapper {
+  width: 100%;
+  overflow: auto;
+}
+
+#system-builder-preview {
+  background-color: #475A73;
+  height: 500px;
+}
 
 /********************/
 /**** DATATABLE *****/
