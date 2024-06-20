@@ -122,6 +122,11 @@ function createInnerObjectSystemBuilderWizardStructure(parentDiv) {
   systemFieldset.appendChild(systemTableDiv);
   // canvas buttons
   const canvasButtonSpan = document.createElement("span");
+  // Button fieldset
+  const canvasGenerationButtonFieldset = document.createElement("fieldset");
+  const canvasGenerationButtonFieldsetLegend = document.createElement('legend');
+  canvasGenerationButtonFieldsetLegend.textContent = 'Generation Method';
+  canvasGenerationButtonFieldset.appendChild(canvasGenerationButtonFieldsetLegend);
   // Radio boxes to choose method
   // Kepler 3rd law span
   const kepler3rdLawRadioTooltip = document.createElement('span');
@@ -143,10 +148,10 @@ function createInnerObjectSystemBuilderWizardStructure(parentDiv) {
   const kepler3rdLawRadioLabel = document.createElement('label');
   kepler3rdLawRadioLabel.htmlFor = 'system-builder-kepler-3rd-law-radio';
   kepler3rdLawRadioLabel.appendChild(document.createTextNode('Kepler 3rd Law'));
-  canvasButtonSpan.appendChild(kepler3rdLawRadioTooltip);
-  canvasButtonSpan.appendChild(document.createElement("br"));
-  canvasButtonSpan.appendChild(kepler3rdLawRadio);
-  canvasButtonSpan.appendChild(kepler3rdLawRadioLabel);
+  canvasGenerationButtonFieldset.appendChild(kepler3rdLawRadioTooltip);
+  canvasGenerationButtonFieldset.appendChild(document.createElement("br"));
+  canvasGenerationButtonFieldset.appendChild(kepler3rdLawRadio);
+  canvasGenerationButtonFieldset.appendChild(kepler3rdLawRadioLabel);
   // kepler3rdLawRadioTooltip.appendChild(kepler3rdLawRadioTooltipText);
   // Hill radius with power law radio button
   const hillRadiusWithPowerLawRadio = document.createElement('input');
@@ -158,8 +163,8 @@ function createInnerObjectSystemBuilderWizardStructure(parentDiv) {
   const hillRadiusWithPowerLawRadioLabel = document.createElement('label');
   hillRadiusWithPowerLawRadioLabel.htmlFor = 'system-builder-hill-radius-power-law-radio';
   hillRadiusWithPowerLawRadioLabel.appendChild(document.createTextNode('Hill Radius with Power Law'));
-  canvasButtonSpan.appendChild(hillRadiusWithPowerLawRadio);
-  canvasButtonSpan.appendChild(hillRadiusWithPowerLawRadioLabel);
+  canvasGenerationButtonFieldset.appendChild(hillRadiusWithPowerLawRadio);
+  canvasGenerationButtonFieldset.appendChild(hillRadiusWithPowerLawRadioLabel);
   // Hill radius with logarithm distribution
   const hillRadiusWithLogarithmDistributionRadio = document.createElement('input');
   hillRadiusWithLogarithmDistributionRadio.type = 'radio';
@@ -170,8 +175,8 @@ function createInnerObjectSystemBuilderWizardStructure(parentDiv) {
   const hillRadiusWithLogarithmDistributionRadioLabel = document.createElement('label');
   hillRadiusWithLogarithmDistributionRadioLabel.htmlFor = 'system-builder-hill-radius-logarithm-distribution-radio';
   hillRadiusWithLogarithmDistributionRadioLabel.appendChild(document.createTextNode('Hill Radius with Logarithm Distribution'));
-  canvasButtonSpan.appendChild(hillRadiusWithLogarithmDistributionRadio);
-  canvasButtonSpan.appendChild(hillRadiusWithLogarithmDistributionRadioLabel);
+  canvasGenerationButtonFieldset.appendChild(hillRadiusWithLogarithmDistributionRadio);
+  canvasGenerationButtonFieldset.appendChild(hillRadiusWithLogarithmDistributionRadioLabel);
   // Generate system button
   const generateSystemButton = document.createElement('button');
   generateSystemButton.innerHTML = 'Generate System';
@@ -181,7 +186,8 @@ function createInnerObjectSystemBuilderWizardStructure(parentDiv) {
     const selectMethod = (Array.from(methodRadios)).find(radio => radio.checked)?.value;
     objectSystemBuilderGenerateSystem(selectMethod);
   });
-  canvasButtonSpan.appendChild(generateSystemButton);
+  canvasGenerationButtonFieldset.appendChild(generateSystemButton);
+  canvasButtonSpan.appendChild(canvasGenerationButtonFieldset);
   firstColumnDiv.appendChild(canvasButtonSpan);
   // Canvas
   const systemPreviewWrapperDiv = document.createElement("div");
@@ -246,6 +252,7 @@ function generateInnerSystemTableRow (systemTableBody, currentSystem, tableHeadC
         if(columnKey === "name" || columnKey === "continuityString" || columnKey === "objectType" || columnKey === "objectTypeClass") {
           systemTableBodyCell.innerHTML = innerSystemObject[columnKey];
           systemTableBodyCell.setAttribute("objectProperty", columnKey);
+        // else if objecttype classes avec choix dépendant du type !
         } else {
           const inputText = document.createElement("input");
           inputText.type = "text";
@@ -595,18 +602,28 @@ function objectSystemBuilderResetStoredData() {
  */
 function objectSystemBuilderGenerateSystem(method) {
 // To use Kepler 3rd Law
+  let isReadyToGenerate = false;
   if(method === "kepler-3rd-law") {
     // Check data before generating system
     const kepler3rdLawMissingData = objectSystemBuilderCheckForMandatoryMissingDataToUseKeplerThirdLaw();
     if(kepler3rdLawMissingData.missingData) {
-      const randomGenerate = confim("You are missing following data to use Kepler 3rd law to calculate object orbit radii (object semi-major axes) :\n\n" + kepler3rdLawMissingData.message + "\n\nDo you want to pseudo-random generate them ?\n\nIf you don't have them and don't want to random fill/generate them consider using the next methods to complete system generation");
+      const randomGenerate = confirm("You are missing following data to use Kepler 3rd law to calculate object orbit radii (object semi-major axes) :\n\n" + kepler3rdLawMissingData.message + "\n\nDo you want to pseudo-random generate them ?\n\nIf you don't have them and don't want to random fill/generate them consider using the next methods to complete system generation");
       if(randomGenerate) {
         // TODO : find masses function of object types and diameters
         // TODO : generate orbital periods
         const message = objectSystemBuilderFindObjectsSemiMajorAxisUsingKeplerThirdLaw(wizardObjectSystemStore[objectSystemWizard.currentSystemIndex]);
         alert(message);
+        isReadyToGenerate = true;
       }
     }
+  // Else other methods
+  } else {
+    alert(`Method ${method} unknown`);
+    isReadyToGenerate = true; // TO DELETE !!!!!!
+  }
+  // Draw on canvas
+  if(isReadyToGenerate) {
+    drawSystemBuilderCanvas();
   }
 }
 

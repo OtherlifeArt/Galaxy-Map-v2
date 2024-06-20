@@ -1,8 +1,13 @@
+function getSystemBuilderCanvas() {
+  return document.getElementById("system-builder-preview");
+}
+
 /**
  * Draw (again) all canvas elements
  */
-function drawCanvas() {
-
+function drawSystemBuilderCanvas() {
+  const canvas = getSystemBuilderCanvas();
+  // Recursive Iterate system and call draw functions for orbits and bodies
 }
 
 /**
