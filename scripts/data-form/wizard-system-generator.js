@@ -252,7 +252,7 @@ function generateInnerSystemTableRow (systemTableBody, currentSystem, tableHeadC
         if(columnKey === "name" || columnKey === "continuityString" || columnKey === "objectType" || columnKey === "objectTypeClass") {
           systemTableBodyCell.innerHTML = innerSystemObject[columnKey];
           systemTableBodyCell.setAttribute("objectProperty", columnKey);
-        // else if objecttype classes avec choix dépendant du type !
+        // else if objecttype classes avec choix dépendant du type ! TODO
         } else {
           const inputText = document.createElement("input");
           inputText.type = "text";

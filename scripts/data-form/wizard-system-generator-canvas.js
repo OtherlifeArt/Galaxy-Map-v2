@@ -7,6 +7,7 @@ function getSystemBuilderCanvas() {
  */
 function drawSystemBuilderCanvas() {
   const canvas = getSystemBuilderCanvas();
+  // Get system most distance object distance (probably outer ody sattelites)
   // Recursive Iterate system and call draw functions for orbits and bodies
 }
 
