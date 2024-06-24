@@ -601,8 +601,8 @@ function objectSystemBuilderResetStoredData() {
  * Generate orbits within star systems
  */
 function objectSystemBuilderGenerateSystem(method) {
-// To use Kepler 3rd Law
   let isReadyToGenerate = false;
+  // To use Kepler 3rd Law
   if(method === "kepler-3rd-law") {
     // Check data before generating system
     const kepler3rdLawMissingData = objectSystemBuilderCheckForMandatoryMissingDataToUseKeplerThirdLaw();
@@ -610,6 +610,7 @@ function objectSystemBuilderGenerateSystem(method) {
       const randomGenerate = confirm("You are missing following data to use Kepler 3rd law to calculate object orbit radii (object semi-major axes) :\n\n" + kepler3rdLawMissingData.message + "\n\nDo you want to pseudo-random generate them ?\n\nIf you don't have them and don't want to random fill/generate them consider using the next methods to complete system generation");
       if(randomGenerate) {
         // TODO : find masses function of object types and diameters
+        objectSystemBuilderGenerateMassesOfObject();
         // TODO : generate orbital periods
         const message = objectSystemBuilderFindObjectsSemiMajorAxisUsingKeplerThirdLaw(wizardObjectSystemStore[objectSystemWizard.currentSystemIndex]);
         alert(message);
@@ -617,6 +618,12 @@ function objectSystemBuilderGenerateSystem(method) {
       }
     }
   // Else other methods
+  else if (method === "hill-radius-power-law") {
+
+  }
+  else if (method === "hill-radius-logarithm-distribution") {
+
+  }
   } else {
     alert(`Method ${method} unknown`);
     isReadyToGenerate = true; // TO DELETE !!!!!!
@@ -625,6 +632,13 @@ function objectSystemBuilderGenerateSystem(method) {
   if(isReadyToGenerate) {
     drawSystemBuilderCanvas();
   }
+}
+
+/**
+ * Pseudo random generate object masses function of object type/subtype and diameter (is diameter is unknown random generate it)
+ */
+function objectSystemBuilderGenerateMassesOfObject() {
+
 }
 
 /**
