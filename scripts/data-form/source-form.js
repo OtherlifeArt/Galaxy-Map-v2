@@ -30,12 +30,20 @@ async function listSources() {
 
     const ID = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.ID]);
     const NAME = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.NAME]);
-    const CONTINUITY = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.CONTINUITY]);
+    // const CONTINUITY = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.CONTINUITY]);
+    const CONTINUITY = canonLegendsUnlicencedToString(sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.CANON]), sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.LEGENDS]), sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.UNLICENSED]));
     const ERA = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.ERA]);
-    const TIMELINE_DATE = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.TIMELINE_DATE]).replace(/ *\[[^)]*\] */g, "");
+    const TIMELINE_DATE = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.DATE_FROM]).replace(/ *\[[^)]*\] */g, "") + " - " + sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.DATE_TO]).replace(/ *\[[^)]*\] */g, "");
     const TYPE = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.TYPE]);
     const RELEASED = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.RELEASED]);
-    const AUTHORS = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHORS]);
+    let AUTHORS = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHOR_1]) !== "" ? sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHOR_1]) : "" ;
+    AUTHORS += sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHOR_2]) !== "" ? "/" + sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHOR_2]) : "" ;
+    AUTHORS += sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHOR_3]) !== "" ? "/" + sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHOR_3]) : "" ;
+    AUTHORS += sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHOR_4]) !== "" ? "/" + sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHOR_4]) : "" ;
+    AUTHORS += sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHOR_5]) !== "" ? "/" + sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHOR_5]) : "" ;
+    AUTHORS += sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHOR_6]) !== "" ? "/" + sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHOR_6]) : "" ;
+    AUTHORS += sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHOR_7]) !== "" ? "/" + sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHOR_7]) : "" ;
+
     const WOOKIEPEDIA = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.WOOKIEPEDIA]);
     
     // Don't push if source id is empty (used as separator for presentation)
