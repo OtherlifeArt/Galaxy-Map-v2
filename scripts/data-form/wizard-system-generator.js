@@ -600,37 +600,49 @@ function objectSystemBuilderResetStoredData() {
 /**
  * Generate orbits within star systems
  */
-function objectSystemBuilderGenerateSystem(method) {
+function objectSystemBuilderGenerateSystem(calculationMethod, estimationMethod) {
   let isReadyToGenerate = false;
   // To use Kepler 3rd Law
-  if(method === "kepler-3rd-law") {
-    // Check data before generating system
-    const kepler3rdLawMissingData = objectSystemBuilderCheckForMandatoryMissingDataToUseKeplerThirdLaw();
-    if(kepler3rdLawMissingData.missingData) {
-      const randomGenerate = confirm("You are missing following data to use Kepler 3rd law to calculate object orbit radii (object semi-major axes) :\n\n" + kepler3rdLawMissingData.message + "\n\nDo you want to pseudo-random generate them ?\n\nIf you don't have them and don't want to random fill/generate them consider using the next methods to complete system generation");
-      if(randomGenerate) {
-        // TODO : find masses function of object types and diameters
-        objectSystemBuilderGenerateMassesOfObject();
-        // TODO : generate orbital periods
-        const message = objectSystemBuilderFindObjectsSemiMajorAxisUsingKeplerThirdLaw(wizardObjectSystemStore[objectSystemWizard.currentSystemIndex]);
-        alert(message);
-        isReadyToGenerate = true;
-      }
-    }
-  // Else other methods
-  else if (method === "hill-radius-power-law") {
+  // if(method === "kepler-3rd-law") {
+  //   // Check data before generating system
+  //   const kepler3rdLawMissingData = objectSystemBuilderCheckForMandatoryMissingDataToUseKeplerThirdLaw();
+  //   if(kepler3rdLawMissingData.missingData) {
+  //     const randomGenerate = confirm("You are missing following data to use Kepler 3rd law to calculate object orbit radii (object semi-major axes) :\n\n" + kepler3rdLawMissingData.message + "\n\nDo you want to pseudo-random generate them ?\n\nIf you don't have them and don't want to random fill/generate them consider using the next methods to complete system generation");
+  //     if(randomGenerate) {
+  //       // TODO : find masses function of object types and diameters
+  //       objectSystemBuilderGenerateMassesOfObject();
+  //       // TODO : generate orbital periods
+  //       const message = objectSystemBuilderFindObjectsSemiMajorAxisUsingKeplerThirdLaw(wizardObjectSystemStore[objectSystemWizard.currentSystemIndex]);
+  //       alert(message);
+  //       isReadyToGenerate = true;
+  //     }
+  //   }
+  // // Else other methods
+  // else if (method === "hill-radius-power-law") {
 
-  }
-  else if (method === "hill-radius-logarithm-distribution") {
+  // }
+  // else if (method === "hill-radius-logarithm-distribution") {
 
-  }
+  // }
+  if (estimationMethod === "titius-bode-law") {
+  } else if (estimationMethod === "power-law") {
+  } else if (estimationMethod === "logarithmic-distribution") {
+  } else if (calculationMethod === "kepler-3rd-law") {
   } else {
-    alert(`Method ${method} unknown`);
+    alert(`Estimation method ${calculationMethod} unknown`);
+    isReadyToGenerate = true; // TO DELETE !!!!!!
+  }
+  if (calculationMethod === "kepler-3rd-law") {
+  } else if (calculationMethod === "hill-radius") {
+  } else {
+    alert(`Calculation method ${calculationMethod} unknown`);
     isReadyToGenerate = true; // TO DELETE !!!!!!
   }
   // Draw on canvas
   if(isReadyToGenerate) {
     drawSystemBuilderCanvas();
+  } else {
+    // Show what is missing
   }
 }
 
