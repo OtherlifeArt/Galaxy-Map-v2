@@ -1,16 +1,70 @@
+function objectSystemBuilderCheckPrerequisitesTituisBodeLaw() {
+  let report = objectSystemBuilderCheckPrerequisitesTituisBodeLawRecursive(innerObject, false);
+  if(report.status === "nok") {
+    // message
+    let message = "Prerequisites are not meet to generate system !\nMissing Data are :";
+    report.details.forEach(messageData => {
+      message += `${messageData.name} is missing ${messageData.missingData.join(", ")}`;
+    });
+    alert(message);
+    return false;
+  } else {
+    alert("Prerequisites are reached to generate system !");
+    return true;
+  }
+}
+
+function objectSystemBuilderCheckPrerequisitesTituisBodeLawRecursive(astroObject, isObject = true) {
+  let report = {
+    status: "ok",
+    details: [],
+  };
+  astroObject.innerObjects.forEach(innerObject => {
+    let objectReport = objectSystemBuilderCheckPrerequisitesTituisBodeLawRecursive(innerObject);
+    if(objectReport.status === "nok") {
+      report.status = "nok";
+    }
+    report.details = [...report.details, objectReport.details]; // concat
+  });
+  // Check prerequisistes
+  if(isObject && (isNaN(astroObject.orbitalRank) || astroObject.orbitalRank < 0)) {
+    report.status = "nok";
+    report.details.push({"name":astroObject.name, missingData:["orbitalRank"]});
+  }
+  return report;
+}
+
 function objectSystemBuilder() {
 
 }
 
+function objectSystemBuilder() {
 
+}
 
+function objectSystemBuilder() {
 
+}
 
+function objectSystemBuilder() {
 
+}
 
+function objectSystemBuilder() {
 
+}
 
+function objectSystemBuilder() {
 
+}
+
+function objectSystemBuilder() {
+
+}
+
+function objectSystemBuilder() {
+
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 

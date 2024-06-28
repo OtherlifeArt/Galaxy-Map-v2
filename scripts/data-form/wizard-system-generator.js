@@ -626,6 +626,7 @@ function objectSystemBuilderGenerateSystem(calculationMethod, estimationMethod) 
   // }
   if (estimationMethod === "titius-bode-law") {
     // Check prerequisites
+    isReadyToGenerate = objectSystemBuilderCheckPrerequisitesTituisBodeLaw();
   } else if (estimationMethod === "power-law") {
     // Check prerequisites
   } else if (estimationMethod === "logarithmic-distribution") {
@@ -634,19 +635,19 @@ function objectSystemBuilderGenerateSystem(calculationMethod, estimationMethod) 
     // Check prerequisites
   } else {
     alert(`Estimation method ${calculationMethod} unknown`);
+    return;
   }
   if (calculationMethod === "kepler-3rd-law") {
     // Check prerequisites
   } else if (calculationMethod === "hill-radius") {
     // Check prerequisites
-  } else {
+  } else if (calculationMethod !== "none") { // Do nothing for none
     alert(`Calculation method ${calculationMethod} unknown`);
+    return;
   }
   // Draw on canvas
   if(isReadyToGenerate) {
     drawSystemBuilderCanvas();
-  } else {
-    // Show what is missing
   }
 }
 
