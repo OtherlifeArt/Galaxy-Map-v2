@@ -1,5 +1,5 @@
 function objectSystemBuilderCheckPrerequisitesTituisBodeLaw() {
-  let report = objectSystemBuilderCheckPrerequisitesTituisBodeLawRecursive(innerObject, false);
+  let report = objectSystemBuilderCheckPrerequisitesTituisBodeLawRecursive(wizardObjectSystemStore[objectSystemWizard.currentSystemIndex], false);
   if(report.status === "nok") {
     // message
     let message = "Prerequisites are not meet to generate system !\nMissing Data are :";

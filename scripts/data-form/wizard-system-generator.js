@@ -120,14 +120,56 @@ function createInnerObjectSystemBuilderWizardStructure(parentDiv) {
   systemTableDiv.appendChild(systemTable);
   systemFieldset.appendChild(systemNameDiv);
   systemFieldset.appendChild(systemTableDiv);
+
   // canvas buttons
   const canvasButtonSpan = document.createElement("span");
-  // Button fieldset
+  // Estimation Method fieldset
+  const canvasGenerationEstimationMethodFieldset = document.createElement("fieldset");
+  const canvasGenerationEstimationMethodFieldsetLegend = document.createElement('legend');
+  canvasGenerationEstimationMethodFieldsetLegend.textContent = 'Estimation Method';
+  canvasGenerationEstimationMethodFieldset.appendChild(canvasGenerationEstimationMethodFieldsetLegend);
+  // Radio boxes to choose method
+  // Titius-Bode law
+  const titiusBodeLawRadio = document.createElement('input');
+  titiusBodeLawRadio.type = 'radio';
+  titiusBodeLawRadio.id = 'system-builder-titius-bode-law-radio';
+  titiusBodeLawRadio.name = 'system-builder-estimation-method';  // Shared name for the radiogroup
+  titiusBodeLawRadio.value = 'titius-bode-law';
+  titiusBodeLawRadio.checked = true;
+  const titiusBodeLawRadioLabel = document.createElement('label');
+  titiusBodeLawRadioLabel.appendChild(document.createTextNode('Titius-Bode Law'));
+  titiusBodeLawRadioLabel.htmlFor = 'system-builder-titius-bode-law-radio';
+  // Power law
+  const powerLawRadio = document.createElement('input');
+  powerLawRadio.type = 'radio';
+  powerLawRadio.id = 'system-builder-power-law-radio';
+  powerLawRadio.name = 'system-builder-estimation-method';  // Shared name for the radiogroup
+  powerLawRadio.value = 'power-law';
+  const powerLawRadioLabel = document.createElement('label');
+  powerLawRadioLabel.appendChild(document.createTextNode('Power Law'));
+  powerLawRadioLabel.htmlFor = 'system-builder-power-law-radio';
+  // Logarithmic distribution
+  const logarithmicDistributionRadio = document.createElement('input');
+  logarithmicDistributionRadio.type = 'radio';
+  logarithmicDistributionRadio.id = 'system-builder-logarithmic-distribution-radio';
+  logarithmicDistributionRadio.name = 'system-builder-estimation-method';  // Shared name for the radiogroup
+  logarithmicDistributionRadio.value = 'logarithmic-distribution';
+  const logarithmicDistributionRadioLabel = document.createElement('label');
+  logarithmicDistributionRadioLabel.appendChild(document.createTextNode('Logarithmic Distribution'));
+  logarithmicDistributionRadioLabel.htmlFor = 'system-builder-logarithmic-distribution-radio';
+  // Append radios
+  canvasGenerationEstimationMethodFieldset.appendChild(titiusBodeLawRadio);
+  canvasGenerationEstimationMethodFieldset.appendChild(titiusBodeLawRadioLabel);
+  canvasGenerationEstimationMethodFieldset.appendChild(powerLawRadio);
+  canvasGenerationEstimationMethodFieldset.appendChild(powerLawRadioLabel);
+  canvasGenerationEstimationMethodFieldset.appendChild(logarithmicDistributionRadio);
+  canvasGenerationEstimationMethodFieldset.appendChild(logarithmicDistributionRadioLabel);
+
+  // Calculation Method fieldset
   const canvasGenerationButtonFieldset = document.createElement("fieldset");
   const canvasGenerationButtonFieldsetLegend = document.createElement('legend');
-  canvasGenerationButtonFieldsetLegend.textContent = 'Generation Method';
+  canvasGenerationButtonFieldsetLegend.textContent = 'Calculation Method';
   canvasGenerationButtonFieldset.appendChild(canvasGenerationButtonFieldsetLegend);
-  // Radio boxes to choose method
   // Kepler 3rd law span
   const kepler3rdLawRadioTooltip = document.createElement('span');
   // kepler3rdLawRadioTooltip.classList.add("tooltip");
@@ -136,58 +178,62 @@ function createInnerObjectSystemBuilderWizardStructure(parentDiv) {
   kepler3rdLawRadioTooltip.innerHTML = 
   `In order to use Kepler 3rd Law fomula you need <b>object masses</b> (except for barycenters), <b>length of year, and orbital rank/position</b>.
   <b>Mass</b> can be computed from <b/>object size/diameter<b> and <b>type/type class</b> using statistical data.
-  If a large amount of above mandatory data are missing, consider using any of Hill Radius method`;
+  If a large amount of above mandatory data are missing, consider using Hill radius method or only estimation and no (\"None\") calculation method`;
+  canvasGenerationButtonFieldset.appendChild(kepler3rdLawRadioTooltip);
+  canvasGenerationButtonFieldset.appendChild(document.createElement("br"));
+  // Radio boxes to choose method
+  // Kepler 3rd law radio button
+  const noCalculationMethodRadio = document.createElement('input');
+  noCalculationMethodRadio.type = 'radio';
+  noCalculationMethodRadio.id = 'system-builder-no-calculation-method-radio';
+  noCalculationMethodRadio.name = 'system-builder-calculation-method';  // Shared name for the radiogroup
+  noCalculationMethodRadio.value = 'none';
+  noCalculationMethodRadio.checked = true;
+  // Label for Kepler 3rd law radio button
+  const noCalculationMethodRadioLabel = document.createElement('label');
+  noCalculationMethodRadioLabel.htmlFor = 'system-builder-no-calculation-method-radio';
+  noCalculationMethodRadioLabel.appendChild(document.createTextNode('None'));
+  canvasGenerationButtonFieldset.appendChild(noCalculationMethodRadio);
+  canvasGenerationButtonFieldset.appendChild(noCalculationMethodRadioLabel);
   // Kepler 3rd law radio button
   const kepler3rdLawRadio = document.createElement('input');
   kepler3rdLawRadio.type = 'radio';
   kepler3rdLawRadio.id = 'system-builder-kepler-3rd-law-radio';
-  kepler3rdLawRadio.name = 'system-builder-method';  // Shared name for the radiogroup
+  kepler3rdLawRadio.name = 'system-builder-calculation-method';  // Shared name for the radiogroup
   kepler3rdLawRadio.value = 'kepler-3rd-law';
-  kepler3rdLawRadio.checked = true;
   // Label for Kepler 3rd law radio button
   const kepler3rdLawRadioLabel = document.createElement('label');
   kepler3rdLawRadioLabel.htmlFor = 'system-builder-kepler-3rd-law-radio';
   kepler3rdLawRadioLabel.appendChild(document.createTextNode('Kepler 3rd Law'));
-  canvasGenerationButtonFieldset.appendChild(kepler3rdLawRadioTooltip);
-  canvasGenerationButtonFieldset.appendChild(document.createElement("br"));
   canvasGenerationButtonFieldset.appendChild(kepler3rdLawRadio);
   canvasGenerationButtonFieldset.appendChild(kepler3rdLawRadioLabel);
   // kepler3rdLawRadioTooltip.appendChild(kepler3rdLawRadioTooltipText);
-  // Hill radius with power law radio button
-  const hillRadiusWithPowerLawRadio = document.createElement('input');
-  hillRadiusWithPowerLawRadio.type = 'radio';
-  hillRadiusWithPowerLawRadio.id = 'system-builder-hill-radius-power-law-radio';
-  hillRadiusWithPowerLawRadio.name = 'system-builder-method';  // Shared name for the radiogroup
-  hillRadiusWithPowerLawRadio.value = 'hill-radius-power-law';
-  // Label for Hill radius with power law radio button
-  const hillRadiusWithPowerLawRadioLabel = document.createElement('label');
-  hillRadiusWithPowerLawRadioLabel.htmlFor = 'system-builder-hill-radius-power-law-radio';
-  hillRadiusWithPowerLawRadioLabel.appendChild(document.createTextNode('Hill Radius with Power Law'));
-  canvasGenerationButtonFieldset.appendChild(hillRadiusWithPowerLawRadio);
-  canvasGenerationButtonFieldset.appendChild(hillRadiusWithPowerLawRadioLabel);
-  // Hill radius with logarithm distribution
-  const hillRadiusWithLogarithmDistributionRadio = document.createElement('input');
-  hillRadiusWithLogarithmDistributionRadio.type = 'radio';
-  hillRadiusWithLogarithmDistributionRadio.id = 'system-builder-hill-radius-logarithm-distribution-radio';
-  hillRadiusWithLogarithmDistributionRadio.name = 'system-builder-method';  // Shared name for the radiogroup
-  hillRadiusWithLogarithmDistributionRadio.value = 'hill-radius-logarithm-distribution';
+  // Hill radius button
+  const hillRadiusRadio = document.createElement('input');
+  hillRadiusRadio.type = 'radio';
+  hillRadiusRadio.id = 'system-builder-hill-radius';
+  hillRadiusRadio.name = 'system-builder-calculation-method';  // Shared name for the radiogroup
+  hillRadiusRadio.value = 'hill-radius';
   // Label for  Hill radius with logarithm distribution radio button
-  const hillRadiusWithLogarithmDistributionRadioLabel = document.createElement('label');
-  hillRadiusWithLogarithmDistributionRadioLabel.htmlFor = 'system-builder-hill-radius-logarithm-distribution-radio';
-  hillRadiusWithLogarithmDistributionRadioLabel.appendChild(document.createTextNode('Hill Radius with Logarithm Distribution'));
-  canvasGenerationButtonFieldset.appendChild(hillRadiusWithLogarithmDistributionRadio);
-  canvasGenerationButtonFieldset.appendChild(hillRadiusWithLogarithmDistributionRadioLabel);
+  const hillRadiusRadioLabel = document.createElement('label');
+  hillRadiusRadioLabel.htmlFor = 'system-builder-hill-radius';
+  hillRadiusRadioLabel.appendChild(document.createTextNode('Hill Radius'));
+  canvasGenerationButtonFieldset.appendChild(hillRadiusRadio);
+  canvasGenerationButtonFieldset.appendChild(hillRadiusRadioLabel);
   // Generate system button
   const generateSystemButton = document.createElement('button');
   generateSystemButton.innerHTML = 'Generate System';
   generateSystemButton.id = 'system-builder-wizard-generate-system-button';
   generateSystemButton.addEventListener('click', function(){
-    const methodRadios = document.getElementsByName('system-builder-method');
-    const selectMethod = (Array.from(methodRadios)).find(radio => radio.checked)?.value;
-    objectSystemBuilderGenerateSystem(selectMethod);
+    const estimationMethodRadios = document.getElementsByName('system-builder-estimation-method');
+    const selectedEstimationMethod = (Array.from(estimationMethodRadios)).find(radio => radio.checked)?.value;
+    const calculationMethodRadios = document.getElementsByName('system-builder-estimation-method');
+    const selectedCalculationMethod = (Array.from(calculationMethodRadios)).find(radio => radio.checked)?.value;
+    objectSystemBuilderGenerateSystem(selectedEstimationMethod, selectedCalculationMethod);
   });
-  canvasGenerationButtonFieldset.appendChild(generateSystemButton);
+  canvasButtonSpan.appendChild(canvasGenerationEstimationMethodFieldset);
   canvasButtonSpan.appendChild(canvasGenerationButtonFieldset);
+  canvasButtonSpan.appendChild(generateSystemButton);
   firstColumnDiv.appendChild(canvasButtonSpan);
   // Canvas
   const systemPreviewWrapperDiv = document.createElement("div");
@@ -225,6 +271,7 @@ function generateInnerSystemTable(systemIndex) {
     "mass": "Mass in solar mass",
     "size": "Size in km",
     "distanceToParent": "Distance to Parent in km",
+    "orbitExcentricity": "Orbit Excentricity",
     "lengthOfDay": "Rotation Period (Length of day in hour)",
     "lengthOfYear": "Orbital Period (Length of Year in day)",
   }
@@ -641,7 +688,7 @@ function objectSystemBuilderGenerateSystem(calculationMethod, estimationMethod) 
     // Check prerequisites
   } else if (calculationMethod === "hill-radius") {
     // Check prerequisites
-  } else if (calculationMethod !== "none") { // Do nothing for none
+  } else if (calculationMethod !== "none") {
     alert(`Calculation method ${calculationMethod} unknown`);
     return;
   }
