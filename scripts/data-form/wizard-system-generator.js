@@ -227,9 +227,9 @@ function createInnerObjectSystemBuilderWizardStructure(parentDiv) {
   generateSystemButton.addEventListener('click', function(){
     const estimationMethodRadios = document.getElementsByName('system-builder-estimation-method');
     const selectedEstimationMethod = (Array.from(estimationMethodRadios)).find(radio => radio.checked)?.value;
-    const calculationMethodRadios = document.getElementsByName('system-builder-estimation-method');
+    const calculationMethodRadios = document.getElementsByName('system-builder-calculation-method');
     const selectedCalculationMethod = (Array.from(calculationMethodRadios)).find(radio => radio.checked)?.value;
-    objectSystemBuilderGenerateSystem(selectedEstimationMethod, selectedCalculationMethod);
+    objectSystemBuilderGenerateSystem(selectedCalculationMethod, selectedEstimationMethod);
   });
   canvasButtonSpan.appendChild(canvasGenerationEstimationMethodFieldset);
   canvasButtonSpan.appendChild(canvasGenerationButtonFieldset);
@@ -489,7 +489,7 @@ function generateWizardObjectInnerSystem(parentObjectId) {
 // }
 
 // /**
-//  * Semi major axis guess must be done using tituis-bode, power law or logarithmic distribution
+//  * Semi major axis guess must be done using Titius-bode, power law or logarithmic distribution
 //  * 
 //  * @param {[float,float]} mutualHillRadiusFactorRange [min, max], default [3,5]
 //  * @param {float} centralBodyMass in solar mass
@@ -673,7 +673,7 @@ function objectSystemBuilderGenerateSystem(calculationMethod, estimationMethod) 
   // }
   if (estimationMethod === "titius-bode-law") {
     // Check prerequisites
-    isReadyToGenerate = objectSystemBuilderCheckPrerequisitesTituisBodeLaw();
+    isReadyToGenerate = objectSystemBuilderCheckPrerequisitesTitiusBodeLaw();
   } else if (estimationMethod === "power-law") {
     // Check prerequisites
   } else if (estimationMethod === "logarithmic-distribution") {
@@ -681,7 +681,7 @@ function objectSystemBuilderGenerateSystem(calculationMethod, estimationMethod) 
   } else if (calculationMethod === "kepler-3rd-law") {
     // Check prerequisites
   } else {
-    alert(`Estimation method ${calculationMethod} unknown`);
+    alert(`Estimation method ${estimationMethod} unknown`);
     return;
   }
   if (calculationMethod === "kepler-3rd-law") {
@@ -694,6 +694,12 @@ function objectSystemBuilderGenerateSystem(calculationMethod, estimationMethod) 
   }
   // Draw on canvas
   if(isReadyToGenerate) {
+    const system = wizardObjectSystemStore[objectSystemWizard.currentSystemIndex];
+    const totalStarMassAndDistribution = objectSystemBuilderGenerateStarMassesAndDiameters(system);
+    objectSystemBuilderGenerateMassNonStarMassesAndDiameters(system, totalStarMassAndDistribution);
+    if(estimationMethod === "titius-bode-law" && calculationMethod === "none") {
+      objectSystemBuilderGenerateSystemUsingTitiusBodeLaw(system);
+    }
     drawSystemBuilderCanvas();
   }
 }
@@ -702,7 +708,7 @@ function objectSystemBuilderGenerateSystem(calculationMethod, estimationMethod) 
  * Pseudo random generate object masses function of object type/subtype and diameter (is diameter is unknown random generate it)
  */
 function objectSystemBuilderGenerateMassesOfObject() {
-
+  
 }
 
 /**
@@ -733,4 +739,20 @@ function findObjectInWizardObjectSystemStoreRecursive(objectId, object) {
     });
   }
   return objectFound;
+}
+
+function objectSystemBuilderGenerateSystemUsingTitiusBodeLaw() {
+  // console.log(system);
+  objectSystemBuilderGenerateSystemUsingTitiusBodeLawRecursive(system.innerObjects);
+}
+
+function objectSystemBuilderGenerateSystemUsingTitiusBodeLawRecursive(innerObjects) {
+  for (let index = 0; index < innerObjects.length; index++) {
+    const innerObject = innerObjects[index];
+    // Base distance is around 10 time star radius
+    
+    if(innerObject.orbitalRank > 0) {
+
+    }
+  }
 }

@@ -25,8 +25,10 @@ function systemBuilderGetSystemMaxDistanceRecusive(currentObject, maxDistance = 
   let distance = -1;
   for (const innerSystemObject of currentObject.innerObjects) {
     if(!isNaN(innerSystemObject.distanceToParent)) {
-      let distance = innerSystemObject.distanceToParent;
-      distance += systemBuilderGetSystemMaxDistanceRecusive(innerSystemObject, distance);
+      if(!isNaN(parseFloat(innerSystemObject.distanceToParent))) {
+        distance = innerSystemObject.distanceToParent;
+        distance += systemBuilderGetSystemMaxDistanceRecusive(innerSystemObject, distance);
+      }
       if(distance > maxDistance) {
         maxDistance = distance;
       }

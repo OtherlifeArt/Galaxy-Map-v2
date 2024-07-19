@@ -1,5 +1,5 @@
-function objectSystemBuilderCheckPrerequisitesTituisBodeLaw() {
-  let report = objectSystemBuilderCheckPrerequisitesTituisBodeLawRecursive(wizardObjectSystemStore[objectSystemWizard.currentSystemIndex], false);
+function objectSystemBuilderCheckPrerequisitesTitiusBodeLaw() {
+  let report = objectSystemBuilderCheckPrerequisitesTitiusBodeLawRecursive(wizardObjectSystemStore[objectSystemWizard.currentSystemIndex], false);
   if(report.status === "nok") {
     // message
     let message = "Prerequisites are not meet to generate system !\nMissing Data are :";
@@ -14,13 +14,13 @@ function objectSystemBuilderCheckPrerequisitesTituisBodeLaw() {
   }
 }
 
-function objectSystemBuilderCheckPrerequisitesTituisBodeLawRecursive(astroObject, isObject = true) {
+function objectSystemBuilderCheckPrerequisitesTitiusBodeLawRecursive(astroObject, isObject = true) {
   let report = {
     status: "ok",
     details: [],
   };
   astroObject.innerObjects.forEach(innerObject => {
-    let objectReport = objectSystemBuilderCheckPrerequisitesTituisBodeLawRecursive(innerObject);
+    let objectReport = objectSystemBuilderCheckPrerequisitesTitiusBodeLawRecursive(innerObject);
     if(objectReport.status === "nok") {
       report.status = "nok";
     }
@@ -34,8 +34,24 @@ function objectSystemBuilderCheckPrerequisitesTituisBodeLawRecursive(astroObject
   return report;
 }
 
-function objectSystemBuilder() {
+/**
+ * Return distance of nth body using empirical Tituis-Bode law that nearly works in solar system
+ * 
+ * @param {int} orbitalPosition 
+ * @param {float} baseDistance The distance of first body in AU
+ * @param {float} scalingFactor Constant determining the gap between each body
+ * @returns semi-major axis of nth body in AU
+ */
+function objectSystemBuilderTitiusBodeLaw(orbitalPosition, baseDistance, scalingFactor) {
+  let n = orbitalPosition;
+  let A = baseDistance;
+  let B = scalingFactor;
 
+  if(n === 1) {
+    return A;
+  } else {
+    return A + B * 2^(n-1);
+  }
 }
 
 function objectSystemBuilder() {
