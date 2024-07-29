@@ -304,10 +304,10 @@ function generateInnerSystemTableRow (systemTableBody, currentSystem, tableHeadC
           const inputText = document.createElement("input");
           inputText.type = "text";
           inputText.setAttribute("objectProperty", columnKey);
+          inputText.classList.remove("dashboard-modified-value");
           if(innerSystemObject.modifiedData?.[columnKey]) { // If modified we display modified data
             inputText.value = innerSystemObject.modifiedData?.[columnKey];
             inputText.classList.add("dashboard-modified-value");
-
           } else if(innerSystemObject[columnKey] !== undefined && innerSystemObject[columnKey] !== "") { // If filled cell we insert value in input type text field
             inputText.value = innerSystemObject[columnKey];
           }
@@ -695,8 +695,8 @@ function objectSystemBuilderGenerateSystem(calculationMethod, estimationMethod) 
   // Draw on canvas
   if(isReadyToGenerate) {
     const system = wizardObjectSystemStore[objectSystemWizard.currentSystemIndex];
-    const totalStarMassAndDistribution = objectSystemBuilderGenerateStarMassesAndDiameters(system);
-    objectSystemBuilderGenerateMassNonStarMassesAndDiameters(system, totalStarMassAndDistribution);
+    console.log(system);
+    objectSystemBuilderGenerateMassesOfSystemObject(system);
     if(estimationMethod === "titius-bode-law" && calculationMethod === "none") {
       objectSystemBuilderGenerateSystemUsingTitiusBodeLaw(system);
     }
@@ -707,8 +707,31 @@ function objectSystemBuilderGenerateSystem(calculationMethod, estimationMethod) 
 /**
  * Pseudo random generate object masses function of object type/subtype and diameter (is diameter is unknown random generate it)
  */
-function objectSystemBuilderGenerateMassesOfObject() {
-  
+function objectSystemBuilderGenerateMassesOfSystemObject(system) {
+  // Generate masses of star type objetcs
+  objectSystemBuilderGenerateMassesOfStarTypeObjects(system);
+  // Generate masses of non star objects
+  objectSystemBuilderGenerateMassesOfNonStarTypeObjects(system);
+}
+
+function objectSystemBuilderGenerateMassesOfStarTypeObjects(object, starDistribution=[]) {
+  // if(starDistribution.length === 0) {
+  //   let starDistributionTotal = 0;
+  //   for (const key in object) {
+  //     if (Object.hasOwnProperty.call(object, key)) {
+  //       const element = object[key];
+  //       starDistribution.push({type: key, range: [starDistributionTotal, starDistributionTotal + element.distribution]});
+  //       starDistributionTotal += element.distribution;
+  //     }
+  //   }
+  // }
+  // if(object.objectType === "Star") {
+  //   if(object.objectTypeClass === "") {
+  //     // random choosing star mass
+  //   }
+  //   // Random choosing star mass
+
+  // }
 }
 
 /**
