@@ -5,6 +5,7 @@ function createInnerObjectSystemBuilderWizard(parentDiv) {
   createInnerObjectSystemBuilderWizardStorageData();
   createInnerObjectSystemBuilderWizardStructure(parentDiv);
   loadInnerSystemObject();
+  storeTotalStarDistribution();
 }
 
 function createInnerObjectSystemBuilderWizardStorageData () {
@@ -705,32 +706,89 @@ function objectSystemBuilderGenerateSystem(calculationMethod, estimationMethod) 
 }
 
 /**
+ * Generate total distribution in case it goes beyond 1 (100%)
+ */
+function storeTotalStarDistribution() {
+  let totalDistribution = 0;
+  for (const [key, value] of Object.entries(wizardSystemGeneratorDatabase["star"])) {
+    // console.log(`${key}: ${value}`);
+    totalDistribution += value.distribution;
+  }
+  wizardSystemGeneratorDatabase["starTotalDistribution"] = totalDistribution;
+}
+
+
+
+/**
  * Pseudo random generate object masses function of object type/subtype and diameter (is diameter is unknown random generate it)
  */
 function objectSystemBuilderGenerateMassesOfSystemObject(system) {
   // Generate masses of star type objetcs
   objectSystemBuilderGenerateMassesOfStarTypeObjects(system);
+  console.log(system);
   // Generate masses of non star objects
   objectSystemBuilderGenerateMassesOfNonStarTypeObjects(system);
 }
 
-function objectSystemBuilderGenerateMassesOfStarTypeObjects(object, starDistribution=[]) {
-  // if(starDistribution.length === 0) {
-  //   let starDistributionTotal = 0;
-  //   for (const key in object) {
-  //     if (Object.hasOwnProperty.call(object, key)) {
-  //       const element = object[key];
-  //       starDistribution.push({type: key, range: [starDistributionTotal, starDistributionTotal + element.distribution]});
-  //       starDistributionTotal += element.distribution;
-  //     }
-  //   }
-  // }
+function objectSystemBuilderGenerateMassesOfStarTypeObjects(object) {
   // if(object.objectType === "Star") {
-  //   if(object.objectTypeClass === "") {
-  //     // random choosing star mass
+  //   if(object.objectTypeClass !== "") {
+  //     if(object.objectTypeClass.includes(" ")) {
+  //       const types = object.objectTypeClass.split(" ");
+  //       const objectType = types[1];
+  //       const objectClass = types[0];
+  //       const objectData = wizardSystemGeneratorDatabase["star"][objectClass];
+  //       object.modifiedData?.mass = Math.random() * (objectData[objectType].massInSolarMass[1] - objectData[objectType].massInSolarMass[0]) + objectData[objectType].massInSolarMass[0];
+  //     } else {
+  //       // radom
+  //     }
+  //   } else {
+  //     // determining random star class using statistics
+  //     const randomNumber = wizardSystemGeneratorDatabase["starTotalDistribution"] * Math.random();
+  //     let cumulativeDistribution = 0;
+  //     for (const [key, value] of Object.entries(wizardSystemGeneratorDatabase["star"])) {
+  //       // console.log(`${key}: ${value}`);
+  //       if(randomNumber >= cumulativeDistribution && randomNumber <= cumulativeDistribution + value.distribution) {
+  //         if(value.massInSolarMass !== undefined) { // No class needed
+  //           // Random generate mass
+  //           object.modifiedData?.mass = Math.random() * (value.massInSolarMass[1] - value.massInSolarMass[0]) + value.massInSolarMass[0];
+  //           object.modifiedData?.objectTypeClass = key;
+  //         } else { // Class needed
+  //           const classRandomNumber = Math.random();
+  //           let classCumulativeDistribution = 0;
+  //           for (const [classKey, classValue] of Object.entries(wizardSystemGeneratorDatabase["star"]["starClasses"][key])) {
+  //             if(classValue.distribution !== undefined) {
+  //               if(classRandomNumber <= classValue.distribution + classCumulativeDistribution && classRandomNumber >= classCumulativeDistribution) {
+  //                 object.modifiedData?.mass = Math.random() * (classValue.massInSolarMass[1] - classValue.massInSolarMass[0]) + classValue.massInSolarMass[0];
+  //                 object.modifiedData?.objectTypeClass = `${classKey} ${key}`;
+  //               }
+  //               classCumulativeDistribution += classValue.distribution;
+  //             } else {
+  //               // Random class
+  //               const objectNumber = Object.keys(wizardSystemGeneratorDatabase["star"]["starClasses"]).length;
+  //               const randomKeyNumber = Math.round(objectNumber * Math.random());
+  //               let count = 0;
+  //               for (const [classKey, classValue] of Object.entries(wizardSystemGeneratorDatabase["star"]["starClasses"][key])) {
+  //                 if(count === randomKeyNumber) {
+  //                   object.modifiedData?.mass = Math.random() * (classValue.massInSolarMass[1] - classValue.massInSolarMass[0]) + classValue.massInSolarMass[0];
+  //                   object.modifiedData?.objectTypeClass = `${classKey} ${key}`;
+  //                   break;
+  //                 }
+  //                 count++;
+  //               }
+  //             }
+  //           }
+  //         }
+  //         break; // Data found, no more looping !
+  //       }
+  //       cumulativeDistribution += value.distribution;
+  //     }
+      
   //   }
-  //   // Random choosing star mass
-
+  // } else {
+  //   for (const innerObject of object.innerObjects) {
+  //     objectSystemBuilderGenerateMassesOfStarTypeObjects(innerObject);
+  //   }
   // }
 }
 

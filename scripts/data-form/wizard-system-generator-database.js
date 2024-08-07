@@ -13,33 +13,35 @@ wizardSystemGeneratorDatabase["star"] = {
       "circumstellarDust": [0,0.1],
       "planets": [0,0.0001]
     },
-    "O": {
-      "massInSolarMass": [30,150],
-      "sizeRangeInSolarRadius": [500,10000],
-    },
-    "B": {
-      "massInSolarMass": [20,80],
-      "sizeRangeInSolarRadius": [300,5000],
-    },
-    "A": {
-      "massInSolarMass": [15,60],
-      "sizeRangeInSolarRadius": [200,2000],
-    },
-    "F": {
-      "massInSolarMass": [10,40],
-      "sizeRangeInSolarRadius": [150,2000],
-    },
-    "G": {
-      "massInSolarMass": [5,30],
-      "sizeRangeInSolarRadius": [100,1500],
-    },
-    "K": {
-      "massInSolarMass": [3,20],
-      "sizeRangeInSolarRadius": [200,4000],
-    },
-    "M": {
-      "massInSolarMass": [2,10],
-      "sizeRangeInSolarRadius": [500,10000],
+      "starClasses": {
+      "O": {
+        "massInSolarMass": [30,150],
+        "sizeRangeInSolarRadius": [500,10000],
+      },
+      "B": {
+        "massInSolarMass": [20,80],
+        "sizeRangeInSolarRadius": [300,5000],
+      },
+      "A": {
+        "massInSolarMass": [15,60],
+        "sizeRangeInSolarRadius": [200,2000],
+      },
+      "F": {
+        "massInSolarMass": [10,40],
+        "sizeRangeInSolarRadius": [150,2000],
+      },
+      "G": {
+        "massInSolarMass": [5,30],
+        "sizeRangeInSolarRadius": [100,1500],
+      },
+      "K": {
+        "massInSolarMass": [3,20],
+        "sizeRangeInSolarRadius": [200,4000],
+      },
+      "M": {
+        "massInSolarMass": [2,10],
+        "sizeRangeInSolarRadius": [500,10000],
+      },
     },
   },
   "I": { // Brightest Supergiant
@@ -50,33 +52,35 @@ wizardSystemGeneratorDatabase["star"] = {
       "circumstellarDust": [0,0.01],
       "planets": [0,0.0001]
     },
-    "O": {
-      "massInSolarMass": [15,100],
-      "sizeRangeInSolarRadius": [100,1000],
-    },
-    "B": {
-      "massInSolarMass": [8,20],
-      "sizeRangeInSolarRadius": [30,200],
-    },
-    "A": {
-      "massInSolarMass": [5,15],
-      "sizeRangeInSolarRadius": [15,100],
-    },
-    "F": {
-      "massInSolarMass": [4,10],
-      "sizeRangeInSolarRadius": [10,70],
-    },
-    "G": {
-      "massInSolarMass": [3,8],
-      "sizeRangeInSolarRadius": [8,40],
-    },
-    "K": {
-      "massInSolarMass": [2,6],
-      "sizeRangeInSolarRadius": [15,200],
-    },
-    "M": {
-      "massInSolarMass": [1,3],
-      "sizeRangeInSolarRadius": [100,1000],
+    "starClasses": {
+      "O": {
+        "massInSolarMass": [15,100],
+        "sizeRangeInSolarRadius": [100,1000],
+      },
+      "B": {
+        "massInSolarMass": [8,20],
+        "sizeRangeInSolarRadius": [30,200],
+      },
+      "A": {
+        "massInSolarMass": [5,15],
+        "sizeRangeInSolarRadius": [15,100],
+      },
+      "F": {
+        "massInSolarMass": [4,10],
+        "sizeRangeInSolarRadius": [10,70],
+      },
+      "G": {
+        "massInSolarMass": [3,8],
+        "sizeRangeInSolarRadius": [8,40],
+      },
+      "K": {
+        "massInSolarMass": [2,6],
+        "sizeRangeInSolarRadius": [15,200],
+      },
+      "M": {
+        "massInSolarMass": [1,3],
+        "sizeRangeInSolarRadius": [100,1000],
+      },
     },
   },
   "II": { // Bright giant
@@ -87,33 +91,35 @@ wizardSystemGeneratorDatabase["star"] = {
       "circumstellarDust": [0,0.01],
       "planets": [0,0.0001]
     },
-    "O": {
-      "massInSolarMass": [20,60],
-      "sizeRangeInSolarRadius": [50,150],
-    },
-    "B": {
-      "massInSolarMass": [5,20],
-      "sizeRangeInSolarRadius": [30,80],
-    },
-    "A": {
-      "massInSolarMass": [2,10],
-      "sizeRangeInSolarRadius": [15,40],
-    },
-    "F": {
-      "massInSolarMass": [1.5,5],
-      "sizeRangeInSolarRadius": [10,25],
-    },
-    "G": {
-      "massInSolarMass": [1,3],
-      "sizeRangeInSolarRadius": [8,20],
-    },
-    "K": {
-      "massInSolarMass": [0.5,2],
-      "sizeRangeInSolarRadius": [15,80],
-    },
-    "M": {
-      "massInSolarMass": [0.3,1.5],
-      "sizeRangeInSolarRadius": [80,400],
+    "starClasses": {
+      "O": {
+        "massInSolarMass": [20,60],
+        "sizeRangeInSolarRadius": [50,150],
+      },
+      "B": {
+        "massInSolarMass": [5,20],
+        "sizeRangeInSolarRadius": [30,80],
+      },
+      "A": {
+        "massInSolarMass": [2,10],
+        "sizeRangeInSolarRadius": [15,40],
+      },
+      "F": {
+        "massInSolarMass": [1.5,5],
+        "sizeRangeInSolarRadius": [10,25],
+      },
+      "G": {
+        "massInSolarMass": [1,3],
+        "sizeRangeInSolarRadius": [8,20],
+      },
+      "K": {
+        "massInSolarMass": [0.5,2],
+        "sizeRangeInSolarRadius": [15,80],
+      },
+      "M": {
+        "massInSolarMass": [0.3,1.5],
+        "sizeRangeInSolarRadius": [80,400],
+      },
     },
   },
   "III": { // Giant
@@ -124,33 +130,35 @@ wizardSystemGeneratorDatabase["star"] = {
       "circumstellarDust": [0.01,0.1],
       "planets": [0,0.0001]
     },
-    "O": { // https://en.wikipedia.org/wiki/Blue_giant
-      "massInSolarMass": [10,80],
-      "sizeRangeInSolarRadius": [40,100],
-    },
-    "B": { // https://en.wikipedia.org/wiki/Blue_giant
-      "massInSolarMass": [5,20],
-      "sizeRangeInSolarRadius": [20,50],
-    },
-    "A": { // https://en.wikipedia.org/wiki/Blue_giant
-      "massInSolarMass": [2,10],
-      "sizeRangeInSolarRadius": [10,30],
-    },
-    "F": {
-      "massInSolarMass": [1.5,5], // https://en.wikipedia.org/wiki/Yellow giants
-      "sizeRangeInSolarRadius": [6,15],
-    },
-    "G": {
-      "massInSolarMass": [1,3], // https://en.wikipedia.org/wiki/Yellow giants
-      "sizeRangeInSolarRadius": [5,10],
-    },
-    "K": {
-      "massInSolarMass": [0.5,2], // https://en.wikipedia.org/wiki/Red_giant
-      "sizeRangeInSolarRadius": [10,50],
-    },
-    "M": {
-      "massInSolarMass": [0.3,1.5], // https://en.wikipedia.org/wiki/Red_giant
-      "sizeRangeInSolarRadius": [60,300],
+    "starClasses": {
+      "O": { // https://en.wikipedia.org/wiki/Blue_giant
+        "massInSolarMass": [10,80],
+        "sizeRangeInSolarRadius": [40,100],
+      },
+      "B": { // https://en.wikipedia.org/wiki/Blue_giant
+        "massInSolarMass": [5,20],
+        "sizeRangeInSolarRadius": [20,50],
+      },
+      "A": { // https://en.wikipedia.org/wiki/Blue_giant
+        "massInSolarMass": [2,10],
+        "sizeRangeInSolarRadius": [10,30],
+      },
+      "F": {
+        "massInSolarMass": [1.5,5], // https://en.wikipedia.org/wiki/Yellow giants
+        "sizeRangeInSolarRadius": [6,15],
+      },
+      "G": {
+        "massInSolarMass": [1,3], // https://en.wikipedia.org/wiki/Yellow giants
+        "sizeRangeInSolarRadius": [5,10],
+      },
+      "K": {
+        "massInSolarMass": [0.5,2], // https://en.wikipedia.org/wiki/Red_giant
+        "sizeRangeInSolarRadius": [10,50],
+      },
+      "M": {
+        "massInSolarMass": [0.3,1.5], // https://en.wikipedia.org/wiki/Red_giant
+        "sizeRangeInSolarRadius": [60,300],
+      },
     },
   },
   "IV": { // SubGiant
@@ -161,34 +169,35 @@ wizardSystemGeneratorDatabase["star"] = {
       "circumstellarDust": [0.01,0.1],
       "planets": [0,0.0001]
     },
-    "distribution": 0.0015, // 1 to 3%
-    "O": {
-      "massInSolarMass": [15,25],
-      "sizeRangeInSolarRadius": [8,18],
-    },
-    "B": {
-      "massInSolarMass": [3,15],
-      "sizeRangeInSolarRadius": [5,10],
-    },
-    "A": {
-      "massInSolarMass": [2,3],
-      "sizeRangeInSolarRadius": [3,6],
-    },
-    "F": {
-      "massInSolarMass": [1.5,2],
-      "sizeRangeInSolarRadius": [2,4],
-    },
-    "G": {
-      "massInSolarMass": [1,1.5],
-      "sizeRangeInSolarRadius": [1.5,3],
-    },
-    "K": {
-      "massInSolarMass": [0.8,1],
-      "sizeRangeInSolarRadius": [1.3,2.5],
-    },
-    "M": {
-      "massInSolarMass": [0.3,8],
-      "sizeRangeInSolarRadius": [1,2],
+    "starClasses": {
+      "O": {
+        "massInSolarMass": [15,25],
+        "sizeRangeInSolarRadius": [8,18],
+      },
+      "B": {
+        "massInSolarMass": [3,15],
+        "sizeRangeInSolarRadius": [5,10],
+      },
+      "A": {
+        "massInSolarMass": [2,3],
+        "sizeRangeInSolarRadius": [3,6],
+      },
+      "F": {
+        "massInSolarMass": [1.5,2],
+        "sizeRangeInSolarRadius": [2,4],
+      },
+      "G": {
+        "massInSolarMass": [1,1.5],
+        "sizeRangeInSolarRadius": [1.5,3],
+      },
+      "K": {
+        "massInSolarMass": [0.8,1],
+        "sizeRangeInSolarRadius": [1.3,2.5],
+      },
+      "M": {
+        "massInSolarMass": [0.3,8],
+        "sizeRangeInSolarRadius": [1,2],
+      },
     },
   },
   "V": { // Main sequence | Source : https://en.wikipedia.org/wiki/Stellar_classification
@@ -199,54 +208,56 @@ wizardSystemGeneratorDatabase["star"] = {
       "circumstellarDust": [0.01,0.1],
       "planets": [0,0.0001]
     },
-    "O": { // Star type At the moment only O3V to O9V star are classified | https://en.wikipedia.org/wiki/O-type_main-sequence_star
-      "distribution": 0.00000003,
-      "temperatureRange": [33300, 44900],  // Kelvin // Common max temperature | https://en.wikipedia.org/wiki/O-type_main-sequence_star
-      "hydrogenPresence": "weak",
-      "sizeRangeInSolarRadius": [6.6, 15], // Common max radius for O3V star | https://en.wikipedia.org/wiki/O-type_main-sequence_star
-      "massInSolarMass": [16,200], // Max | https://science.nasa.gov/universe/stars/types/
-    },
-    "B": { // Star type
-      "distribution": 0.0013,
-      "temperatureRange": [10700,31400], // Kelvin | https://en.wikipedia.org/wiki/B-type_main-sequence_star
-      "hydrogenPresence": "medium",
-      "sizeRangeInSolarRadius": [1.8,7.16], // Max | https://en.wikipedia.org/wiki/B-type_main-sequence_star
-      "massInSolarMass":  [2.1,17.7], // Max | https://en.wikipedia.org/wiki/B-type_main-sequence_star
-    },
-    "A": { // Star type
-      "distribution": 0.006,
-      "temperatureRange": [7400,9700], // Kelvin | https://en.wikipedia.org/wiki/A-type_main-sequence_star
-      "hydrogenPresence": "strong",
-      "sizeRangeInSolarRadius": [1.747,2.193],  // Min/max | https://en.wikipedia.org/wiki/A-type_main-sequence_star
-      "massInSolarMass":  [1.4,2.18], // Max | https://en.wikipedia.org/wiki/A-type_main-sequence_star
-    },
-    "F": { // Star type
-      "distribution": 0.03,
-      "temperatureRange": [6050,7220], // Kelvin | https://en.wikipedia.org/wiki/F-type_main-sequence_star
-      "hydrogenPresence": "medium",
-      "sizeRangeInSolarRadius": [1.13,1.61], // Min/max | https://en.wikipedia.org/wiki/F-type_main-sequence_star
-      "massInSolarMass":  [1.04,1.61], // Max | https://en.wikipedia.org/wiki/F-type_main-sequence_star
-    },
-    "G": { // Star type
-      "distribution": 0.076,
-      "temperatureRange": [5380,5930], // Kelvin | https://en.wikipedia.org/wiki/G-type_main-sequence_star
-      "hydrogenPresence": "weak",
-      "sizeRangeInSolarRadius": [0.853,1.35], // min/max | https://en.wikipedia.org/wiki/G-type_main-sequence_star
-      "massInSolarMass":  [0.8,1.06], // max | https://en.wikipedia.org/wiki/G-type_main-sequence_star
-    },
-    "K": { // Star type
-      "distribution": 0.121,
-      "temperatureRange": [3930,5270], // Kelvin | https://en.wikipedia.org/wiki/K-type_main-sequence_star
-      "hydrogenPresence": "very weak",
-      "sizeRangeInSolarRadius": [0.608,0.9], // Common min radius for K9V star  | https://en.wikipedia.org/wiki/K-type_main-sequence_star
-      "massInSolarMass":  [0.45,0.88], // Common Max mass for K0V star | https://en.wikipedia.org/wiki/K-type_main-sequence_star
-    },
-    "M": { // Star type
-      "distribution": 0.765,
-      "temperatureRange": [2380,3850], // Kelvin | https://en.wikipedia.org/wiki/Red_dwarf
-      "hydrogenPresence": "very weak",
-      "sizeRangeInSolarRadius": [0.102,0.7],  // Common min radius size for M9V star | https://en.wikipedia.org/wiki/Red_dwarf
-      "massInSolarMass":  [0.079,0.57], // Common Min/Max mass for M9V to M0V star | https://en.wikipedia.org/wiki/Red_dwarf
+    "starClasses": {
+      "O": { // Star type At the moment only O3V to O9V star are classified | https://en.wikipedia.org/wiki/O-type_main-sequence_star
+        "distribution": 0.00000003,
+        "temperatureRange": [33300, 44900],  // Kelvin // Common max temperature | https://en.wikipedia.org/wiki/O-type_main-sequence_star
+        "hydrogenPresence": "weak",
+        "sizeRangeInSolarRadius": [6.6, 15], // Common max radius for O3V star | https://en.wikipedia.org/wiki/O-type_main-sequence_star
+        "massInSolarMass": [16,200], // Max | https://science.nasa.gov/universe/stars/types/
+      },
+      "B": { // Star type
+        "distribution": 0.0013,
+        "temperatureRange": [10700,31400], // Kelvin | https://en.wikipedia.org/wiki/B-type_main-sequence_star
+        "hydrogenPresence": "medium",
+        "sizeRangeInSolarRadius": [1.8,7.16], // Max | https://en.wikipedia.org/wiki/B-type_main-sequence_star
+        "massInSolarMass":  [2.1,17.7], // Max | https://en.wikipedia.org/wiki/B-type_main-sequence_star
+      },
+      "A": { // Star type
+        "distribution": 0.006,
+        "temperatureRange": [7400,9700], // Kelvin | https://en.wikipedia.org/wiki/A-type_main-sequence_star
+        "hydrogenPresence": "strong",
+        "sizeRangeInSolarRadius": [1.747,2.193],  // Min/max | https://en.wikipedia.org/wiki/A-type_main-sequence_star
+        "massInSolarMass":  [1.4,2.18], // Max | https://en.wikipedia.org/wiki/A-type_main-sequence_star
+      },
+      "F": { // Star type
+        "distribution": 0.03,
+        "temperatureRange": [6050,7220], // Kelvin | https://en.wikipedia.org/wiki/F-type_main-sequence_star
+        "hydrogenPresence": "medium",
+        "sizeRangeInSolarRadius": [1.13,1.61], // Min/max | https://en.wikipedia.org/wiki/F-type_main-sequence_star
+        "massInSolarMass":  [1.04,1.61], // Max | https://en.wikipedia.org/wiki/F-type_main-sequence_star
+      },
+      "G": { // Star type
+        "distribution": 0.076,
+        "temperatureRange": [5380,5930], // Kelvin | https://en.wikipedia.org/wiki/G-type_main-sequence_star
+        "hydrogenPresence": "weak",
+        "sizeRangeInSolarRadius": [0.853,1.35], // min/max | https://en.wikipedia.org/wiki/G-type_main-sequence_star
+        "massInSolarMass":  [0.8,1.06], // max | https://en.wikipedia.org/wiki/G-type_main-sequence_star
+      },
+      "K": { // Star type
+        "distribution": 0.121,
+        "temperatureRange": [3930,5270], // Kelvin | https://en.wikipedia.org/wiki/K-type_main-sequence_star
+        "hydrogenPresence": "very weak",
+        "sizeRangeInSolarRadius": [0.608,0.9], // Common min radius for K9V star  | https://en.wikipedia.org/wiki/K-type_main-sequence_star
+        "massInSolarMass":  [0.45,0.88], // Common Max mass for K0V star | https://en.wikipedia.org/wiki/K-type_main-sequence_star
+      },
+      "M": { // Star type
+        "distribution": 0.765,
+        "temperatureRange": [2380,3850], // Kelvin | https://en.wikipedia.org/wiki/Red_dwarf
+        "hydrogenPresence": "very weak",
+        "sizeRangeInSolarRadius": [0.102,0.7],  // Common min radius size for M9V star | https://en.wikipedia.org/wiki/Red_dwarf
+        "massInSolarMass":  [0.079,0.57], // Common Min/Max mass for M9V to M0V star | https://en.wikipedia.org/wiki/Red_dwarf
+      },
     },
   },
   "VI": { // SubDwarf
@@ -257,34 +268,36 @@ wizardSystemGeneratorDatabase["star"] = {
       "circumstellarDust": [0.01,0.1],
       "planets": [0,0.0001]
     },
-    "O": { // https://en.wikipedia.org/wiki/Subdwarf_O_star
-      "massInSolarMass": [0.5,1],
-      "sizeRangeInSolarRadius": [4,12],
+    "starClasses": {
+      "O": { // https://en.wikipedia.org/wiki/Subdwarf_O_star
+        "massInSolarMass": [0.5,1],
+        "sizeRangeInSolarRadius": [4,12],
+      },
+      "B": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
+        "massInSolarMass": [0.3,0.7],
+        "sizeRangeInSolarRadius": [2,6],
+      },
+      "A": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
+        "massInSolarMass": [0.6,1.4],
+        "sizeRangeInSolarRadius": [1.3,2.5],
+      },
+      "F": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
+        "massInSolarMass": [0.5,0.9],
+        "sizeRangeInSolarRadius": [1.1,1.4],
+      },
+      "G": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
+        "massInSolarMass": [0.5,0.8],
+        "sizeRangeInSolarRadius": [0.8,1],
+      },
+      "K": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
+        "massInSolarMass": [0.4,0.7],
+        "sizeRangeInSolarRadius": [0.6,0.8],
+      },
+      "M": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
+        "massInSolarMass": [0.1,0.3],
+        "sizeRangeInSolarRadius": [0.1,0.5],
+      },
     },
-    "B": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
-      "massInSolarMass": [0.3,0.7],
-      "sizeRangeInSolarRadius": [2,6],
-    },
-    "A": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
-      "massInSolarMass": [0.6,1.4],
-      "sizeRangeInSolarRadius": [1.3,2.5],
-    },
-    "F": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
-      "massInSolarMass": [0.5,0.9],
-      "sizeRangeInSolarRadius": [1.1,1.4],
-    },
-    "G": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
-      "massInSolarMass": [0.5,0.8],
-      "sizeRangeInSolarRadius": [0.8,1],
-    },
-    "K": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
-      "massInSolarMass": [0.4,0.7],
-      "sizeRangeInSolarRadius": [0.6,0.8],
-    },
-    "M": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
-      "massInSolarMass": [0.1,0.3],
-      "sizeRangeInSolarRadius": [0.1,0.5],
-    }
   },
   "D": { // White dwarf
     "distribution": 0.075, // 5 to 10%
@@ -333,21 +346,23 @@ wizardSystemGeneratorDatabase["star"] = {
       "circumstellarDust": [0.05,0.1],
       "planets": [0,0.0001]
     },
-    "WN": { // Wolf-Rayet (Nitrogen-rich)
-      "massInSolarMass": [10,25], // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
-      "sizeRangeInSolarRadius": [0.89,25],  // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
-    },
-    "WC": { // Wolf-Rayet (Carbon-rich)
-      "massInSolarMass": [10,25], // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
-      "sizeRangeInSolarRadius": [0.7,8.7],  // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
-    },
-    "WO": { // Wolf-Rayet (Oxygen-rich)
-      "massInSolarMass": [10,20], // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
-      "sizeRangeInSolarRadius": [0.7,8.7],  // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
-    },
-    "WN/C": { // Wolf-Rayet (Transition type)
-      "massInSolarMass": [10,25], // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
-      "sizeRangeInSolarRadius": [0.7,8.7],  // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
+    "starClasses": {
+      "WN": { // Wolf-Rayet (Nitrogen-rich)
+        "massInSolarMass": [10,25], // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
+        "sizeRangeInSolarRadius": [0.89,25],  // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
+      },
+      "WC": { // Wolf-Rayet (Carbon-rich)
+        "massInSolarMass": [10,25], // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
+        "sizeRangeInSolarRadius": [0.7,8.7],  // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
+      },
+      "WO": { // Wolf-Rayet (Oxygen-rich)
+        "massInSolarMass": [10,20], // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
+        "sizeRangeInSolarRadius": [0.7,8.7],  // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
+      },
+      "WN/C": { // Wolf-Rayet (Transition type)
+        "massInSolarMass": [10,25], // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
+        "sizeRangeInSolarRadius": [0.7,8.7],  // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
+      },
     },
   },
   "S": { // Zirconium star
@@ -407,29 +422,31 @@ wizardSystemGeneratorDatabase["star"] = {
       "circumstellarDust": [0.05,0.1],
       "planets": [0,0.0001],
     },
-    "C": {
-      "massInSolarMass": [0.8,3],
-      "sizeRangeInSolarRadius": [100,200],
-    },
-    "C-R": {
-      "massInSolarMass": [0.8,2],
-      "sizeRangeInSolarRadius": [50,300],
-    },
-    "C-N": {
-      "massInSolarMass": [1,3],
-      "sizeRangeInSolarRadius": [200,600],
-    },
-    "C-J": { 
-      "massInSolarMass": [0.8,3],
-      "sizeRangeInSolarRadius": [100,500],
-    },
-    "C-H": { 
-      "massInSolarMass": [0.5,1.5],
-      "sizeRangeInSolarRadius": [20,200],
-    },
-    "C-Hd": { 
+    "starClasses": {
+      "C": {
+        "massInSolarMass": [0.8,3],
+        "sizeRangeInSolarRadius": [100,200],
+      },
+      "C-R": {
+        "massInSolarMass": [0.8,2],
+        "sizeRangeInSolarRadius": [50,300],
+      },
+      "C-N": {
+        "massInSolarMass": [1,3],
+        "sizeRangeInSolarRadius": [200,600],
+      },
+      "C-J": { 
+        "massInSolarMass": [0.8,3],
+        "sizeRangeInSolarRadius": [100,500],
+      },
+      "C-H": { 
+        "massInSolarMass": [0.5,1.5],
+        "sizeRangeInSolarRadius": [20,200],
+      },
+      "C-Hd": { 
       "massInSolarMass": [0.5,1.5],
       "sizeRangeInSolarRadius": [100,300],
+      },
     },
   },
 };
