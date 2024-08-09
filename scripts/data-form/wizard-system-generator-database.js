@@ -6,7 +6,7 @@ const wizardSystemGeneratorDatabase = {};
 // Object mass distribution depending on star type
 wizardSystemGeneratorDatabase["star"] = {
   "0": { // Hypergiant
-    "distribution": 0.00001, // 12 hypergiant known in our galaxy as of 2012 | https://phys.org/news/2012-12-hypergiant-star.html#:~:text=The%20powerhouse%20is%20therefore%20visible,hypergiants%20known%20in%20our%20Galaxy.
+    "distribution": 0.00000000005473544775, // 12 hypergiant known in our galaxy as of 2012 | https://phys.org/news/2012-12-hypergiant-star.html#:~:text=The%20powerhouse%20is%20therefore%20visible,hypergiants%20known%20in%20our%20Galaxy.
     "starMassDistributionWithinSystem": [0.9,0.999],
     "otherBodiesMassDistributionWithinSystem": {
       "companionStar": [0.9,0.999],
@@ -17,35 +17,42 @@ wizardSystemGeneratorDatabase["star"] = {
       "O": {
         "massInSolarMass": [30,150],
         "sizeRangeInSolarRadius": [500,10000],
+        "codes": ["O 0"],
       },
       "B": {
         "massInSolarMass": [20,80],
         "sizeRangeInSolarRadius": [300,5000],
+        "codes": ["B 0"],
       },
       "A": {
         "massInSolarMass": [15,60],
         "sizeRangeInSolarRadius": [200,2000],
+        "codes": ["A 0"],
       },
       "F": {
         "massInSolarMass": [10,40],
         "sizeRangeInSolarRadius": [150,2000],
+        "codes": ["F 0"],
       },
       "G": {
         "massInSolarMass": [5,30],
         "sizeRangeInSolarRadius": [100,1500],
+        "codes": ["G 0"],
       },
       "K": {
         "massInSolarMass": [3,20],
         "sizeRangeInSolarRadius": [200,4000],
+        "codes": ["K 0"],
       },
       "M": {
         "massInSolarMass": [2,10],
         "sizeRangeInSolarRadius": [500,10000],
+        "codes": ["M 0"],
       },
     },
   },
-  "I": { // Brightest Supergiant
-    "distribution": 0.00033, // 0.1% of supergiant type I and II, type I might be less common
+  "Ia0": { // Extreme Luminous Supergiants
+    "distribution": 0.00000000022806436561, // A handful to a few dozen
     "starMassDistributionWithinSystem":  [0.9,0.999],
     "otherBodiesMassDistributionWithinSystem": {
       "companionStar": [0.9,0.999],
@@ -56,35 +63,180 @@ wizardSystemGeneratorDatabase["star"] = {
       "O": {
         "massInSolarMass": [15,100],
         "sizeRangeInSolarRadius": [100,1000],
+        "codes": ["O Ia0"],
       },
       "B": {
         "massInSolarMass": [8,20],
         "sizeRangeInSolarRadius": [30,200],
+        "codes": ["B Ia0"],
       },
       "A": {
         "massInSolarMass": [5,15],
         "sizeRangeInSolarRadius": [15,100],
+        "codes": ["A Ia0"],
       },
       "F": {
         "massInSolarMass": [4,10],
         "sizeRangeInSolarRadius": [10,70],
+        "codes": ["F Ia0"],
       },
       "G": {
         "massInSolarMass": [3,8],
         "sizeRangeInSolarRadius": [8,40],
+        "codes": ["G Ia0"],
       },
       "K": {
         "massInSolarMass": [2,6],
         "sizeRangeInSolarRadius": [15,200],
+        "codes": ["K Ia0"],
       },
       "M": {
         "massInSolarMass": [1,3],
         "sizeRangeInSolarRadius": [100,1000],
+        "codes": ["M Ia0"],
+      },
+    },
+  },
+  "Ia": { // Luminous Supergiants
+    "distribution": 0.0000000410515858092, // Several thousands
+    "starMassDistributionWithinSystem":  [0.9,0.999],
+    "otherBodiesMassDistributionWithinSystem": {
+      "companionStar": [0.9,0.999],
+      "circumstellarDust": [0,0.01],
+      "planets": [0,0.0001]
+    },
+    "starClasses": {
+      "O": {
+        "massInSolarMass": [15,100],
+        "sizeRangeInSolarRadius": [100,1000],
+        "codes": ["O Ia"],
+      },
+      "B": {
+        "massInSolarMass": [8,20],
+        "sizeRangeInSolarRadius": [30,200],
+        "codes": ["B Ia"],
+      },
+      "A": {
+        "massInSolarMass": [5,15],
+        "sizeRangeInSolarRadius": [15,100],
+        "codes": ["A Ia"],
+      },
+      "F": {
+        "massInSolarMass": [4,10],
+        "sizeRangeInSolarRadius": [10,70],
+        "codes": ["F Ia"],
+      },
+      "G": {
+        "massInSolarMass": [3,8],
+        "sizeRangeInSolarRadius": [8,40],
+        "codes": ["G Ia"],
+      },
+      "K": {
+        "massInSolarMass": [2,6],
+        "sizeRangeInSolarRadius": [15,200],
+        "codes": ["K Ia"],
+      },
+      "M": {
+        "massInSolarMass": [1,3],
+        "sizeRangeInSolarRadius": [100,1000],
+        "codes": ["M Ia"],
+      },
+    },
+  },
+  "Iab": { // Intermediate Luminous Supergiants
+    "distribution": 0.0000000205257929046, // Several thousands
+    "starMassDistributionWithinSystem":  [0.9,0.999],
+    "otherBodiesMassDistributionWithinSystem": {
+      "companionStar": [0.9,0.999],
+      "circumstellarDust": [0,0.01],
+      "planets": [0,0.0001]
+    },
+    "starClasses": {
+      "O": {
+        "massInSolarMass": [15,100],
+        "sizeRangeInSolarRadius": [100,1000],
+        "codes": ["O Iab"],
+      },
+      "B": {
+        "massInSolarMass": [8,20],
+        "sizeRangeInSolarRadius": [30,200],
+        "codes": ["B Iab"],
+      },
+      "A": {
+        "massInSolarMass": [5,15],
+        "sizeRangeInSolarRadius": [15,100],
+        "codes": ["A Iab"],
+      },
+      "F": {
+        "massInSolarMass": [4,10],
+        "sizeRangeInSolarRadius": [10,70],
+        "codes": ["F Iab"],
+      },
+      "G": {
+        "massInSolarMass": [3,8],
+        "sizeRangeInSolarRadius": [8,40],
+        "codes": ["G Iab"],
+      },
+      "K": {
+        "massInSolarMass": [2,6],
+        "sizeRangeInSolarRadius": [15,200],
+        "codes": ["K Iab"],
+      },
+      "M": {
+        "massInSolarMass": [1,3],
+        "sizeRangeInSolarRadius": [100,1000],
+        "codes": ["M Iab"],
+      },
+    },
+  },
+  "Ib": { // Less Luminous Supergiants
+    "distribution": 0.0000000410515858092, // Several thousands
+    "starMassDistributionWithinSystem":  [0.9,0.999],
+    "otherBodiesMassDistributionWithinSystem": {
+      "companionStar": [0.9,0.999],
+      "circumstellarDust": [0,0.01],
+      "planets": [0,0.0001]
+    },
+    "starClasses": {
+      "O": {
+        "massInSolarMass": [15,100],
+        "sizeRangeInSolarRadius": [100,1000],
+        "codes": ["O Ib"],
+      },
+      "B": {
+        "massInSolarMass": [8,20],
+        "sizeRangeInSolarRadius": [30,200],
+        "codes": ["B Ib"],
+      },
+      "A": {
+        "massInSolarMass": [5,15],
+        "sizeRangeInSolarRadius": [15,100],
+        "codes": ["A Ib"],
+      },
+      "F": {
+        "massInSolarMass": [4,10],
+        "sizeRangeInSolarRadius": [10,70],
+        "codes": ["F Ib"],
+      },
+      "G": {
+        "massInSolarMass": [3,8],
+        "sizeRangeInSolarRadius": [8,40],
+        "codes": ["G Ib"],
+      },
+      "K": {
+        "massInSolarMass": [2,6],
+        "sizeRangeInSolarRadius": [15,200],
+        "codes": ["K Ib"],
+      },
+      "M": {
+        "massInSolarMass": [1,3],
+        "sizeRangeInSolarRadius": [100,1000],
+        "codes": ["M Ib"],
       },
     },
   },
   "II": { // Bright giant
-    "distribution": 0.00066, // 0.1% of supergiant type I and II, type II might be more common
+    "distribution": 0.00000041051585809201, // Tens of thousands.
     "starMassDistributionWithinSystem":  [0.9,0.999],
     "otherBodiesMassDistributionWithinSystem": {
       "companionStar": [0.9,0.999],
@@ -95,35 +247,42 @@ wizardSystemGeneratorDatabase["star"] = {
       "O": {
         "massInSolarMass": [20,60],
         "sizeRangeInSolarRadius": [50,150],
+        "codes": ["O II"],
       },
       "B": {
         "massInSolarMass": [5,20],
         "sizeRangeInSolarRadius": [30,80],
+        "codes": ["B II"],
       },
       "A": {
         "massInSolarMass": [2,10],
         "sizeRangeInSolarRadius": [15,40],
+        "codes": ["A II"],
       },
       "F": {
         "massInSolarMass": [1.5,5],
         "sizeRangeInSolarRadius": [10,25],
+        "codes": ["F II"],
       },
       "G": {
         "massInSolarMass": [1,3],
         "sizeRangeInSolarRadius": [8,20],
+        "codes": ["G II"],
       },
       "K": {
         "massInSolarMass": [0.5,2],
         "sizeRangeInSolarRadius": [15,80],
+        "codes": ["K II"],
       },
       "M": {
         "massInSolarMass": [0.3,1.5],
         "sizeRangeInSolarRadius": [80,400],
+        "codes": ["M II"],
       },
     },
   },
   "III": { // Giant
-    "distribution": 0.0015, // 1 to 3%
+    "distribution": 0.0000912257462426692, // Millions to tens of millions.
     "starMassDistributionWithinSystem": [0.9,0.999],
     "otherBodiesMassDistributionWithinSystem": {
       "companionStar": [0.9,0.999],
@@ -134,35 +293,42 @@ wizardSystemGeneratorDatabase["star"] = {
       "O": { // https://en.wikipedia.org/wiki/Blue_giant
         "massInSolarMass": [10,80],
         "sizeRangeInSolarRadius": [40,100],
+        "codes": ["O III"],
       },
       "B": { // https://en.wikipedia.org/wiki/Blue_giant
         "massInSolarMass": [5,20],
         "sizeRangeInSolarRadius": [20,50],
+        "codes": ["B III"],
       },
       "A": { // https://en.wikipedia.org/wiki/Blue_giant
         "massInSolarMass": [2,10],
         "sizeRangeInSolarRadius": [10,30],
+        "codes": ["A III"],
       },
       "F": {
         "massInSolarMass": [1.5,5], // https://en.wikipedia.org/wiki/Yellow giants
         "sizeRangeInSolarRadius": [6,15],
+        "codes": ["F III"],
       },
       "G": {
         "massInSolarMass": [1,3], // https://en.wikipedia.org/wiki/Yellow giants
         "sizeRangeInSolarRadius": [5,10],
+        "codes": ["G III"],
       },
       "K": {
         "massInSolarMass": [0.5,2], // https://en.wikipedia.org/wiki/Red_giant
         "sizeRangeInSolarRadius": [10,50],
+        "codes": ["K III"],
       },
       "M": {
         "massInSolarMass": [0.3,1.5], // https://en.wikipedia.org/wiki/Red_giant
         "sizeRangeInSolarRadius": [60,300],
+        "codes": ["M III"],
       },
     },
   },
   "IV": { // SubGiant
-    "distribution": 0.009, // Less than 1%
+    "distribution": 0.000410515858092012, // Tens of millions
     "starMassDistributionWithinSystem": [0.9,0.999],
     "otherBodiesMassDistributionWithinSystem": {
       "companionStar": [0.9,0.999],
@@ -173,35 +339,42 @@ wizardSystemGeneratorDatabase["star"] = {
       "O": {
         "massInSolarMass": [15,25],
         "sizeRangeInSolarRadius": [8,18],
+        "codes": ["O IV"],
       },
       "B": {
         "massInSolarMass": [3,15],
         "sizeRangeInSolarRadius": [5,10],
+        "codes": ["B IV"],
       },
       "A": {
         "massInSolarMass": [2,3],
         "sizeRangeInSolarRadius": [3,6],
+        "codes": ["A IV"],
       },
       "F": {
         "massInSolarMass": [1.5,2],
         "sizeRangeInSolarRadius": [2,4],
+        "codes": ["F IV"],
       },
       "G": {
         "massInSolarMass": [1,1.5],
         "sizeRangeInSolarRadius": [1.5,3],
+        "codes": ["G IV"],
       },
       "K": {
         "massInSolarMass": [0.8,1],
         "sizeRangeInSolarRadius": [1.3,2.5],
+        "codes": ["K IV"],
       },
       "M": {
         "massInSolarMass": [0.3,8],
         "sizeRangeInSolarRadius": [1,2],
+        "codes": ["M IV"],
       },
     },
   },
   "V": { // Main sequence | Source : https://en.wikipedia.org/wiki/Stellar_classification
-    "distribution": 0.9, // https://science.nasa.gov/universe/stars/types/
+    "distribution": 0.912257462426692, // The vast majority of stars in the Milky Way, estimated to be around 100 to 200 billion.
     "starMassDistributionWithinSystem": [0.9,0.999],
     "otherBodiesMassDistributionWithinSystem": {
       "companionStar": [0.9,0.999],
@@ -215,6 +388,7 @@ wizardSystemGeneratorDatabase["star"] = {
         "hydrogenPresence": "weak",
         "sizeRangeInSolarRadius": [6.6, 15], // Common max radius for O3V star | https://en.wikipedia.org/wiki/O-type_main-sequence_star
         "massInSolarMass": [16,200], // Max | https://science.nasa.gov/universe/stars/types/
+        "codes": ["O V"],
       },
       "B": { // Star type
         "distribution": 0.0013,
@@ -222,6 +396,7 @@ wizardSystemGeneratorDatabase["star"] = {
         "hydrogenPresence": "medium",
         "sizeRangeInSolarRadius": [1.8,7.16], // Max | https://en.wikipedia.org/wiki/B-type_main-sequence_star
         "massInSolarMass":  [2.1,17.7], // Max | https://en.wikipedia.org/wiki/B-type_main-sequence_star
+        "codes": ["B V"],
       },
       "A": { // Star type
         "distribution": 0.006,
@@ -229,6 +404,7 @@ wizardSystemGeneratorDatabase["star"] = {
         "hydrogenPresence": "strong",
         "sizeRangeInSolarRadius": [1.747,2.193],  // Min/max | https://en.wikipedia.org/wiki/A-type_main-sequence_star
         "massInSolarMass":  [1.4,2.18], // Max | https://en.wikipedia.org/wiki/A-type_main-sequence_star
+        "codes": ["A V"],
       },
       "F": { // Star type
         "distribution": 0.03,
@@ -236,6 +412,7 @@ wizardSystemGeneratorDatabase["star"] = {
         "hydrogenPresence": "medium",
         "sizeRangeInSolarRadius": [1.13,1.61], // Min/max | https://en.wikipedia.org/wiki/F-type_main-sequence_star
         "massInSolarMass":  [1.04,1.61], // Max | https://en.wikipedia.org/wiki/F-type_main-sequence_star
+        "codes": ["F V"],
       },
       "G": { // Star type
         "distribution": 0.076,
@@ -243,6 +420,7 @@ wizardSystemGeneratorDatabase["star"] = {
         "hydrogenPresence": "weak",
         "sizeRangeInSolarRadius": [0.853,1.35], // min/max | https://en.wikipedia.org/wiki/G-type_main-sequence_star
         "massInSolarMass":  [0.8,1.06], // max | https://en.wikipedia.org/wiki/G-type_main-sequence_star
+        "codes": ["G V"],
       },
       "K": { // Star type
         "distribution": 0.121,
@@ -250,6 +428,7 @@ wizardSystemGeneratorDatabase["star"] = {
         "hydrogenPresence": "very weak",
         "sizeRangeInSolarRadius": [0.608,0.9], // Common min radius for K9V star  | https://en.wikipedia.org/wiki/K-type_main-sequence_star
         "massInSolarMass":  [0.45,0.88], // Common Max mass for K0V star | https://en.wikipedia.org/wiki/K-type_main-sequence_star
+        "codes": ["K V"],
       },
       "M": { // Star type
         "distribution": 0.765,
@@ -257,11 +436,12 @@ wizardSystemGeneratorDatabase["star"] = {
         "hydrogenPresence": "very weak",
         "sizeRangeInSolarRadius": [0.102,0.7],  // Common min radius size for M9V star | https://en.wikipedia.org/wiki/Red_dwarf
         "massInSolarMass":  [0.079,0.57], // Common Min/Max mass for M9V to M0V star | https://en.wikipedia.org/wiki/Red_dwarf
+        "codes": ["M V"],
       },
     },
   },
   "VI": { // SubDwarf
-    "distribution": 0.009, // Less than 1%
+    "distribution": 0.0000410515858092012, // Several hundred thousand to a few million.
     "starMassDistributionWithinSystem": [0.9,0.99],
     "otherBodiesMassDistributionWithinSystem": {
       "companionStar": [0,3],
@@ -272,47 +452,114 @@ wizardSystemGeneratorDatabase["star"] = {
       "O": { // https://en.wikipedia.org/wiki/Subdwarf_O_star
         "massInSolarMass": [0.5,1],
         "sizeRangeInSolarRadius": [4,12],
+        "codes": ["O VI"],
       },
       "B": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
         "massInSolarMass": [0.3,0.7],
         "sizeRangeInSolarRadius": [2,6],
+        "codes": ["B VI"],
       },
       "A": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
         "massInSolarMass": [0.6,1.4],
         "sizeRangeInSolarRadius": [1.3,2.5],
+        "codes": ["A VI"],
       },
       "F": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
         "massInSolarMass": [0.5,0.9],
         "sizeRangeInSolarRadius": [1.1,1.4],
+        "codes": ["F VI"],
       },
       "G": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
         "massInSolarMass": [0.5,0.8],
         "sizeRangeInSolarRadius": [0.8,1],
+        "codes": ["G VI"],
       },
       "K": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
         "massInSolarMass": [0.4,0.7],
         "sizeRangeInSolarRadius": [0.6,0.8],
+        "codes": ["K VI"],
       },
       "M": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
         "massInSolarMass": [0.1,0.3],
         "sizeRangeInSolarRadius": [0.1,0.5],
+        "codes": ["M VI"],
       },
     },
   },
   "D": { // White dwarf
-    "distribution": 0.075, // 5 to 10%
-    "massInSolarMass": [0.5,0.98],  // https://en.wikipedia.org/wiki/White_dwarf
+    "distribution": 0.0456128731213346, //  Estimated to be around 10 billion.
+    "massInSolarMass": [0.17,1.4],  // https://en.wikipedia.org/wiki/White_dwarf The mass of white dwarfs typically falls between 0.17 M☉ (for very low-mass white dwarfs) and 1.4 M☉ (for those near the Chandrasekhar limit, beyond which they would collapse into a neutron star).
     "starMassDistributionWithinSystem": [0.99,0.999],
+    "codes": ["D"],
     "otherBodiesMassDistributionWithinSystem": {
       "companionStar": [0.99,0.999],
       "circumstellarDust": [0.01,0.1],
       "planets": [0,0.0001]
-    }
+    },
+    "starClasses": {
+      "DA": { // (Hydrogen Atmosphere)
+        "codes": ["DA"],
+        "distributions": 0.79, // Approximately 80% of all white dwarfs, ~8 billion
+        "massInSolarMass": [0.3,1.2],
+      },
+      "DAB": { // (Hydrogen and Helium Atmosphere)
+        "codes": ["DAB"],
+        "distributions": 0.003, // < 1%, Tens of millions
+        "massInSolarMass": [0.5,0.7],
+      },
+      "DAO": { // (Hydrogen and Helium Atmosphere with Strong Helium II)
+        "codes": ["DAO"],
+        "distributions": 0.003, // < 1%, Tens of millions
+        "massInSolarMass": [0.55,0.7],
+      },
+      "DAZ": { // (Hydrogen Atmosphere with Metal Lines)
+        "codes": ["DAZ"],
+        "distributions": 0.003, // Rare, possibly 1-2% of all DA white dwarfs, or tens of millions.
+        "massInSolarMass": [0.5,0.7],
+      },
+      "DB": { // (Helium Atmosphere)
+        "codes": ["DB"],
+        "distributions": 0.16, // Approximately 15-20% of all white dwarfs, or 1.5 to 2 billion.
+        "massInSolarMass": [0.5,0.7],
+      },
+      "DBZ": { // (Helium Atmosphere with Metal Lines)
+        "codes": ["DBZ"],
+        "distributions": 0.0003, // Very rare, likely <1% of DB white dwarfs. Millions
+        "massInSolarMass": [0.55,0.7],
+      },
+      "DO": { // (Helium Atmosphere with Helium II Lines)
+        "codes": ["DO"],
+        "distributions": 0.003, // Relatively rare, making up a small fraction of white dwarfs. Tens of millions
+        "massInSolarMass": [0.55,0.65],
+      },
+      "DQ": { // (Carbon Atmosphere)
+        "codes": ["DQ"],
+        "distributions": 0.003, // Rare, estimated to be <1% of white dwarfs. Tens of millions
+        "massInSolarMass": [0.6,0.75],
+      },
+      "DZ": { // (Metal-Rich Atmosphere)
+        "codes": ["DZ"],
+        "distributions": 0.003, // Around 1-2% of all white dwarfs. Tens of millions
+        "massInSolarMass": [0.5,0.7],
+      },
+      "DC": { //  (Featureless Spectrum)
+        "codes": ["DC"],
+        "distributions": 0.03, // Represents a few percent of white dwarfs, or hundreds of millions.
+        "massInSolarMass": [0.5,0.7],
+      },
+      "DX": { // (Unclassifiable Spectrum)
+        "codes": ["DX"],
+        "distributions": 0.0017, // Very rare, the number is uncertain but likely a small fraction of the total.
+        "massInSolarMass": [0.5,0.7],
+      },
+    },
   },
   "L": { // Brown dwarf
+    "distribution": 0.0364902984970677, // 4 to 8 billion
     "massInSolarMass": [0.013,0.08], // https://en.wikipedia.org/wiki/Brown_dwarf
     "sizeRangeInSolarRadius": [0.09,0.11],
     "starMassDistributionWithinSystem": [0.9,0.99],
+    "codes": ["L", "L0", "L5", "L9"],
     "otherBodiesMassDistributionWithinSystem": {
       "companionStar": [0.99,0.999],
       "circumstellarDust": [0.01,0.1],
@@ -320,9 +567,11 @@ wizardSystemGeneratorDatabase["star"] = {
     }
   },
   "Y": { // Cooler Brown dwarf
+    "distribution": 0.000410515858092012, // 10 of millions
     "massInSolarMass": [0.013,0.08], // https://en.wikipedia.org/wiki/Brown_dwarf
     "sizeRangeInSolarRadius": [0.08,0.1],
     "starMassDistributionWithinSystem": [0.9,0.99],
+    "codes": ["Y", "Y0", "Y5", "Y9"],
     "otherBodiesMassDistributionWithinSystem": {
       "companionStar": [0.99,0.999],
       "circumstellarDust": [0.01,0.1],
@@ -330,9 +579,11 @@ wizardSystemGeneratorDatabase["star"] = {
     }
   },
   "T": { // Cool Brown dwarf
+    "distribution": 0.0000729805969941354,// Approximately 8 to 16 billion
     "massInSolarMass": [0.013,0.08], // https://en.wikipedia.org/wiki/Brown_dwarf
     "sizeRangeInSolarRadius": [0.05,0.09],
     "starMassDistributionWithinSystem": [0.9,0.99],
+    "codes": ["T", "T0", "T5", "T9"],
     "otherBodiesMassDistributionWithinSystem": {
       "companionStar": [0.99,0.999],
       "circumstellarDust": [0.01,0.1],
@@ -340,7 +591,11 @@ wizardSystemGeneratorDatabase["star"] = {
     }
   },
   "W": { // Wolf-Rayet
+    "distribution": 0.0000000064268538228, // between 1,000 and 2,000.
     "starMassDistributionWithinSystem": [0.9,0.99],
+    "sizeRangeInSolarRadius": [2,8],
+    "massInSolarMass": [8,30],
+    "codes": ["W"],
     "otherBodiesMassDistributionWithinSystem": {
       "companionStar": [0.1,0.2],
       "circumstellarDust": [0.05,0.1],
@@ -348,104 +603,188 @@ wizardSystemGeneratorDatabase["star"] = {
     },
     "starClasses": {
       "WN": { // Wolf-Rayet (Nitrogen-rich)
+        "distribution": 0.28388928317956, // There are an estimated 200 to 400 WN stars in the Milky Way.
         "massInSolarMass": [10,25], // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
         "sizeRangeInSolarRadius": [0.89,25],  // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
+        "codes": ["WN"],
       },
       "WC": { // Wolf-Rayet (Carbon-rich)
-        "massInSolarMass": [10,25], // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
+        "distribution": 0.14194464158978, // Estimated to be around 100 to 200 WC stars in the Milky Way.
+        "massInSolarMass": [8,25], // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
         "sizeRangeInSolarRadius": [0.7,8.7],  // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
+        "codes": ["WC"],
       },
       "WO": { // Wolf-Rayet (Oxygen-rich)
-        "massInSolarMass": [10,20], // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
+        "distribution": 0.0063875088715401, // There are fewer than 10 known WO stars in the Milky Way.
+        "massInSolarMass": [5,20], // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
         "sizeRangeInSolarRadius": [0.7,8.7],  // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
+        "codes": ["WO"],
       },
       "WN/C": { // Wolf-Rayet (Transition type)
-        "massInSolarMass": [10,25], // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
+        "distribution": 0.56777856635912, // WN/C stars are quite rare, and their number in the Milky Way is likely a few dozen to a few hundred. They are less common than purely WN or WC stars and are often found in regions of active star formation.
+        "massInSolarMass": [8,25], // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
         "sizeRangeInSolarRadius": [0.7,8.7],  // https://en.wikipedia.org/wiki/Wolf%E2%80%93Rayet_star
+        "codes": ["WN/C"],
       },
     },
   },
   "S": { // Zirconium star
+    "distribution": 0.00000041051585809201, // could be several tens of thousands
     "massInSolarMass": [0.8,4],
     "starMassDistributionWithinSystem": [0.99,0.999],
     "sizeRangeInSolarRadius": [20,300],
     "otherBodiesMassDistributionWithinSystem": {
       "circumstellarDust": [0.001,0.01],
       "planets": [0,0.0001]
-    }
+    },
+    "starClasses": {
+      "S": {
+        "distribution": 0.888888888888889, // could be several tens of thousands
+        "starMassDistributionWithinSystem": [],
+        "sizeRangeInSolarRadius": [],
+        "massInSolarMass": [1,3],
+        "codes": ["S"],
+      },
+      "MS": {
+        "distribution": 0.0888888888888889, // there could be thousands to tens of thousands of MS stars in the Milky Way
+        "starMassDistributionWithinSystem": [],
+        "sizeRangeInSolarRadius": [],
+        "massInSolarMass": [1,3],
+        "codes": ["SM"],
+      },
+      "SC": {
+        "distribution": 0.0222222222222222, // SC stars are very rare, with estimates suggesting a few hundred to a few thousand in the Milky Way
+        "starMassDistributionWithinSystem": [],
+        "sizeRangeInSolarRadius": [],
+        "massInSolarMass": [1.5,3],
+        "codes": ["SC"],
+      },
+    },
   },
   "Neutron Star": {
-    "massInSolarMass": [1.1,2.16],
+    "distribution": 0.00456584886856155,
+    "massInSolarMass": [1.1,2.16], // Maximum mass: The upper limit for neutron star mass is still an active area of research, with the Tolman-Oppenheimer-Volkoff limit estimated to be around 2.16 M☉. Beyond this, the star would likely collapse into a black hole.
     "starMassDistributionWithinSystem": [0.99,0.999],
-    "sizeRangeInSolarRadius": [0.00001436,0.00002872],
+    "sizeRangeInSolarRadius":  [0.015, 0.017],
+    "codes": ["Neutron Star"],
     "otherBodiesMassDistributionWithinSystem": {
       "companionStar": [0.01,0.5],
       "circumstellarDust": [0,0.01],
       "planets": [0,0.0001]
-    }
+    },
+    "starClasses": {
+      "Standard Neutron": {
+        "distribution": 0.999000940118826, // 1 billion
+        "starMassDistributionWithinSystem": [],
+        "sizeRangeInSolarRadius": [0.015, 0.017],
+        "massInSolarMass": [1.25,2],
+        "codes": ["Standard Neutron Star"],
+      },
+      "Pulsar": {
+        "distribution": 0.000999000940118826, // Estimated to be around 100,000 to 1 million observable pulsars (potentially more that are not oriented toward Earth).
+        "starMassDistributionWithinSystem": [],
+        "sizeRangeInSolarRadius": [0.015, 0.017],
+        "massInSolarMass": [1.2,2],
+        "codes": ["Pulsar"],
+      },
+      "Magnetar": {
+        "distribution": 0.00000004995004700594, // Estimated to be around 30 to 50 in the Milky Way.
+        "starMassDistributionWithinSystem": [],
+        "sizeRangeInSolarRadius": [0.015, 0.017],
+        "massInSolarMass": [1.2,1.6],
+        "codes": ["Magnetar"],
+      },
+      "Magnetar-Pulsar": {
+        "distribution": 0.00000000899100846107, // Extremely rare, with only a few known (less than 10)
+        "starMassDistributionWithinSystem": [],
+        "sizeRangeInSolarRadius": [0.015, 0.017],
+        "massInSolarMass": [1.2,1.6],
+        "codes": ["Magnetar+Pulsar"],
+      },
+    },
   },
   "Black Hole": {
-    "Stellar-mass Black Hole": {
-      "starMassDistributionWithinSystem": [0.9, 0.99],
-      "sizeRangeInSolarRadius": [0.0000127,0.0000847],
-      "massInSolarMass": [3,20],
-      "otherBodiesMassDistributionWithinSystem": {
-        "companionStar": [0.01,0.1],
-        "accretionDisk": [0,0.01],
-        "planets": [0,0.001]
+    "codes": ["Black Hole"],
+    "distribution": 0.0000460690064138353, 
+    "starClasses": {
+      "Stellar-mass Black Hole": {
+        "distribution": 0.999990990081179, // 1 hundred million out of 400 https://en.wikipedia.org/wiki/Milky_Way
+        "starMassDistributionWithinSystem": [0.9, 0.99],
+        "sizeRangeInSolarRadius": [0.0000127,0.0000847],
+        "massInSolarMass": [3,30],
+        "codes": ["SBH"],
+        "otherBodiesMassDistributionWithinSystem": {
+          "companionStar": [0.01,0.1],
+          "accretionDisk": [0,0.01],
+          "planets": [0,0.001]
+        },
       },
-    },
-    "Intermediate-mass Black Hole":{
-      "starMassDistributionWithinSystem": [0.95, 0.999],
-      "sizeRangeInSolarRadius": [0.000424,0.00424],
-      "massInSolarMass": [100,1000],
-      "otherBodiesMassDistributionWithinSystem": {
-        "companionStar": [0.01,0.05],
-        "accretionDisk": [0,0.03],
-        "planets": [0,0.001]
+      "Intermediate-mass Black Hole":{
+        "distribution": 0.00000899991891073061, // estimated to be hundred to thousand, probably composing star cluster center
+        "starMassDistributionWithinSystem": [0.95, 0.999],
+        "sizeRangeInSolarRadius": [0.000424,0.00424],
+        "massInSolarMass": [100,100000],
+        "codes": ["IMBH"],
+        "otherBodiesMassDistributionWithinSystem": {
+          "companionStar": [0.01,0.05],
+          "accretionDisk": [0,0.03],
+          "planets": [0,0.001]
+        },
       },
-    },
-    "Supermassive Black Hole": {
-      "starMassDistributionWithinSystem": [0.999, 0.9999999999999999],
-      "sizeRangeInSolarRadius": [0.424,4240],
-      "massInSolarMass": [100000,10000000000],
-      "otherBodiesMassDistributionWithinSystem": {
-        "companionStar": [0,0.001],
-        "accretionDisk": [0,0.01],
-        "planets": [0,0.00000000000000000000000000001]
+      "Supermassive Black Hole": {
+        "distribution": 0.00000000999990990081, // Only one in milky way at its center
+        "starMassDistributionWithinSystem": [0.999, 0.9999999999999999],
+        "sizeRangeInSolarRadius": [0.424,4240],
+        "massInSolarMass": [100000,10000000000],
+        "codes": ["SMBH"],
+        "otherBodiesMassDistributionWithinSystem": {
+          "companionStar": [0,0.001],
+          "accretionDisk": [0,0.01],
+          "planets": [0,0.00000000000000000000000000001]
+        },
       },
     },
   },
   "C": { // Carbon star
+    "distribution": 0.00000022806436560667, // there are between 10,000 and 50,000 carbon stars in the Milky Way.
     "starMassDistributionWithinSystem": [0.8,0.95],
+    "codes": ["C"],
+    "sizeRangeInSolarRadius": [20,600],
+    "massInSolarMass": [0.5,3],
     "otherBodiesMassDistributionWithinSystem": {
       "circumstellarDust": [0.05,0.1],
       "planets": [0,0.0001],
     },
     "starClasses": {
-      "C": {
-        "massInSolarMass": [0.8,3],
-        "sizeRangeInSolarRadius": [100,200],
-      },
       "C-R": {
+        "distribution": 0.714285714285714, // A few hundred to a few thousand
         "massInSolarMass": [0.8,2],
         "sizeRangeInSolarRadius": [50,300],
+        "codes": ["C-R"],
       },
       "C-N": {
+        "distribution": 0.119047619047619, // A few hundred
         "massInSolarMass": [1,3],
         "sizeRangeInSolarRadius": [200,600],
+        "codes": ["C-N"],
       },
-      "C-J": { 
+      "C-J": {
+        "distribution": 0.023809523809524, // Fewer than a few hundred
         "massInSolarMass": [0.8,3],
         "sizeRangeInSolarRadius": [100,500],
+        "codes": ["C-J"],
       },
-      "C-H": { 
+      "C-H": {
+        "distribution": 0.119047619047619, // A few hundred
         "massInSolarMass": [0.5,1.5],
         "sizeRangeInSolarRadius": [20,200],
+        "codes": ["C-H"],
       },
       "C-Hd": { 
-      "massInSolarMass": [0.5,1.5],
-      "sizeRangeInSolarRadius": [100,300],
+        "distribution": 0.023809523809524, // Fewer than a few hundred
+        "massInSolarMass": [0.5,1.5],
+        "sizeRangeInSolarRadius": [100,300],
+        "codes": ["C-Hd"],
       },
     },
   },
