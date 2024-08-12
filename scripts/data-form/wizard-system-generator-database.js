@@ -1,5 +1,11 @@
 const wizardSystemGeneratorDatabase = {};
 
+wizardSystemGeneratorDatabase["units"] = {
+  "solarRadius": 696340, // in km
+  "solarMass": 2E30, // in kg
+  "astronomicalUnit": 14959770.7, // in km
+}
+
 // The mass‐luminosity relation holds only for main sequence stars. Two giant or supergiant stars with the same luminosities and surface temperatures may have dramatically different masses.
 // We will simplify with star type
 
@@ -13,38 +19,45 @@ wizardSystemGeneratorDatabase["star"] = {
       "circumstellarDust": [0,0.1],
       "planets": [0,0.0001]
     },
-      "starClasses": {
+    "starClasses": {
       "O": {
+        "distribution": 0.176470588235294, // Estimation
         "massInSolarMass": [30,150],
         "sizeRangeInSolarRadius": [500,10000],
         "codes": ["O 0"],
       },
       "B": {
+        "distribution": 0.294117647058823, // Estimation
         "massInSolarMass": [20,80],
         "sizeRangeInSolarRadius": [300,5000],
         "codes": ["B 0"],
       },
       "A": {
+        "distribution": 0.176470588235294, // Estimation
         "massInSolarMass": [15,60],
         "sizeRangeInSolarRadius": [200,2000],
         "codes": ["A 0"],
       },
       "F": {
+        "distribution": 0.0784313725490196, // Estimation
         "massInSolarMass": [10,40],
         "sizeRangeInSolarRadius": [150,2000],
         "codes": ["F 0"],
       },
       "G": {
+        "distribution": 0.0784313725490196, // Estimation
         "massInSolarMass": [5,30],
         "sizeRangeInSolarRadius": [100,1500],
         "codes": ["G 0"],
       },
       "K": {
+        "distribution": 0.0588235294117647, // Estimation
         "massInSolarMass": [3,20],
         "sizeRangeInSolarRadius": [200,4000],
         "codes": ["K 0"],
       },
       "M": {
+        "distribution": 0.137254901960784, // Estimation
         "massInSolarMass": [2,10],
         "sizeRangeInSolarRadius": [500,10000],
         "codes": ["M 0"],
@@ -61,36 +74,43 @@ wizardSystemGeneratorDatabase["star"] = {
     },
     "starClasses": {
       "O": {
+        "distribution": 0.166666666666667, // Estimation
         "massInSolarMass": [15,100],
         "sizeRangeInSolarRadius": [100,1000],
         "codes": ["O Ia0"],
       },
       "B": {
+        "distribution": 0.166666666666667, // Estimation
         "massInSolarMass": [8,20],
         "sizeRangeInSolarRadius": [30,200],
         "codes": ["B Ia0"],
       },
       "A": {
+        "distribution": 0.166666666666667, // Estimation
         "massInSolarMass": [5,15],
         "sizeRangeInSolarRadius": [15,100],
         "codes": ["A Ia0"],
       },
       "F": {
+        "distribution": 0.083333333333333, // Estimation
         "massInSolarMass": [4,10],
         "sizeRangeInSolarRadius": [10,70],
         "codes": ["F Ia0"],
       },
       "G": {
+        "distribution": 0.083333333333333, // Estimation
         "massInSolarMass": [3,8],
         "sizeRangeInSolarRadius": [8,40],
         "codes": ["G Ia0"],
       },
       "K": {
+        "distribution": 0.166666666666667, // Estimation
         "massInSolarMass": [2,6],
         "sizeRangeInSolarRadius": [15,200],
         "codes": ["K Ia0"],
       },
       "M": {
+        "distribution": 0.166666666666667, // Estimation
         "massInSolarMass": [1,3],
         "sizeRangeInSolarRadius": [100,1000],
         "codes": ["M Ia0"],
@@ -107,36 +127,43 @@ wizardSystemGeneratorDatabase["star"] = {
     },
     "starClasses": {
       "O": {
+        "distribution": 0.116279069767442, // Estimation
         "massInSolarMass": [15,100],
         "sizeRangeInSolarRadius": [100,1000],
         "codes": ["O Ia"],
       },
       "B": {
+        "distribution": 0.209302325581395, // Estimation
         "massInSolarMass": [8,20],
         "sizeRangeInSolarRadius": [30,200],
         "codes": ["B Ia"],
       },
       "A": {
+        "distribution": 0.116279069767442, // Estimation
         "massInSolarMass": [5,15],
         "sizeRangeInSolarRadius": [15,100],
         "codes": ["A Ia"],
       },
       "F": {
+        "distribution": 0.116279069767442, // Estimation
         "massInSolarMass": [4,10],
         "sizeRangeInSolarRadius": [10,70],
         "codes": ["F Ia"],
       },
       "G": {
+        "distribution": 0.116279069767442, // Estimation
         "massInSolarMass": [3,8],
         "sizeRangeInSolarRadius": [8,40],
         "codes": ["G Ia"],
       },
       "K": {
+        "distribution": 0.209302325581395, // Estimation
         "massInSolarMass": [2,6],
         "sizeRangeInSolarRadius": [15,200],
         "codes": ["K Ia"],
       },
       "M": {
+        "distribution": 0.116279069767442, // Estimation
         "massInSolarMass": [1,3],
         "sizeRangeInSolarRadius": [100,1000],
         "codes": ["M Ia"],
@@ -153,36 +180,43 @@ wizardSystemGeneratorDatabase["star"] = {
     },
     "starClasses": {
       "O": {
+        "distribution": 0.12962962962963, // Estimation
         "massInSolarMass": [15,100],
         "sizeRangeInSolarRadius": [100,1000],
         "codes": ["O Iab"],
       },
       "B": {
+        "distribution": 0.175925925925926, // Estimation
         "massInSolarMass": [8,20],
         "sizeRangeInSolarRadius": [30,200],
         "codes": ["B Iab"],
       },
       "A": {
+        "distribution": 0.12962962962963, // Estimation
         "massInSolarMass": [5,15],
         "sizeRangeInSolarRadius": [15,100],
         "codes": ["A Iab"],
       },
       "F": {
+        "distribution": 0.12962962962963, // Estimation
         "massInSolarMass": [4,10],
         "sizeRangeInSolarRadius": [10,70],
         "codes": ["F Iab"],
       },
       "G": {
+        "distribution": 0.12962962962963, // Estimation
         "massInSolarMass": [3,8],
         "sizeRangeInSolarRadius": [8,40],
         "codes": ["G Iab"],
       },
       "K": {
+        "distribution": 0.175925925925926, // Estimation
         "massInSolarMass": [2,6],
         "sizeRangeInSolarRadius": [15,200],
         "codes": ["K Iab"],
       },
       "M": {
+        "distribution": 0.12962962962963, // Estimation
         "massInSolarMass": [1,3],
         "sizeRangeInSolarRadius": [100,1000],
         "codes": ["M Iab"],
@@ -199,36 +233,43 @@ wizardSystemGeneratorDatabase["star"] = {
     },
     "starClasses": {
       "O": {
+        "distribution": 0.12962962962963, // Estimation
         "massInSolarMass": [15,100],
         "sizeRangeInSolarRadius": [100,1000],
         "codes": ["O Ib"],
       },
       "B": {
+        "distribution": 0.175925925925926, // Estimation
         "massInSolarMass": [8,20],
         "sizeRangeInSolarRadius": [30,200],
         "codes": ["B Ib"],
       },
       "A": {
+        "distribution": 0.12962962962963, // Estimation
         "massInSolarMass": [5,15],
         "sizeRangeInSolarRadius": [15,100],
         "codes": ["A Ib"],
       },
       "F": {
+        "distribution": 0.12962962962963, // Estimation
         "massInSolarMass": [4,10],
         "sizeRangeInSolarRadius": [10,70],
         "codes": ["F Ib"],
       },
       "G": {
+        "distribution": 0.12962962962963, // Estimation
         "massInSolarMass": [3,8],
         "sizeRangeInSolarRadius": [8,40],
         "codes": ["G Ib"],
       },
       "K": {
+        "distribution": 0.175925925925926, // Estimation
         "massInSolarMass": [2,6],
         "sizeRangeInSolarRadius": [15,200],
         "codes": ["K Ib"],
       },
       "M": {
+        "distribution": 0.12962962962963, // Estimation
         "massInSolarMass": [1,3],
         "sizeRangeInSolarRadius": [100,1000],
         "codes": ["M Ib"],
@@ -245,36 +286,43 @@ wizardSystemGeneratorDatabase["star"] = {
     },
     "starClasses": {
       "O": {
+        "distribution": 0.130434782608696, // Estimation
         "massInSolarMass": [20,60],
         "sizeRangeInSolarRadius": [50,150],
         "codes": ["O II"],
       },
       "B": {
+        "distribution": 0.173913043478261, // Estimation
         "massInSolarMass": [5,20],
         "sizeRangeInSolarRadius": [30,80],
         "codes": ["B II"],
       },
       "A": {
+        "distribution": 0.130434782608696, // Estimation
         "massInSolarMass": [2,10],
         "sizeRangeInSolarRadius": [15,40],
         "codes": ["A II"],
       },
       "F": {
+        "distribution": 0.130434782608696, // Estimation
         "massInSolarMass": [1.5,5],
         "sizeRangeInSolarRadius": [10,25],
         "codes": ["F II"],
       },
       "G": {
+        "distribution": 0.130434782608696, // Estimation
         "massInSolarMass": [1,3],
         "sizeRangeInSolarRadius": [8,20],
         "codes": ["G II"],
       },
       "K": {
+        "distribution": 0.173913043478261, // Estimation
         "massInSolarMass": [0.5,2],
         "sizeRangeInSolarRadius": [15,80],
         "codes": ["K II"],
       },
       "M": {
+        "distribution": 0.130434782608696, // Estimation
         "massInSolarMass": [0.3,1.5],
         "sizeRangeInSolarRadius": [80,400],
         "codes": ["M II"],
@@ -291,37 +339,44 @@ wizardSystemGeneratorDatabase["star"] = {
     },
     "starClasses": {
       "O": { // https://en.wikipedia.org/wiki/Blue_giant
+        "distribution": 0.004672897196262, // Estimation
         "massInSolarMass": [10,80],
         "sizeRangeInSolarRadius": [40,100],
         "codes": ["O III"],
       },
       "B": { // https://en.wikipedia.org/wiki/Blue_giant
+        "distribution": 0.014018691588785, // Estimation
         "massInSolarMass": [5,20],
         "sizeRangeInSolarRadius": [20,50],
         "codes": ["B III"],
       },
       "A": { // https://en.wikipedia.org/wiki/Blue_giant
+        "distribution": 0.070093457943925, // Estimation
         "massInSolarMass": [2,10],
         "sizeRangeInSolarRadius": [10,30],
         "codes": ["A III"],
       },
       "F": {
         "massInSolarMass": [1.5,5], // https://en.wikipedia.org/wiki/Yellow giants
+        "distribution": 0.116822429906542, // Estimation
         "sizeRangeInSolarRadius": [6,15],
         "codes": ["F III"],
       },
       "G": {
         "massInSolarMass": [1,3], // https://en.wikipedia.org/wiki/Yellow giants
+        "distribution": 0.186915887850467, // Estimation
         "sizeRangeInSolarRadius": [5,10],
         "codes": ["G III"],
       },
       "K": {
         "massInSolarMass": [0.5,2], // https://en.wikipedia.org/wiki/Red_giant
+        "distribution": 0.280373831775701, // Estimation
         "sizeRangeInSolarRadius": [10,50],
         "codes": ["K III"],
       },
       "M": {
         "massInSolarMass": [0.3,1.5], // https://en.wikipedia.org/wiki/Red_giant
+        "distribution": 0.327102803738318, // Estimation
         "sizeRangeInSolarRadius": [60,300],
         "codes": ["M III"],
       },
@@ -337,36 +392,43 @@ wizardSystemGeneratorDatabase["star"] = {
     },
     "starClasses": {
       "O": {
+        "distribution": 0.005154639175258, // Estimation
         "massInSolarMass": [15,25],
         "sizeRangeInSolarRadius": [8,18],
         "codes": ["O IV"],
       },
       "B": {
+        "distribution": 0.015463917525773, // Estimation
         "massInSolarMass": [3,15],
         "sizeRangeInSolarRadius": [5,10],
         "codes": ["B IV"],
       },
       "A": {
+        "distribution": 0.077319587628866, // Estimation
         "massInSolarMass": [2,3],
         "sizeRangeInSolarRadius": [3,6],
         "codes": ["A IV"],
       },
       "F": {
+        "distribution": 0.128865979381443, // Estimation
         "massInSolarMass": [1.5,2],
         "sizeRangeInSolarRadius": [2,4],
         "codes": ["F IV"],
       },
       "G": {
+        "distribution": 0.206185567010309, // Estimation
         "massInSolarMass": [1,1.5],
         "sizeRangeInSolarRadius": [1.5,3],
         "codes": ["G IV"],
       },
       "K": {
+        "distribution": 0.309278350515464, // Estimation
         "massInSolarMass": [0.8,1],
         "sizeRangeInSolarRadius": [1.3,2.5],
         "codes": ["K IV"],
       },
       "M": {
+        "distribution": 0.257731958762887, // Estimation
         "massInSolarMass": [0.3,8],
         "sizeRangeInSolarRadius": [1,2],
         "codes": ["M IV"],
@@ -450,36 +512,43 @@ wizardSystemGeneratorDatabase["star"] = {
     },
     "starClasses": {
       "O": { // https://en.wikipedia.org/wiki/Subdwarf_O_star
+        "distribution": 0.004694835680751, // Estimation
         "massInSolarMass": [0.5,1],
         "sizeRangeInSolarRadius": [4,12],
         "codes": ["O VI"],
       },
       "B": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
+        "distribution": 0.014084507042254, // Estimation
         "massInSolarMass": [0.3,0.7],
         "sizeRangeInSolarRadius": [2,6],
         "codes": ["B VI"],
       },
-      "A": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
+      "A": { // https://en.wikipedia.org/wiki/Subdwarf_A_star
+        "distribution": 0.070422535211268, // Estimation
         "massInSolarMass": [0.6,1.4],
         "sizeRangeInSolarRadius": [1.3,2.5],
         "codes": ["A VI"],
       },
-      "F": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
+      "F": { // https://en.wikipedia.org/wiki/Subdwarf_F_star
+        "distribution": 0.140845070422535, // Estimation
         "massInSolarMass": [0.5,0.9],
         "sizeRangeInSolarRadius": [1.1,1.4],
         "codes": ["F VI"],
       },
-      "G": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
+      "G": { // https://en.wikipedia.org/wiki/Subdwarf_G_star
+        "distribution": 0.234741784037559, // Estimation
         "massInSolarMass": [0.5,0.8],
         "sizeRangeInSolarRadius": [0.8,1],
         "codes": ["G VI"],
       },
-      "K": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
+      "K": { // https://en.wikipedia.org/wiki/Subdwarf_K_star
+        "distribution": 0.300469483568075, // Estimation
         "massInSolarMass": [0.4,0.7],
         "sizeRangeInSolarRadius": [0.6,0.8],
         "codes": ["K VI"],
       },
-      "M": { // https://en.wikipedia.org/wiki/Subdwarf_B_star
+      "M": { // https://en.wikipedia.org/wiki/Subdwarf_M_star
+        "distribution": 0.234741784037559, // Estimation
         "massInSolarMass": [0.1,0.3],
         "sizeRangeInSolarRadius": [0.1,0.5],
         "codes": ["M VI"],
@@ -645,7 +714,7 @@ wizardSystemGeneratorDatabase["star"] = {
         "massInSolarMass": [1,3],
         "codes": ["S"],
       },
-      "MS": {
+      "SM": {
         "distribution": 0.0888888888888889, // there could be thousands to tens of thousands of MS stars in the Milky Way
         "starMassDistributionWithinSystem": [],
         "sizeRangeInSolarRadius": [],
@@ -821,78 +890,128 @@ wizardSystemGeneratorDatabase["planet"] = {
   "type": {
     "Comet": {
       "massInEarthMass": [0.0000000000001,0.000000001],
+      "density": [0.1,0.6], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.95,
     },
     "Terrestrial": {
       "massInEarthMass": [0.1,10],
+      "density": [3,5.5], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.7,
     },
     "Asteroid": {
       "massInEarthMass": [0.0000000001,0.0001],
+      "density": [2,3.5], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.9,
     },
     "Chthonian Planet": {
       "massInEarthMass": [5,20],
+      "density": [4,7], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.05,
     },
     "Carbon Planet": {
       "massInEarthMass": [0.5,10],
+      "density": [3,4.5], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.05,
     },
     "Coreless Planet": {
       "massInEarthMass": [0.5,10],
+      "density": [2.5,4], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.1,
     },
     "Gas Giant": {
       "massInEarthMass": [10,1000],
+      "density": [0.7,1.6], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.5,
     },
     "Gas Dwarf": {
       "massInEarthMass": [10,50],
+      "density": [1,3], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.4,
     },
     "Helium Planet": {
       "massInEarthMass": [100,1000],
+      "density": [0.5,1.2], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.01,
     },
     "Hycean Planet": {
       "massInEarthMass": [2,10],
+      "density": [1,2.5], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.1,
     },
     "Ice Giant": {
       "massInEarthMass": [10,50],
+      "density": [1.2,1.8], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.3,
     },
     "Ice-Rock Planet": {
-      "massInEarthMass": [0.1,10],
+      "massInEarthMass": [2,3.5],
+      "density": [0.1,0.6], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.3,
     },
     "Ice Planet": {
       "massInEarthMass": [0.1,10],
+      "density": [0.9,2], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.4,
     },
     "Iron Planet": {
       "massInEarthMass": [0.1,5],
+      "density": [6,8], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.15,
     },
     "Lava Planet": {
       "massInEarthMass": [0.1,10],
+      "density": [3,5], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.1,
     },
     "Desert Planet": {
       "massInEarthMass": [0.1,10],
+      "density": [2.5,5], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.2,
     },
     "Protoplanet": {
       "massInEarthMass": [0.01,0.1],
+      "density": [2,4], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0, // Only young systems with 0.6 probability, must be set manually
     },
     "Puffy Planet": {
       "massInEarthMass": [100,300],
+      "density": [0.1,0.5], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.05,
     },
     "Super-puff Planet": {
       "massInEarthMass": [10,100],
+      "density": [0.1,0.3], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.02,
     },
     "Dwarf Planet": {
       "massInEarthMass": [0.0001,0.01],
+      "density": [1.5,3.5], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.8,
     },
     "Moon": {
       "massInEarthMass": [0.00000001,0.01],
+      "density": [0.5,3.5], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.9,
     },
     "Large Moon": {
       "massInEarthMass": [0.0001,0.01],
+      "density": [2,3.5], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.3,
     },
     "Medium-sized Moon": {
       "massInEarthMass": [0.00001,0.0001],
+      "density": [1.5,3.5], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.5,
     },
     "Small Moon": {
       "massInEarthMass": [0.00000001,0.000001],
+      "density": [1,3], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.7,
     },
     "Dwarf Moon": {
       "massInEarthMass": [0.0000000000001,0.00000001],
+      "density": [0.5,3], // g/cm^3
+      "probabilityOfAppearanceInStarSystem": 0.8,
     }
   }
 }

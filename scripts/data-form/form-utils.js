@@ -208,9 +208,9 @@ function convertObjectNameToHumanReadableName(objectName, altNames, orbitalRank,
 }
 
 /**
- * Gaussian randon generator
- * @param {*} mean the maximum of the graph
- * @param {*} stdev standard deviation
+ * Gaussian random generator
+ * @param {*} mean the maximum of the graph in y (center of gaussian curve in X)
+ * @param {*} stdev standard deviation (flatness of curve)
  * @returns 
  */
 // Standard Normal variate using Box-Muller transform.

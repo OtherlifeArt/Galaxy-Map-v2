@@ -54,33 +54,33 @@ function objectSystemBuilderTitiusBodeLaw(orbitalPosition, baseDistance, scaling
   }
 }
 
-function objectSystemBuilder() {
+// function objectSystemBuilder() {
 
-}
+// }
 
-function objectSystemBuilder() {
+// function objectSystemBuilder() {
 
-}
+// }
 
-function objectSystemBuilder() {
+// function objectSystemBuilder() {
 
-}
+// }
 
-function objectSystemBuilder() {
+// function objectSystemBuilder() {
 
-}
+// }
 
-function objectSystemBuilder() {
+// function objectSystemBuilder() {
 
-}
+// }
 
-function objectSystemBuilder() {
+// function objectSystemBuilder() {
 
-}
+// }
 
-function objectSystemBuilder() {
+// function objectSystemBuilder() {
 
-}
+// }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
