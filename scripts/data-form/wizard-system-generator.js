@@ -742,7 +742,8 @@ function oSBGBDoSTOStandardStar (object, maxStarMass) {
   const classes = object.objectTypeClass.split(" ");
   const SPECTRAL_CLASS = classes[0];
   let luminosityClass;
-  
+  let generatedStarMass;
+
   if(classes[1] !== undefined) { // Luminosity class is known
     luminosityClass = classes[1];
   } else { // We pseudo-random choose spectralclasses (may be improved by inverting classes in data i.e. luminosity by spectre)
@@ -751,17 +752,25 @@ function oSBGBDoSTOStandardStar (object, maxStarMass) {
     for (const [key, value] of Object.entries(wizardSystemGeneratorDatabase["star"])) {
       if(randomNumber >= cumulativeDistribution && randomNumber <= cumulativeDistribution + value.distribution) {
         luminosityClass = key;
-        object.modifiedData?.objectTypeClass = `${SPECTRAL_CLASS} ${luminosityClass}`;
-        break;
+        // We get first object with matching mass
+        if(maxStarMass >= wizardSystemGeneratorDatabase["star"][luminosityClass]["starClasses"][SPECTRAL_CLASS].massInSolarMass[0]) {
+          (object.modifiedData??={}).objectTypeClass = `${SPECTRAL_CLASS} ${luminosityClass}`;
+          break;
+        }
       }
       cumulativeDistribution += value.distribution;
     }
   }
   // We now know luminosity class and generate mass
   OBJECT_DATA = wizardSystemGeneratorDatabase["star"][luminosityClass]["starClasses"][SPECTRAL_CLASS];
-  object.modifiedData?.mass = Math.random() * (OBJECT_DATA.massInSolarMass[1] - OBJECT_DATA.massInSolarMass[0]) + OBJECT_DATA.massInSolarMass[0];
-  object.modifiedData?.size = (Math.random() * (OBJECT_DATA.sizeRangeInSolarRadius[1] - OBJECT_DATA.sizeRangeInSolarRadius[0]) + OBJECT_DATA.sizeRangeInSolarRadius[0]) * wizardSystemGeneratorDatabase["units"].solarRadius * 2;
-  return object.modifiedData?.mass * (
+  if(OBJECT_DATA.massInSolarMass[1] > maxStarMass && OBJECT_DATA.massInSolarMass[0] < maxStarMass) {
+    generatedStarMass = Math.random() * (maxStarMass - OBJECT_DATA.massInSolarMass[0]) + OBJECT_DATA.massInSolarMass[0];
+  } else {
+    generatedStarMass = Math.random() * (OBJECT_DATA.massInSolarMass[1] - OBJECT_DATA.massInSolarMass[0]) + OBJECT_DATA.massInSolarMass[0];
+  }
+  (object.modifiedData??={}).mass = generatedStarMass;
+  (object.modifiedData??={}).size = (Math.random() * (OBJECT_DATA.sizeRangeInSolarRadius[1] - OBJECT_DATA.sizeRangeInSolarRadius[0]) + OBJECT_DATA.sizeRangeInSolarRadius[0]) * wizardSystemGeneratorDatabase["units"].solarRadius * 2;
+  return (object.modifiedData??={}).mass * (
     Math.random * (
       wizardSystemGeneratorDatabase["star"][luminosityClass][otherBodiesMassDistributionWithinSystem][companionStar][1] - wizardSystemGeneratorDatabase["star"][luminosityClass][otherBodiesMassDistributionWithinSystem][companionStar][0]
     )
@@ -774,12 +783,18 @@ function oSBGBDoSTOStandardStar (object, maxStarMass) {
  */
 function oSBGBDoSTONonStandardStar(object, maxStarMass) {
   let found = false;
+  let generatedStarMass;
   // We search for corresponding code in star database
   for (const [key, value] of Object.entries(wizardSystemGeneratorDatabase["star"])) {
     if(value.codes.includes(object.objectTypeClass)) {
-      if(value.massInSolarMass !== undefined && value.sizeRangeInSolarRadius !== undefined) { // mass ans size are referenced
-        object.modifiedData?.mass = Math.random() * (value.massInSolarMass[1] - value.massInSolarMass[0]) + value.massInSolarMass[0];
-        object.modifiedData?.size = (Math.random() * (value.sizeRangeInSolarRadius[1] - value.sizeRangeInSolarRadius[0]) + value.sizeRangeInSolarRadius[0]) * wizardSystemGeneratorDatabase["units"].solarRadius * 2;
+      if(value.massInSolarMass !== undefined && value.sizeRangeInSolarRadius !== undefined) { // mass and size are referenced
+        if(value.massInSolarMass[1] > maxStarMass && value.massInSolarMass[0] < maxStarMass) {
+          generatedStarMass = Math.random() * (maxStarMass - value.massInSolarMass[0]) + value.massInSolarMass[0];
+        } else {
+          generatedStarMass = Math.random() * (value.massInSolarMass[1] - value.massInSolarMass[0]) + value.massInSolarMass[0];
+        }
+        (object.modifiedData??={}).mass = generatedStarMass;
+        (object.modifiedData??={}).size = (Math.random() * (value.sizeRangeInSolarRadius[1] - value.sizeRangeInSolarRadius[0]) + value.sizeRangeInSolarRadius[0]) * wizardSystemGeneratorDatabase["units"].solarRadius * 2;
         found = true;
         break;
       } else { // We need to determinate subclass to get its mass
@@ -787,10 +802,15 @@ function oSBGBDoSTONonStandardStar(object, maxStarMass) {
         let cumulativeDistribution = 0;
         for (const [subKey, subValue] of Object.entries(wizardSystemGeneratorDatabase["star"][key]["starClasses"])) {
           if(randomNumber >= cumulativeDistribution && randomNumber <= cumulativeDistribution + value.distribution) {
-            object.modifiedData?.mass = Math.random() * (subValue.massInSolarMass[1] - subValue.massInSolarMass[0]) + subValue.massInSolarMass[0];
-            object.modifiedData?.size = (Math.random() * (subValue.sizeRangeInSolarRadius[1] - subValue.sizeRangeInSolarRadius[0]) + subValue.sizeRangeInSolarRadius[0]) * wizardSystemGeneratorDatabase["units"].solarRadius * 2;
+            if(subValue.massInSolarMass[1] > maxStarMass && subValue.massInSolarMass[0] < maxStarMass){
+              generatedStarMass = Math.random() * (maxStarMass - subValue.massInSolarMass[0]) + subValue.massInSolarMass[0];
+            } else {
+              generatedStarMass = Math.random() * (subValue.massInSolarMass[1] - subValue.massInSolarMass[0]) + subValue.massInSolarMass[0];
+            }
+            (object.modifiedData??={}).mass = generatedStarMass;
+            (object.modifiedData??={}).size = (Math.random() * (subValue.sizeRangeInSolarRadius[1] - subValue.sizeRangeInSolarRadius[0]) + subValue.sizeRangeInSolarRadius[0]) * wizardSystemGeneratorDatabase["units"].solarRadius * 2;
             // random choose code
-            object.modifiedData?.objectTypeClass = subValue.codes[Math.floor(Math.random() * subValue.codes.length)];
+            (object.modifiedData??={}).objectTypeClass = subValue.codes[Math.floor(Math.random() * subValue.codes.length)];
             found = true;
             break;
           }
@@ -803,8 +823,13 @@ function oSBGBDoSTONonStandardStar(object, maxStarMass) {
     }
     for (const [subKey, subValue] of Object.entries(wizardSystemGeneratorDatabase["star"][key]["starClasses"])) { // Iterate subclasses
       if(subValue.codes.includes(object.objectTypeClass)) {
-        object.modifiedData?.mass = Math.random() * (subValue.massInSolarMass[1] - subValue.massInSolarMass[0]) + subValue.massInSolarMass[0];
-        object.modifiedData?.size = (Math.random() * (subValue.sizeRangeInSolarRadius[1] - subValue.sizeRangeInSolarRadius[0]) + subValue.sizeRangeInSolarRadius[0]) * wizardSystemGeneratorDatabase["units"].solarRadius * 2;
+        if(subValue.massInSolarMass[1] > maxStarMass && subValue.massInSolarMass[0] < maxStarMass){
+          generatedStarMass = Math.random() * (maxStarMass - subValue.massInSolarMass[0]) + subValue.massInSolarMass[0];
+        } else {
+          generatedStarMass = Math.random() * (subValue.massInSolarMass[1] - subValue.massInSolarMass[0]) + subValue.massInSolarMass[0];
+        }
+        (object.modifiedData??={}).mass = generatedStarMass
+        (object.modifiedData??={}).size = (Math.random() * (subValue.sizeRangeInSolarRadius[1] - subValue.sizeRangeInSolarRadius[0]) + subValue.sizeRangeInSolarRadius[0]) * wizardSystemGeneratorDatabase["units"].solarRadius * 2;
         found = true;
         break;
       }
@@ -817,30 +842,54 @@ function oSBGBDoSTONonStandardStar(object, maxStarMass) {
 }
 
 function oSBGBDoSTODetermineStarObject(object, maxStarMass) {
-  const randomNumber = Math.random();
   let cumulativeDistribution = 0;
-  // Iterate star database
-  for (const [key, value] of Object.entries(wizardSystemGeneratorDatabase["star"])) {
-    if(randomNumber >= cumulativeDistribution && randomNumber <= cumulativeDistribution + value.distribution) {
-      if(value.massInSolarMass !== undefined && value.massInSolarMass !== undefined) { // No sub class is needed
-        // Pseudo-random generate mass
-        object.modifiedData?.mass = Math.random() * (value.massInSolarMass[1] - value.massInSolarMass[0]) + value.massInSolarMass[0];
-        object.modifiedData?.size = (Math.random() * (value.sizeRangeInSolarRadius[1] - value.sizeRangeInSolarRadius[0]) + value.sizeRangeInSolarRadius[0]) * wizardSystemGeneratorDatabase["units"].solarRadius * 2;
-        object.modifiedData?.objectTypeClass =  value.codes[Math.floor(Math.random() * value.codes.length)];
-      } else { // Sub class needed
-        const classRandomNumber = Math.random();
-        let classCumulativeDistribution = 0;
-        for (const [subclassKey, subclassValue] of Object.entries(wizardSystemGeneratorDatabase["star"]["starClasses"][key])) {
-          if(classRandomNumber <= subclassValue.distribution + classCumulativeDistribution && classRandomNumber >= classCumulativeDistribution) {
-            object.modifiedData?.mass = Math.random() * (subclassValue.massInSolarMass[1] - subclassValue.massInSolarMass[0]) + subclassValue.massInSolarMass[0];
-            object.modifiedData?.size = (Math.random() * (subclassValue.sizeRangeInSolarRadius[1] - subclassValue.sizeRangeInSolarRadius[0]) + subclassValue.sizeRangeInSolarRadius[0]) * wizardSystemGeneratorDatabase["units"].solarRadius * 2;
-            object.modifiedData?.objectTypeClass = subclassValue.codes[Math.floor(Math.random() * subclassValue.codes.length)];
+  let generatedStarMass;
+  let classIterationCount = 0;
+  const MAX_CLASS_ITERATIONCOUNT = 1000000;
+  const MAX_SUBCLASS_ITERATIONCOUNT = 100000;
+
+  do {
+    const randomNumber = Math.random();
+    // Iterate star database
+    for (const [key, value] of Object.entries(wizardSystemGeneratorDatabase["star"])) {
+      if(randomNumber >= cumulativeDistribution && randomNumber <= cumulativeDistribution + value.distribution) {
+        if(value.massInSolarMass !== undefined && value.massInSolarMass !== undefined) { // No sub class is needed
+          // Pseudo-random generate mass
+          if(value.massInSolarMass[0] <= maxStarMass || classIterationCount >= MAX_CLASS_ITERATIONCOUNT - 1){
+            generatedStarMass = Math.random() * ((maxStarMass < value.massInSolarMass[1] ? maxStarMass : value.massInSolarMass[1]) - value.massInSolarMass[0]) + value.massInSolarMass[0];
+            (object.modifiedData??={}).mass = generatedStarMass;
+            (object.modifiedData??={}).size = (Math.random() * (value.sizeRangeInSolarRadius[1] - value.sizeRangeInSolarRadius[0]) + value.sizeRangeInSolarRadius[0]) * wizardSystemGeneratorDatabase["units"].solarRadius * 2;
+            (object.modifiedData??={}).objectTypeClass =  value.codes[Math.floor(Math.random() * value.codes.length)];
+            classIterationCount = MAX_CLASS_ITERATIONCOUNT;
+            break;
           }
+        } else { // Sub class needed
+          let subclassIterationCount = 0;
+          do {
+            const classRandomNumber = Math.random();
+            let classCumulativeDistribution = 0;
+            for (const [subclassKey, subclassValue] of Object.entries(wizardSystemGeneratorDatabase["star"][key]["starClasses"])) {
+              if(classRandomNumber <= subclassValue.distribution + classCumulativeDistribution && classRandomNumber >= classCumulativeDistribution) {
+                if(subclassValue.massInSolarMass[0] <= maxStarMass || subclassIterationCount >= MAX_SUBCLASS_ITERATIONCOUNT - 1){
+                  generatedStarMass = Math.random() * ((maxStarMass < subclassValue.massInSolarMass[1] ? maxStarMass : subclassValue.massInSolarMass[1]) - subclassValue.massInSolarMass[0]) + subclassValue.massInSolarMass[0];
+                  (object.modifiedData??={}).mass = generatedStarMass;
+                  (object.modifiedData??={}).size = (Math.random() * (subclassValue.sizeRangeInSolarRadius[1] - subclassValue.sizeRangeInSolarRadius[0]) + subclassValue.sizeRangeInSolarRadius[0]) * wizardSystemGeneratorDatabase["units"].solarRadius * 2;
+                  (object.modifiedData??={}).objectTypeClass = subclassValue.codes[Math.floor(Math.random() * subclassValue.codes.length)];
+                  subclassIterationCount = MAX_SUBCLASS_ITERATIONCOUNT;
+                  classIterationCount = MAX_CLASS_ITERATIONCOUNT;
+                  break;
+                }
+              }
+              classCumulativeDistribution += subclassValue.distribution;
+            }
+            subclassIterationCount++;
+          } while(subclassIterationCount < MAX_SUBCLASS_ITERATIONCOUNT)
         }
       }
+      cumulativeDistribution += value.distribution;
     }
-    cumulativeDistribution += value.distribution;
-  }
+    classIterationCount++;
+  } while(classIterationCount < MAX_CLASS_ITERATIONCOUNT)
   // TODO return companion star max mass like above
 }
 
@@ -874,7 +923,7 @@ function findObjectInWizardObjectSystemStoreRecursive(objectId, object) {
   return objectFound;
 }
 
-function objectSystemBuilderGenerateSystemUsingTitiusBodeLaw() {
+function objectSystemBuilderGenerateSystemUsingTitiusBodeLaw(system) {
   // console.log(system);
   objectSystemBuilderGenerateSystemUsingTitiusBodeLawRecursive(system.innerObjects);
 }
@@ -891,7 +940,7 @@ function objectSystemBuilderGenerateSystemUsingTitiusBodeLawRecursive(innerObjec
   for (let index = 0; index < innerObjects.length; index++) {
     const innerObject = innerObjects[index];
     if(innerObjects[index].orbitalRank > 0) {
-      innerObjects[index].modifiedData?.distanceToParent = objectSystemBuilderTitiusBodeLaw(innerObject.orbitalRank, baseDistance, scalingFactor);
+      (innerObjects[index].modifiedData??={}).distanceToParent = objectSystemBuilderTitiusBodeLaw(innerObject.orbitalRank, baseDistance, scalingFactor);
     }
   }
 }

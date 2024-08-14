@@ -24,7 +24,7 @@ function objectSystemBuilderCheckPrerequisitesTitiusBodeLawRecursive(astroObject
     if(objectReport.status === "nok") {
       report.status = "nok";
     }
-    report.details = [...report.details, objectReport.details]; // concat
+    report.details = report.details.concat(objectReport.details); // concat
   });
   // Check prerequisistes
   if(isObject && (isNaN(astroObject.orbitalRank) || astroObject.orbitalRank < 0)) {
