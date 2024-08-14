@@ -4,7 +4,7 @@ function objectSystemBuilderCheckPrerequisitesTitiusBodeLaw() {
     // message
     let message = "Prerequisites are not meet to generate system !\nMissing Data are :";
     report.details.forEach(messageData => {
-      message += `${messageData.name} is missing ${messageData.missingData.join(", ")}`;
+      message += "\n" + `${messageData.name} is missing ${messageData.missingData.join(", ")}`;
     });
     alert(message);
     return false;
@@ -27,7 +27,10 @@ function objectSystemBuilderCheckPrerequisitesTitiusBodeLawRecursive(astroObject
     report.details = report.details.concat(objectReport.details); // concat
   });
   // Check prerequisistes
-  if(isObject && (isNaN(astroObject.orbitalRank) || astroObject.orbitalRank < 0)) {
+  if(isObject && (
+    (isNaN(astroObject.orbitalRank) || astroObject.orbitalRank < 0) 
+    && (isNaN(astroObject.modifiedData?.orbitalRank) || astroObject.modifiedData?.orbitalRank < 0))
+  ) {
     report.status = "nok";
     report.details.push({"name":astroObject.name, missingData:["orbitalRank"]});
   }
