@@ -713,7 +713,51 @@ function objectSystemBuilderGenerateMassesOfSystemObject(system) {
   objectSystemBuilderGenerateBaseDataOfStarTypeObjects(system);
   console.log(system);
   // Generate masses of non star objects
-  //objectSystemBuilderGenerateMassesOfNonStarTypeObjects(system);
+  const maxNonStarMassInSolarMass = objectSystemBuilderEstimateNonStarTotalMass(system);
+  const maxNonStarMassInEarthMass = maxNonStarMassInSolarMass * 333030;
+  console.log("Non star total mass in solar mass : ", maxNonStarMassInSolarMass);
+  console.log("Non star total mass in earth mass : ", maxNonStarMassInEarthMass);
+  objectSystemBuilderGenerateMassesOfNonStarTypeObjects(system, maxNonStarMassInEarthMass); // TODO
+}
+
+/**
+ * Estimate non star total mass
+ */
+function objectSystemBuilderEstimateNonStarTotalMass(object, nonStarTotalMass = 0) {
+  let objectFound = false;
+  if(object.objectType === "Star") {
+    for (const [key, value] of Object.entries(wizardSystemGeneratorDatabase["star"])) {
+      if(value["starClasses"] !== undefined) {
+        for (const [subKey, subValue] of Object.entries(value["starClasses"])) {
+          if(subValue.codes.includes(
+            object.modifiedData?.objectTypeClass ? 
+              object.modifiedData.objectTypeClass : object.objectTypeClass
+          )) {
+            objectFound = true;
+            break;
+          }
+        }
+      } else {
+        if(value.codes.includes(
+          object.modifiedData?.objectTypeClass ? 
+          object.modifiedData.objectTypeClass : object.objectTypeClass
+        )) {
+            objectFound = true;
+          }
+        }
+        if(objectFound) {
+          const PLANET_MASS_DISTRIBUTION = value["otherBodiesMassDistributionWithinSystem"]["planets"];
+          const ESTIMATED_PLANET_MASS_DISTRIBUTION = Math.random() * (PLANET_MASS_DISTRIBUTION[1] - PLANET_MASS_DISTRIBUTION[0]) + PLANET_MASS_DISTRIBUTION[0];
+          nonStarTotalMass = nonStarTotalMass + (ESTIMATED_PLANET_MASS_DISTRIBUTION * object.modifiedData.mass);
+          break;
+      }
+    }
+  }
+  // Inner objects
+  for (const innerObject of object.innerObjects) {
+    nonStarTotalMass += objectSystemBuilderEstimateNonStarTotalMass(innerObject, nonStarTotalMass);
+  }
+  return nonStarTotalMass;
 }
 
 // maxStarMass to spread max star mass while generating star mass (outer stars are less massives then innner stars)
@@ -728,6 +772,7 @@ function objectSystemBuilderGenerateBaseDataOfStarTypeObjects(object, maxStarMas
     } else { // No subclass : determining random star class using statistics
       maxStarMass = oSBGBDoSTODetermineStarObject(object, maxStarMass);
     }
+    console.log(`${object.name} is now a ${object.objectType} of with ${object.modifiedData?.objectTypeClass || object.objectTypeClass} subclass and has a mass of ${object.modifiedData?.mass} solar mass !`);
   }
   // Inner objects
   for (const innerObject of object.innerObjects) {

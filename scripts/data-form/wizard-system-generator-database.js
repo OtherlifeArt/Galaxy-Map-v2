@@ -701,7 +701,7 @@ wizardSystemGeneratorDatabase["star"] = {
     "distribution": 0.00000041051585809201, // could be several tens of thousands
     "massInSolarMass": [0.8,4],
     "starMassDistributionWithinSystem": [0.99,0.999],
-    "sizeRangeInSolarRadius": [20,300],
+    "sizeRangeInSolarRadius": [150,800],
     "otherBodiesMassDistributionWithinSystem": {
       "circumstellarDust": [0.001,0.01],
       "planets": [0,0.0001]
@@ -709,22 +709,19 @@ wizardSystemGeneratorDatabase["star"] = {
     "starClasses": {
       "S": {
         "distribution": 0.888888888888889, // could be several tens of thousands
-        "starMassDistributionWithinSystem": [],
-        "sizeRangeInSolarRadius": [],
+        "sizeRangeInSolarRadius": [200,600],
         "massInSolarMass": [1,3],
         "codes": ["S"],
       },
       "SM": {
         "distribution": 0.0888888888888889, // there could be thousands to tens of thousands of MS stars in the Milky Way
-        "starMassDistributionWithinSystem": [],
-        "sizeRangeInSolarRadius": [],
+        "sizeRangeInSolarRadius": [150,400],
         "massInSolarMass": [1,3],
         "codes": ["SM"],
       },
       "SC": {
         "distribution": 0.0222222222222222, // SC stars are very rare, with estimates suggesting a few hundred to a few thousand in the Milky Way
-        "starMassDistributionWithinSystem": [],
-        "sizeRangeInSolarRadius": [],
+        "sizeRangeInSolarRadius": [300,800],
         "massInSolarMass": [1.5,3],
         "codes": ["SC"],
       },
@@ -744,28 +741,24 @@ wizardSystemGeneratorDatabase["star"] = {
     "starClasses": {
       "Standard Neutron": {
         "distribution": 0.999000940118826, // 1 billion
-        "starMassDistributionWithinSystem": [],
         "sizeRangeInSolarRadius": [0.015, 0.017],
         "massInSolarMass": [1.25,2],
         "codes": ["Standard Neutron Star"],
       },
       "Pulsar": {
         "distribution": 0.000999000940118826, // Estimated to be around 100,000 to 1 million observable pulsars (potentially more that are not oriented toward Earth).
-        "starMassDistributionWithinSystem": [],
         "sizeRangeInSolarRadius": [0.015, 0.017],
         "massInSolarMass": [1.2,2],
         "codes": ["Pulsar"],
       },
       "Magnetar": {
         "distribution": 0.00000004995004700594, // Estimated to be around 30 to 50 in the Milky Way.
-        "starMassDistributionWithinSystem": [],
         "sizeRangeInSolarRadius": [0.015, 0.017],
         "massInSolarMass": [1.2,1.6],
         "codes": ["Magnetar"],
       },
       "Magnetar-Pulsar": {
         "distribution": 0.00000000899100846107, // Extremely rare, with only a few known (less than 10)
-        "starMassDistributionWithinSystem": [],
         "sizeRangeInSolarRadius": [0.015, 0.017],
         "massInSolarMass": [1.2,1.6],
         "codes": ["Magnetar+Pulsar"],
