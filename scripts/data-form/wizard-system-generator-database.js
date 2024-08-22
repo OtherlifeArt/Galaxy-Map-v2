@@ -4,6 +4,7 @@ wizardSystemGeneratorDatabase["units"] = {
   "solarRadius": 696340, // in km
   "solarMass": 2E30, // in kg
   "astronomicalUnit": 14959770.7, // in km
+  "earthMass": 5.972E24, // in kg
 }
 
 // The mass‐luminosity relation holds only for main sequence stars. Two giant or supergiant stars with the same luminosities and surface temperatures may have dramatically different masses.
