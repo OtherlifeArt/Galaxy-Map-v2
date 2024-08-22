@@ -559,6 +559,7 @@ wizardSystemGeneratorDatabase["star"] = {
     "distribution": 0.0456128731213346, //  Estimated to be around 10 billion.
     "massInSolarMass": [0.17,1.4],  // https://en.wikipedia.org/wiki/White_dwarf The mass of white dwarfs typically falls between 0.17 M☉ (for very low-mass white dwarfs) and 1.4 M☉ (for those near the Chandrasekhar limit, beyond which they would collapse into a neutron star).
     "starMassDistributionWithinSystem": [0.99,0.999],
+    "sizeRangeInSolarRadius": [0.008,0.02],
     "codes": ["D"],
     "otherBodiesMassDistributionWithinSystem": {
       "companionStar": [0.99,0.999],
@@ -570,56 +571,67 @@ wizardSystemGeneratorDatabase["star"] = {
         "codes": ["DA"],
         "distributions": 0.79, // Approximately 80% of all white dwarfs, ~8 billion
         "massInSolarMass": [0.3,1.2],
+        "sizeRangeInSolarRadius": [0.008,0.02],
       },
       "DAB": { // (Hydrogen and Helium Atmosphere)
         "codes": ["DAB"],
         "distributions": 0.003, // < 1%, Tens of millions
         "massInSolarMass": [0.5,0.7],
+        "sizeRangeInSolarRadius": [0.008,0.02],
       },
       "DAO": { // (Hydrogen and Helium Atmosphere with Strong Helium II)
         "codes": ["DAO"],
         "distributions": 0.003, // < 1%, Tens of millions
         "massInSolarMass": [0.55,0.7],
+        "sizeRangeInSolarRadius": [0.008,0.02],
       },
       "DAZ": { // (Hydrogen Atmosphere with Metal Lines)
         "codes": ["DAZ"],
         "distributions": 0.003, // Rare, possibly 1-2% of all DA white dwarfs, or tens of millions.
         "massInSolarMass": [0.5,0.7],
+        "sizeRangeInSolarRadius": [0.008,0.02],
       },
       "DB": { // (Helium Atmosphere)
         "codes": ["DB"],
         "distributions": 0.16, // Approximately 15-20% of all white dwarfs, or 1.5 to 2 billion.
         "massInSolarMass": [0.5,0.7],
+        "sizeRangeInSolarRadius": [0.008,0.02],
       },
       "DBZ": { // (Helium Atmosphere with Metal Lines)
         "codes": ["DBZ"],
         "distributions": 0.0003, // Very rare, likely <1% of DB white dwarfs. Millions
         "massInSolarMass": [0.55,0.7],
+        "sizeRangeInSolarRadius": [0.008,0.02],
       },
       "DO": { // (Helium Atmosphere with Helium II Lines)
         "codes": ["DO"],
         "distributions": 0.003, // Relatively rare, making up a small fraction of white dwarfs. Tens of millions
         "massInSolarMass": [0.55,0.65],
+        "sizeRangeInSolarRadius": [0.008,0.02],
       },
       "DQ": { // (Carbon Atmosphere)
         "codes": ["DQ"],
         "distributions": 0.003, // Rare, estimated to be <1% of white dwarfs. Tens of millions
         "massInSolarMass": [0.6,0.75],
+        "sizeRangeInSolarRadius": [0.008,0.02],
       },
       "DZ": { // (Metal-Rich Atmosphere)
         "codes": ["DZ"],
         "distributions": 0.003, // Around 1-2% of all white dwarfs. Tens of millions
         "massInSolarMass": [0.5,0.7],
+        "sizeRangeInSolarRadius": [0.008,0.02],
       },
       "DC": { //  (Featureless Spectrum)
         "codes": ["DC"],
         "distributions": 0.03, // Represents a few percent of white dwarfs, or hundreds of millions.
         "massInSolarMass": [0.5,0.7],
+        "sizeRangeInSolarRadius": [0.008,0.02],
       },
       "DX": { // (Unclassifiable Spectrum)
         "codes": ["DX"],
         "distributions": 0.0017, // Very rare, the number is uncertain but likely a small fraction of the total.
         "massInSolarMass": [0.5,0.7],
+        "sizeRangeInSolarRadius": [0.008,0.02],
       },
     },
   },

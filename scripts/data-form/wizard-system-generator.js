@@ -776,8 +776,9 @@ function objectSystemBuilderGenerateBaseDataOfStarTypeObjects(object, maxStarMas
   }
   // Inner objects
   for (const innerObject of object.innerObjects) {
-    objectSystemBuilderGenerateBaseDataOfStarTypeObjects(innerObject, maxStarMass);
+    maxStarMass = objectSystemBuilderGenerateBaseDataOfStarTypeObjects(innerObject, maxStarMass);
   }
+  return maxStarMass;
 }
 
 /**
@@ -845,8 +846,7 @@ function oSBGBDoSTONonStandardStar(object, maxStarMass) {
         if(object.size === "" || isNaN(object.size) || object.size < 0) {
           (object.modifiedData??={}).size = (Math.random() * (value.sizeRangeInSolarRadius[1] - value.sizeRangeInSolarRadius[0]) + value.sizeRangeInSolarRadius[0]) * wizardSystemGeneratorDatabase["units"].solarRadius * 2;
         }
-        found = true;
-        break;
+        return oSBGBDoSTODetermineCompanionMaxStarMass(object.modifiedData.mass, wizardSystemGeneratorDatabase["star"][key]["otherBodiesMassDistributionWithinSystem"]["companionStar"]);
       } else { // We need to determinate subclass to get its mass
         const randomNumber = Math.random();
         let cumulativeDistribution = 0;
@@ -863,15 +863,11 @@ function oSBGBDoSTONonStandardStar(object, maxStarMass) {
             }
             // random choose code
             (object.modifiedData??={}).objectTypeClass = subValue.codes[Math.floor(Math.random() * subValue.codes.length)];
-            found = true;
-            break;
+            return oSBGBDoSTODetermineCompanionMaxStarMass(object.modifiedData.mass, wizardSystemGeneratorDatabase["star"][key]["otherBodiesMassDistributionWithinSystem"]["companionStar"]);
           }
           cumulativeDistribution += value.distribution;
         }
       }
-    }
-    if(found) { // Break triggered by previous inner for loop
-      break;
     }
     for (const [subKey, subValue] of Object.entries(wizardSystemGeneratorDatabase["star"][key]["starClasses"])) { // Iterate subclasses
       if(subValue.codes.includes(object.objectTypeClass)) {
@@ -884,16 +880,8 @@ function oSBGBDoSTONonStandardStar(object, maxStarMass) {
         if(object.size === "" || isNaN(object.size) || object.size < 0) {
           (object.modifiedData??={}).size = (Math.random() * (subValue.sizeRangeInSolarRadius[1] - subValue.sizeRangeInSolarRadius[0]) + subValue.sizeRangeInSolarRadius[0]) * wizardSystemGeneratorDatabase["units"].solarRadius * 2;
         }
-        found = true;
-        break;
+        return oSBGBDoSTODetermineCompanionMaxStarMass(object.modifiedData.mass, wizardSystemGeneratorDatabase["star"][key]["otherBodiesMassDistributionWithinSystem"]["companionStar"]);
       }
-    }
-    if(found) { // Break triggered by previous inner for loop
-      return (object.modifiedData??={}).mass * (
-        Math.random * (
-          wizardSystemGeneratorDatabase["star"][key]["otherBodiesMassDistributionWithinSystem"]["companionStar"][1] - wizardSystemGeneratorDatabase["star"][key]["otherBodiesMassDistributionWithinSystem"]["companionStar"][0]
-        )
-        + wizardSystemGeneratorDatabase["star"][key]["otherBodiesMassDistributionWithinSystem"]["companionStar"][0]);
     }
   }
 }
@@ -910,7 +898,7 @@ function oSBGBDoSTODetermineStarObject(object, maxStarMass) {
     // Iterate star database
     for (const [key, value] of Object.entries(wizardSystemGeneratorDatabase["star"])) {
       if(randomNumber >= cumulativeDistribution && randomNumber <= cumulativeDistribution + value.distribution) {
-        if(value.massInSolarMass !== undefined && value.massInSolarMass !== undefined) { // No sub class is needed
+        if(value.massInSolarMass !== undefined) { // No sub class is needed
           // Pseudo-random generate mass
           if(value.massInSolarMass[0] <= maxStarMass || classIterationCount >= MAX_CLASS_ITERATIONCOUNT - 1){
             if(classIterationCount >= MAX_CLASS_ITERATIONCOUNT - 1) {
@@ -923,7 +911,8 @@ function oSBGBDoSTODetermineStarObject(object, maxStarMass) {
             }
             (object.modifiedData??={}).objectTypeClass =  value.codes[Math.floor(Math.random() * value.codes.length)];
             classIterationCount = MAX_CLASS_ITERATIONCOUNT;
-            break;
+            
+            return oSBGBDoSTODetermineCompanionMaxStarMass(object.modifiedData.mass, wizardSystemGeneratorDatabase["star"][key]["otherBodiesMassDistributionWithinSystem"]["companionStar"]);
           }
         } else { // Sub class needed
           let subclassIterationCount = 0;
@@ -936,15 +925,19 @@ function oSBGBDoSTODetermineStarObject(object, maxStarMass) {
                   if(subclassIterationCount >= MAX_SUBCLASS_ITERATIONCOUNT - 1) {
                     console.log(`${object.name} mass will exceed parent star mass ! To optimize !`);
                   }
+
                   generatedStarMass = Math.random() * ((maxStarMass < subclassValue.massInSolarMass[1] ? maxStarMass : subclassValue.massInSolarMass[1]) - subclassValue.massInSolarMass[0]) + subclassValue.massInSolarMass[0];
                   (object.modifiedData??={}).mass = generatedStarMass;
+
                   if(object.size === "" || isNaN(object.size) || object.size < 0) {
                     (object.modifiedData??={}).size = (Math.random() * (subclassValue.sizeRangeInSolarRadius[1] - subclassValue.sizeRangeInSolarRadius[0]) + subclassValue.sizeRangeInSolarRadius[0]) * wizardSystemGeneratorDatabase["units"].solarRadius * 2;
                   }
+
                   (object.modifiedData??={}).objectTypeClass = subclassValue.codes[Math.floor(Math.random() * subclassValue.codes.length)];
                   subclassIterationCount = MAX_SUBCLASS_ITERATIONCOUNT;
                   classIterationCount = MAX_CLASS_ITERATIONCOUNT;
-                  break;
+                  const debugVar = wizardSystemGeneratorDatabase["star"][key]["otherBodiesMassDistributionWithinSystem"]["companionStar"];
+                  return oSBGBDoSTODetermineCompanionMaxStarMass(object.modifiedData.mass, wizardSystemGeneratorDatabase["star"][key]["otherBodiesMassDistributionWithinSystem"]["companionStar"]);
                 }
               }
               classCumulativeDistribution += subclassValue.distribution;
@@ -953,17 +946,14 @@ function oSBGBDoSTODetermineStarObject(object, maxStarMass) {
           } while(subclassIterationCount < MAX_SUBCLASS_ITERATIONCOUNT)
         }
       }
-      if(classIterationCount === MAX_CLASS_ITERATIONCOUNT) {
-        return (object.modifiedData??={}).mass * (
-          Math.random * (
-            wizardSystemGeneratorDatabase["star"][key]["otherBodiesMassDistributionWithinSystem"]["companionStar"][1] - wizardSystemGeneratorDatabase["star"][key]["otherBodiesMassDistributionWithinSystem"]["companionStar"][0]
-          )
-          + wizardSystemGeneratorDatabase["star"][key]["otherBodiesMassDistributionWithinSystem"]["companionStar"][0]);
-      }
       cumulativeDistribution += value.distribution;
     }
     classIterationCount++;
   } while(classIterationCount < MAX_CLASS_ITERATIONCOUNT)
+}
+
+function oSBGBDoSTODetermineCompanionMaxStarMass(primaryStarMass, companionStarMassRateRange) {
+  return primaryStarMass * (Math.random() * (companionStarMassRateRange[1] - companionStarMassRateRange[0]) + companionStarMassRateRange[0]);
 }
 
 /**
