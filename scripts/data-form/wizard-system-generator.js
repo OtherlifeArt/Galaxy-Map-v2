@@ -710,7 +710,14 @@ function objectSystemBuilderGenerateMassesOfSystemObject(system) {
   const maxNonStarMassInEarthMass = maxNonStarMassInSolarMass * 333030;
   console.log("Non star total mass in solar mass : ", maxNonStarMassInSolarMass);
   console.log("Non star total mass in earth mass : ", maxNonStarMassInEarthMass);
-  objectSystemBuilderGenerateMassesOfNonStarTypeObjects(system, maxNonStarMassInEarthMass);
+  const MAX_PLANET_ITERATIONCOUNT = 100000;
+  let planetIterationCount = 0;
+  let maxNonStarMassInEarthMassLeft;
+  do {
+    maxNonStarMassInEarthMassLeft = objectSystemBuilderGenerateMassesOfNonStarTypeObjects(system, maxNonStarMassInEarthMass);
+    planetIterationCount++;
+  } while (maxNonStarMassInEarthMassLeft < 0 || planetIterationCount >= MAX_PLANET_ITERATIONCOUNT )
+  console.log("System generated !", system);
 }
 
 /**
@@ -998,6 +1005,9 @@ function objectSystemBuilderGenerateSystemUsingTitiusBodeLawRecursive(innerObjec
     if(innerObjects[index].orbitalRank > 0) {
       (innerObjects[index].modifiedData??={}).distanceToParent = objectSystemBuilderTitiusBodeLaw(innerObject.orbitalRank, baseDistance, scalingFactor);
     }
+    if(innerObject.innerObjects?.length > 0) {
+      objectSystemBuilderGenerateSystemUsingTitiusBodeLawRecursive(innerObject.innerObjects);
+    }
   }
 }
 
@@ -1006,29 +1016,37 @@ function objectSystemBuilderGenerateMassesOfNonStarTypeObjects(object, maxNonSta
     const suportedObjectTyClasses = [
       "Terrestrial", "Chthonian Planet", "Carbon Planet", "Coreless Planet", "Gas Giant",
       "Gas Dwarf", "Helium Planet", "Hycean Planet", "Ice Giant", "Ice-Rock Planet", "Ice Planet",
-      "Iron Planet", "Lava Planet", "Desert Planet", "Protoplanet", "Puffy Planet", "Super-puff Planet"
+      "Iron Planet", "Lava Planet", "Desert Planet", "Puffy Planet", "Super-puff Planet"
     ];
     maxNonStarMassInEarthMass = objectSystemBuilderGenerateMassesOfPlanetTypeObjects(object, maxNonStarMassInEarthMass, suportedObjectTyClasses);
+
   } else if(object.objectType === "Dwarf Planet") {
     const suportedObjectTyClasses = ["Dwarf Planet"];
     maxNonStarMassInEarthMass = objectSystemBuilderGenerateMassesOfPlanetTypeObjects(object, maxNonStarMassInEarthMass, suportedObjectTyClasses);
+
   } else if(object.objectType === "Moon" || object.objectType === "Rogue Moon") {
     const suportedObjectTyClasses = ["Moon", "Large Moon", "Medium-sized Moon", "Small Moon"];
     maxNonStarMassInEarthMass = objectSystemBuilderGenerateMassesOfPlanetTypeObjects(object, maxNonStarMassInEarthMass, suportedObjectTyClasses);
+
   } else if(object.objectType === "Dwarf Moon") {
     const suportedObjectTyClasses = ["Dwarf Moon"];
     maxNonStarMassInEarthMass = objectSystemBuilderGenerateMassesOfPlanetTypeObjects(object, maxNonStarMassInEarthMass, suportedObjectTyClasses);
+
   } else if(object.objectType === "Asteroid" || object.objectType === "Rogue Asteroid") {
     const suportedObjectTyClasses = ["Asteroid"];
     maxNonStarMassInEarthMass = objectSystemBuilderGenerateMassesOfPlanetTypeObjects(object, maxNonStarMassInEarthMass, suportedObjectTyClasses);
+
   } else if(object.objectType === "Comet" || object.objectType === "Rogue Comet") {
     const suportedObjectTyClasses = ["Comet"];
     maxNonStarMassInEarthMass = objectSystemBuilderGenerateMassesOfPlanetTypeObjects(object, maxNonStarMassInEarthMass, suportedObjectTyClasses);
+
   } else if(object.objectType === "Comet Cluster") {
     const suportedObjectTyClasses = ["Comet"];
-    const numberOfBodies = Math.random() * 9900 + 12; // Min 12 max  9912
-    const spaceBetweenBodies = Math.random() * 90000000 + 10000000; // max 100.000.000
+    const objectDB = wizardSystemGeneratorDatabase["planet"]["type"].objectType;
+    const numberOfBodies = Math.random() * (objectDB["numberOfBodies"][1] - objectDB["numberOfBodies"][0]) + objectDB["numberOfBodies"][1];
+    const spaceBetweenBodies = Math.random() * (objectDB["spaceBetweenBodies"][1] - objectDB["spaceBetweenBodies"][0]) + objectDB["spaceBetweenBodies"][1];
     maxNonStarMassInEarthMass = objectSystemBuilderGenerateMassesOfPlanetTypeObjects(object, maxNonStarMassInEarthMass, suportedObjectTyClasses);
+    // Updating data with multiple comets
     if((object.modifiedData??={}).size !== "") {
       // Approximation of a sphere (the cluster) containing multiple little spheres (the comets) distant to each other (spaceBetweenBodies)
       object.modifiedData.size = 2 * Math.pow((3 * numberOfBodies * (spaceBetweenBodies + object.modifiedData.size)^3) / (4 * Math.PI), 1/3);
@@ -1036,29 +1054,55 @@ function objectSystemBuilderGenerateMassesOfNonStarTypeObjects(object, maxNonSta
     if((object.modifiedData??={}).mass !== "") {
       object.modifiedData.mass *= numberOfBodies;
     }
-  } else if(object.objectType === "Cometary Cloud") { // TODO
+  } else if(object.objectType === "Cometary Cloud") {
     const suportedObjectTyClasses = ["Comet"];
-    const numberOfBodies = Math.random() * 9900 + 100; // Min 100 max  20000, must be a fraction of the spherical
+    const objectDB = wizardSystemGeneratorDatabase["planet"]["type"].objectType;
+    const numberOfBodies = Math.random() * (objectDB["numberOfBodies"][1] - objectDB["numberOfBodies"][0]) + objectDB["numberOfBodies"][1];
+    // const spaceBetweenBodies = Math.random() * (objectDB["spaceBetweenBodies"][1] - objectDB["spaceBetweenBodies"][0]) + objectDB["spaceBetweenBodies"][1];
     maxNonStarMassInEarthMass = objectSystemBuilderGenerateMassesOfPlanetTypeObjects(object, maxNonStarMassInEarthMass, suportedObjectTyClasses);
-    if((object.modifiedData??={}).size !== "") {
-
-    }
+    // Updating data with multiple comets
     if((object.modifiedData??={}).mass !== "") {
-      
+      object.modifiedData.mass *= numberOfBodies;
     }
+    // Distance to its primary star must be known to estimate thickess of sphere shell
+
   } else if(object.objectType === "Asteroid Field") {
     const suportedObjectTyClasses = ["Asteroid"];
-    const numberOfBodies = Math.random() * 10000000000 + 3000; // Min 3000 max  10.000.003.000
-    const spaceBetweenBodies = Math.random() * 10000000 + 2; // max 10.000.002 Min 2
+    const objectDB = wizardSystemGeneratorDatabase["planet"]["type"].objectType;
+    const numberOfBodies = Math.random() * (objectDB["numberOfBodies"][1] - objectDB["numberOfBodies"][0]) + objectDB["numberOfBodies"][1];
+    const spaceBetweenBodies = Math.random() * (objectDB["spaceBetweenBodies"][1] - objectDB["spaceBetweenBodies"][0]) + objectDB["spaceBetweenBodies"][1];
     maxNonStarMassInEarthMass = objectSystemBuilderGenerateMassesOfPlanetTypeObjects(object, maxNonStarMassInEarthMass, suportedObjectTyClasses);
     if((object.modifiedData??={}).size !== "") {
-      // Approximation of a sphere (the cluster) containing multiple little spheres (the comets) distant to each other (spaceBetweenBodies)
+      // Approximation of a sphere (the field) containing multiple little spheres (the asteroids) distant to each other (spaceBetweenBodies)
       object.modifiedData.size = 2 * Math.pow((3 * numberOfBodies * (spaceBetweenBodies + object.modifiedData.size)^3) / (4 * Math.PI), 1/3);
     }
     if((object.modifiedData??={}).mass !== "") {
       object.modifiedData.mass *= numberOfBodies;
     }
-  } else if(object.objectType === "Asteroid Belt") { // TODO
+
+  } else if(object.objectType === "Asteroid Belt") {
+    const suportedObjectTyClasses = ["Asteroid"];
+    const objectDB = wizardSystemGeneratorDatabase["planet"]["type"].objectType;
+    const numberOfBodies = Math.random() * (objectDB["numberOfBodies"][1] - objectDB["numberOfBodies"][0]) + objectDB["numberOfBodies"][1];
+    // const spaceBetweenBodies = Math.random() * (objectDB["spaceBetweenBodies"][1] - objectDB["spaceBetweenBodies"][0]) + objectDB["spaceBetweenBodies"][1];
+    maxNonStarMassInEarthMass = objectSystemBuilderGenerateMassesOfPlanetTypeObjects(object, maxNonStarMassInEarthMass, suportedObjectTyClasses);
+    if((object.modifiedData??={}).mass !== "") {
+      object.modifiedData.mass *= numberOfBodies;
+    }
+    // Distance to its primary star must be known to estimate thickess of the belt ring
+
+  } else if(object.objectType === "Protoplanet") {
+    const suportedObjectTyClasses = ["Protoplanet"];
+    maxNonStarMassInEarthMass = objectSystemBuilderGenerateMassesOfPlanetTypeObjects(object, maxNonStarMassInEarthMass, suportedObjectTyClasses);
+
+  } else if(object.objectType === "Artificial") {
+    if((object.modifiedData??={}).mass !== "") {
+      object.modifiedData.mass = 1E-24; // Arbitrary and ridiculously small
+    }
+
+  } else if(object.objectType === "") { // We must determine wich object type our object is
+    maxNonStarMassInEarthMass = objectSystemBuilderGenerateMassesOfUnknownPlanetTypeObject(object, maxNonStarMassInEarthMass);
+
   } else {
     console.log(`${object.objectType} is unmanaged !`);
   }
@@ -1069,6 +1113,43 @@ function objectSystemBuilderGenerateMassesOfNonStarTypeObjects(object, maxNonSta
     maxNonStarMassInEarthMass = objectSystemBuilderGenerateMassesOfNonStarTypeObjects(innerObject, maxNonStarMassInEarthMass);
   }
   return maxNonStarMassInEarthMass;
+}
+
+function objectSystemBuilderGenerateMassesOfUnknownPlanetTypeObject(object, maxNonStarMassInEarthMass){
+  const systemDB = wizardSystemGeneratorDatabase["starSystem"];
+  const planetDB = wizardSystemGeneratorDatabase["planet"]["type"];
+  let possibleObjectClasses;
+  // Is system young (in formation) or mature ?
+  const youngSystemProbability = Math.random() * (systemDB.youngSystemProbability[1] - systemDB.youngSystemProbability[0]) + systemDB.youngSystemProbability[0];
+  let systemProbabilityProperty;
+  if(Math.random() <= youngSystemProbability) { // System is in formation
+    systemProbabilityProperty = "probabilityOfAppearanceInYoungStarSystem";
+  } else { // System is mature
+    systemProbabilityProperty = "probabilityOfAppearanceInStarSystem";
+  }
+
+  // Total probability
+  let totalProbability = 0;
+  for (const key in planetDB) {
+    totalProbability += planetDB[key][systemProbabilityProperty];
+  }
+  // Choosing body
+  let choosedObjectSubType;
+  const randomNumber = Math.random();
+  let cumulativeDistribution = 0;
+  for (const key in planetDB) {
+    if(randomNumber >= cumulativeDistribution && randomNumber < planetDB[key][systemProbabilityProperty] + cumulativeDistribution) {
+      choosedObjectSubType = key;
+    }
+  }
+  if(planetDB[choosedObjectSubType].parent === null) {
+    (object.modifiedData??={}).objectType = choosedObjectSubType;
+  } else {
+    (object.modifiedData??={}).objectTypeClass = choosedObjectSubType;
+    (object.modifiedData??={}).objectType = planetDB[choosedObjectSubType].parent;
+  }
+
+  return  objectSystemBuilderGenerateMassesOfPlanetTypeObjects(object, maxNonStarMassInEarthMass, [choosedObjectSubType]);
 }
 
 function objectSystemBuilderGenerateMassesOfPlanetTypeObjects(object, maxNonStarMassInEarthMass, suportedObjectTyClasses) {

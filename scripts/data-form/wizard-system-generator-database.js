@@ -897,127 +897,209 @@ wizardSystemGeneratorDatabase["planet"] = {
     "Comet": {
       "massInEarthMass": [0.0000000000001,0.000000001],
       "density": [0.1,0.6], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.95,
+      "probabilityOfAppearanceInStarSystem": 0.8,
+      "probabilityOfAppearanceInYoungStarSystem": 0.1,
+      "parent": null,
     },
     "Terrestrial": {
       "massInEarthMass": [0.1,10],
       "density": [3,5.5], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.7,
+      "probabilityOfAppearanceInStarSystem": 0.9,
+      "probabilityOfAppearanceInYoungStarSystem": 0.4,
+      "parent": "Planet",
     },
     "Asteroid": {
       "massInEarthMass": [0.0000000001,0.0001],
       "density": [2,3.5], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.9,
+      "probabilityOfAppearanceInStarSystem": 0.85,
+      "probabilityOfAppearanceInYoungStarSystem": 0.2,
+      "parent": null,
     },
     "Chthonian Planet": {
       "massInEarthMass": [5,20],
       "density": [4,7], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.05,
+      "probabilityOfAppearanceInStarSystem": 0.3,
+      "probabilityOfAppearanceInYoungStarSystem": 0.05,
+      "parent": "Planet",
     },
     "Carbon Planet": {
       "massInEarthMass": [0.5,10],
       "density": [3,4.5], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.05,
+      "probabilityOfAppearanceInStarSystem": 0.2,
+      "probabilityOfAppearanceInYoungStarSystem": 0.05,
+      "parent": "Planet",
     },
     "Coreless Planet": {
       "massInEarthMass": [0.5,10],
       "density": [2.5,4], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.1,
+      "probabilityOfAppearanceInStarSystem": 0.25,
+      "probabilityOfAppearanceInYoungStarSystem": 0.05,
+      "parent": "Planet",
     },
     "Gas Giant": {
       "massInEarthMass": [10,1000],
       "density": [0.7,1.6], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.5,
+      "probabilityOfAppearanceInStarSystem": 0.9,
+      "probabilityOfAppearanceInYoungStarSystem": 0.3,
+      "parent": "Planet",
     },
     "Gas Dwarf": {
       "massInEarthMass": [10,50],
       "density": [1,3], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.4,
+      "probabilityOfAppearanceInStarSystem": 0.6,
+      "probabilityOfAppearanceInYoungStarSystem": 0.2,
+      "parent": "Planet",
     },
     "Helium Planet": {
       "massInEarthMass": [100,1000],
       "density": [0.5,1.2], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.01,
+      "probabilityOfAppearanceInStarSystem": 0.1,
+      "probabilityOfAppearanceInYoungStarSystem": 0.05,
+      "parent": "Planet",
     },
     "Hycean Planet": {
       "massInEarthMass": [2,10],
       "density": [1,2.5], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.1,
+      "probabilityOfAppearanceInStarSystem": 0.5,
+      "probabilityOfAppearanceInYoungStarSystem": 0.1,
+      "parent": "Planet",
     },
     "Ice Giant": {
       "massInEarthMass": [10,50],
       "density": [1.2,1.8], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.3,
+      "probabilityOfAppearanceInStarSystem": 0.85,
+      "probabilityOfAppearanceInYoungStarSystem": 0.3,
+      "parent": "Planet",
     },
     "Ice-Rock Planet": {
       "massInEarthMass": [2,3.5],
       "density": [0.1,0.6], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.3,
+      "probabilityOfAppearanceInStarSystem": 0.6,
+      "probabilityOfAppearanceInYoungStarSystem": 0.15,
+      "parent": "Planet",
     },
     "Ice Planet": {
       "massInEarthMass": [0.1,10],
       "density": [0.9,2], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.4,
+      "probabilityOfAppearanceInStarSystem": 0.5,
+      "probabilityOfAppearanceInYoungStarSystem": 0.1,
+      "parent": "Planet",
     },
     "Iron Planet": {
       "massInEarthMass": [0.1,5],
       "density": [6,8], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.15,
+      "probabilityOfAppearanceInStarSystem": 0.4,
+      "probabilityOfAppearanceInYoungStarSystem": 0.05,
+      "parent": "Planet",
     },
     "Lava Planet": {
       "massInEarthMass": [0.1,10],
       "density": [3,5], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.1,
+      "probabilityOfAppearanceInStarSystem": 0.4,
+      "probabilityOfAppearanceInYoungStarSystem": 0.1,
+      "parent": "Planet",
     },
     "Desert Planet": {
       "massInEarthMass": [0.1,10],
       "density": [2.5,5], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.2,
+      "probabilityOfAppearanceInStarSystem": 0.35,
+      "probabilityOfAppearanceInYoungStarSystem": 0.05,
+      "parent": "Planet",
     },
     "Protoplanet": {
       "massInEarthMass": [0.01,0.1],
       "density": [2,4], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0, // Only young systems with 0.6 probability, must be set manually
+      "probabilityOfAppearanceInStarSystem": 0.1, // Only young systems
+      "probabilityOfAppearanceInYoungStarSystem": 0.8,
+      "parent": "Planet",
     },
     "Puffy Planet": {
       "massInEarthMass": [100,300],
       "density": [0.1,0.5], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.05,
+      "probabilityOfAppearanceInStarSystem": 0.6,
+      "probabilityOfAppearanceInYoungStarSystem": 0.3,
+      "parent": "Planet",
     },
     "Super-puff Planet": {
       "massInEarthMass": [10,100],
       "density": [0.1,0.3], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.02,
+      "probabilityOfAppearanceInStarSystem": 0.15,
+      "probabilityOfAppearanceInYoungStarSystem": 0.05,
+      "parent": "Planet",
     },
     "Dwarf Planet": {
       "massInEarthMass": [0.0001,0.01],
       "density": [1.5,3.5], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.8,
+      "probabilityOfAppearanceInStarSystem": 0.5,
+      "probabilityOfAppearanceInYoungStarSystem": 0.15,
+      "parent": "Planet",
     },
     "Moon": {
       "massInEarthMass": [0.00000001,0.01],
       "density": [0.5,3.5], // g/cm^3
       "probabilityOfAppearanceInStarSystem": 0.9,
+      "probabilityOfAppearanceInYoungStarSystem": 0.2,
+      "parent": null,
     },
     "Large Moon": {
       "massInEarthMass": [0.0001,0.01],
       "density": [2,3.5], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.3,
+      "probabilityOfAppearanceInStarSystem": 0.5,
+      "probabilityOfAppearanceInYoungStarSystem": 0.4,
+      "parent": "Moon",
     },
     "Medium-sized Moon": {
       "massInEarthMass": [0.00001,0.0001],
       "density": [1.5,3.5], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.5,
+      "probabilityOfAppearanceInStarSystem": 0.7,
+      "probabilityOfAppearanceInYoungStarSystem": 0.1,
+      "parent": "Moon",
     },
     "Small Moon": {
       "massInEarthMass": [0.00000001,0.000001],
       "density": [1,3], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.7,
+      "probabilityOfAppearanceInStarSystem": 0.8,
+      "probabilityOfAppearanceInYoungStarSystem": 0.15,
+      "parent": "Moon",
     },
     "Dwarf Moon": {
       "massInEarthMass": [0.0000000000001,0.00000001],
       "density": [0.5,3], // g/cm^3
-      "probabilityOfAppearanceInStarSystem": 0.8,
-    }
+      "probabilityOfAppearanceInStarSystem": 0.5,
+      "probabilityOfAppearanceInYoungStarSystem": 0.05,
+      "parent": null,
+    },
+    "Comet Cluster": {
+      "probabilityOfAppearanceInStarSystem": 0.3,
+      "probabilityOfAppearanceInYoungStarSystem": 0.05,
+      "numberOfBodies": [12, 10000],
+      "spaceBetweenBodies" : [10000000, 90000000], // in comet diameters
+      "parent": null,
+    },
+    "Cometary Cloud": {
+      "probabilityOfAppearanceInStarSystem": 0.6,
+      "probabilityOfAppearanceInYoungStarSystem": 0.01,
+      "numberOfBodies": [10E10, 10E14],
+      "spaceBetweenBodies" : [1000000, 5000000000], // in comet diameters
+      "parent": null,
+    },
+    "Asteroid Field": {
+      "probabilityOfAppearanceInStarSystem": 0.5,
+      "probabilityOfAppearanceInYoungStarSystem": 0.1,
+      "numberOfBodies": [1000, 10000000],
+      "spaceBetweenBodies" : [10, 10000], // in asteroid diameters
+      "parent": null,
+    },
+    "Asteroid Belt": {
+      "probabilityOfAppearanceInStarSystem": 0.7,
+      "probabilityOfAppearanceInYoungStarSystem": 0.01,
+      "numberOfBodies": [1000000, 10000000],
+      "spaceBetweenBodies" : [1000, 100000], // in asteroid diameters
+      "parent": null,
+    },
   }
+}
+
+wizardSystemGeneratorDatabase["starSystem"] = {
+  "youngSystemProbability": [0.01, 0.05]
 }
