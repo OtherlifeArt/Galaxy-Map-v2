@@ -694,6 +694,8 @@ function objectSystemBuilderGenerateSystem(calculationMethod, estimationMethod) 
     if(estimationMethod === "titius-bode-law" && calculationMethod === "none") {
       objectSystemBuilderGenerateSystemUsingTitiusBodeLaw(system);
     }
+    console.log(system);
+    
     drawSystemBuilderCanvas();
   }
 }
@@ -1012,7 +1014,12 @@ function objectSystemBuilderGenerateSystemUsingTitiusBodeLawRecursive(innerObjec
 }
 
 function objectSystemBuilderGenerateMassesOfNonStarTypeObjects(object, maxNonStarMassInEarthMass) {
-  if(object.objectType === "Planet" || object.objectType === "Rogue Planet") { // Planet
+
+  // Non managed and already managed (star like) object types
+  if (object.objectType === "Star System" || object.objectType === "Star" || object.objectType === "Planet Barycenter") {
+    console.log(`Skipping already computed ${object.name} of type ${object.objectType}`);
+
+  } else if(object.objectType === "Planet" || object.objectType === "Rogue Planet") { // Planet
     const suportedObjectTyClasses = [
       "Terrestrial", "Chthonian Planet", "Carbon Planet", "Coreless Planet", "Gas Giant",
       "Gas Dwarf", "Helium Planet", "Hycean Planet", "Ice Giant", "Ice-Rock Planet", "Ice Planet",
@@ -1106,8 +1113,11 @@ function objectSystemBuilderGenerateMassesOfNonStarTypeObjects(object, maxNonSta
   } else {
     console.log(`${object.objectType} is unmanaged !`);
   }
-  console.log(`${object.name} is now a ${object.objectType} of with ${object.modifiedData?.objectTypeClass || object.objectTypeClass} subclass and has a mass of ${object.modifiedData?.mass} solar mass and a size of ${object.modifiedData?.size} km !`);
-  console.log(`Non star mass left in system : ${maxNonStarMassInEarthMass}`);
+
+  if(object.objectType !== "Star System" && object.objectType !== "Star" && object.objectType !== "Planet Barycenter") {
+    console.log(`${object.name} is now a ${object.objectType} of with ${object.modifiedData?.objectTypeClass || object.objectTypeClass} subclass and has a mass of ${object.modifiedData?.mass} solar mass and a size of ${object.modifiedData?.size} km !`);
+    console.log(`Non star mass left in system : ${maxNonStarMassInEarthMass}`);
+  }
   // Inner objects
   for (const innerObject of object.innerObjects) {
     maxNonStarMassInEarthMass = objectSystemBuilderGenerateMassesOfNonStarTypeObjects(innerObject, maxNonStarMassInEarthMass);
@@ -1173,31 +1183,29 @@ function objectSystemBuilderGenerateMassesOfPlanetTypeObjects(object, maxNonStar
   const objectTypeClass = object.objectTypeClass === "" ? object.modifiedData.objectTypeClass : object.objectTypeClass;
   if (suportedObjectTyClasses.includes(objectTypeClass)) {
     const objectDB = wizardSystemGeneratorDatabase["planet"]["type"][objectTypeClass];
-    if(object.mass !== "" || object.size !== "") { // mass or size is known
-      if(object.mass === "") {
+    if ((object.modifiedData??={}).mass === "" && object.size === "") { // mass and size are unknown
+      const massInEarthMass = (Math.random() * (objectDB.massInEarthMass[1] - objectDB.massInEarthMass[0]) + objectDB.massInEarthMass[0]);
+      (object.modifiedData??={}).mass = massInEarthMass * wizardSystemGeneratorDatabase["units"].earthMass / wizardSystemGeneratorDatabase["units"].solarMass;
+      const massInGram = massInEarthMass * wizardSystemGeneratorDatabase["units"].earthMass * 1000;
+      const volume = massInGram / (Math.random() * (objectDB.density[1] - objectDB.density[0]) + objectDB.density[1]); // in cm³
+      object.modifiedData.size = Math.pow((3*volume/(4*Math.PI)), 1/3) * 2 / 100000; // diameter in km;
+      return maxNonStarMassInEarthMass - (object.modifiedData.mass * wizardSystemGeneratorDatabase["units"].earthMass / wizardSystemGeneratorDatabase["units"].solarMass);
+    } else {
+      if(object.size !== "") {
         // diameter in km is known
         const volume = 4/3 * Math.PI * (parseFloat(object.size) / 2 * 100000)^3; // Sphere volume with radius in cm from km
         const density = Math.random() * (objectDB.density[1] - objectDB.density[0]) + objectDB.density[0];
         // Mass in solar mass
         (object.modifiedData??={}).mass = volume * density / (1000 * wizardSystemGeneratorDatabase["units"].solarMass)
-
         return maxNonStarMassInEarthMass - (object.modifiedData.mass * wizardSystemGeneratorDatabase["units"].earthMass / wizardSystemGeneratorDatabase["units"].solarMass);
-      } else if (object.size === "") {
+
+      } else if ((object.modifiedData??={}).mass !== "") {
         // Mass is known
         const density = Math.random() * (objectDB.density[1] - objectDB.density[0]) + objectDB.density[0];
         const volume = (parseFloat(object.mass) * 100000 / density); // volume in cm³
         (object.modifiedData??={}).size = Math.pow((3*volume/(4*Math.PI)), 1/3) * 2 * 100000; // diameter in km
-
         return maxNonStarMassInEarthMass - (object.mass * wizardSystemGeneratorDatabase["units"].earthMass / wizardSystemGeneratorDatabase["units"].solarMass);
       }
-    } else { // mass and size are unknown
-      const massInEarthMass = (Math.random() * (objectDB.massInEarthMass[1] - objectDB.massInEarthMass[0]) + objectDB.massInEarthMass[0]) * numberOfBodies;
-      (object.modifiedData??={}).mass = massInEarthMass * wizardSystemGeneratorDatabase["units"].earthMass / wizardSystemGeneratorDatabase["units"].solarMass;
-      const massInGram = massInEarthMass * wizardSystemGeneratorDatabase["units"].massInEarthMass * 1000;
-      const volume = massInGram / objectDB.density; // in cm³
-      object.modifiedData.size = Math.pow((3*volume/(4*Math.PI)), 1/3) * 2 * 100000; // diameter in km;
-
-      return maxNonStarMassInEarthMass - (object.modifiedData.mass * wizardSystemGeneratorDatabase["units"].earthMass / wizardSystemGeneratorDatabase["units"].solarMass);
     }
     
   } else {
