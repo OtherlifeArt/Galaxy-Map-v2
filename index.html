@@ -8,7 +8,7 @@
 	<!-- STYLE -->
 	<link rel="stylesheet" href="scripts/vendor/leaflet/leaflet.css">
 	<link rel="stylesheet" href="scripts/vendor/leaflet-fullscreen/leaflet.fullscreen.css">
-	<link rel="stylesheet" href="style/style.css">
+	<link rel="stylesheet" href="styles/style.css">
 	
 	<!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
 		integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
@@ -20,22 +20,54 @@
 	<body style="height: 100%;margin: 0;background-color:grey;">
 		<div id="container" class="container">
 			<!-- <div id="sidebar" class="sidebar"></div> -->
+			<!-- Grid search -->
+			<div id="GridSearch" class="tabgeomcontent">
+				<div class="gridsearch">
+					<fieldset>
+					<legend>Grid search</legend>
+					<form action="" method="get" class="form-grid-f">
+						<div class="form-grid">
+							<label id="col_label" for="col">Column</label>
+							<input type="text" maxlength=1 name="col_letter" id="col_letter" placeholder="Letter from A to W" required>
+						</div>
+						<div class="form-grid">
+							<label id="line_label" for="line">Line</label>
+							<input type="number" maxlength=1 name="line_num" id="line_num" placeholder="Number from 1 to 23" required>
+						</div>
+					</form>
+					<button id="gridsearchbut">Go to grid area</button>
+					<button id="gridsearchreset">Reset grid search tool</button>
+				</fieldset>
+				</div>
+			</div>
+			<!-- Map -->
 			<div id="map" class="map"></div>
 		</div>
 	
 		<!-- SCRIPTS -->
+		<!-- Jquery -->
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+		<!--  -->
 		<script src="scripts/vendor/leaflet/leaflet.js"></script>
+		<!-- Leaflet Additions -->
+    <script src="scripts/vendor/Leaflet.Control.Layers.Tree/L.Control.Layers.Tree.js"></script> <!-- Controls -->
+    <script src="scripts/vendor/Leaflet.Control.Opacity/L.Control.Opacity.js"></script> <!-- Controls -->
 		<script src="scripts/vendor/leaflet-fullscreen/Leaflet.fullscreen.min.js"></script>
 		<script src="scripts/vendor/leaflet-canvas-markers/leaflet.canvas-markers.js"></script>
-		<script src="scripts/map/helpers/map-utilities.js"></script>
-		<script src="scripts/map/astronomical-scale-bar.js"></script>
-		<script src="scripts/map/icons.js"></script>
-		<script src="scripts/map/locations.js"></script>
-		<script src="scripts/map/main.js"></script>
-		<script src="scripts/map/routes.js"></script>
-		<script src="scripts/map/astronomical-objetcs.js"></script>
-		<script src="scripts/map/tootips-and-popups.js"></script>
+		<script src="scripts/vendor/leaflet.fullscreen-3.0.1/Control.FullScreen.js"></script> <!-- FullScreen -->
+    <script src="scripts/vendor/leaflet-search-4.0.0/dist/leaflet-search.min.js"></script> <!-- Search -->
+    <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.js"></script>
+    <script src="scripts/vendor/aprilandjan.leaflet.mesure/leaflet.measure.js"></script>
+		<!-- <script src="scripts/map/helpers/map-utilities.js"></script> -->
+		<!-- <script src="scripts/map/icons.js"></script>
+		<script src="scripts/map/locations.js"></script> -->
+		<script src="scripts/map/data.js"></script>
 		<script src="scripts/map/grid.js"></script>
+		<script src="scripts/map/astronomical-scale-bar.js"></script>
+		<script src="scripts/map/main.js"></script>
+		<!-- <script src="scripts/map/routes.js"></script> -->
+		<!-- <script src="scripts/map/astronomical-objetcs.js"></script>
+		<script src="scripts/map/tootips-and-popups.js"></script> -->
 </body>
 
 </html>
