@@ -1004,8 +1004,10 @@ function objectSystemBuilderGenerateSystemUsingTitiusBodeLawRecursive(innerObjec
 
   for (let index = 0; index < innerObjects.length; index++) {
     const innerObject = innerObjects[index];
-    if(innerObjects[index].orbitalRank > 0) {
-      (innerObjects[index].modifiedData??={}).distanceToParent = objectSystemBuilderTitiusBodeLaw(innerObject.orbitalRank, baseDistance, scalingFactor);
+    if(innerObject.orbitalRank > 0) {
+      const distanceToParentAU = objectSystemBuilderTitiusBodeLaw(innerObject.orbitalRank, baseDistance, scalingFactor);
+      (innerObject.modifiedData??={}).distanceToParent = distanceToParentAU * wizardSystemGeneratorDatabase["units"]["astronomicalUnit"];
+      console.log(`${innerObject.name} and is ${innerObject.modifiedData.distanceToParent} km away from its parent (${distanceToParentAU} Astronomic Unit)`);
     }
     if(innerObject.innerObjects?.length > 0) {
       objectSystemBuilderGenerateSystemUsingTitiusBodeLawRecursive(innerObject.innerObjects);
