@@ -350,3 +350,6 @@ map.on("zoomend", function() {
       }
   }
 });
+
+/////////////// SCALE BAR ///////////////
+spatialScaleBar.addTo(map);

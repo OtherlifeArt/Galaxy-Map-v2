@@ -70,3 +70,5 @@ L.Control.SpatialScalebar = L.Control.Scale.extend({
           label = meters*48.9 + ' l-y';
       this._updateScale(this._iScale, label, meters / maxMeters);
 }});
+
+var spatialScaleBar = new L.Control.SpatialScalebar();
