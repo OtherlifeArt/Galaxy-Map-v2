@@ -1,6 +1,4 @@
 /* VARIABLES */
-// point geojson db
-let geoJSONPointDBFile = null;
 
 /* FUNCTIONS */
 // Function to fetch data from Google spreadsheet and return a GeoJSON object containg poctual localized objects
@@ -54,25 +52,6 @@ function fetchSheetDataPoints(spreadsheetId, sheetName) {
       });
     });
   }
-
-// Function to download GeoJSON point file
-function downloadPointsGeoJSONFile() {
-  if(geoJSONPointDBFile !== null) {
-    // Create download link
-    let a = document.createElement('a');
-    let url = URL.createObjectURL(geoJSONPointDBFile);
-    a.href = url;
-    a.download = 'SW_Map_Points.geojson';
-    document.body.appendChild(a);
-    // Trigger download
-    a.click();
-    // Clean up
-    window.URL.revokeObjectURL(url);
-    document.body.removeChild(a);
-  } else {
-    alert("Click 'Re.Load Points' button first !");
-  }
-}
   
 // Function to trigger download of GeoJSON file
 async function downloadPointsGeoJSON() {
