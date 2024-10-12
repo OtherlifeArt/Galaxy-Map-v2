@@ -42,7 +42,7 @@ html, body {
 
 .leaflet-tooltip {
   /* color:Green; */
-  color:rgb(255, 64, 0);
+  color:rgba(255, 98, 0, 0.77);
   padding: 2px;
   background-color: #000;
   border-radius: 4px;
@@ -144,7 +144,7 @@ html, body {
   background-position: 50% 50%;
   background-repeat: no-repeat;
   display: block;
-  }
+}
 
 .leaflet-bar a:hover {
   background-color: #f4f4f4;
@@ -155,7 +155,7 @@ html, body {
 	text-align: center;
 	margin-bottom: 5px; /* Vertical alignment of popup in relation to marker */
 	margin-left: 8px; /* Horizontal alignment of popup in relation to marker */
-	}
+}
 
 .leaflet-popup-content-wrapper {
 	border: 5px solid #65748E; /* Popup border options */
@@ -163,12 +163,14 @@ html, body {
 	padding: 1px;
 	text-align: left;
 	border-radius: 12px;
-	}
+}
+
 .leaflet-popup-content {
   margin: 10px 10px; /* 1st value is popup's top/bottom margin; 2nd value is L/R margin */
   line-height: 1.4;
   color: #ffffff; /* Text color in popups */
-  }
+}
+
 .leaflet-popup-content p {
   margin: 0px 0;
   font-size: 18px;

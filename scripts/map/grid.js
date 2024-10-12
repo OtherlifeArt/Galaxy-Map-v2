@@ -1875,7 +1875,8 @@ var grid100Options = {
 
 var grid10Options = {
     weight: 0.2,
-    color: '#000',
+    color: '#bbbbbb',
+    // color: '#000',
     opacity: 0.5,
     interactive: false,
     pmIgnore:true,
@@ -1884,7 +1885,8 @@ var grid10Options = {
 
 var grid1Options = {
     weight: 0.15,
-    color: '#000',
+    // color: '#000',
+    color: '#888888',
     opacity: 0.5,
     interactive: false,
     pmIgnore:true,
