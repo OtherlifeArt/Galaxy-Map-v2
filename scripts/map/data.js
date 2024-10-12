@@ -24,11 +24,94 @@ var roads = L.geoJSON(null,{
     pmIgnore:true
 });
 $.getJSON(url_roads, function(data) {
-    roads.addData(data);
+  roads.addData(data);
 });
 
 
 /************** POINTS ***************/
+// Create layers
+var points;
+
+points = L.geoJSON(null,{
+  pane:'points',
+  pointToLayer:pointToLayerPoints,
+  style:pointStyle,
+  onEachFeature:onEachFeaturePoints
+});
+
+// Functions
+function pointToLayerPoints(feature,latlng) {
+  console.log(feature.properties);
+  let useIcon = false;
+  let iconParams = [];
+  //// Use markers with icons ////
+  // TYPE
+  if(feature.properties.TYPE === "Nebula" || feature.properties.TYPE === "Interstellar Cloud") {
+    useIcon = true;
+    iconParams[0] = "NEBULA";
+  } else if(
+      feature.properties.TYPE === "Star System" || feature.properties.TYPE === "Star" || feature.properties.TYPE === "Star Cluster" ||
+      feature.properties.TYPE === "Planet" || feature.properties.TYPE === "Moon" || 
+      feature.properties.TYPE === "Asteroid" || feature.properties.TYPE === "Asteroid Belt" || feature.properties.TYPE === "Asteroid Field" ||
+      feature.properties.TYPE === "Comet"
+    ) {
+    useIcon = true;
+    iconParams[0] = "PLANET";
+  } else if(feature.properties.TYPE === "Black Hole" || feature.properties.TYPE === "Exotic" || feature.properties.TYPE === "Anomaly") {
+    useIcon = true;
+    iconParams[0] = "PHENOMENA";
+  } else if(feature.properties.TYPE === "Artificial Object") {
+    useIcon = true;
+    iconParams[0] = "STATION";
+  } else { // Unknown, Galaxy, Location, 
+    // alert(`Unknown object type ${feature.properties.TYPE} for ${feature.properties.NAME}`);
+  }
+  if(useIcon) {
+    // CONTINUITY
+    if(feature.properties.CANON === "YES" && feature.properties.LEGENDS === "YES") {
+      iconParams[1] = "CANON_AND_LEGENDS";
+    } else if (feature.properties.CANON === "YES") {
+      iconParams[1] = "CANON";
+    } else if (feature.properties.LEGENDS === "YES") {
+      iconParams[1] = "LEGENDS";
+    } else {
+      iconParams[1] = "DEFAULT";
+    }
+    // MOVIE or NOT
+    if(feature.properties.IN_MOVIES === "YES") {
+      iconParams[2] = "MOVIE";
+    } else {
+      iconParams[2] = "DEFAULT";
+    }
+  }
+  // Icon found ?
+  if(!useIcon || !ASTRO_ICONS[iconParams[0]] || !ASTRO_ICONS[iconParams[0]][iconParams[1]] || !ASTRO_ICONS[iconParams[0]][iconParams[1]][iconParams[2]]) {
+    // use regular circleMarkers
+    return L.circleMarker(latlng, {
+      pane:"points",
+      radius:2,
+      interactive: true
+    });
+  } else {
+    // use icon
+    return L.marker(latlng, {
+      pane:"points",
+      icon: ASTRO_ICONS[iconParams[0]][iconParams[1]][iconParams[2]],
+      interactive: true,
+    });
+  }
+}
+
+function pointStyle(feature){
+    return {
+        fillColor: getPointColor(feature.properties.TYPE),
+        fillOpacity: 0.6,
+        color: getPointColor(feature.properties.TYPE),
+        opacity: 1,
+        weight: 1,
+  }
+}
+
 function getPointColor(type) {
   return (
       type === "Planet" || type === "Dwarf Planet" || type === "Planet Barycenter"
@@ -57,28 +140,12 @@ function getPointColor(type) {
   );
 }
 
-// Functions
-function pointStyle(feature){
-    return {
-        fillColor: getPointColor(feature.properties.TYPE),
-        fillOpacity: 0.6,
-        color: getPointColor(feature.properties.TYPE),
-        opacity: 1,
-        weight: 1,
-  }
+function onEachFeaturePoints(feature, layer) {
+  layer.on({
+    mouseover: highlightCircleMarker,
+    mouseout: resetCircleMarkerStyle
+  });
 }
-
-function pointToLayerPoints(feature,latlng) {
-    return L.circleMarker(latlng, {
-        pane:"points",
-        radius:2,
-        interactive: true
-    }
-    );
-}
-
-// Create layers
-var points;
 
 function highlightCircleMarker(e) {
   var layer = e.target;
@@ -92,38 +159,10 @@ function resetCircleMarkerStyle(e) {
   points.resetStyle(e.target);
 }
 
-function onEachFeaturePoints(feature, layer) {
-  layer.on({
-      mouseover: highlightCircleMarker,
-      mouseout: resetCircleMarkerStyle
-  });
-}
-
-points = L.geoJSON(null,{
-    pane:'points',
-    style:pointStyle,
-    pointToLayer:pointToLayerPoints,
-    onEachFeature:onEachFeaturePoints
-});
-
 //Load data from local geojson
 $.getJSON(url_points, function(data) {
     points.addData(data);
 });
-
-/// Re.load data (points only) from the DB and display them on the map
-// var pointsgeojson;
-// async function getPointsGeoJSON(geomType) {
-//   var spreadsheetId = SPREADSHEET_ID
-//   var sheetName = SHEETS.OBJECTS.NAME
-//   await fetchSheetDataPoints(spreadsheetId, sheetName).then(function(geojson) {
-//     points.clearLayers()
-//     pointsgeojson = geojson
-//     points.addData(pointsgeojson)
-//   }).catch(function(error) {
-//     console.error('Error loading Geojson:', error);
-//   });
-// }
 
 /************** POLYGONS ***************/
 
