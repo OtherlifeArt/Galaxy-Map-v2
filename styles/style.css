@@ -2,33 +2,8 @@ body {
 	margin: 0;
 }
 
-html, body, #leaflet {
+html, body {
 	height: 100%
-}
-
-.leaflet-tooltip {
-  color:Green;
-  padding: 2px;
-  background-color: #000;
-  border-radius: 4px;
-}
-
-.route-tooltip {
-  color:rgb(205, 4, 212);
-  font-style: italic;
-  padding: 2px;
-  background-color: #000;
-  border-radius: 4px;
-}
-
-.transparent-tooltip {
-  background: transparent;
-  border: 1px solid red;
-  box-shadow: none;
-}
-
-.transparent-tooltip::before {
-  border: none;
 }
 
 /*Legend specific*/
@@ -64,79 +39,104 @@ html, body, #leaflet {
 }
 
 /********** Map specific *********/
-/*Overwrite Leaflet native classes by David version*/
+
+.leaflet-tooltip {
+  /* color:Green; */
+  color:rgb(255, 64, 0);
+  padding: 2px;
+  background-color: #000;
+  border-radius: 4px;
+}
+
+.route-tooltip {
+  color:rgb(205, 4, 212);
+  font-style: italic;
+  padding: 2px;
+  background-color: #000;
+  border-radius: 4px;
+}
+
+.transparent-tooltip {
+  background: transparent;
+  border: 1px solid red;
+  box-shadow: none;
+}
+
+.transparent-tooltip::before {
+  border: none;
+}
+
+/* Overwrite of Leaflet native classes (David version) */
 .container {
   width:100%;
   height:100%;
   border:0px solid;
   background: #000000;
-
 }
+
 .map {
   width:auto;
   height:100%;
   background: #000000;
   overflow:hidden;
 }
+
 .sidebar {
   height:100%;
   width:200px;
   background: #192841;
   float:right;
 }
+
 .leaflet-container {
 	overflow: hidden;
 	background: #000;
-	}
+}
+
 .leaflet-container .leaflet-overlay-pane svg,
 .leaflet-container .leaflet-tile {
 	max-width: none !important;
 	max-height: none !important;
 	width: auto;
 	padding: 0;
-	}
+}
+
 .leaflet-container img.leaflet-tile,
 .leaflet-fade-anim .leaflet-tile {
 	will-change: transform !important;
-	}
+}
+
 .leaflet-zoom-anim .leaflet-zoom-animated {
     will-change: transform !important;
-  }
+}
+
 .leaflet-container {
-  background: #475A73; /*MAP BACKGROUND COLOR============================================================================*/
+  background: #000000; /*MAP BACKGROUND COLOR============================================================================*/
   outline: 0;
 }
+
 .leaflet-container a.leaflet-active {
 	outline: 2px solid orange;
-	}
+}
+
 .leaflet-container {
   font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
   margin-top: 0;
   margin-bottom: 0;
-  }
-  .leaflet-bar a,
+}
 
-  .leaflet-bar a:hover {
-  
+.leaflet-bar a,
+.leaflet-bar a:hover {
     background-color: #fff;
-  
     border-bottom: 1px solid #ccc;
-  
     width: 26px;
-  
     height: 26px;
-  
     line-height: 26px;
-  
     display: block;
-  
     text-align: center;
-  
     text-decoration: none;
-  
     color: black;
-  
-    }
+}
 
 .leaflet-bar a,
 
@@ -172,4 +172,25 @@ html, body, #leaflet {
 .leaflet-popup-content p {
   margin: 0px 0;
   font-size: 18px;
-  }
+}
+
+/* Legend */
+
+.info legend {
+  border-radius: 50px; 
+}
+
+.legend-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.legend-label {
+  vertical-align: middle;
+  padding-left: 2px;
+  padding-right: 2px;
+}
