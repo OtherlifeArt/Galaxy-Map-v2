@@ -245,7 +245,7 @@ var map = L.map('map', {
       position: 'topleft'
   },
   //preferCanvas: true, // It disable interaction with multiple layers (point and areas)...
-}).setView([-250.0,0], -2);
+}).setView([-450.0,0], -2);
 
 /******** GRID PANES *********/
 
@@ -281,9 +281,8 @@ map.getPane("colonies_EA").style.zIndex = "397";
 
 completegrid.addTo(map);
 roads.addTo(map);
-var searchLayer = L.layerGroup([points,areas]);
-points.addTo(map)
-areas.addTo(map)
+points.addTo(map);
+areas.addTo(map);
 
 var baseLayers = [];
 
@@ -313,79 +312,19 @@ L.control.layers.tree(baseLayers, overLayers, {
   collapsed:false
 }).addTo(map);
 
+/////////////// TOOLS //////////////////////
 
-/******** SEARCH CONTROL *********/
-var searchControl = new L.Control.Search({
-  layer: searchLayer,
-  propertyName: 'NAME',
-  initial:false,
-  textPlaceholder:"Search an object by name",
-  moveToLocation: function(latlng, title, map) {
-    if (latlng.layer.options.pane == "areas"){
-      var zoom = map.getBoundsZoom(latlng.layer.getBounds());
-      map.setView(latlng, zoom);
-    } else {
-      map.setView(latlng, 4);
-    }
-  },
-  marker:false,
-  buildTip: function(text, val) {
-    var type_class = val.layer.feature.geometry.type.toLowerCase();
-    return '<a href="#" class="'+type_class+'">'+text+'<b> '+val.layer.feature.geometry.type+'</b></a>';
-  }
-});
+measureTool.addTo(map); // Add measure tool
 
-searchControl.on('search:locationfound', function(e) {
-		if (e.layer.feature.geometry.type == 'MultiPolygon'){
-      e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
-    } else if (e.layer.feature.geometry.type == 'Point'){
-      e.layer.setStyle({fillColor: '#3f0', color: '#0f0', weight:20});
-    }
-}).on('search:collapsed', function(e) {
-  searchLayer.eachLayer(function(layer) {	//restore feature color
-    layer.resetStyle();
-  });	
-});
+////////////////////// SEARCH CONTROL //////////////////////
 
 map.addControl(searchControl);  //inizialize search control
 
-/////////////// COLOR LEGEND //////////////////////
+/////////////// LEGEND //////////////////////
 
-// Define the legend control
-var legend = L.control({ position: 'bottomright' });
-
-legend.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'info legend');
-    div.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; // White background with 0.8% opacity
-    
-    var types = ["Planet", "Moon", "Star System", "Artificial object", "Asteroid", "Star",  "Comet",  "Nebula", "Location", "Exotic", "Unknown"];
-    var labels = ["Planet / Dwarf Planet / Planet Barycenter", "Moon / Dwarf Moon", "Star System", "Artificial object", "Asteroid Field / Asteroid", "Star / Star Barycenter / Star Cluster", "Comet / Comet Cluster / Cometary Cloud", "Nebula", "Location", "Exotic", "Unknown"];
-    // Loop through all types and generate a label with corresponding color and circle symbol
-    for (var i = 0; i < types.length; i++) {
-        var type = types[i];
-        var color = getPointColor(type);
-
-        // Create a circle symbol
-        var circle = L.DomUtil.create('div', 'legend-circle');
-        circle.style.backgroundColor = color;
-        
-        // Create label text
-        var label = L.DomUtil.create('span', 'legend-label');
-        label.innerHTML = labels[i];
-
-        // Append circle and label to the legend div
-        div.appendChild(circle);
-        div.appendChild(label);
-        div.innerHTML += '<br>';
-    }
-
-    return div;
-};
-
-// Add legend to map
 legend.addTo(map);
 
-/************* GRID DISPLAY*********** */
+/////////////// GRID DISPLAY ///////////////
 // Display grid levels depending on zoom
 map.on("zoomend", function() {
   var zoomlevel = map.getZoom();
@@ -395,7 +334,7 @@ map.on("zoomend", function() {
       if (map.hasLayer(grid10) == false) {
           completegrid.addLayer(grid10);
       }
-  } else if (zoomlevel == 1) {
+  } else if (zoomlevel <= 1) {
       if (map.hasLayer(grid10)) {
           completegrid.removeLayer(grid10);
       }
@@ -405,7 +344,7 @@ map.on("zoomend", function() {
       if (map.hasLayer(grid1) == false) {
           completegrid.addLayer(grid1);
       }
-  } else if (zoomlevel == 4) {
+  } else if (zoomlevel <= 4) {
       if (map.hasLayer(grid1)) {
           completegrid.removeLayer(grid1);
       }

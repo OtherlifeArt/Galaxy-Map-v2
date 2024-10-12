@@ -58,6 +58,7 @@
 //   })).addTo(map);
 // }
 
+/*********** CUSTOM SCALE BAR ********/
 L.Control.SpatialScalebar = L.Control.Scale.extend({
   _updateMetric: function (maxMeters) {
       var meters = this._getRoundNum(maxMeters),

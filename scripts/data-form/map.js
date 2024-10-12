@@ -374,7 +374,7 @@ map.on("zoomend", function() {
       if (map.hasLayer(grid10) == false) {
           completegrid.addLayer(grid10);
       }
-  } else if (zoomlevel == 1) {
+  } else if (zoomlevel <= 1) {
       if (map.hasLayer(grid10)) {
           completegrid.removeLayer(grid10);
       }
@@ -384,7 +384,7 @@ map.on("zoomend", function() {
       if (map.hasLayer(grid1) == false) {
           completegrid.addLayer(grid1);
       }
-  } else if (zoomlevel == 4) {
+  } else if (zoomlevel <= 4) {
       if (map.hasLayer(grid1)) {
           completegrid.removeLayer(grid1);
       }

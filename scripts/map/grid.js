@@ -1808,7 +1808,7 @@
 // const Number23right = L.marker([-199.20, 204.00], { icon: invisible1 }).bindTooltip("23", { permanent: true, direction: 'center', offset: [0, 0], className: 'leaflet-tooltip-crd' }).addTo(map);
 
 
-/** REWORK **/
+/************* GRID DISPLAY*************/
 
 // Paths to data
 var url_grid = "././data/grid/grid.geojson"
