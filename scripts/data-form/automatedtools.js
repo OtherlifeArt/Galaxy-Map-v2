@@ -1,4 +1,8 @@
+/* VARIABLES */
+// point geojson db
+let geoJSONPointDBFile = null;
 
+/* FUNCTIONS */
 // Function to fetch data from Google spreadsheet and return a GeoJSON object containg poctual localized objects
 function fetchSheetDataPoints(spreadsheetId, sheetName) {
 
@@ -50,9 +54,28 @@ function fetchSheetDataPoints(spreadsheetId, sheetName) {
       });
     });
   }
+
+// Function to download GeoJSON point file
+function downloadPointsGeoJSONFile() {
+  if(geoJSONPointDBFile !== null) {
+    // Create download link
+    let a = document.createElement('a');
+    let url = URL.createObjectURL(geoJSONPointDBFile);
+    a.href = url;
+    a.download = 'SW_Map_Points.geojson';
+    document.body.appendChild(a);
+    // Trigger download
+    a.click();
+    // Clean up
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  } else {
+    alert("Click 'Re.Load Points' button first !");
+  }
+}
   
-  // Function to trigger download of GeoJSON file
-  async function downloadPointsGeoJSON() {
+// Function to trigger download of GeoJSON file
+async function downloadPointsGeoJSON() {
     var spreadsheetId = SPREADSHEET_ID
     var sheetName = SHEETS.OBJECTS.NAME
     await fetchSheetDataPoints(spreadsheetId, sheetName).then(function(geojson) {
@@ -60,7 +83,7 @@ function fetchSheetDataPoints(spreadsheetId, sheetName) {
       var geojsonStr = JSON.stringify(geojson);
   
       // Create Blob
-      var blob = new Blob([geojsonStr], { type: 'application/json' });
+      var blob = geoJSONPointDBFile = new Blob([geojsonStr], { type: 'application/json' });
   
       // Create download link
       var a = document.createElement('a');
