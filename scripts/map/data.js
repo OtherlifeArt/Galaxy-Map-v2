@@ -40,32 +40,59 @@ points = L.geoJSON(null,{
 });
 
 // Functions
+
+/**
+ * Format and display point with coordinates
+ * 
+ * @param {*} feature 
+ * @param {*} latlng 
+ * @returns 
+ */
 function pointToLayerPoints(feature,latlng) {
   console.log(feature.properties);
   let useIcon = false;
   let iconParams = [];
   //// Use markers with icons ////
   // TYPE
-  if(feature.properties.TYPE === "Nebula" || feature.properties.TYPE === "Interstellar Cloud") {
+
+  // Not displayed objects
+  if (feature.properties.TYPE === "Galaxy Cluster" || feature.properties.TYPE === "Galaxy Group" || 
+    feature.properties.TYPE === "Universe" || feature.properties.TYPE === "Region" || feature.properties.TYPE === "Sector" ||
+    feature.properties.TYPE === "Galaxy" || feature.properties.TYPE === "Region" || feature.properties.TYPE === "Sector"
+  ) {
+    
+  // Cloud objects
+  } else if(feature.properties.TYPE === "Nebula" || feature.properties.TYPE === "Interstellar Cloud" || feature.properties.TYPE === "Interstellar Matter") {
     useIcon = true;
     iconParams[0] = "NEBULA";
+  
+  // Systems and planet-like types
   } else if(
       feature.properties.TYPE === "Star System" || feature.properties.TYPE === "Star" || feature.properties.TYPE === "Star Cluster" ||
-      feature.properties.TYPE === "Planet" || feature.properties.TYPE === "Moon" || 
+      feature.properties.TYPE === "Planet" || feature.properties.TYPE === "Planet Barycenter" || feature.properties.TYPE === "Rogue Planet" ||
+      feature.properties.TYPE === "Moon" || feature.properties.TYPE === "Rogue Moon" || 
       feature.properties.TYPE === "Asteroid" || feature.properties.TYPE === "Asteroid Belt" || feature.properties.TYPE === "Asteroid Field" ||
       feature.properties.TYPE === "Comet"
     ) {
     useIcon = true;
     iconParams[0] = "PLANET";
+
+  // Exotic objects
   } else if(feature.properties.TYPE === "Black Hole" || feature.properties.TYPE === "Exotic" || feature.properties.TYPE === "Anomaly") {
     useIcon = true;
     iconParams[0] = "PHENOMENA";
+
+  // Artifficial objects
   } else if(feature.properties.TYPE === "Artificial Object") {
     useIcon = true;
     iconParams[0] = "STATION";
-  } else { // Unknown, Galaxy, Location, 
-    // alert(`Unknown object type ${feature.properties.TYPE} for ${feature.properties.NAME}`);
+
+  // Message log
+  } else {
+    console.log(`No icon for object type ${feature.properties.TYPE} (${feature.properties.NAME})`);
   }
+  
+  // Continuity icon switch
   if(useIcon) {
     // CONTINUITY
     if(feature.properties.CANON === "YES" && feature.properties.LEGENDS === "YES") {
