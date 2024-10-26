@@ -1,6 +1,108 @@
-// /**
-//  * Here we display tooltips and popups so they stay above all canvas and remain clickable
-//  */
+/**
+ * Here we display tooltips and popups
+ */
+
+// Display tooltip on click
+function pointDisplayPopup(e) {
+  let layer = e.target;
+  let feature = layer.feature;
+  let text = '<h2>'+feature.properties.NAME+'</h2><div>'
+  if (feature.properties.GEOM_TYPE){
+    text+= '<p><i>'+ feature.properties.GEOM_TYPE + '</i></p>';
+  }
+  if (feature.properties.TYPE){
+      text+= '<p><b>Type : </b>'+ feature.properties.TYPE + '</p>';
+  }
+  if (feature.properties.TYPE_CLASSES){
+    text+= '<p><b>Type classe : </b>'+ feature.properties.TYPE_CLASSES + '</p>';
+  }
+  if (feature.properties.PARENT){
+    text+= '<p><b>Parent : </b>'+ feature.properties.PARENT + '</p>';
+  }
+  text+='</div>'
+  L.popup()
+    .setLatLng([feature.geometry.coordinates[1],feature.geometry.coordinates[0]])
+    .setContent(text)
+    .openOn(map);
+}
+
+// points.on('click', function(e) {
+//   var feature = e.layer.feature;
+//     // Do something with the properties, e.g., display in a popup
+// });
+
+// Display label on mouseover
+function pointDisplayTooltip(e) {
+  // console.log(e);
+  let layer = e.target;
+  // Update tooltip visibility
+  layer.openTooltip();
+}
+
+// Remove label on mouseout
+function pointHideTooltip(e) {
+  e.target.layer?.closeTooltip(); // Hide tooltip
+}
+
+// Display popup on mouse click
+function areaDisplayPopup(e) {
+  let layer = e.target;
+  let feature = layer.feature;
+  let text = '<h2>'+feature.properties.NAME+'</h2><div>'
+  if (feature.properties.GEOM_TYPE){
+    text+= '<p><i>'+ feature.properties.GEOM_TYPE + '</i></p>';
+  }
+  if (feature.properties.TYPE){
+      text+= '<p><b>Type : </b>'+ feature.properties.TYPE + '</p>';
+  }
+  if (feature.properties.TYPE_CLASSES){
+    text+= '<p><b>Type classe : </b>'+ feature.properties.TYPE_CLASSES + '</p>';
+  }
+  if (feature.properties.PARENT){
+    text+= '<p><b>Parent : </b>'+ feature.properties.PARENT + '</p>';
+  }
+  text+='</div>'
+  L.popup()
+    .setLatLng(e.latlng)
+    .setContent(text)
+    .openOn(map);
+}
+
+// Display tooltip on mouseover
+function areaDisplayTooltip(e) {
+  let layer = e.target;
+  // Update tooltip visibility
+  layer.openTooltip();
+}
+
+// Hide tooltip on mouseout
+function areaHideTooltip(e) {
+  e.target.layer?.closeTooltip(); // Hide tooltip
+}
+
+/*
+points.on('mouseover'), function(e) {
+var feature = e.layer.feature;
+var tooltip = L.tooltip({
+  permanent: false, // Show the tooltip permanently
+  direction: 'top', // Position the tooltip above the marker
+})
+.setContent(features.properties.NAME); // Set the content of the tooltip
+
+this.bindTooltip(tooltip).openTooltip(); // Bind and open the tooltip
+}
+
+areas.on('mouseover'), function(e) {
+var feature = e.layer.feature;
+var tooltip = L.tooltip({
+  permanent: false, // Show the tooltip permanently
+  direction: 'top', // Position the tooltip above the marker
+})
+.setContent(features.properties.NAME); // Set the content of the tooltip
+
+this.bindTooltip(tooltip).openTooltip(); // Bind and open the tooltip
+}*/
+
 
 // /** EXAMPLES **/
 

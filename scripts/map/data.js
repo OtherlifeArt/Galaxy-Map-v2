@@ -49,7 +49,7 @@ points = L.geoJSON(null,{
  * @returns 
  */
 function pointToLayerPoints(feature,latlng) {
-  console.log(feature.properties);
+  // console.log(feature.properties);
   let useIcon = false;
   let iconParams = [];
   //// Use markers with icons ////
@@ -148,11 +148,11 @@ function pointToLayerPoints(feature,latlng) {
 
 function pointStyle(feature){
     return {
-        fillColor: getPointColor(feature.properties.TYPE),
-        fillOpacity: 0.6,
-        color: getPointColor(feature.properties.TYPE),
-        opacity: 1,
-        weight: 1,
+      fillColor: getPointColor(feature.properties.TYPE),
+      fillOpacity: 0.6,
+      color: getPointColor(feature.properties.TYPE),
+      opacity: 1,
+      weight: 1,
   }
 }
 
@@ -185,18 +185,32 @@ function getPointColor(type) {
 }
 
 function onEachFeaturePoints(feature, layer) {
+  layer.bindTooltip(feature.properties.NAME);
   layer.on({
-    mouseover: highlightCircleMarker,
-    mouseout: resetCircleMarkerStyle
+    mouseover: function(e) {
+      pointDisplayTooltip(e);
+      highlightCircleMarker(e);
+    },
+    mouseout: function(e) {
+      pointHideTooltip(e);
+      resetCircleMarkerStyle(e);
+    },
+    click: function(e) {
+      pointDisplayPopup(e);
+    },
   });
 }
 
 function highlightCircleMarker(e) {
   var layer = e.target;
-  layer.setStyle({
+  if (!!layer.setStyle) {
+    layer.setStyle({
       weight: 8
-  });
-  layer.bringToFront();
+    });
+  }
+  if (!!layer.bringToFront) {
+    layer.bringToFront();
+  }
 }
 
 function resetCircleMarkerStyle(e) {
@@ -278,10 +292,20 @@ function zoomToFeature(e) {
 }
 
 function onEachFeature(feature, layer) {
+  layer.bindTooltip(feature.properties.NAME, { sticky: true });
   layer.on({
-      mouseover: highlightFeature,
-      mouseout: resetHighlight,
-      //click: zoomToFeature
+      mouseover: function(e) {
+        highlightFeature(e);
+        areaDisplayTooltip(e);
+      },
+      mouseout: function(e) {
+        resetHighlight(e);
+        areaHideTooltip(e);
+      },
+      click:  function(e) {
+        zoomToFeature(e);
+        areaDisplayPopup(e);
+      },
   });
 }
 
@@ -296,74 +320,3 @@ areas = L.geoJSON(null,{
 $.getJSON(url_areas, function(data) {
   areas.addData(data);
 });
-
-
-//*************** EVENTS ****************/
-  points.on('click', function(e) {
-    var features = e.layer.feature;
-      // Do something with the properties, e.g., display in a popup
-      var texte = '<h2>'+features.properties.NAME+'</h2><div>'
-      if (features.properties.GEOM_TYPE){
-        texte+= '<p><i>'+ features.properties.GEOM_TYPE + '</i></p>';
-    }
-      if (features.properties.TYPE){
-          texte+= '<p><b>Type : </b>'+ features.properties.TYPE + '</p>';
-      }
-      if (features.properties.CLASSE){
-        texte+= '<p><b>Type classe : </b>'+ features.properties.TYPE_CLASSE + '</p>';
-      }
-      if (features.properties.PARENT){
-        texte+= '<p><b>Parent : </b>'+ features.properties.PARENT + '</p>';
-      }
-      texte+='</div>'
-    L.popup()
-        .setLatLng([features.geometry.coordinates[1],features.geometry.coordinates[0]])
-        .setContent(texte)
-        .openOn(map);
-  });
-
-
-  areas.on('click', function(e) {
-    var features = e.layer.feature;
-
-      var texte = '<h2>'+features.properties.NAME+'</h2><div>'
-      if (features.properties.GEOM_TYPE){
-        texte+= '<p><i>'+ features.properties.GEOM_TYPE + '</i></p>';
-    }
-      if (features.properties.TYPE){
-          texte+= '<p><b>Type : </b>'+ features.properties.TYPE + '</p>';
-      }
-      if (features.properties.CLASSE){
-        texte+= '<p><b>Type classe : </b>'+ features.properties.TYPE_CLASSE + '</p>';
-      }
-      if (features.properties.PARENT){
-        texte+= '<p><b>Parent : </b>'+ features.properties.PARENT + '</p>';
-      }
-      texte+='</div>'
-    L.popup()
-        .setLatLng(e.latlng)
-        .setContent(texte)
-        .openOn(map);
-  });
-  /*
-points.on('mouseover'), function(e) {
-  var feature = e.layer.feature;
-  var tooltip = L.tooltip({
-    permanent: false, // Show the tooltip permanently
-    direction: 'top', // Position the tooltip above the marker
-})
-.setContent(features.properties.NAME); // Set the content of the tooltip
-
-this.bindTooltip(tooltip).openTooltip(); // Bind and open the tooltip
-}
-
-areas.on('mouseover'), function(e) {
-  var feature = e.layer.feature;
-  var tooltip = L.tooltip({
-    permanent: false, // Show the tooltip permanently
-    direction: 'top', // Position the tooltip above the marker
-})
-.setContent(features.properties.NAME); // Set the content of the tooltip
-
-this.bindTooltip(tooltip).openTooltip(); // Bind and open the tooltip
-}*/
