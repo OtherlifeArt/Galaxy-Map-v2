@@ -170,6 +170,172 @@ const ASTRO_ICONS = {
       }),
     },
   },
+  'CLUSTER': {
+    //Non-Movie Cluster Icons
+    'DEFAULT': {
+      'DEFAULT': L.icon({
+        iconUrl: 'images/clustr-normal.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [16, 16], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [8, 8],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+      'MOVIE': L.icon({
+        iconUrl: 'images/clustr-normal.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [18, 18], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [10, 10],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+    },
+    'CANON': {
+      'DEFAULT' : L.icon({
+        iconUrl: 'images/clustr-grn.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [16, 16], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [8, 8],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+      'MOVIE': L.icon({
+        iconUrl: 'images/clustr-grn.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [18, 18], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [10, 10],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+    },
+    'LEGENDS': {
+      'DEFAULT' : L.icon({
+        iconUrl: 'images/clustr-blu.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [16, 16], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [8, 8],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+      'MOVIE': L.icon({
+        iconUrl: 'images/clustr-blu.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [18, 18], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [10, 10],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+    },
+    'CANON_AND_LEGENDS': {
+      'DEFAULT' : L.icon({
+        iconUrl: 'images/clustr-grn-blu.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [16, 16], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [8, 8],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+      'MOVIE': L.icon({
+        iconUrl: 'images/clustr-grn-blu.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [18, 18], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [10, 10],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+    },
+  },
+  'BLACKHOLE': {
+    //Non-Movie Black hole Icons
+    'DEFAULT': {
+      'DEFAULT': L.icon({
+        iconUrl: 'images/blackhole-normal.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [16, 16], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [8, 8],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+      'MOVIE': L.icon({
+        iconUrl: 'images/blackhole-movie.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [18, 18], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [10, 10],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+    },
+    'CANON': {
+      'DEFAULT' : L.icon({
+        iconUrl: 'images/blackhole-grn.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [16, 16], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [8, 8],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+      'MOVIE': L.icon({
+        iconUrl: 'images/blackhole-grn.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [18, 18], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [10, 10],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+    },
+    'LEGENDS': {
+      'DEFAULT' : L.icon({
+        iconUrl: 'images/blackhole-blu.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [16, 16], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [8, 8],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+      'MOVIE': L.icon({
+        iconUrl: 'images/blackhole-blu.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [18, 18], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [10, 10],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+    },
+    'CANON_AND_LEGENDS': {
+      'DEFAULT' : L.icon({
+        iconUrl: 'images/blackhole-grn-blu.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [16, 16], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [8, 8],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+      'MOVIE': L.icon({
+        iconUrl: 'images/blackhole-grn-blu.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [18, 18], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [10, 10],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+    },
+  },
   "STATION": {
     'DEFAULT': {
       'DEFAULT': null,

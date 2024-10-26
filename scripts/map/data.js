@@ -58,21 +58,33 @@ function pointToLayerPoints(feature,latlng) {
   // Not displayed objects
   if (feature.properties.TYPE === "Galaxy Cluster" || feature.properties.TYPE === "Galaxy Group" || 
     feature.properties.TYPE === "Universe" || feature.properties.TYPE === "Region" || feature.properties.TYPE === "Sector" ||
-    feature.properties.TYPE === "Galaxy" || feature.properties.TYPE === "Region" || feature.properties.TYPE === "Sector"
+    feature.properties.TYPE === "Galaxy"
   ) {
-    
+    return;
+
   // Cloud objects
   } else if(feature.properties.TYPE === "Nebula" || feature.properties.TYPE === "Interstellar Cloud" || feature.properties.TYPE === "Interstellar Matter") {
     useIcon = true;
     iconParams[0] = "NEBULA";
   
-  // Systems and planet-like types
+  // Star clusters
+  } else if (feature.properties.TYPE === "Star Cluster") {
+    useIcon = true;
+    iconParams[0] = "CLUSTER";
+
+  // Black hole
+  } else if (feature.properties.TYPE === "Star" && feature.properties.TYPE_CLASSES === "Black Hole") {
+    useIcon = true;
+    iconParams[0] = "BLACKHOLE";
+  
+  // System, star and planet-like types
   } else if(
-      feature.properties.TYPE === "Star System" || feature.properties.TYPE === "Star" || feature.properties.TYPE === "Star Cluster" ||
-      feature.properties.TYPE === "Planet" || feature.properties.TYPE === "Planet Barycenter" || feature.properties.TYPE === "Rogue Planet" ||
-      feature.properties.TYPE === "Moon" || feature.properties.TYPE === "Rogue Moon" || 
-      feature.properties.TYPE === "Asteroid" || feature.properties.TYPE === "Asteroid Belt" || feature.properties.TYPE === "Asteroid Field" ||
-      feature.properties.TYPE === "Comet"
+      feature.properties.TYPE === "Star System" || feature.properties.TYPE === "Star" || feature.properties.TYPE === "Star Barycenter" ||
+      feature.properties.TYPE === "Planet" || feature.properties.TYPE === "Planet Barycenter" || feature.properties.TYPE === "Rogue Planet" || feature.properties.TYPE === "Dwarf Planet" ||
+      feature.properties.TYPE === "Moon" || feature.properties.TYPE === "Rogue Moon" ||  feature.properties.TYPE === "Dwarf Moon" || 
+      feature.properties.TYPE === "Asteroid" || feature.properties.TYPE === "Asteroid Belt" || feature.properties.TYPE === "Asteroid Field" || feature.properties.TYPE === "Rogue Asteroid" ||
+      feature.properties.TYPE === "Comet" || feature.properties.TYPE === "Rogue Comet" || feature.properties.TYPE === "Comet Cluster" || feature.properties.TYPE === "Cometary Cloud" ||
+      feature.properties.TYPE === "Rings" || feature.properties.TYPE === "Location"
     ) {
     useIcon = true;
     iconParams[0] = "PLANET";
@@ -86,6 +98,11 @@ function pointToLayerPoints(feature,latlng) {
   } else if(feature.properties.TYPE === "Artificial Object") {
     useIcon = true;
     iconParams[0] = "STATION";
+
+  // Unknown objects
+  } else if(feature.properties.TYPE === "Unknown") {
+  useIcon = true;
+  iconParams[0] = "STATION";
 
   // Message log
   } else {
