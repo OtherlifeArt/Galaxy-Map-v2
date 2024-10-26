@@ -49,7 +49,7 @@ points = L.geoJSON(null,{
  * @returns 
  */
 function pointToLayerPoints(feature,latlng) {
-  // console.log(feature.properties);
+  console.log(feature.properties);
   let useIcon = false;
   let iconParams = [];
   //// Use markers with icons ////
@@ -90,7 +90,7 @@ function pointToLayerPoints(feature,latlng) {
     iconParams[0] = "PLANET";
 
   // Exotic objects
-  } else if(feature.properties.TYPE === "Black Hole" || feature.properties.TYPE === "Exotic" || feature.properties.TYPE === "Anomaly") {
+  } else if(feature.properties.TYPE === "Exotic" || feature.properties.TYPE === "Anomaly") {
     useIcon = true;
     iconParams[0] = "PHENOMENA";
 
@@ -100,9 +100,9 @@ function pointToLayerPoints(feature,latlng) {
     iconParams[0] = "STATION";
 
   // Unknown objects
-  } else if(feature.properties.TYPE === "Unknown") {
-  useIcon = true;
-  iconParams[0] = "STATION";
+  // } else if(feature.properties.TYPE === "Unknown") {
+  //   useIcon = true;
+  //   iconParams[0] = "STATION";
 
   // Message log
   } else {
@@ -133,7 +133,7 @@ function pointToLayerPoints(feature,latlng) {
     // use regular circleMarkers
     return L.circleMarker(latlng, {
       pane:"points",
-      radius:2,
+      radius:4,
       interactive: true
     });
   } else {

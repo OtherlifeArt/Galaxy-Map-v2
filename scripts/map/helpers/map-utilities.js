@@ -20,3 +20,12 @@ function latlng2xy (latlng) {
   }
   return [latlng.lng, latlng.lat];
 }
+
+/* List to URL in HTML anchor element*/
+function arrayToURL(array) {
+  let urlList = "";
+  for (const url of array) {
+    urlList += '<a href="'+url+'">URL</a>';
+  }
+  return urlList;
+}

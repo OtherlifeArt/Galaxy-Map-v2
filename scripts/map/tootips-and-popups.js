@@ -6,7 +6,32 @@
 function pointDisplayPopup(e) {
   let layer = e.target;
   let feature = layer.feature;
-  let text = '<h2>'+feature.properties.NAME+'</h2><div>'
+
+  let fullName = feature.properties.NAME;
+  let continuity = function() {
+    let continuity = "";
+    if(feature.properties.CANON === "YES") {
+      continuity += "Canon";
+    }
+    if(feature.properties.LEGENDS === "YES") {
+      if(continuity !== "") {
+        continuity += "/";
+      }
+      continuity += "Legends";
+    }
+    if(feature.properties.UNLICENSED === "YES") {
+      if(continuity !== "") {
+        continuity += "/";
+      }
+      continuity += "Unlicensed";
+    }
+    return continuity;
+  };
+  if (feature.properties['ALT_NAMES (/ separated']){
+    fullName+= " / " + feature.properties['ALT_NAMES (/ separated'];
+  }
+  let text = '<h2>'+fullName+'</h2><div>'
+
   if (feature.properties.GEOM_TYPE){
     text+= '<p><i>'+ feature.properties.GEOM_TYPE + '</i></p>';
   }
@@ -18,6 +43,14 @@ function pointDisplayPopup(e) {
   }
   if (feature.properties.PARENT){
     text+= '<p><b>Parent : </b>'+ feature.properties.PARENT + '</p>';
+  }
+  // Continuity
+  text+= '<p><b>Continuity : </b>'+ continuity() + '</p>';
+  // URL
+  // text+= '<p><b>Continuity : </b>'+ arrayToURL(feature.properties.URL) + '</p>'; // TODO
+  // Grid
+  if (feature.properties.X_GRID !== "" && feature.properties.Y_GRID){
+    text+= '<p><b>Grid : </b>'+ feature.properties.X_GRID + '-' + feature.properties.Y_GRID + '</p>';
   }
   text+='</div>'
   L.popup()
@@ -48,7 +81,32 @@ function pointHideTooltip(e) {
 function areaDisplayPopup(e) {
   let layer = e.target;
   let feature = layer.feature;
-  let text = '<h2>'+feature.properties.NAME+'</h2><div>'
+
+  let fullName = feature.properties.NAME;
+  let continuity = function() {
+    let continuity = "";
+    if(feature.properties.CANON === "YES") {
+      continuity += "Canon";
+    }
+    if(feature.properties.LEGENDS === "YES") {
+      if(continuity !== "") {
+        continuity += "/";
+      }
+      continuity += "Legends";
+    }
+    if(feature.properties.UNLICENSED === "YES") {
+      if(continuity !== "") {
+        continuity += "/";
+      }
+      continuity += "Unlicensed";
+    }
+    return continuity;
+  };
+  if (feature.properties['ALT_NAMES (/ separated']){
+    fullName+= " / " + feature.properties['ALT_NAMES (/ separated'];
+  }
+  let text = '<h2>'+fullName+'</h2><div>'
+
   if (feature.properties.GEOM_TYPE){
     text+= '<p><i>'+ feature.properties.GEOM_TYPE + '</i></p>';
   }
@@ -61,6 +119,11 @@ function areaDisplayPopup(e) {
   if (feature.properties.PARENT){
     text+= '<p><b>Parent : </b>'+ feature.properties.PARENT + '</p>';
   }
+  // Continuity
+  text+= '<p><b>Continuity : </b>'+ continuity() + '</p>';
+  // URL
+  // text+= '<p><b>Continuity : </b>'+ arrayToURL(feature.properties.URL) + '</p>'; // TODO
+
   text+='</div>'
   L.popup()
     .setLatLng(e.latlng)
