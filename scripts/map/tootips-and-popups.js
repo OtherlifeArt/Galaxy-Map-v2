@@ -8,25 +8,8 @@ function pointDisplayPopup(e) {
   let feature = layer.feature;
 
   let fullName = feature.properties.NAME;
-  let continuity = function() {
-    let continuity = "";
-    if(feature.properties.CANON === "YES") {
-      continuity += "Canon";
-    }
-    if(feature.properties.LEGENDS === "YES") {
-      if(continuity !== "") {
-        continuity += "/";
-      }
-      continuity += "Legends";
-    }
-    if(feature.properties.UNLICENSED === "YES") {
-      if(continuity !== "") {
-        continuity += "/";
-      }
-      continuity += "Unlicensed";
-    }
-    return continuity;
-  };
+  let continuity = getContinuity(feature.properties);
+
   if (feature.properties['ALT_NAMES (/ separated']){
     fullName+= " / " + feature.properties['ALT_NAMES (/ separated'];
   }
@@ -45,16 +28,49 @@ function pointDisplayPopup(e) {
     text+= '<p><b>Parent : </b>'+ feature.properties.PARENT + '</p>';
   }
   // Continuity
-  text+= '<p><b>Continuity : </b>'+ continuity() + '</p>';
+  text+= '<p><b>Continuity : </b>'+ continuity + '</p>';
   // URL
-  // text+= '<p><b>Continuity : </b>'+ arrayToURL(feature.properties.URL) + '</p>'; // TODO
+  if(feature.properties.URL) {
+    text+= '<p><b>Continuity : </b>'+ arrayToURL(feature.properties.URL) + '</p>'; // TODO
+  }
   // Grid
   if (feature.properties.X_GRID !== "" && feature.properties.Y_GRID){
     text+= '<p><b>Grid : </b>'+ feature.properties.X_GRID + '-' + feature.properties.Y_GRID + '</p>';
   }
   text+='</div>'
+
+  // Zoom level 4
+  // let x = feature.geometry.coordinates[0] - 0.5;
+  // let y = feature.geometry.coordinates[1] + 1.5;
+  // Zoom level 3
+  // let x = feature.geometry.coordinates[0] - 1;
+  // let y = feature.geometry.coordinates[1] + 3;
+  // Zoom level 2
+  // let x = feature.geometry.coordinates[0] - 2;
+  // let y = feature.geometry.coordinates[1] + 6;
+  // Zoom level 1
+  // let x = feature.geometry.coordinates[0] - 4;
+  // let y = feature.geometry.coordinates[1] + 12;
+  // Zoom level 0
+  // let x = feature.geometry.coordinates[0] - 8;
+  // let y = feature.geometry.coordinates[1] + 24;
+  // Zoom level -1
+  // let x = feature.geometry.coordinates[0] - 16;
+  // let y = feature.geometry.coordinates[1] + 48;
+  // Zoom level -2
+  // let x = feature.geometry.coordinates[0] - 32;
+  // let y = feature.geometry.coordinates[1] + 96;
+  // Zoom level -3
+  // let x = feature.geometry.coordinates[0] - 64;
+  // let y = feature.geometry.coordinates[1] + 192;
+  
+  // [y,x] function of zoom level
+  let zoomLevel = map.getZoom();
+  let popupDisplacement = [feature.geometry.coordinates[1] + 380 / Math.pow(2, zoomLevel+4), feature.geometry.coordinates[0] - 125 / Math.pow(2, zoomLevel+4)];
+  // let popupDisplacement = [-64,192];
+
   L.popup()
-    .setLatLng([feature.geometry.coordinates[1],feature.geometry.coordinates[0]])
+    .setLatLng(popupDisplacement)
     .setContent(text)
     .openOn(map);
 }
@@ -124,9 +140,12 @@ function areaDisplayPopup(e) {
   // URL
   // text+= '<p><b>Continuity : </b>'+ arrayToURL(feature.properties.URL) + '</p>'; // TODO
 
+  let zoomLevel = map.getZoom();
+  let popupDisplacement = [e.latlng.lat + 380 / Math.pow(2, zoomLevel+4), e.latlng.lng - 125 / Math.pow(2, zoomLevel+4)];
+  // console.log(e.latlng);
   text+='</div>'
   L.popup()
-    .setLatLng(e.latlng)
+    .setLatLng(popupDisplacement)
     .setContent(text)
     .openOn(map);
 }
@@ -171,7 +190,7 @@ this.bindTooltip(tooltip).openTooltip(); // Bind and open the tooltip
 
 // /* Location tooltips */
 
-// // We use invisible circle markers to keep tooltip permanent since canves icon layer doesn't works this way
+// // We use invisible circle markers to keep tooltip permanent since canves icon layer doesn't work this way
 // var m1 = L.circleMarker([-58.86, 128.86], { radius: 0, fillOpacity: 0 }).bindTooltip("Belkadan", { permanent: true, direction: 'right', offset: [2, 0], className: 'leaflet-tooltip    ' }).bindPopup(BelkadanPopup, customOptions).addTo(map);
 
 // /* Routes */

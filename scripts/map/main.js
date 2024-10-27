@@ -287,23 +287,18 @@ areas.addTo(map);
 var baseLayers = [];
 
 var overLayers = [
-  {label: 'Grid', layer: completegrid, name: 'Grid'},
-  {label: 'Data',
+  {label: 'Options', collapsed:true,
     children: [
-          {label:"Current",
-            children: [
-              {label: "Points (load from db)", layer: points},
-              {label: "Areas", layer: areas}
-            ]
-          },
-          {label:"Deprecated",collapsed:true,
-          children:[
-            //{label: "Points (last export)", layer: points},
-            {label: "Hyperlanes", layer: roads},
-            
-          ]
-        }
-        ]
+      {label: "Prefer star system display"},
+    ]
+  },
+  {label: 'Layers', collapsed:true,
+    children: [
+      {label: 'Grid', layer: completegrid, name: 'Grid'},
+      {label: "Areas", layer: areas},
+      {label: "Points", layer: points},
+      {label: "Hyperlanes", layer: roads},
+    ]
   },
 ];
 

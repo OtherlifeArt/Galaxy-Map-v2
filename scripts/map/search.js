@@ -1,7 +1,3 @@
-/**
- * Controls
- */
-
 /******** SEARCH CONTROL *********/
 
 var searchLayer = L.layerGroup([points,areas]);

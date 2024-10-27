@@ -29,3 +29,24 @@ function arrayToURL(array) {
   }
   return urlList;
 }
+
+/* Return full continuity for object (Canon/Legends/Unlicensed) */
+function getContinuity(properties) {
+  let continuity = "";
+  if(properties.CANON === "YES") {
+    continuity += "Canon";
+  }
+  if(properties.LEGENDS === "YES") {
+    if(continuity !== "") {
+      continuity += "/";
+    }
+    continuity += "Legends";
+  }
+  if(properties.UNLICENSED === "YES") {
+    if(continuity !== "") {
+      continuity += "/";
+    }
+    continuity += "Unlicensed";
+  }
+  return continuity;
+}

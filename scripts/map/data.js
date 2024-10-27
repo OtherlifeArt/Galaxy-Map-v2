@@ -49,7 +49,7 @@ points = L.geoJSON(null,{
  * @returns 
  */
 function pointToLayerPoints(feature,latlng) {
-  console.log(feature.properties);
+  // console.log(feature.properties);
   let useIcon = false;
   let iconParams = [];
   //// Use markers with icons ////
