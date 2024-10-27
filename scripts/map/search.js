@@ -24,10 +24,17 @@ var searchControl = new L.Control.Search({
 
 searchControl.on('search:locationfound', function(e) {
 		if (e.layer.feature.geometry.type == 'MultiPolygon'){
-      e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
+      if(!!e.layer.setStyle) {
+        e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
+      }
     } else if (e.layer.feature.geometry.type == 'Point'){
-      e.layer.setStyle({fillColor: '#3f0', color: '#0f0', weight:20});
+      if(!!e.layer.setStyle) {
+        e.layer.setStyle({fillColor: '#3f0', color: '#0f0', weight:20});
+      }
     }
+    // Open popup and tooltip on object (I don't know why tooltip opens though)
+    e.layer.fire('click');
+    e.layer.fire('mouseout');
 }).on('search:collapsed', function(e) {
   searchLayer.eachLayer(function(layer) {	//restore feature color
     layer.resetStyle();
