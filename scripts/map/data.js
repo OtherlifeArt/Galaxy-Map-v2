@@ -41,8 +41,36 @@ points = L.geoJSON(null,{
 
 // Functions
 
+// Function to filter points based on properties
+function filterPoints(pointsData) {
+  points.clearLayers(); // Clear existing points
+  pointsData.features.forEach(function(feature) {
+  // console.log(feature);
+  // User options from map
+  const USER_OPTIONS = {
+    CONTINUITY: {
+      CANON: true,
+      LEGENDS: false,
+      UNLICENSED: true,
+    },
+    DISPLAY: {
+      STAR_SYSTEMS: true,
+    }
+  };
+  // CONTINUITY
+  for (const CONTINUITY_OPTION in USER_OPTIONS.CONTINUITY) {
+    // console.log(CONTINUITY_OPTION, feature.properties[CONTINUITY_OPTION]);
+    if(feature.properties[CONTINUITY_OPTION].toLowerCase() === "yes" && USER_OPTIONS.CONTINUITY[CONTINUITY_OPTION]) {
+      points.addData(feature);
+      break; // So we doesn't add point several times
+    }
+  }
+  // MAIN OBJECT
+  });
+}
+
 /**
- * Format and display point with coordinates
+ * Format and display point with coordinates according to user options
  * 
  * @param {*} feature 
  * @param {*} latlng 
@@ -50,6 +78,7 @@ points = L.geoJSON(null,{
  */
 function pointToLayerPoints(feature,latlng) {
   // console.log(feature.properties);
+
   let useIcon = false;
   let iconParams = [];
   //// Use markers with icons ////
@@ -217,9 +246,11 @@ function resetCircleMarkerStyle(e) {
   points.resetStyle(e.target);
 }
 
-//Load data from local geojson
+//Load data from local geojson and initialize the layer
 $.getJSON(url_points, function(data) {
-    points.addData(data);
+  // console.log(data);
+  filterPoints(data);
+  // points.addData(data);
 });
 
 /************** POLYGONS ***************/

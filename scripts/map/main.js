@@ -289,7 +289,22 @@ var baseLayers = [];
 var overLayers = [
   {label: 'Options', collapsed:true,
     children: [
-      {label: "Prefer star system display"},
+      {label: 'All continuities', collapsed:true, selectAllCheckbox:true, children: [
+        {label: "Canon", name: "continuity-canon-checkbox", selectAllCheckbox:true, action: function(checked) {
+          console.log("Feature X is now " + (checked ? "enabled" : "disabled"));
+        }},
+        {label: "Legends", selectAllCheckbox:true, action: function(checked) {
+          console.log("Feature X is now " + (checked ? "enabled" : "disabled"));
+        }},
+        {label: "Unlicenced", selectAllCheckbox:true, action: function(checked) {
+          console.log("Feature X is now " + (checked ? "enabled" : "disabled"));
+        }},
+      ]},
+      {label: 'Display', collapsed:true, children: [
+        {label: "Prefer star systems", action: function(checked) {
+          console.log("Feature X is now " + (checked ? "enabled" : "disabled"));
+        }},
+      ]},
     ]
   },
   {label: 'Layers', collapsed:true,
@@ -306,6 +321,7 @@ L.control.layers.tree(baseLayers, overLayers, {
   namedToggle: true,
   collapsed:false
 }).addTo(map);
+
 
 /////////////// TOOLS //////////////////////
 
