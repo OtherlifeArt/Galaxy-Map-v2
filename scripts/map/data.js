@@ -5,6 +5,22 @@ var url_points = "././data/astronomicalobjects/SW_Map_Points.geojson"
 var url_roads = "././data/astronomicalobjects/roads.geojson"
 var url_areas = "././data/astronomicalobjects/SW_Map_Polygons.geojson"
 
+/************* DATA POINTS  ************/
+var downloadedDataPoints;
+
+/************* USER OPTIONS ************/
+// User options for point display
+var userOptions = {
+  continuity: {
+    canon: true,
+    legends: true,
+    unlicensed: true,
+  },
+  display: {
+    starSystems: true,
+  }
+};
+
 /************** ROADS ***************/
 
 function styleLines(feature) {
@@ -46,21 +62,10 @@ function filterPoints(pointsData) {
   points.clearLayers(); // Clear existing points
   pointsData.features.forEach(function(feature) {
   // console.log(feature);
-  // User options from map
-  const USER_OPTIONS = {
-    CONTINUITY: {
-      CANON: true,
-      LEGENDS: false,
-      UNLICENSED: true,
-    },
-    DISPLAY: {
-      STAR_SYSTEMS: true,
-    }
-  };
   // CONTINUITY
-  for (const CONTINUITY_OPTION in USER_OPTIONS.CONTINUITY) {
-    // console.log(CONTINUITY_OPTION, feature.properties[CONTINUITY_OPTION]);
-    if(feature.properties[CONTINUITY_OPTION].toLowerCase() === "yes" && USER_OPTIONS.CONTINUITY[CONTINUITY_OPTION]) {
+  for (const CONTINUITY_OPTION in userOptions.continuity) {
+    // console.log(CONTINUITY_OPTION, feature.properties);
+    if(feature.properties[CONTINUITY_OPTION.toUpperCase()].toLowerCase() === "yes" && userOptions.continuity[CONTINUITY_OPTION]) {
       points.addData(feature);
       break; // So we doesn't add point several times
     }
@@ -250,6 +255,7 @@ function resetCircleMarkerStyle(e) {
 $.getJSON(url_points, function(data) {
   // console.log(data);
   filterPoints(data);
+  downloadedDataPoints = data;
   // points.addData(data);
 });
 

@@ -289,21 +289,14 @@ var baseLayers = [];
 var overLayers = [
   {label: 'Options', collapsed:true,
     children: [
-      {label: 'All continuities', collapsed:true, selectAllCheckbox:true, children: [
-        {label: "Canon", name: "continuity-canon-checkbox", selectAllCheckbox:true, action: function(checked) {
-          console.log("Feature X is now " + (checked ? "enabled" : "disabled"));
-        }},
-        {label: "Legends", selectAllCheckbox:true, action: function(checked) {
-          console.log("Feature X is now " + (checked ? "enabled" : "disabled"));
-        }},
-        {label: "Unlicenced", selectAllCheckbox:true, action: function(checked) {
-          console.log("Feature X is now " + (checked ? "enabled" : "disabled"));
-        }},
+      // Non layer labels
+      {label: 'Continuities', collapsed:true, children: [
+        {label: '<div><input type="checkbox" id="canon-continuity-checkbox" class="continuity-checkbox-group" checked="checked">Canon</div>', layer: null},
+        {label: '<div><input type="checkbox" id="legends-continuity-checkbox" class="continuity-checkbox-group" checked="checked">Legends</div>', layer: null},
+        {label: '<div><input type="checkbox" id="unlicenced-continuity-checkbox" class="continuity-checkbox-group" checked="checked">Unlicenced</div>', layer: null},
       ]},
       {label: 'Display', collapsed:true, children: [
-        {label: "Prefer star systems", action: function(checked) {
-          console.log("Feature X is now " + (checked ? "enabled" : "disabled"));
-        }},
+        {label: "Prefer star systems"},
       ]},
     ]
   },
@@ -364,3 +357,18 @@ map.on("zoomend", function() {
 
 /////////////// SCALE BAR ///////////////
 spatialScaleBar.addTo(map);
+
+//////////////// EVENTS //////////////////
+
+// Filter by continuity
+document.querySelectorAll(".continuity-checkbox-group").forEach(function(continuityCheckbox) {
+  continuityCheckbox.addEventListener('change', function () {
+    if(this.id === "canon-continuity-checkbox") {
+      userOptions.continuity.canon = this.checked ? true : false;
+    } else if (this.id === "legends-continuity-checkbox") {
+      userOptions.continuity.legends = this.checked ? true : false;
+    } else {
+      userOptions.continuity.unlicensed = this.checked ? true : false;
+    }
+    filterPoints(downloadedDataPoints);
+})});
