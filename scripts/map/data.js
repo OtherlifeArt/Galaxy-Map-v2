@@ -17,7 +17,8 @@ var userOptions = {
     unlicensed: true,
   },
   display: {
-    starSystems: true,
+    starSystems: false,
+    ignoreObjectZoomLevelRestriction: false,
   }
 };
 
@@ -61,16 +62,20 @@ points = L.geoJSON(null,{
 function filterPoints(pointsData) {
   points.clearLayers(); // Clear existing points
   pointsData.features.forEach(function(feature) {
-  // console.log(feature);
-  // CONTINUITY
-  for (const CONTINUITY_OPTION in userOptions.continuity) {
-    // console.log(CONTINUITY_OPTION, feature.properties);
-    if(feature.properties[CONTINUITY_OPTION.toUpperCase()].toLowerCase() === "yes" && userOptions.continuity[CONTINUITY_OPTION]) {
-      points.addData(feature);
-      break; // So we doesn't add point several times
+    // console.log(feature);
+    // ZOOM level
+    if(!userOptions.display.ignoreObjectZoomLevelRestriction && (feature.properties.ZOOM_LEVEL > map.getZoom() - mapMinZoomLevel)) {
+      return; // So we don't add point
     }
-  }
-  // MAIN OBJECT
+    // CONTINUITY
+    for (const CONTINUITY_OPTION in userOptions.continuity) {
+      // console.log(CONTINUITY_OPTION, feature.properties);
+      if(feature.properties[CONTINUITY_OPTION.toUpperCase()].toLowerCase() === "yes" && userOptions.continuity[CONTINUITY_OPTION]) {
+        points.addData(feature);
+        break; // So we doesn't add point several times
+      }
+    }
+    // STAR SYSTEM DISPLAY
   });
 }
 

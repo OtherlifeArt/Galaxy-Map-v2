@@ -235,17 +235,23 @@
 
 /** REWORK **/
 
+/******** VARIABLES ****/
+var mapMinZoomLevel = -3;
+var mapMaxZoomLevel = 8;
+var mapStartZoomLevel = -2;
+var mapStartCenterCoordinates = [-450.0,0];
+
 /******** MAP *********/
 var map = L.map('map', {
   crs: L.CRS.Simple,
-  minZoom:-3,
-  maxZoom:8,
+  minZoom: mapMinZoomLevel,
+  maxZoom: mapMaxZoomLevel,
   fullscreenControl: true,
   fullscreenControlOptions: {
       position: 'topleft'
   },
   //preferCanvas: true, // It disable interaction with multiple layers (point and areas)...
-}).setView([-450.0,0], -2);
+}).setView(mapStartCenterCoordinates, mapStartZoomLevel);
 
 /******** GRID PANES *********/
 
@@ -296,7 +302,8 @@ var overLayers = [
         {label: '<div><input type="checkbox" id="unlicenced-continuity-checkbox" class="continuity-checkbox-group" checked="checked">Unlicenced</div>', layer: null},
       ]},
       {label: 'Display', collapsed:true, children: [
-        {label: "Prefer star systems"},
+        {label: '<div><input type="checkbox" id="display-prefer-star-systems-checkbox">Prefer star systems</div>', layer: null},
+        {label: '<div><input type="checkbox" id="display-zoom-restriction-checkbox">Ignore zoom level restriction</div>', layer: null},
       ]},
     ]
   },
@@ -372,3 +379,17 @@ document.querySelectorAll(".continuity-checkbox-group").forEach(function(continu
     }
     filterPoints(downloadedDataPoints);
 })});
+
+// Filter with zoom restriction
+document.getElementById("display-zoom-restriction-checkbox").addEventListener("change", function () {
+  userOptions.display.ignoreObjectZoomLevelRestriction = this.checked;
+  filterPoints(downloadedDataPoints);
+});
+
+// On zoom event
+map.on('zoomend', function() {
+  // Rebuild point layer if necessary
+  if(!userOptions.display.ignoreObjectZoomLevelRestriction) {
+    filterPoints(downloadedDataPoints);
+  }
+});

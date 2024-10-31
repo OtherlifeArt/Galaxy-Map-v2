@@ -38,36 +38,10 @@ function pointDisplayPopup(e) {
     text+= '<p><b>Grid : </b>'+ feature.properties.X_GRID + '-' + feature.properties.Y_GRID + '</p>';
   }
   text+='</div>'
-
-  // Zoom level 4
-  // let x = feature.geometry.coordinates[0] - 0.5;
-  // let y = feature.geometry.coordinates[1] + 1.5;
-  // Zoom level 3
-  // let x = feature.geometry.coordinates[0] - 1;
-  // let y = feature.geometry.coordinates[1] + 3;
-  // Zoom level 2
-  // let x = feature.geometry.coordinates[0] - 2;
-  // let y = feature.geometry.coordinates[1] + 6;
-  // Zoom level 1
-  // let x = feature.geometry.coordinates[0] - 4;
-  // let y = feature.geometry.coordinates[1] + 12;
-  // Zoom level 0
-  // let x = feature.geometry.coordinates[0] - 8;
-  // let y = feature.geometry.coordinates[1] + 24;
-  // Zoom level -1
-  // let x = feature.geometry.coordinates[0] - 16;
-  // let y = feature.geometry.coordinates[1] + 48;
-  // Zoom level -2
-  // let x = feature.geometry.coordinates[0] - 32;
-  // let y = feature.geometry.coordinates[1] + 96;
-  // Zoom level -3
-  // let x = feature.geometry.coordinates[0] - 64;
-  // let y = feature.geometry.coordinates[1] + 192;
   
   // [y,x] function of zoom level
   let zoomLevel = map.getZoom();
   let popupDisplacement = [feature.geometry.coordinates[1] + 380 / Math.pow(2, zoomLevel+4), feature.geometry.coordinates[0] - 125 / Math.pow(2, zoomLevel+4)];
-  // let popupDisplacement = [-64,192];
 
   L.popup()
     .setLatLng(popupDisplacement)
