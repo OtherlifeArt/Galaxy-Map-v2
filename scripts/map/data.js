@@ -13,7 +13,7 @@ const OBJECT_TYPES_TO_IGNORE = [
 
 /******** VARIABLES ****/
 
-// Map parameters
+// Map param
 var mapMinZoomLevel = -3;
 var mapMaxZoomLevel = 8;
 var mapStartZoomLevel = -2;
