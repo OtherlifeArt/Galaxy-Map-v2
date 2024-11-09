@@ -1,9 +1,10 @@
-/********** URLS **********/
+/******** CONSTANTS ****/
 
+/********** URLS **********/
 // Paths to data
-var url_points = "././data/astronomicalobjects/SW_Map_Points.geojson"
-var url_roads = "././data/astronomicalobjects/roads.geojson"
-var url_areas = "././data/astronomicalobjects/SW_Map_Polygons.geojson"
+const url_points = "././data/astronomicalobjects/SW_Map_Points.geojson"
+const url_roads = "././data/astronomicalobjects/roads.geojson"
+const url_areas = "././data/astronomicalobjects/SW_Map_Polygons.geojson"
 
 /************* DATA POINTS  ************/
 var downloadedDataPoints;
