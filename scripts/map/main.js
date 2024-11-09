@@ -236,10 +236,6 @@
 /** REWORK **/
 
 /******** VARIABLES ****/
-var mapMinZoomLevel = -3;
-var mapMaxZoomLevel = 8;
-var mapStartZoomLevel = -2;
-var mapStartCenterCoordinates = [-450.0,0];
 
 /******** MAP *********/
 var map = L.map('map', {

@@ -1,10 +1,23 @@
 /******** CONSTANTS ****/
 
-/********** URLS **********/
-// Paths to data
+// URL Paths to data
 const url_points = "././data/astronomicalobjects/SW_Map_Points.geojson"
 const url_roads = "././data/astronomicalobjects/roads.geojson"
 const url_areas = "././data/astronomicalobjects/SW_Map_Polygons.geojson"
+
+// Hard coded parameters to display on map
+const OBJECT_TYPES_TO_IGNORE = [
+  "Universe", "Galaxy Cluster", "Galaxy Group", "Galaxy",
+  "Sector", "Region",
+];
+
+/******** VARIABLES ****/
+
+// Map parameters
+var mapMinZoomLevel = -3;
+var mapMaxZoomLevel = 8;
+var mapStartZoomLevel = -2;
+var mapStartCenterCoordinates = [-450.0,0];
 
 /************* DATA POINTS  ************/
 var downloadedDataPoints;
