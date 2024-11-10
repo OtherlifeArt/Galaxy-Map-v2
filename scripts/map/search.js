@@ -1,6 +1,6 @@
 /******** SEARCH CONTROL *********/
 
-var searchLayer = L.layerGroup([points,areas]);
+var searchLayer = L.layerGroup([points, areas]);
 
 var searchControl = new L.Control.Search({
   layer: searchLayer,

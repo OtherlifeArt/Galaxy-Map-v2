@@ -20,7 +20,8 @@ var mapStartZoomLevel = -2;
 var mapStartCenterCoordinates = [-450.0,0];
 
 /************* DATA POINTS  ************/
-var downloadedDataPoints;
+// Filtered data
+var filteredData;
 
 /************* USER OPTIONS ************/
 // User options for point display
@@ -60,17 +61,198 @@ $.getJSON(url_roads, function(data) {
 
 
 /************** POINTS ***************/
-// Create layers
-var points;
+/* Top-level layer */
+const points = L.layerGroup([], { pane: 'points' });
+/* Top-level layers */
+// Non star system layer group with coordinates
+const innerStarSystemMainObjectLG = L.layerGroup([], { pane: 'points' });
+// Star system layer group with coordinates
+const starSystemLG = L.layerGroup([], { pane: 'points' });
+// Other objects
+const otherObjectLG = L.layerGroup([], { pane: 'points' });
 
-points = L.geoJSON(null,{
-  pane:'points',
-  pointToLayer:pointToLayerPoints,
-  style:pointStyle,
-  onEachFeature:onEachFeaturePoints
-});
+/* 1st level sub layers */
+// Non star system layer group with coordinates
+const innerStarSystemMainObjectCanonOnlyLG = L.layerGroup([], { pane: 'customPane' });
+const innerStarSystemMainObjectLegendsOnlyLG = L.layerGroup([], { pane: 'customPane' });
+const innerStarSystemMainObjectCanonAndLegendsLG = L.layerGroup([], { pane: 'customPane' });
+const innerStarSystemMainObjectUnlicencedLG = L.layerGroup([], { pane: 'customPane' });
+// Star system layer group with coordinates
+const starSystemCanonOnlyLG = L.layerGroup([], { pane: 'points' });
+const starSystemLegendsOnlyLG = L.layerGroup([], { pane: 'points' });
+const starSystemCanonAndLegendsLG = L.layerGroup([], { pane: 'points' });
+const starSystemUnlicencedLG = L.layerGroup([], { pane: 'points' });
+// Other objects
+const otherObjectCanonOnlyLG = L.layerGroup([], { pane: 'points' });
+const otherObjectLegendsOnlyLG = L.layerGroup([], { pane: 'points' });
+const otherObjectCanonAndLegendsLG = L.layerGroup([], { pane: 'points' });
+const otherObjectUnlicencedLG = L.layerGroup([], { pane: 'points' });
+
+/* Add subLayers to layers */
+// Non star system layer group with coordinates
+innerStarSystemMainObjectLG.addLayer(innerStarSystemMainObjectCanonOnlyLG);
+innerStarSystemMainObjectLG.addLayer(innerStarSystemMainObjectLegendsOnlyLG);
+innerStarSystemMainObjectLG.addLayer(innerStarSystemMainObjectCanonAndLegendsLG);
+innerStarSystemMainObjectLG.addLayer(innerStarSystemMainObjectUnlicencedLG);
+// Star system layer group with coordinates
+starSystemLG.addLayer(starSystemCanonOnlyLG);
+starSystemLG.addLayer(starSystemLegendsOnlyLG);
+starSystemLG.addLayer(starSystemCanonAndLegendsLG);
+starSystemLG.addLayer(starSystemUnlicencedLG);
+// Other objects
+otherObjectLG.addLayer(otherObjectCanonOnlyLG);
+otherObjectLG.addLayer(otherObjectLegendsOnlyLG);
+otherObjectLG.addLayer(otherObjectCanonAndLegendsLG);
+otherObjectLG.addLayer(otherObjectUnlicencedLG);
+
+/* Zoom level sub layers */
+// Non star system layer group with coordinates
+initializeZoomLayerGroup(innerStarSystemMainObjectCanonOnlyLG);
+initializeZoomLayerGroup(innerStarSystemMainObjectLegendsOnlyLG);
+initializeZoomLayerGroup(innerStarSystemMainObjectCanonAndLegendsLG);
+initializeZoomLayerGroup(innerStarSystemMainObjectUnlicencedLG);
+// Star system layer group with coordinates
+initializeZoomLayerGroup(starSystemCanonOnlyLG);
+initializeZoomLayerGroup(starSystemLegendsOnlyLG);
+initializeZoomLayerGroup(starSystemCanonAndLegendsLG);
+initializeZoomLayerGroup(starSystemUnlicencedLG);
+// Other objects
+initializeZoomLayerGroup(otherObjectCanonOnlyLG);
+initializeZoomLayerGroup(otherObjectLegendsOnlyLG);
+initializeZoomLayerGroup(otherObjectCanonAndLegendsLG);
+initializeZoomLayerGroup(otherObjectUnlicencedLG);
+
+
+// Create layers
+// var points;
+
+// points = L.geoJSON(null,{
+//   pane:'points',
+//   pointToLayer:pointToLayerPoints,
+//   style:pointStyle,
+//   onEachFeature:onEachFeaturePoints
+// });
 
 // Functions
+
+/**
+ * Initialize layer group for zoom
+ */
+function initializeZoomLayerGroup(zoomLayerGroup) {
+  const zoomLayerIndexCount = mapMaxZoomLevel - mapMinZoomLevel;
+  for (let index = 0; index < zoomLayerIndexCount; index++) {
+    zoomLayerGroup.addLayer(L.geoJSON(null,{
+      pane:'points',
+      pointToLayer:pointToLayerPoints,
+      style:pointStyle,
+      onEachFeature:onEachFeaturePoints
+    }));
+  }
+}
+
+/**
+ * Create geoJSON filtered data structure in order to add data to each sub layers
+ */
+function initFilteredDataObject() {
+  const zoomLayerIndexCount = mapMaxZoomLevel - mapMinZoomLevel;
+  // First (object display category) level filter
+  filteredData = { "innerStarSystemMainObjects": {}, "starSystemObjects": {}, "otherObjects": {} };
+  for (const astroObjectCategory in filteredData) {
+    // console.log(`${astroObjectCategory}: ${filteredData[astroObjectCategory]}`);
+    // 2nd (continuity) level filter
+    filteredData[astroObjectCategory] = {"canon": [], "canonAndLegends": [], "legends": [], "unlicensed": [] };
+    // 3rd (zoom) level filter
+    for (const astroObjectContinuity in filteredData[astroObjectCategory]) {
+      for (let index = 0; index < zoomLayerIndexCount; index++) {
+        // Create empty feature collection for each zoom layer
+        filteredData[astroObjectCategory][astroObjectContinuity][index] = {
+          "type": "FeatureCollection",
+          "features": []
+        };
+      }
+    }
+  }
+  // console.log(filteredData);
+}
+
+/**
+ * Filter and add data to GeoJSON filtered data
+ * 
+ * @param {*} pointData geoJSON feature collection for points
+ */
+function filterData(pointData) {
+  pointData.features.forEach(function(feature) {
+    // console.log(feature);
+    const fp = feature.properties;
+    /* Ignore object list */
+    if(OBJECT_TYPES_TO_IGNORE.find((typeToIgnore) => typeToIgnore === fp.TYPE)) {
+      console.log(`Ignoring ${fp.NAME} feature as point`);
+      return;
+    };
+    /* Object category */
+    // Star systems
+    if(fp.TYPE.toLowerCase() === "star system") {
+      /* Continuity */
+      if(fp.LEGENDS.toLowerCase() === "yes") {
+        if(fp.CANON.toLowerCase() === "yes") {
+          // CANON and LEGENDS
+          addDataToZoomLevelFilteredFeatureCollection(filteredData.starSystemObjects.canonAndLegends, feature);
+        } else {
+          // LEGENDS only
+          addDataToZoomLevelFilteredFeatureCollection(filteredData.starSystemObjects.legends, feature);
+        }
+      } else if(fp.CANON.toLowerCase() === "yes") {
+        // CANON only
+        addDataToZoomLevelFilteredFeatureCollection(filteredData.starSystemObjects.canon, feature);
+      } else if (fp.UNLICENSED.toLowerCase() === "yes") {
+        // UNLICENSED
+        addDataToZoomLevelFilteredFeatureCollection(filteredData.starSystemObjects.unlicensed, feature);
+      }
+    }
+    // Inner star system objects
+    // else if () {
+
+    // }
+    // Other objects
+    else {
+      /* Continuity */
+      if(fp.LEGENDS.toLowerCase() === "yes") {
+        if(fp.CANON.toLowerCase() === "yes") {
+          // CANON and LEGENDS
+          addDataToZoomLevelFilteredFeatureCollection(filteredData.otherObjects.canonAndLegends, feature);
+        } else {
+          // LEGENDS only
+          addDataToZoomLevelFilteredFeatureCollection(filteredData.otherObjects.legends, feature);
+        }
+      } else if(fp.CANON.toLowerCase() === "yes") {
+        // CANON only
+        addDataToZoomLevelFilteredFeatureCollection(filteredData.otherObjects.canon, feature);
+      } else if (fp.UNLICENSED.toLowerCase() === "yes") {
+        // UNLICENSED
+        addDataToZoomLevelFilteredFeatureCollection(filteredData.otherObjects.unlicensed, feature);
+      }
+    }
+  });
+  // console.log(filteredData);
+}
+
+/**
+ * Add feature to right zoom level feature collection
+ * 
+ * @param {*} FeatureCollections Parent of zoom level feature collection
+ * @param {*} feature From unfiltered featurecollection
+ */
+function addDataToZoomLevelFilteredFeatureCollection(FeatureCollections, feature) {
+  let featureZoomLevelIndex;
+  if(feature.ZOOM_LEVEL === undefined || feature.ZOOM_LEVEL === null || feature.ZOOM_LEVEL === "") {
+    featureZoomLevelIndex = 0;
+  } else {
+    featureZoomLevelIndex = parseInt(feature.ZOOM_LEVEL);
+  }
+  FeatureCollections[featureZoomLevelIndex].features.push(feature);
+}
+
+
 
 // Function to filter points based on properties
 function filterPoints(pointsData) {
@@ -273,8 +455,10 @@ function resetCircleMarkerStyle(e) {
 //Load data from local geojson and initialize the layer
 $.getJSON(url_points, function(data) {
   // console.log(data);
-  filterPoints(data);
-  downloadedDataPoints = data;
+  // filterPoints(data);
+  initFilteredDataObject();
+  filterData(data);
+  addFilteredData(filteredData);
   // points.addData(data);
 });
 
