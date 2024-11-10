@@ -21,7 +21,7 @@ var mapStartCenterCoordinates = [-450.0,0];
 
 /************* DATA POINTS  ************/
 // Filtered data
-var filteredData;
+// var filteredData;
 
 /************* USER OPTIONS ************/
 // User options for point display
@@ -73,10 +73,10 @@ const otherObjectLG = L.layerGroup([], { pane: 'points' });
 
 /* 1st level sub layers */
 // Non star system layer group with coordinates
-const innerStarSystemMainObjectCanonOnlyLG = L.layerGroup([], { pane: 'customPane' });
-const innerStarSystemMainObjectLegendsOnlyLG = L.layerGroup([], { pane: 'customPane' });
-const innerStarSystemMainObjectCanonAndLegendsLG = L.layerGroup([], { pane: 'customPane' });
-const innerStarSystemMainObjectUnlicencedLG = L.layerGroup([], { pane: 'customPane' });
+const innerStarSystemMainObjectCanonOnlyLG = L.layerGroup([], { pane: 'points' });
+const innerStarSystemMainObjectLegendsOnlyLG = L.layerGroup([], { pane: 'points' });
+const innerStarSystemMainObjectCanonAndLegendsLG = L.layerGroup([], { pane: 'points' });
+const innerStarSystemMainObjectUnlicencedLG = L.layerGroup([], { pane: 'points' });
 // Star system layer group with coordinates
 const starSystemCanonOnlyLG = L.layerGroup([], { pane: 'points' });
 const starSystemLegendsOnlyLG = L.layerGroup([], { pane: 'points' });
@@ -88,6 +88,10 @@ const otherObjectLegendsOnlyLG = L.layerGroup([], { pane: 'points' });
 const otherObjectCanonAndLegendsLG = L.layerGroup([], { pane: 'points' });
 const otherObjectUnlicencedLG = L.layerGroup([], { pane: 'points' });
 
+/* Add sublayers to main layer */
+points.addLayer(innerStarSystemMainObjectLG);
+points.addLayer(starSystemLG);
+points.addLayer(otherObjectLG);
 /* Add subLayers to layers */
 // Non star system layer group with coordinates
 innerStarSystemMainObjectLG.addLayer(innerStarSystemMainObjectCanonOnlyLG);
@@ -156,7 +160,7 @@ function initializeZoomLayerGroup(zoomLayerGroup) {
 function initFilteredDataObject() {
   const zoomLayerIndexCount = mapMaxZoomLevel - mapMinZoomLevel;
   // First (object display category) level filter
-  filteredData = { "innerStarSystemMainObjects": {}, "starSystemObjects": {}, "otherObjects": {} };
+  let filteredData = { "innerStarSystemMainObjects": {}, "starSystemObjects": {}, "otherObjects": {} };
   for (const astroObjectCategory in filteredData) {
     // console.log(`${astroObjectCategory}: ${filteredData[astroObjectCategory]}`);
     // 2nd (continuity) level filter
@@ -173,6 +177,7 @@ function initFilteredDataObject() {
     }
   }
   // console.log(filteredData);
+  return filteredData;
 }
 
 /**
@@ -180,7 +185,7 @@ function initFilteredDataObject() {
  * 
  * @param {*} pointData geoJSON feature collection for points
  */
-function filterData(pointData) {
+function filterData(pointData, filteredData) {
   pointData.features.forEach(function(feature) {
     // console.log(feature);
     const fp = feature.properties;
@@ -234,6 +239,7 @@ function filterData(pointData) {
     }
   });
   // console.log(filteredData);
+  return filteredData;
 }
 
 /**
@@ -252,7 +258,32 @@ function addDataToZoomLevelFilteredFeatureCollection(FeatureCollections, feature
   FeatureCollections[featureZoomLevelIndex].features.push(feature);
 }
 
-
+/**
+ * Add each filtered feature collection to right geoJSON object
+ * 
+ * @param {*} filteredData filtered feature collections
+ */
+function addFilteredData(filteredData) {
+  const mapZoomLevelCount = mapMaxZoomLevel - mapMinZoomLevel;
+  for (let index = 0; index < mapZoomLevelCount; index++) {
+    // inner star system objects
+    innerStarSystemMainObjectCanonOnlyLG.getLayers()[index].addData(filteredData.innerStarSystemMainObjects.canon[index]);
+    innerStarSystemMainObjectLegendsOnlyLG.getLayers()[index].addData(filteredData.innerStarSystemMainObjects.legends[index]);
+    innerStarSystemMainObjectCanonAndLegendsLG.getLayers()[index].addData(filteredData.innerStarSystemMainObjects.canonAndLegends[index]);
+    innerStarSystemMainObjectUnlicencedLG.getLayers()[index].addData(filteredData.innerStarSystemMainObjects.unlicensed[index]);
+    // Star system objects
+    starSystemCanonOnlyLG.getLayers()[index].addData(filteredData.starSystemObjects.canon[index]);
+    starSystemLegendsOnlyLG.getLayers()[index].addData(filteredData.starSystemObjects.legends[index]);
+    starSystemCanonAndLegendsLG.getLayers()[index].addData(filteredData.starSystemObjects.canonAndLegends[index]);
+    starSystemUnlicencedLG.getLayers()[index].addData(filteredData.starSystemObjects.unlicensed[index]);
+    // Other objects
+    otherObjectCanonOnlyLG.getLayers()[index].addData(filteredData.otherObjects.canon[index]);
+    otherObjectLegendsOnlyLG.getLayers()[index].addData(filteredData.otherObjects.legends[index]);
+    otherObjectCanonAndLegendsLG.getLayers()[index].addData(filteredData.otherObjects.canonAndLegends[index]);
+    otherObjectUnlicencedLG.getLayers()[index].addData(filteredData.otherObjects.unlicensed[index]);
+  }
+  console.log(points);
+}
 
 // Function to filter points based on properties
 function filterPoints(pointsData) {
@@ -456,8 +487,9 @@ function resetCircleMarkerStyle(e) {
 $.getJSON(url_points, function(data) {
   // console.log(data);
   // filterPoints(data);
-  initFilteredDataObject();
-  filterData(data);
+  let filteredData = initFilteredDataObject();
+  filteredData = filterData(data, filteredData);
+  // console.log(filteredData);
   addFilteredData(filteredData);
   // points.addData(data);
 });
