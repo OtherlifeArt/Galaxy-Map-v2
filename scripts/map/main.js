@@ -373,19 +373,19 @@ document.querySelectorAll(".continuity-checkbox-group").forEach(function(continu
     } else {
       userOptions.continuity.unlicensed = this.checked ? true : false;
     }
-    filterPoints(downloadedDataPoints);
+    filterPoints();
 })});
 
 // Filter with zoom restriction
 document.getElementById("display-zoom-restriction-checkbox").addEventListener("change", function () {
   userOptions.display.ignoreObjectZoomLevelRestriction = this.checked;
-  filterPoints(downloadedDataPoints);
+  filterPoints();
 });
 
 // On zoom event
 map.on('zoomend', function() {
   // Rebuild point layer if necessary
   if(!userOptions.display.ignoreObjectZoomLevelRestriction) {
-    filterPoints(downloadedDataPoints);
+    filterPoints();
   }
 });

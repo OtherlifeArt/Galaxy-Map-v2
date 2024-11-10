@@ -285,25 +285,194 @@ function addFilteredData(filteredData) {
   console.log(points);
 }
 
-// Function to filter points based on properties
-function filterPoints(pointsData) {
-  points.clearLayers(); // Clear existing points
-  pointsData.features.forEach(function(feature) {
-    // console.log(feature);
-    // ZOOM level
-    if(!userOptions.display.ignoreObjectZoomLevelRestriction && (feature.properties.ZOOM_LEVEL > map.getZoom() - mapMinZoomLevel)) {
-      return; // So we don't add point
+/**
+ * Display or hide layers function of user options/parameters
+ */
+function filterPoints() {
+  /* Inner star system objects */
+  if(!userOptions.display.starSystems) {
+    // Hide all star system layers
+    map.removeLayer(starSystemLG);
+    /* Continuity */
+    // Unlicensed
+    if(userOptions.continuity.unlicensed) {
+      if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+        // Ignore zoom restriction (show all objects)
+        map.addLayer(innerStarSystemMainObjectUnlicencedLG);
+      } else {
+        filterPointsByZoomLevel(innerStarSystemMainObjectUnlicencedLG);
+      }
+    } else {
+      map.removeLayer(innerStarSystemMainObjectUnlicencedLG); // Unlicensed removed
     }
-    // CONTINUITY
-    for (const CONTINUITY_OPTION in userOptions.continuity) {
-      // console.log(CONTINUITY_OPTION, feature.properties);
-      if(feature.properties[CONTINUITY_OPTION.toUpperCase()].toLowerCase() === "yes" && userOptions.continuity[CONTINUITY_OPTION]) {
-        points.addData(feature);
-        break; // So we doesn't add point several times
+    if (userOptions.continuity.legends) {
+      if (userOptions.continuity.canon) {
+        // Canon and legends
+        if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+          // Ignore zoom restriction (show all objects)
+          map.addLayer(innerStarSystemMainObjectLegendsOnlyLG);
+          map.addLayer(innerStarSystemMainObjectCanonAndLegendsLG);
+          map.addLayer(innerStarSystemMainObjectCanonOnlyLG);
+        } else {
+          filterPointsByZoomLevel(innerStarSystemMainObjectLegendsOnlyLG);
+          filterPointsByZoomLevel(innerStarSystemMainObjectCanonAndLegendsLG);
+          filterPointsByZoomLevel(innerStarSystemMainObjectCanonOnlyLG);
+        }
+      } else {
+        map.removeLayer(innerStarSystemMainObjectCanonOnlyLG); // Canon removed
+        // Add Legends only
+        if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+          // Ignore zoom restriction (show all objects)
+          map.addLayer(innerStarSystemMainObjectLegendsOnlyLG);
+          map.addLayer(innerStarSystemMainObjectCanonAndLegendsLG);
+        } else {
+          filterPointsByZoomLevel(innerStarSystemMainObjectLegendsOnlyLG);
+          filterPointsByZoomLevel(innerStarSystemMainObjectCanonAndLegendsLG);
+        }
+      }
+    } else {
+      if (userOptions.continuity.canon) {
+        map.removeLayer(innerStarSystemMainObjectLegendsOnlyLG); // Legends removed
+        // Canon only
+        if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+          // Ignore zoom restriction (show all objects)
+          map.addLayer(innerStarSystemMainObjectCanonAndLegendsLG);
+          map.addLayer(innerStarSystemMainObjectCanonOnlyLG);
+        } else {
+          filterPointsByZoomLevel(innerStarSystemMainObjectCanonAndLegendsLG);
+          filterPointsByZoomLevel(innerStarSystemMainObjectCanonOnlyLG);
+        }
+      } else {
+        map.removeLayer(innerStarSystemMainObjectCanonOnlyLG); // Neither Canon nor legends
+        map.removeLayer(innerStarSystemMainObjectLegendsOnlyLG); // Neither Canon nor legends
+        map.removeLayer(innerStarSystemMainObjectCanonAndLegendsLG); // Neither Canon nor legends
       }
     }
-    // STAR SYSTEM DISPLAY
-  });
+  }
+  /* Star system objects */
+  else {
+    // Hide all inner star system layers
+    map.removeLayer(innerStarSystemMainObjectLG);
+    /* Continuity */
+    // Unlicensed
+    if(userOptions.continuity.unlicensed) {
+      filterPointsByZoomLevel(starSystemUnlicencedLG);
+    } else {
+      map.removeLayer(starSystemUnlicencedLG); // Unlicensed removed
+    }
+    if (userOptions.continuity.legends) {
+      if (userOptions.continuity.canon) {
+        // Canon and legends
+        if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+          // Ignore zoom restriction (show all objects)
+          map.addLayer(starSystemLegendsOnlyLG);
+          map.addLayer(starSystemCanonAndLegendsLG);
+          map.addLayer(starSystemCanonOnlyLG);
+        } else {
+          filterPointsByZoomLevel(starSystemLegendsOnlyLG);
+          filterPointsByZoomLevel(starSystemCanonAndLegendsLG);
+          filterPointsByZoomLevel(starSystemCanonOnlyLG);
+        }
+      } else {
+        map.removeLayer(starSystemCanonOnlyLG); // Canon removed
+        // Add Legends only
+        if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+          // Ignore zoom restriction (show all objects)
+          map.addLayer(starSystemLegendsOnlyLG);
+          map.addLayer(starSystemCanonAndLegendsLG);
+        } else {
+          filterPointsByZoomLevel(starSystemLegendsOnlyLG);
+          filterPointsByZoomLevel(starSystemCanonAndLegendsLG);
+        }
+      }
+    } else {
+      if (userOptions.continuity.canon) {
+        map.removeLayer(starSystemLegendsOnlyLG); // Legends removed
+        // Canon only
+        if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+          // Ignore zoom restriction (show all objects)
+          map.addLayer(starSystemCanonAndLegendsLG);
+          map.addLayer(starSystemCanonOnlyLG);
+        } else {
+          filterPointsByZoomLevel(starSystemCanonAndLegendsLG);
+          filterPointsByZoomLevel(starSystemCanonOnlyLG);
+        }
+      } else {
+        map.removeLayer(starSystemCanonOnlyLG); // Neither Canon nor legends
+        map.removeLayer(starSystemLegendsOnlyLG); // Neither Canon nor legends
+        map.removeLayer(starSystemCanonAndLegendsLG); // Neither Canon nor legends
+      }
+    }
+  }
+  /* Other objects */
+  /* Continuity */
+  // Unlicensed
+  if(userOptions.continuity.unlicensed) {
+    filterPointsByZoomLevel(otherObjectUnlicencedLG);
+  } else {
+    map.removeLayer(otherObjectUnlicencedLG); // Unlicensed removed
+  }
+  if (userOptions.continuity.legends) {
+    if (userOptions.continuity.canon) {
+      // Canon and legends
+      if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+        // Ignore zoom restriction (show all objects)
+        map.addLayer(otherObjectLegendsOnlyLG);
+        map.addLayer(otherObjectCanonAndLegendsLG);
+        map.addLayer(otherObjectCanonOnlyLG);
+      } else {
+        filterPointsByZoomLevel(otherObjectLegendsOnlyLG);
+        filterPointsByZoomLevel(otherObjectCanonAndLegendsLG);
+        filterPointsByZoomLevel(otherObjectCanonOnlyLG);
+      }
+    } else {
+      map.removeLayer(otherObjectCanonOnlyLG); // Canon removed
+      // Add Legends only
+      if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+        // Ignore zoom restriction (show all objects)
+        map.addLayer(otherObjectLegendsOnlyLG);
+        map.addLayer(otherObjectCanonAndLegendsLG);
+      } else {
+        filterPointsByZoomLevel(otherObjectLegendsOnlyLG);
+        filterPointsByZoomLevel(otherObjectCanonAndLegendsLG);
+      }
+    }
+  } else {
+    if (userOptions.continuity.canon) {
+      map.removeLayer(otherObjectLegendsOnlyLG); // Legends removed
+      // Canon only
+      if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+        // Ignore zoom restriction (show all objects)
+        map.addLayer(otherObjectCanonAndLegendsLG);
+        map.addLayer(otherObjectCanonOnlyLG);
+      } else {
+        filterPointsByZoomLevel(otherObjectCanonAndLegendsLG);
+        filterPointsByZoomLevel(otherObjectCanonOnlyLG);
+      }
+    } else {
+      map.removeLayer(otherObjectCanonOnlyLG); // Neither Canon nor legends
+      map.removeLayer(otherObjectLegendsOnlyLG); // Neither Canon nor legends
+      map.removeLayer(otherObjectCanonAndLegendsLG); // Neither Canon nor legends
+    }
+  }
+}
+
+/**
+ * Display/hide layers function of zoom
+ * 
+ * @param {*} zoomParentGroupLayer parent zoom layer array
+ */
+function filterPointsByZoomLevel(zoomParentGroupLayer) {
+  const mapZoom = map.getZoom() - mapStartZoomLevel;
+  const groupLayers = zoomParentGroupLayer.getLayers();
+  console.log(groupLayers);
+  for (let index = 0; index < groupLayers.length; index++) {
+    if(index <= mapZoom) {
+      map.addLayer(groupLayers[index]);
+    } else {
+      map.removeLayer(groupLayers[index]);
+    }
+  }
 }
 
 /**
@@ -459,7 +628,7 @@ function onEachFeaturePoints(feature, layer) {
     },
     mouseout: function(e) {
       pointHideTooltip(e);
-      resetCircleMarkerStyle(e);
+      // resetCircleMarkerStyle(e);
     },
     click: function(e) {
       pointDisplayPopup(e);
@@ -479,9 +648,10 @@ function highlightCircleMarker(e) {
   }
 }
 
-function resetCircleMarkerStyle(e) {
-  points.resetStyle(e.target);
-}
+// function resetCircleMarkerStyle(e) {
+//   points.resetStyle(e.target);
+//   e.target.resetStyle(e.target);
+// }
 
 //Load data from local geojson and initialize the layer
 $.getJSON(url_points, function(data) {
@@ -491,6 +661,7 @@ $.getJSON(url_points, function(data) {
   filteredData = filterData(data, filteredData);
   // console.log(filteredData);
   addFilteredData(filteredData);
+  filterPoints();
   // points.addData(data);
 });
 
