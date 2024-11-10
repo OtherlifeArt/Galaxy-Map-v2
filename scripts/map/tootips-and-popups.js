@@ -22,7 +22,7 @@ function pointDisplayPopup(e) {
       text+= '<p><b>Type : </b>'+ feature.properties.TYPE + '</p>';
   }
   if (feature.properties.TYPE_CLASSES){
-    text+= '<p><b>Type classe : </b>'+ feature.properties.TYPE_CLASSES + '</p>';
+    text+= '<p><b>Type class : </b>'+ feature.properties.TYPE_CLASSES + '</p>';
   }
   if (feature.properties.PARENT){
     text+= '<p><b>Parent : </b>'+ feature.properties.PARENT + '</p>';
