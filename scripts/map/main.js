@@ -307,7 +307,7 @@ var overLayers = [
     children: [
       {label: 'Grid', layer: completegrid, name: 'Grid'},
       {label: "Areas", layer: areas},
-      {label: "Points", layer: points},
+      {label: '<div><input type="checkbox" id="display-point-layer" checked="checked">Points</div>', layer: null},
       {label: "Hyperlanes", layer: roads},
     ]
   },
@@ -376,9 +376,15 @@ document.querySelectorAll(".continuity-checkbox-group").forEach(function(continu
     filterPoints();
 })});
 
-// Filter with zoom restriction
+// Filter by zoom restriction
 document.getElementById("display-zoom-restriction-checkbox").addEventListener("change", function () {
   userOptions.display.ignoreObjectZoomLevelRestriction = this.checked;
+  filterPoints();
+});
+
+// Filter by star system objects
+document.getElementById("display-prefer-star-systems-checkbox").addEventListener("change", function () {
+  userOptions.display.starSystems = this.checked;
   filterPoints();
 });
 
@@ -387,5 +393,18 @@ map.on('zoomend', function() {
   // Rebuild point layer if necessary
   if(!userOptions.display.ignoreObjectZoomLevelRestriction) {
     filterPoints();
+  }
+});
+
+// Filter by point layer
+document.getElementById("display-point-layer").addEventListener("change", function () {
+  if(this.checked) {
+    map.addLayer(points);
+    filterPoints();
+    console.log("[X] All point objects layer group");
+  } else {
+    map.removeLayer(points);
+    console.log("[ ] All point objects layer group");
+
   }
 });

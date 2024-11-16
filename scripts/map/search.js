@@ -32,11 +32,13 @@ searchControl.on('search:locationfound', function(e) {
         e.layer.setStyle({fillColor: '#3f0', color: '#0f0', weight:20});
       }
     }
-    // Open popup and tooltip on object (I don't know why tooltip opens though)
-    e.layer.fire('click');
-    e.layer.fire('mouseout');
+    e.layer.fire('click'); // Open popup and tooltip on object (I don't know why tooltip opens though)
+    e.layer.fire('mouseout'); // Fix : close tooltip
 }).on('search:collapsed', function(e) {
   searchLayer.eachLayer(function(layer) {	//restore feature color
-    layer.resetStyle();
+    if (typeof layer.resetStyle === "function") { 
+      // safe to use the function
+      layer.resetStyle();
+    }
   });	
 });
