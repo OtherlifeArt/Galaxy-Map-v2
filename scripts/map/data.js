@@ -178,7 +178,7 @@ function initFilteredDataObject() {
  */
 function filterData(pointData, filteredData) {
   pointData.features.forEach(function(feature) {
-    // console.log(feature);
+    console.log(feature);
     const fp = feature.properties;
     /* Ignore object list */
     if(OBJECT_TYPES_TO_IGNORE.find((typeToIgnore) => typeToIgnore === fp.TYPE)) {
@@ -186,8 +186,8 @@ function filterData(pointData, filteredData) {
       return;
     };
     /* Object category */
-    // Star systems
-    if(fp.TYPE.toLowerCase() === "star system") {
+    // Star systems with coordinates
+    if(fp.TYPE.toLowerCase() === "star system" && fp.X_COORD && fp.X_COORD !== "" && fp.Y_COORD && fp.Y_COORD !== "") {
       /* Continuity */
       if(fp.LEGENDS.toLowerCase() === "yes") {
         if(fp.CANON.toLowerCase() === "yes") {
@@ -205,28 +205,28 @@ function filterData(pointData, filteredData) {
         addDataToZoomLevelFilteredFeatureCollection(filteredData.starSystemObjects.unlicensed, feature);
       }
     }
-    // Inner star system objects
-    // else if () {
-      
-
-    // }
-    // Other objects
     else {
-      /* Continuity */
-      if(fp.LEGENDS.toLowerCase() === "yes") {
-        if(fp.CANON.toLowerCase() === "yes") {
-          // CANON and LEGENDS
-          addDataToZoomLevelFilteredFeatureCollection(filteredData.otherObjects.canonAndLegends, feature);
-        } else {
-          // LEGENDS only
-          addDataToZoomLevelFilteredFeatureCollection(filteredData.otherObjects.legends, feature);
+      const parentObject = pointData.features.find(feature => feature.properties.ID === fp.PARENT_ID);
+      // Inner star system objects
+      if(parentObject) {
+        // TODO: create a feature for main inner star system object with parent coordinates and add it to the right feature collection
+      } else if(fp.X_COORD && fp.X_COORD !== "" && fp.Y_COORD && fp.Y_COORD !== "") { // Other objects with coordinates
+        /* Continuity */
+        if(fp.LEGENDS.toLowerCase() === "yes") {
+          if(fp.CANON.toLowerCase() === "yes") {
+            // CANON and LEGENDS
+            addDataToZoomLevelFilteredFeatureCollection(filteredData.otherObjects.canonAndLegends, feature);
+          } else {
+            // LEGENDS only
+            addDataToZoomLevelFilteredFeatureCollection(filteredData.otherObjects.legends, feature);
+          }
+        } else if(fp.CANON.toLowerCase() === "yes") {
+          // CANON only
+          addDataToZoomLevelFilteredFeatureCollection(filteredData.otherObjects.canon, feature);
+        } else if (fp.UNLICENSED.toLowerCase() === "yes") {
+          // UNLICENSED
+          addDataToZoomLevelFilteredFeatureCollection(filteredData.otherObjects.unlicensed, feature);
         }
-      } else if(fp.CANON.toLowerCase() === "yes") {
-        // CANON only
-        addDataToZoomLevelFilteredFeatureCollection(filteredData.otherObjects.canon, feature);
-      } else if (fp.UNLICENSED.toLowerCase() === "yes") {
-        // UNLICENSED
-        addDataToZoomLevelFilteredFeatureCollection(filteredData.otherObjects.unlicensed, feature);
       }
     }
   });
