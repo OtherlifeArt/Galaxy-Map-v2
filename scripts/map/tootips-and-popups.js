@@ -37,6 +37,12 @@ function pointDisplayPopup(e) {
   if (feature.properties.X_GRID !== "" && feature.properties.Y_GRID){
     text+= '<p><b>Grid : </b>'+ feature.properties.X_GRID + '-' + feature.properties.Y_GRID + '</p>';
   }
+  // Star system details
+  if(feature.properties.starSystemHierarchy?.length > 0){
+    text += '<p><b>Star system details: </b>';
+    text += popupFormatStarSystemHierarchy(feature.properties.starSystemHierarchy);
+    text += '</p>';
+  }
   text+='</div>'
   
   // [y,x] function of zoom level
@@ -112,7 +118,7 @@ function areaDisplayPopup(e) {
   // Continuity
   text+= '<p><b>Continuity : </b>'+ continuity() + '</p>';
   // URL
-  // text+= '<p><b>Continuity : </b>'+ arrayToURL(feature.properties.URL) + '</p>'; // TODO
+  // text+= '<p><b>URL : </b>'+ arrayToURL(feature.properties.URL) + '</p>'; // TODO
 
   let zoomLevel = map.getZoom();
   let popupDisplacement = [e.latlng.lat + 380 / Math.pow(2, zoomLevel+4), e.latlng.lng - 125 / Math.pow(2, zoomLevel+4)];
@@ -134,6 +140,15 @@ function areaDisplayTooltip(e) {
 // Hide tooltip on mouseout
 function areaHideTooltip(e) {
   e.target.layer?.closeTooltip(); // Hide tooltip
+}
+
+// Format star system hierarchy
+function popupFormatStarSystemHierarchy(starSystemHierarchyArray) {
+  if(starSystemHierarchyArray) {
+    console.log(starSystemHierarchyArray);
+    
+    return "<br/>" + (starSystemHierarchyArray.flat()).join('<br/>');
+  }
 }
 
 /*

@@ -179,7 +179,7 @@ function initFilteredDataObject() {
  */
 function filterData(pointData, filteredData) {
   pointData.features.forEach(function(feature) {
-    console.log(feature);
+    // console.log(feature);
     const fp = feature.properties;
     /* Ignore object list */
     if(OBJECT_TYPES_TO_IGNORE.find((typeToIgnore) => typeToIgnore === fp.TYPE)) {
@@ -190,6 +190,9 @@ function filterData(pointData, filteredData) {
     // Star systems with coordinates
     if(fp.TYPE.toLowerCase() === "star system") {
       if(fp.X_COORD && fp.X_COORD !== "" && fp.Y_COORD && fp.Y_COORD !== "") {
+        /* Add star system hierarchy */
+        feature.properties.starSystemHierarchy = mapStarSystemHierarchyBuilder(pointData, feature.properties);
+        // console.log(feature.properties.starSystemHierarchy);
         /* Continuity */
         if(fp.LEGENDS.toLowerCase() === "yes") {
           if(fp.CANON.toLowerCase() === "yes") {
@@ -214,8 +217,10 @@ function filterData(pointData, filteredData) {
       if(starSystemCoordinates.length > 0) {
         // Object have not its own coordinates, we add star system's ones
         if(!fp.X_COORD || fp.X_COORD === "" || !fp.Y_COORD || fp.Y_COORD === "") {
-          feature.properties.X_COORD = starSystemCoordinates[0];
-          feature.properties.Y_COORD = starSystemCoordinates[1];
+          // feature.properties.X_COORD = starSystemCoordinates[0];
+          // feature.properties.Y_COORD = starSystemCoordinates[1];
+          feature.geometry.coordinates = starSystemCoordinates.map((coord) => parseFloat(coord));
+          feature.geometry.type = "Point";
         }
         // Add object to the inner star system object's zoom level filtered feature collection at object zoom level
         if(fp.X_COORD && fp.X_COORD !== "" && fp.Y_COORD && fp.Y_COORD !== "") {
@@ -291,9 +296,22 @@ function getParentStarSystemCoordinatesIfAstroObjectFeatureIsInAStarSystem(point
   }
 }
 
-// function mapStarSystemHierarchyBuilder(pointData, featureProperty) {
-  
-// }
+function mapStarSystemHierarchyBuilder(pointData, featureProperty) {
+  // Find all star system children objects by hierarchy level
+  let hierarchy = [];
+  const children = pointData.features.filter(feature => feature.properties.PARENT_ID === featureProperty.ID);
+  children.forEach(childrenFeature => {
+    const cFp = childrenFeature.properties;
+    let altNames = cFp["ALT_NAMES (/ separated)"] !== "" ? " / " + cFp["ALT_NAMES"]: "";
+    let subType = cFp["TYPE_CLASSES"]!== "" ? " - " + cFp["TYPE_CLASSES"] : "";
+    hierarchy.push(`${cFp.HUMAN_READABLE_NAME}${altNames} (${cFp.TYPE}${subType})`);
+    hierarchy.push(mapStarSystemHierarchyBuilder(pointData, cFp));
+  });
+  // if(hierarchy !== "") { 
+  //   console.log(hierarchy)  
+  // };
+  return hierarchy;
+}
 
 /**
  * Add feature to right zoom level feature collection
