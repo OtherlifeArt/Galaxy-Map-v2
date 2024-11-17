@@ -459,87 +459,93 @@ function filterPoints() {
       console.log("(+) Star systems");
       map.removeLayer(innerStarSystemMainObjectLG);
       console.log("[ ] Inner objects layer group");
-      /* Continuity */
-      // Unlicensed
-      if(userOptions.continuity.unlicensed) {
-        console.log("(+) unlicensed");
-        if (userOptions.display.ignoreObjectZoomLevelRestriction) {
-          console.log("(+) Ignore zoom restriction");
-          // Ignore zoom restriction (show all objects)
-          filterPointsByZoomLevel(starSystemUnlicencedLG, mapTotalZoomLevel);
-          console.log("[X] Star system objects - unlicensed - all zoom level");
-        } else {
-          filterPointsByZoomLevel(starSystemUnlicencedLG);
-          console.log("[X] Star system objects - unlicensed - filtered zoom level");
-        }
-        // Adding inner objects once all sub layers are filtered
-        map.addLayer(starSystemUnlicencedLG);
-        console.log("[X] Star system objects layer group - unlicensed");
+      // We hide star system layers from (mapStarSystemMaxZoomLevel+1)
+      if(map.getZoom() > mapStarSystemMaxZoomLevel) {
+        map.removeLayer(starSystemLG);
+        console.log("[ ] Star system objects layer group (exceeded max zoom level)");
       } else {
-        map.removeLayer(starSystemUnlicencedLG);
-        console.log("[ ] Star system objects layer group - unlicensed");
-      }
-      // Legends
-      if (userOptions.continuity.legends) {
-        console.log("(+) legends");
-        if (userOptions.display.ignoreObjectZoomLevelRestriction) {
-          console.log("(+) Ignore zoom restriction");
-          // Ignore zoom restriction (show all objects)
-          filterPointsByZoomLevel(starSystemLegendsOnlyLG, mapTotalZoomLevel);
-          console.log("[X] Star system objects - legends - all zoom level");
+        /* Continuity */
+        // Unlicensed
+        if(userOptions.continuity.unlicensed) {
+          console.log("(+) unlicensed");
+          if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+            console.log("(+) Ignore zoom restriction");
+            // Ignore zoom restriction (show all objects)
+            filterPointsByZoomLevel(starSystemUnlicencedLG, mapTotalZoomLevel);
+            console.log("[X] Star system objects - unlicensed - all zoom level");
+          } else {
+            filterPointsByZoomLevel(starSystemUnlicencedLG);
+            console.log("[X] Star system objects - unlicensed - filtered zoom level");
+          }
+          // Adding inner objects once all sub layers are filtered
+          map.addLayer(starSystemUnlicencedLG);
+          console.log("[X] Star system objects layer group - unlicensed");
         } else {
-          filterPointsByZoomLevel(starSystemLegendsOnlyLG);
-          console.log("[X] Star system objects - legends - filtered zoom level");
+          map.removeLayer(starSystemUnlicencedLG);
+          console.log("[ ] Star system objects layer group - unlicensed");
         }
-        // Adding legends inner objects once all sub layers are filtered
-        map.addLayer(starSystemLegendsOnlyLG);
-        console.log("[X] Star system objects layer group - legends");
-      } else {
-        map.removeLayer(starSystemLegendsOnlyLG);
-        console.log("[ ] Star system objects layer group - legends");
-      }
-      // Canon
-      if (userOptions.continuity.canon) {
-        console.log("(+) canon");
-        if (userOptions.display.ignoreObjectZoomLevelRestriction) {
-          console.log("(+) Ignore zoom restriction");
-          // Ignore zoom restriction (show all objects)
-          filterPointsByZoomLevel(starSystemCanonOnlyLG, mapTotalZoomLevel);
-          console.log("[X] Star system - canon - all zoom level");
+        // Legends
+        if (userOptions.continuity.legends) {
+          console.log("(+) legends");
+          if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+            console.log("(+) Ignore zoom restriction");
+            // Ignore zoom restriction (show all objects)
+            filterPointsByZoomLevel(starSystemLegendsOnlyLG, mapTotalZoomLevel);
+            console.log("[X] Star system objects - legends - all zoom level");
+          } else {
+            filterPointsByZoomLevel(starSystemLegendsOnlyLG);
+            console.log("[X] Star system objects - legends - filtered zoom level");
+          }
+          // Adding legends inner objects once all sub layers are filtered
+          map.addLayer(starSystemLegendsOnlyLG);
+          console.log("[X] Star system objects layer group - legends");
         } else {
-          filterPointsByZoomLevel(starSystemCanonOnlyLG);
-          console.log("[X] Star system - canon - filtered zoom level");
+          map.removeLayer(starSystemLegendsOnlyLG);
+          console.log("[ ] Star system objects layer group - legends");
         }
-        // Adding canon inner objects once all sub layers are filtered
-        map.addLayer(starSystemCanonOnlyLG);
-        console.log("[X] Star system objects layer group - canon");
-      } else {
-        map.removeLayer(starSystemCanonOnlyLG);
-        console.log("[ ] Star system layer group - canon");
-      }
-      // Canon or Legends
-      if (userOptions.continuity.legends || userOptions.continuity.canon) {
-        console.log("(+) canon/legends");
-        if (userOptions.display.ignoreObjectZoomLevelRestriction) {
-          console.log("(+) Ignore zoom restriction");
-          // Ignore zoom restriction (show all objects)
-          filterPointsByZoomLevel(starSystemCanonAndLegendsLG, mapTotalZoomLevel);
-          console.log("[X] Star system - canon/legends - all zoom level");
+        // Canon
+        if (userOptions.continuity.canon) {
+          console.log("(+) canon");
+          if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+            console.log("(+) Ignore zoom restriction");
+            // Ignore zoom restriction (show all objects)
+            filterPointsByZoomLevel(starSystemCanonOnlyLG, mapTotalZoomLevel);
+            console.log("[X] Star system - canon - all zoom level");
+          } else {
+            filterPointsByZoomLevel(starSystemCanonOnlyLG);
+            console.log("[X] Star system - canon - filtered zoom level");
+          }
+          // Adding canon inner objects once all sub layers are filtered
+          map.addLayer(starSystemCanonOnlyLG);
+          console.log("[X] Star system objects layer group - canon");
         } else {
-          filterPointsByZoomLevel(starSystemCanonAndLegendsLG);
-          console.log("[X] Star system - canon/legends - filtered zoom level");
+          map.removeLayer(starSystemCanonOnlyLG);
+          console.log("[ ] Star system layer group - canon");
         }
-        // Adding canon/legends inner objects once all sub layers are filtered
-        map.addLayer(starSystemCanonAndLegendsLG);
-        console.log("[X] Star system layer group - canon/legends");
-        
-      } else {
-        map.removeLayer(starSystemCanonAndLegendsLG);
-        console.log("[ ] Star system layer group - canon/legends");
+        // Canon or Legends
+        if (userOptions.continuity.legends || userOptions.continuity.canon) {
+          console.log("(+) canon/legends");
+          if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+            console.log("(+) Ignore zoom restriction");
+            // Ignore zoom restriction (show all objects)
+            filterPointsByZoomLevel(starSystemCanonAndLegendsLG, mapTotalZoomLevel);
+            console.log("[X] Star system - canon/legends - all zoom level");
+          } else {
+            filterPointsByZoomLevel(starSystemCanonAndLegendsLG);
+            console.log("[X] Star system - canon/legends - filtered zoom level");
+          }
+          // Adding canon/legends inner objects once all sub layers are filtered
+          map.addLayer(starSystemCanonAndLegendsLG);
+          console.log("[X] Star system layer group - canon/legends");
+          
+        } else {
+          map.removeLayer(starSystemCanonAndLegendsLG);
+          console.log("[ ] Star system layer group - canon/legends");
+        }
+        // Adding star system objects once all sub layers are filtered
+        map.addLayer(starSystemLG);
+        console.log("[X] Star system objects layer group");
       }
-      // Adding star system objects once all sub layers are filtered
-      map.addLayer(starSystemLG);
-      console.log("[X] Star system objects layer group");
     }
 
     /** Other objects **/
