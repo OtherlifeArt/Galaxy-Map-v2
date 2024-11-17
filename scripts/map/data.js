@@ -15,7 +15,8 @@ const OBJECT_TYPES_TO_IGNORE = [
 
 // Map param
 const mapMinZoomLevel = -3;
-const mapMaxZoomLevel = 8;
+const mapStarSystemMaxZoomLevel = 7;
+const mapMaxZoomLevel = mapStarSystemMaxZoomLevel + 3;
 const mapStartZoomLevel = -2;
 const mapStartCenterCoordinates = [-450.0,0];
 
@@ -187,30 +188,56 @@ function filterData(pointData, filteredData) {
     };
     /* Object category */
     // Star systems with coordinates
-    if(fp.TYPE.toLowerCase() === "star system" && fp.X_COORD && fp.X_COORD !== "" && fp.Y_COORD && fp.Y_COORD !== "") {
-      /* Continuity */
-      if(fp.LEGENDS.toLowerCase() === "yes") {
-        if(fp.CANON.toLowerCase() === "yes") {
-          // CANON and LEGENDS
-          addDataToZoomLevelFilteredFeatureCollection(filteredData.starSystemObjects.canonAndLegends, feature);
-        } else {
-          // LEGENDS only
-          addDataToZoomLevelFilteredFeatureCollection(filteredData.starSystemObjects.legends, feature);
+    if(fp.TYPE.toLowerCase() === "star system") {
+      if(fp.X_COORD && fp.X_COORD !== "" && fp.Y_COORD && fp.Y_COORD !== "") {
+        /* Continuity */
+        if(fp.LEGENDS.toLowerCase() === "yes") {
+          if(fp.CANON.toLowerCase() === "yes") {
+            // CANON and LEGENDS
+            addDataToZoomLevelFilteredFeatureCollection(filteredData.starSystemObjects.canonAndLegends, feature);
+          } else {
+            // LEGENDS only
+            addDataToZoomLevelFilteredFeatureCollection(filteredData.starSystemObjects.legends, feature);
+          }
+        } else if(fp.CANON.toLowerCase() === "yes") {
+          // CANON only
+          addDataToZoomLevelFilteredFeatureCollection(filteredData.starSystemObjects.canon, feature);
+        } else if (fp.UNLICENSED.toLowerCase() === "yes") {
+          // UNLICENSED
+          addDataToZoomLevelFilteredFeatureCollection(filteredData.starSystemObjects.unlicensed, feature);
         }
-      } else if(fp.CANON.toLowerCase() === "yes") {
-        // CANON only
-        addDataToZoomLevelFilteredFeatureCollection(filteredData.starSystemObjects.canon, feature);
-      } else if (fp.UNLICENSED.toLowerCase() === "yes") {
-        // UNLICENSED
-        addDataToZoomLevelFilteredFeatureCollection(filteredData.starSystemObjects.unlicensed, feature);
       }
-    }
-    else {
-      const parentObject = pointData.features.find(feature => feature.properties.ID === fp.PARENT_ID);
+    } else {
       // Inner star system objects
-      if(parentObject) {
-        // TODO: create a feature for main inner star system object with parent coordinates and add it to the right feature collection
-      } else if(fp.X_COORD && fp.X_COORD !== "" && fp.Y_COORD && fp.Y_COORD !== "") { // Other objects with coordinates
+      let starSystemCoordinates = getParentStarSystemCoordinatesIfAstroObjectFeatureIsInAStarSystem(pointData, fp);
+      // We take into account only star systems with coordinates (That's why star system must have coordinates in data sheet)
+      if(starSystemCoordinates.length > 0) {
+        // Object have not its own coordinates, we add star system's ones
+        if(!fp.X_COORD || fp.X_COORD === "" || !fp.Y_COORD || fp.Y_COORD === "") {
+          feature.properties.X_COORD = starSystemCoordinates[0];
+          feature.properties.Y_COORD = starSystemCoordinates[1];
+        }
+        // Add object to the inner star system object's zoom level filtered feature collection at object zoom level
+        if(fp.X_COORD && fp.X_COORD !== "" && fp.Y_COORD && fp.Y_COORD !== "") {
+          /* Continuity */
+          if(fp.LEGENDS.toLowerCase() === "yes") {
+            if(fp.CANON.toLowerCase() === "yes") {
+              // CANON and LEGENDS
+              addDataToZoomLevelFilteredFeatureCollection(filteredData.innerStarSystemMainObjects.canonAndLegends, feature, mapStarSystemMaxZoomLevel + 1);
+            } else {
+              // LEGENDS only
+              addDataToZoomLevelFilteredFeatureCollection(filteredData.innerStarSystemMainObjects.legends, feature, mapStarSystemMaxZoomLevel + 1);
+            }
+          } else if(fp.CANON.toLowerCase() === "yes") {
+            // CANON only
+            addDataToZoomLevelFilteredFeatureCollection(filteredData.innerStarSystemMainObjects.canon, feature, mapStarSystemMaxZoomLevel + 1);
+          } else if (fp.UNLICENSED.toLowerCase() === "yes") {
+            // UNLICENSED
+            addDataToZoomLevelFilteredFeatureCollection(filteredData.innerStarSystemMainObjects.unlicensed, feature, mapStarSystemMaxZoomLevel + 1);
+          }
+        }
+      // Other objects with coordinates and not part of star system
+      } else if(fp.X_COORD && fp.X_COORD !== "" && fp.Y_COORD && fp.Y_COORD !== "") {
         /* Continuity */
         if(fp.LEGENDS.toLowerCase() === "yes") {
           if(fp.CANON.toLowerCase() === "yes") {
@@ -231,23 +258,62 @@ function filterData(pointData, filteredData) {
     }
   });
   // console.log(filteredData);
+  console.log(filteredData.innerStarSystemMainObjects);
   return filteredData;
 }
+
+/**
+ * Check if astronomical object is in star system by entering its feature
+ * 
+ * @param {*} featureProperty Feature properties of astro object
+ * @param {*} pointData GeoJSON feature collection for points
+ * 
+ * @returns {Array} [] if astro object is not in any star system, [x,y] star system coordinates array otherwise
+ */
+function getParentStarSystemCoordinatesIfAstroObjectFeatureIsInAStarSystem(pointData, featureProperty) {
+  // Feature property undefined or null
+  if(!featureProperty) {
+    return [];
+  }
+  // Object type not belonging to star system
+  if(OBJECT_TYPES_TO_IGNORE.find((typeToIgnore) => typeToIgnore === featureProperty.TYPE)) {
+    return [];
+  };
+  const parentObject = pointData.features.find(feature => feature.properties.ID === featureProperty.PARENT_ID);
+  if(parentObject && parentObject.properties.TYPE.toLowerCase() === "star system") {
+    if(parentObject.properties.X_COORD && parentObject.properties.X_COORD !== "" && parentObject.properties.Y_COORD && parentObject.properties.Y_COORD !== "") {
+      return [parentObject.properties.X_COORD, parentObject.properties.Y_COORD];
+    } else {
+      return [];
+    }
+  } else {
+    return getParentStarSystemCoordinatesIfAstroObjectFeatureIsInAStarSystem(pointData, parentObject);
+  }
+}
+
+// function mapStarSystemHierarchyBuilder(pointData, featureProperty) {
+  
+// }
 
 /**
  * Add feature to right zoom level feature collection
  * 
  * @param {*} FeatureCollections Parent of zoom level feature collection
  * @param {*} feature From unfiltered featurecollection
+ * @param {number|null} [forcedFeatureZoomLevelIndex] force feature collection to be added to this zoom level; Default null
  */
-function addDataToZoomLevelFilteredFeatureCollection(FeatureCollections, feature) {
-  let featureZoomLevelIndex;
-  if(feature.ZOOM_LEVEL === undefined || feature.ZOOM_LEVEL === null || feature.ZOOM_LEVEL === "") {
-    featureZoomLevelIndex = 0;
+function addDataToZoomLevelFilteredFeatureCollection(FeatureCollections, feature, forcedFeatureZoomLevelIndex = null) {
+  if(forcedFeatureZoomLevelIndex === null){
+    let featureZoomLevelIndex;
+    if(feature.ZOOM_LEVEL === undefined || feature.ZOOM_LEVEL === null || feature.ZOOM_LEVEL === "") {
+      featureZoomLevelIndex = 0;
+    } else {
+      featureZoomLevelIndex = parseInt(feature.ZOOM_LEVEL);
+    }
+    FeatureCollections[featureZoomLevelIndex].features.push(feature);
   } else {
-    featureZoomLevelIndex = parseInt(feature.ZOOM_LEVEL);
+    FeatureCollections[forcedFeatureZoomLevelIndex].features.push(feature);
   }
-  FeatureCollections[featureZoomLevelIndex].features.push(feature);
 }
 
 /**
@@ -281,7 +347,7 @@ function addFilteredData(filteredData) {
  * Display or hide layers function of user options/parameters
  */
 function filterPoints() {
-  const mapTotalZoomLevel =  mapMaxZoomLevel - mapMinZoomLevel;
+  const mapTotalZoomLevel = mapMaxZoomLevel - mapMinZoomLevel;
   console.log("-------------- STARTS FILTERING POINTS -----------------");
 
     /** Inner star system objects **/
