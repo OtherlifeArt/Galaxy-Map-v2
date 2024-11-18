@@ -31,7 +31,6 @@ var searchControl = new L.Control.Search({
       // map.setView(latlng, 4);
       let zoom = flyToLocationZoomLevel.default;
       // Get working zoom function of object type
-      // console.log(latlng);
       if(latlng.layer.feature.properties.TYPE.toLowerCase() !== 'star system' && getParentStarSystemCoordinatesIfAstroObjectFeatureIsInAStarSystem(pointData, latlng.layer.feature.properties).length > 0){
         zoom = flyToLocationZoomLevel.starSystemInnerObjects; // Set zoom for inner star system objects
       } 
