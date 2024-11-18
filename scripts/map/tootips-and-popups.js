@@ -33,10 +33,20 @@ function pointDisplayPopup(e) {
   // TYPE and TYPE class
   if (feature.properties.TYPE){
     if (feature.properties.TYPE_CLASSES){
-      text+= '<p><b>Type class : </b>' + feature.properties.TYPE_CLASSES + ' (' + (feature.properties.TYPE) + ')' + '</p>';
-    } else {
-      text+= '<p><b>Type : </b>'+ feature.properties.TYPE + '</p>';
+      if(feature.properties.CONJECTURAL_TYPE && feature.properties.CONJECTURAL_TYPE === "YES") {
+        text+= '<p><b>Type : </b>(?) ' + feature.properties.TYPE_CLASSES + ' (' + (feature.properties.TYPE) + ')' + '</p>';
+      } else {
+        text+= '<p><b>Type : </b>' + feature.properties.TYPE_CLASSES + ' (' + (feature.properties.TYPE) + ')' + '</p>';
       }
+    } else {
+      if(feature.properties.CONJECTURAL_TYPE && feature.properties.CONJECTURAL_TYPE === "YES") {
+        text+= '<p><b>Type : </b>(?) '+ feature.properties.TYPE + '</p>';
+        
+      } else {
+        text+= '<p><b>Type : </b>'+ feature.properties.TYPE + '</p>';
+      }
+    }
+    console.log(feature.properties);
   }
   // PARENT
   if (feature.properties.PARENT){
@@ -115,10 +125,18 @@ function areaDisplayPopup(e) {
   // TYPE and TYPE class
   if (feature.properties.TYPE){
     if (feature.properties.TYPE_CLASSES){
-      text+= '<p><b>Type class : </b>' + feature.properties.TYPE_CLASSES + ' (' + (feature.properties.TYPE) + ')' + '</p>';
-    } else {
-      text+= '<p><b>Type : </b>'+ feature.properties.TYPE + '</p>';
+      if(feature.properties.CONJECTURAL_TYPE && feature.properties.CONJECTURAL_TYPE === "YES") {
+        text+= '<p><b>Type : </b>(?) ' + feature.properties.TYPE_CLASSES + ' (' + (feature.properties.TYPE) + ')' + '</p>';
+      } else {
+        text+= '<p><b>Type : </b>' + feature.properties.TYPE_CLASSES + ' (' + (feature.properties.TYPE) + ')' + '</p>';
       }
+    } else {
+      if(feature.properties.CONJECTURAL_TYPE && feature.properties.CONJECTURAL_TYPE === "YES") {
+        text+= '<p><b>Type : </b>(?) '+ feature.properties.TYPE + '</p>';
+      } else {
+        text+= '<p><b>Type : </b>'+ feature.properties.TYPE + '</p>';
+      }
+    }
   }
   // PARENT
   if (feature.properties.PARENT){
