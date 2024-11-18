@@ -711,9 +711,9 @@ function pointToLayerPoints(feature,latlng) {
     iconParams[0] = "STATION";
 
   // Unknown objects
-  // } else if(feature.properties.TYPE === "Unknown") {
-  //   useIcon = true;
-  //   iconParams[0] = "STATION";
+  } else if(feature.properties.TYPE === "Unknown") {
+    useIcon = true;
+    iconParams[0] = "UNKNOWN";
 
   // Message log
   } else {

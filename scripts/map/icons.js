@@ -460,6 +460,56 @@ const ASTRO_ICONS = {
       'MOVIE': null,
     },
   },
+  "UNKNOWN": {
+    'DEFAULT': {
+      'DEFAULT': L.icon({
+        iconUrl: 'images/unknown-normal.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [13.5, 13.5], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [8, 8],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+      'MOVIE': null,
+    },
+    'LEGENDS': {
+      'DEFAULT': L.icon({
+        iconUrl: 'images/unknown-blu.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [16, 16], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [8, 8],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+      'MOVIE': null,
+    },
+    'CANON': {
+      'DEFAULT': L.icon({
+        iconUrl: 'images/unknown-grn.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [16, 16], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [8, 8],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+      'MOVIE': null,
+    },
+    'CANON_AND_LEGENDS': {
+      'DEFAULT': L.icon({
+        iconUrl: 'images/unknown-grn-blu.png',
+        shadowUrl: 'images/planet-shadow.png',
+        iconSize: [16, 16], // size of the icon
+        shadowSize: [10, 10], // size of the shadow
+        iconAnchor: [8, 8],   // point of the icon which will correspond to marker's location
+        shadowAnchor: [5, 5],   // the same for the shadow
+        popupAnchor: [-5, -20] // point from which the popup should open relative to the iconAnchor
+      }),
+      'MOVIE': null,
+    },
+  },
 };
 
 //Others/Old

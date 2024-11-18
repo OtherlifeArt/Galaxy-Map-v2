@@ -9,30 +9,34 @@ function pointDisplayPopup(e) {
 
   let fullName = feature.properties.NAME;
   let continuity = getContinuity(feature.properties);
-
+  // ALT NAMES
   if (feature.properties['ALT_NAMES (/ separated']){
-    fullName+= " / " + feature.properties['ALT_NAMES (/ separated'];
+    console.log(feature.properties['ALT_NAMES (/ separated']);
+    fullName = fullName + "/" + feature.properties['ALT_NAMES (/ separated'];
   }
-  let text = '<h2>'+fullName+'</h2><div>'
+  // URL
+  if(feature.properties["URLS (sources)"]) {
+    fullName = stringListToURL(feature.properties["URLS (sources)"], fullName);
+  }
+  let text = '<h2>'+fullName+'</h2><div>';
 
   if (feature.properties.GEOM_TYPE){
     text+= '<p><i>'+ feature.properties.GEOM_TYPE + '</i></p>';
   }
+  // TYPE and TYPE class
   if (feature.properties.TYPE){
+    if (feature.properties.TYPE_CLASSES){
+      text+= '<p><b>Type class : </b>' + feature.properties.TYPE_CLASSES + ' (' + (feature.properties.TYPE) + ')' + '</p>';
+    } else {
       text+= '<p><b>Type : </b>'+ feature.properties.TYPE + '</p>';
+      }
   }
-  if (feature.properties.TYPE_CLASSES){
-    text+= '<p><b>Type class : </b>'+ feature.properties.TYPE_CLASSES + '</p>';
-  }
+  // PARENT
   if (feature.properties.PARENT){
-    text+= '<p><b>Parent : </b>'+ feature.properties.PARENT + '</p>';
+    text+= '<p><b>Parent : </b>'+ feature.properties.PARENT.replace(" < The Galaxy < The Galaxy local group < The universe", "") + '</p>';
   }
   // Continuity
   text+= '<p><b>Continuity : </b>'+ continuity + '</p>';
-  // URL
-  if(feature.properties.URL) {
-    text+= '<p><b>Continuity : </b>'+ arrayToURL(feature.properties.URL) + '</p>'; // TODO
-  }
   // Grid
   if (feature.properties.X_GRID !== "" && feature.properties.Y_GRID){
     text+= '<p><b>Grid : </b>'+ feature.properties.X_GRID + '-' + feature.properties.Y_GRID + '</p>';
@@ -80,46 +84,36 @@ function areaDisplayPopup(e) {
   let feature = layer.feature;
 
   let fullName = feature.properties.NAME;
-  let continuity = function() {
-    let continuity = "";
-    if(feature.properties.CANON === "YES") {
-      continuity += "Canon";
-    }
-    if(feature.properties.LEGENDS === "YES") {
-      if(continuity !== "") {
-        continuity += "/";
-      }
-      continuity += "Legends";
-    }
-    if(feature.properties.UNLICENSED === "YES") {
-      if(continuity !== "") {
-        continuity += "/";
-      }
-      continuity += "Unlicensed";
-    }
-    return continuity;
-  };
+  let continuity = getContinuity(feature.properties);
+
+  // ALT NAMES
   if (feature.properties['ALT_NAMES (/ separated']){
-    fullName+= " / " + feature.properties['ALT_NAMES (/ separated'];
+    console.log(feature.properties['ALT_NAMES (/ separated']);
+    fullName = fullName + "/" + feature.properties['ALT_NAMES (/ separated'];
   }
-  let text = '<h2>'+fullName+'</h2><div>'
+  // URL
+  if(feature.properties["URLS (sources)"]) {
+    fullName = stringListToURL(feature.properties["URLS (sources)"], fullName);
+  }
+  let text = '<h2>'+fullName+'</h2><div>';
 
   if (feature.properties.GEOM_TYPE){
     text+= '<p><i>'+ feature.properties.GEOM_TYPE + '</i></p>';
   }
+  // TYPE and TYPE class
   if (feature.properties.TYPE){
+    if (feature.properties.TYPE_CLASSES){
+      text+= '<p><b>Type class : </b>' + feature.properties.TYPE_CLASSES + ' (' + (feature.properties.TYPE) + ')' + '</p>';
+    } else {
       text+= '<p><b>Type : </b>'+ feature.properties.TYPE + '</p>';
+      }
   }
-  if (feature.properties.TYPE_CLASSES){
-    text+= '<p><b>Type classe : </b>'+ feature.properties.TYPE_CLASSES + '</p>';
-  }
+  // PARENT
   if (feature.properties.PARENT){
-    text+= '<p><b>Parent : </b>'+ feature.properties.PARENT + '</p>';
+    text+= '<p><b>Parent : </b>'+ feature.properties.PARENT.replace(" < The Galaxy local group < The universe", "") + '</p>';
   }
   // Continuity
-  text+= '<p><b>Continuity : </b>'+ continuity() + '</p>';
-  // URL
-  // text+= '<p><b>URL : </b>'+ arrayToURL(feature.properties.URL) + '</p>'; // TODO
+  text+= '<p><b>Continuity : </b>'+ continuity + '</p>';
 
   let zoomLevel = map.getZoom();
   let latLng;

@@ -22,10 +22,15 @@ function latlng2xy (latlng) {
 }
 
 /* List to URL in HTML anchor element*/
-function arrayToURL(array) {
+function stringListToURL(stringList, UrlText) {
   let urlList = "";
-  for (const url of array) {
-    urlList += '<a href="'+url+'">URL</a>';
+  const arrayList = stringList.split(",");
+  for (let index = 0; index < arrayList.length; index++) {
+    if(index === 0) {
+      urlList += '<a href="'+arrayList[index]+'">'+UrlText+'</a>';
+    } else {
+      urlList += ' <a href="'+arrayList[index]+'">(source '+(index+1)+')</a>';
+    }
   }
   return urlList;
 }
