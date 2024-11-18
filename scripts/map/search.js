@@ -4,6 +4,12 @@ const flyToLocationDuration = {
   points: 3,
 }
 
+const flyToLocationZoomLevel = {
+  // areas: null, // Dynamic for areas
+  default: 4,
+  starSystemInnerObjects: mapStarSystemMaxZoomLevel + 1,
+}
+
 /******** SEARCH CONTROL *********/
 
 var searchLayer = L.layerGroup([points, areas]);
@@ -23,11 +29,11 @@ var searchControl = new L.Control.Search({
       });
     } else {
       // map.setView(latlng, 4);
-      let zoom = 4;
+      let zoom = flyToLocationZoomLevel.default;
       // Get working zoom function of object type
       // console.log(latlng);
       if(latlng.layer.feature.properties.TYPE.toLowerCase() !== 'star system' && getParentStarSystemCoordinatesIfAstroObjectFeatureIsInAStarSystem(pointData, latlng.layer.feature.properties).length > 0){
-        zoom = mapStarSystemMaxZoomLevel + 1; // Set zoom for inner star system objects
+        zoom = flyToLocationZoomLevel.starSystemInnerObjects; // Set zoom for inner star system objects
       } 
       map.flyTo(latlng, zoom, { // Use flyTo for smooth zooming
         animate: true,
