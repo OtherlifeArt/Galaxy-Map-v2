@@ -1,3 +1,25 @@
+/* CONSTANTS */
+const GEOJSON_EXPORT_PARAMETERS = {
+  POINTS: {
+    VALID_TYPES: [
+      // Coordinates required
+      { NAME: 'Area', COORD: true}, { NAME: 'Region', COORD: true}, { NAME: 'Sector', COORD: true},
+      // No coordinates required
+      { NAME: 'Galaxy'}, { NAME: 'Quasar'},
+      { NAME: 'Unknown'}, { NAME: 'Location'}, { NAME: 'Exotic'}, { NAME: 'Natural Object'}, { NAME: 'Artificial Object'}, { NAME: 'Anomaly'}, { NAME: 'Void Space'},
+      { NAME: 'Interstellar Matter'}, { NAME: 'Nebula'}, { NAME: 'Interstellar Cloud'},
+      { NAME: 'Planet'}, { NAME: 'Planet Barycenter'}, { NAME: 'Rogue Planet'}, { NAME: 'Dwarf Planet'},
+      { NAME: 'Moon'},  { NAME: 'Rogue Moon'}, { NAME: 'Dwarf Moon'},
+      { NAME: 'Asteroid'}, { NAME: 'Asteroid Belt'}, { NAME: 'Asteroid Field'},
+      { NAME: 'Comet'}, { NAME: 'Rogue Comet'}, { NAME: 'Comet Cluster'},
+      { NAME: 'Star'}, { NAME: 'Star Barycenter'}, { NAME: 'Star Cluster'}, { NAME: 'Star System'},
+      { NAME: 'Rings'},
+    ],
+  },
+  AREAS: {},
+  // ROUTES: {},
+};
+
 /* VARIABLES */
 
 /* FUNCTIONS */
@@ -5,7 +27,7 @@
 function fetchSheetDataPoints(spreadsheetId, sheetName) {
 
     return new Promise((resolve, reject) => {
-      const sheetRange = `!A:AP`;
+      const sheetRange = `!A:BD`;
       gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: spreadsheetId,
         range: sheetName + sheetRange
@@ -14,14 +36,25 @@ function fetchSheetDataPoints(spreadsheetId, sheetName) {
           var values = response.result.values;
           if (values.length > 0) {
               var headerRow = values[0];
-              var xCoordIndex = headerRow.indexOf('X_COORD');
-              var yCoordIndex = headerRow.indexOf('Y_COORD');
+              var xCoordIndex = SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD;
+              // var xCoordIndex = headerRow.indexOf('X_COORD');
+              var yCoordIndex = SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD;
+              // var yCoordIndex = headerRow.indexOf('Y_COORD');
               var features = [];
               for (var i = 1; i < values.length; i++) { // Start from 1 to skip header row
                   var row = values[i];
-                  var xCoord = parseFloat(row[xCoordIndex]);
-                  var yCoord = parseFloat(row[yCoordIndex]);
-                  if (isNaN(xCoord) === false && isNaN(yCoord) === false) { // Check if X_COORD and Y_COORD are not empty 
+                  // Test wether coordinates are empty or undefined
+                  var xCoord = row[xCoordIndex] && row[xCoordIndex] !== "" ? parseFloat(row[xCoordIndex]) : null;
+                  var yCoord = row[yCoordIndex] && row[yCoordIndex] !== "" ? parseFloat(row[yCoordIndex]) : null;
+                  // if (isNaN(xCoord) === false && isNaN(yCoord) === false) { // Check if X_COORD and Y_COORD are not empty
+                  // We skip invalid objects by forcing for loop to go to next iteration
+                  const validTypeFound = GEOJSON_EXPORT_PARAMETERS.POINTS.VALID_TYPES.find(type => type.NAME.toLowerCase() === row[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE].toLowerCase());
+                  if(validTypeFound === undefined || ((xCoord === null || yCoord === null) && validTypeFound.COORD === true)
+                  ) {
+                    continue;
+                  }
+                  // Empty coordinates condition removed since null coordinates will be ignored on map 
+                  // or star system inner object will be referenced by star system parent object
                     var feature = {
                           "type": "Feature",
                           "geometry": {
@@ -35,7 +68,7 @@ function fetchSheetDataPoints(spreadsheetId, sheetName) {
                           feature.properties[headerRow[j]] = row[j];
                       }
                       features.push(feature);
-                  }
+                // }
               }
               var geojson = {
                   "type": "FeatureCollection",
