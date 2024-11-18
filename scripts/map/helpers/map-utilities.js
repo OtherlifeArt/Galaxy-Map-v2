@@ -50,3 +50,129 @@ function getContinuity(properties) {
   }
   return continuity;
 }
+
+/**
+ * Calculate multiPolygon center coordinates from GeoJSON feature
+ * @param {*} feature GeoJSON MultiPolygon
+ * @returns LatLng coordinates
+ */
+function calculateMultiPolygonCenter(feature) {
+  if (!feature || feature.geometry.type !== "MultiPolygon") {
+      console.error("Feature is not a MultiPolygon.");
+      return null;
+  }
+
+  const multiPolygon = feature.geometry.coordinates; // Array of Polygons
+  let totalArea = 0, centroidX = 0, centroidY = 0;
+
+  // Loop through each polygon in the MultiPolygon
+  multiPolygon.forEach(polygon => {
+      const outerRing = polygon[0]; // Only the outer ring
+      let area = 0, localCentroidX = 0, localCentroidY = 0;
+
+      const numPoints = outerRing.length;
+
+      for (let i = 0; i < numPoints; i++) {
+          const x1 = outerRing[i][0]; // Longitude
+          const y1 = outerRing[i][1]; // Latitude
+          const x2 = outerRing[(i + 1) % numPoints][0];
+          const y2 = outerRing[(i + 1) % numPoints][1];
+
+          const a = x1 * y2 - x2 * y1; // Cross product
+          area += a;
+          localCentroidX += (x1 + x2) * a;
+          localCentroidY += (y1 + y2) * a;
+      }
+
+      area *= 0.5;
+      localCentroidX = localCentroidX / (6 * area);
+      localCentroidY = localCentroidY / (6 * area);
+
+      // Add this polygon's contribution to the total centroid
+      centroidX += localCentroidX * Math.abs(area);
+      centroidY += localCentroidY * Math.abs(area);
+      totalArea += Math.abs(area); // Total area for weighted average
+  });
+
+  // Calculate the weighted centroid
+  centroidX /= totalArea;
+  centroidY /= totalArea;
+
+  // Return the centroid as a Leaflet LatLng
+  return L.latLng(centroidY, centroidX);
+}
+
+/**
+ * 
+ * @param {*} feature 
+ * @returns 
+ */
+function calculatePointInMultiPolygon(feature) {
+  if (!feature || feature.geometry.type !== "MultiPolygon") {
+      console.error("Feature is not a MultiPolygon.");
+      return null;
+  }
+
+  const multiPolygon = feature.geometry.coordinates;
+
+  // Helper function: Check if a point is inside a polygon (including holes)
+  function isPointInPolygon(point, polygon) {
+      const outerRing = polygon[0]; // Outer boundary
+      const innerRings = polygon.slice(1); // Holes
+
+      // Check if the point is inside the outer boundary
+      if (!isPointInRing(point, outerRing)) return false;
+
+      // Ensure the point is not in any of the holes
+      for (const hole of innerRings) {
+          if (isPointInRing(point, hole)) return false;
+      }
+
+      return true;
+  }
+
+  // Helper function: Check if a point is inside a single ring
+  function isPointInRing(point, ring) {
+      let [px, py] = point;
+      let inside = false;
+
+      for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+          const [xi, yi] = ring[i];
+          const [xj, yj] = ring[j];
+
+          const intersect = yi > py !== yj > py &&
+              px < ((xj - xi) * (py - yi)) / (yj - yi) + xi;
+          if (intersect) inside = !inside;
+      }
+
+      return inside;
+  }
+
+  // Loop through all polygons in the MultiPolygon
+  for (const polygon of multiPolygon) {
+      const outerRing = polygon[0];
+
+      // Use the center of the outer ring's bounding box as a starting point
+      const lngs = outerRing.map(coord => coord[0]);
+      const lats = outerRing.map(coord => coord[1]);
+      const bboxCenter = [
+          (Math.min(...lngs) + Math.max(...lngs)) / 2,
+          (Math.min(...lats) + Math.max(...lats)) / 2
+      ];
+
+      // Check if the bbox center is valid
+      if (isPointInPolygon(bboxCenter, polygon)) {
+          return L.latLng(bboxCenter[1], bboxCenter[0]); // Return valid point
+      }
+
+      // If not, loop through the outer ring's vertices to find a valid point
+      for (const vertex of outerRing) {
+          if (isPointInPolygon(vertex, polygon)) {
+              return L.latLng(vertex[1], vertex[0]);
+          }
+      }
+  }
+
+  console.error("No valid point found inside the MultiPolygon.");
+  return null;
+}

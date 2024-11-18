@@ -75,6 +75,7 @@ function pointHideTooltip(e) {
 
 // Display popup on mouse click
 function areaDisplayPopup(e) {
+  console.log(e);
   let layer = e.target;
   let feature = layer.feature;
 
@@ -121,8 +122,15 @@ function areaDisplayPopup(e) {
   // text+= '<p><b>URL : </b>'+ arrayToURL(feature.properties.URL) + '</p>'; // TODO
 
   let zoomLevel = map.getZoom();
-  let popupDisplacement = [e.latlng.lat + 380 / Math.pow(2, zoomLevel+4), e.latlng.lng - 125 / Math.pow(2, zoomLevel+4)];
-  // console.log(e.latlng);
+  let latLng;
+  if(e.latlng) { // On map click
+    // console.log(e.latlng);
+    latLng = e.latlng;
+  } else { // On map search
+    console.log(e.target.feature);
+    latLng = calculatePointInMultiPolygon(e.target.feature);
+  }
+  let popupDisplacement = [latLng.lat + 380 / Math.pow(2, zoomLevel+4), latLng.lng - 125 / Math.pow(2, zoomLevel+4)];
   text+='</div>'
   L.popup()
     .setLatLng(popupDisplacement)
@@ -145,8 +153,7 @@ function areaHideTooltip(e) {
 // Format star system hierarchy
 function popupFormatStarSystemHierarchy(starSystemHierarchyArray) {
   if(starSystemHierarchyArray) {
-    console.log(starSystemHierarchyArray);
-    
+    // console.log(starSystemHierarchyArray);
     return "<br/>" + (starSystemHierarchyArray.flat()).join('<br/>');
   }
 }

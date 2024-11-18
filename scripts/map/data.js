@@ -21,8 +21,8 @@ const mapStartZoomLevel = -2;
 const mapStartCenterCoordinates = [-450.0,0];
 
 /************* DATA POINTS  ************/
-// Filtered data
-// var filteredData;
+// Downloaded data from geojson files
+var pointData;
 
 /************* USER OPTIONS ************/
 // User options for point display
@@ -51,7 +51,7 @@ function styleLines(feature) {
           };
 }
 
-var roads = L.geoJSON(null,{
+const roads = L.geoJSON(null,{
     pane:'roads',
     style:styleLines,
     snapIgnore: true,
@@ -263,7 +263,7 @@ function filterData(pointData, filteredData) {
     }
   });
   // console.log(filteredData);
-  console.log(filteredData.innerStarSystemMainObjects);
+  // console.log(filteredData.innerStarSystemMainObjects);
   return filteredData;
 }
 
@@ -831,6 +831,7 @@ function highlightCircleMarker(e) {
 
 // Load data from local geojson and initialize the layer
 $.getJSON(url_points, function(data) {
+  pointData = data; // Storing data for later use
   // console.log(data);
   // filterPoints(data);
   let filteredData = initFilteredDataObject();
@@ -893,8 +894,6 @@ function getRegionsStyle(feature) {
   };
 }
 
-var areas;
-
 function highlightFeature(e) {
   var layer = e.target;
   layer.setStyle({
@@ -931,7 +930,7 @@ function onEachFeature(feature, layer) {
 }
 
 // Create layers
-areas = L.geoJSON(null,{
+const areas = L.geoJSON(null,{
   pane:'areas',
   style:getRegionsStyle,
   onEachFeature:onEachFeature,
