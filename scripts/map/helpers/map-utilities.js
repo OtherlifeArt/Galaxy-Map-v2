@@ -29,7 +29,8 @@ function stringListToURL(stringList, UrlText) {
     if(index === 0) {
       urlList += '<a href="'+arrayList[index]+'">'+UrlText+'</a>';
     } else {
-      urlList += ' <a href="'+arrayList[index]+'">(source '+(index+1)+')</a>';
+      // urlList += ' <a href="'+arrayList[index]+'">(source '+(index+1)+')</a>';
+      urlList += ' <a href="'+arrayList[index]+'">('+(index+1)+')</a>';
     }
   }
   return urlList;

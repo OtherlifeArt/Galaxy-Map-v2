@@ -6,8 +6,15 @@
 function pointDisplayPopup(e) {
   let layer = e.target;
   let feature = layer.feature;
-
-  let fullName = feature.properties.NAME;
+  
+  let fullName = "";
+  // Conjectural Name
+  if(feature.properties.CONJECTURAL_NAME && feature.properties.CONJECTURAL_NAME === "YES") {
+    console.log(feature.properties.NAME);
+    fullName += '(?) ';
+  }
+  // Name
+  fullName += feature.properties.NAME;
   let continuity = getContinuity(feature.properties);
   // ALT NAMES
   if (feature.properties['ALT_NAMES (/ separated']){
@@ -83,8 +90,13 @@ function areaDisplayPopup(e) {
   let layer = e.target;
   let feature = layer.feature;
 
-  let fullName = feature.properties.NAME;
-  let continuity = getContinuity(feature.properties);
+  let fullName = "";
+  // Conjectural Name
+  if(feature.properties.CONJECTURAL_NAME && feature.properties.CONJECTURAL_NAME === "YES") {
+    console.log(feature.properties.NAME);
+    fullName += '(?) ';
+  }
+  fullName += feature.properties.NAME;
 
   // ALT NAMES
   if (feature.properties['ALT_NAMES (/ separated']){
@@ -113,7 +125,7 @@ function areaDisplayPopup(e) {
     text+= '<p><b>Parent : </b>'+ feature.properties.PARENT.replace(" < The Galaxy local group < The universe", "") + '</p>';
   }
   // Continuity
-  text+= '<p><b>Continuity : </b>'+ continuity + '</p>';
+  text+= '<p><b>Continuity : </b>'+ getContinuity(feature.properties) + '</p>';
 
   let zoomLevel = map.getZoom();
   let latLng;
