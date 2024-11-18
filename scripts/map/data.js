@@ -639,14 +639,14 @@ function filterPoints() {
  */
 function filterPointsByZoomLevel(zoomParentGroupLayer, mapZoom = map.getZoom() - mapStartZoomLevel) {
   const groupLayers = zoomParentGroupLayer.getLayers();
-  // console.log(groupLayers);
+  // console.log(groupLayers); 
   for (let index = 0; index < groupLayers.length; index++) {
     if(index <= mapZoom) {
       map.addLayer(groupLayers[index]);
-      console.log("Adding layer: " + groupLayers[index].options.title);
+      console.log("Adding layer: " + groupLayers[index].options.title + " ("+groupLayers[index].getLayers().length+" objects)");
     } else {
       map.removeLayer(groupLayers[index]);
-      console.log("Removing layer: " + groupLayers[index].options.title);
+      console.log("Removing layer: " + groupLayers[index].options.title + " ("+groupLayers[index].getLayers().length+" objects)");
     }
   }
 }
