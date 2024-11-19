@@ -234,8 +234,10 @@
 
 
 /** REWORK **/
+/******** CONSTANTS ********/
+const debug = true;
 
-/******** VARIABLES ****/
+/******** VARIABLES /********
 
 /******** MAP *********/
 var map = L.map('map', {
@@ -335,7 +337,8 @@ legend.addTo(map);
 // Display grid levels depending on zoom
 map.on("zoomend", function() {
   var zoomlevel = map.getZoom();
-  console.log("Current Zoom Level = " + zoomlevel);
+  const styles = ['color: black', 'background: lightgreen','font-weight: bold'].join(';');
+  console.log("%c[RUN] Current Zoom Level = " + zoomlevel, styles);
 
   if (zoomlevel > 1) {
       if (map.hasLayer(grid10) == false) {
@@ -346,7 +349,6 @@ map.on("zoomend", function() {
           completegrid.removeLayer(grid10);
       }
   }
-
   if (zoomlevel > 4) {
       if (map.hasLayer(grid1) == false) {
           completegrid.addLayer(grid1);

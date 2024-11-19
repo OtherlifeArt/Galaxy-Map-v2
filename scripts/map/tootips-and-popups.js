@@ -178,7 +178,13 @@ function areaHideTooltip(e) {
 function popupFormatStarSystemHierarchy(starSystemHierarchyArray) {
   if(starSystemHierarchyArray) {
     // console.log(starSystemHierarchyArray);
-    return "<br/>" + (starSystemHierarchyArray.flat()).join('<br/>');
+    // flatArray = starSystemHierarchyArray.flat();
+    // restring = flatArray.map(str => str.substring(1));
+    // joinedString = restring.join('</pre><pre>');
+    return "<br/><pre>" + ((starSystemHierarchyArray.flat()).map((str) => {
+      const spacesCount = str.search(/\S/); // Count spaces before the first non-space characters
+      return str.substring(parseInt(spacesCount-(-1+spacesCount/5)));
+    })).join('</pre><pre>') + "</pre>";
   }
 }
 
