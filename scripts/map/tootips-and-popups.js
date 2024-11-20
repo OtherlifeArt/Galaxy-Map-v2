@@ -46,7 +46,7 @@ function pointDisplayPopup(e) {
         text+= '<p><b>Type : </b>'+ feature.properties.TYPE + '</p>';
       }
     }
-    console.log(feature.properties);
+    // console.log(feature.properties);
   }
   // PARENT
   if (feature.properties.PARENT){
