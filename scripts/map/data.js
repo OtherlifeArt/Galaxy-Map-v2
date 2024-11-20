@@ -446,16 +446,16 @@ function getInnerSystemMainObjectFeatureProperties(innerMainObjectAsStarSystemFe
           }
         }
       }
-      if(newProperties["URLS (sources)"].length > 0) {
-        console.log("Found URLs:", newProperties["URLS (sources)"]);
-      }
+      // if(newProperties["URLS (sources)"].length > 0) {
+      //   console.log("Found URLs:", newProperties["URLS (sources)"]);
+      // }
       // Add childrenFeatures of child properties to new properties
       const childrenNewProperties = getInnerSystemMainObjectFeatureProperties(child, firstChild, onlyCapital);
-      console.log("before:");
-      console.log("PARENT:", sfp.NAME, "CURRENT:", cfp.NAME);
-      console.log(newProperties);
-      console.log(childrenNewProperties);
-      console.log("after");
+      // console.log("before:");
+      // console.log("PARENT:", sfp.NAME, "CURRENT:", cfp.NAME);
+      // console.log(newProperties);
+      // console.log(childrenNewProperties);
+      // console.log("after");
       newProperties.NAME = [...newProperties.NAME, ...childrenNewProperties.NAME]; // "..." spread operator to merge small arrays
       newProperties.TYPE = [...newProperties.TYPE, ...childrenNewProperties.TYPE]; // "..." spread operator to merge small arrays
       if(childrenNewProperties["URLS (sources)"].length>0) {
@@ -464,9 +464,9 @@ function getInnerSystemMainObjectFeatureProperties(innerMainObjectAsStarSystemFe
       // newProperties["URLS (sources)"] = [([...newProperties["URLS (sources)"],...childrenNewProperties["URLS (sources)"]]).join(",")]; // "..." spread operator to merge small arrays
     }
   }
-  if(debug && newProperties.NAME.length > 0) {
-    console.log(newProperties);
-  }
+  // if(debug && newProperties.NAME.length > 0) {
+  //   console.log(newProperties);
+  // }
   return newProperties;
 }
 
