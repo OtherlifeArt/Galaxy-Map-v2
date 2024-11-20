@@ -462,9 +462,8 @@ function mapStarSystemHierarchyBuilder(pointData, featureProperty) {
   const children = pointData.features.filter(feature => feature.properties.PARENT_ID === featureProperty.ID);
   children.forEach(childrenFeature => {
     const cFp = childrenFeature.properties;
-    let altNames = cFp["ALT_NAMES (/ separated)"] !== "" ? " / " + cFp["ALT_NAMES"]: "";
     let subType = cFp["TYPE_CLASSES"]!== "" ? " - " + cFp["TYPE_CLASSES"] : "";
-    hierarchy.push(`${cFp.HUMAN_READABLE_NAME}${altNames} (${cFp.TYPE}${subType})`);
+    hierarchy.push(`${cFp.HUMAN_READABLE_NAME} (${cFp.TYPE}${subType})`);
     hierarchy = hierarchy.concat(mapStarSystemHierarchyBuilder(pointData, cFp));
   });
   // if(hierarchy !== "") { 
@@ -1455,7 +1454,7 @@ function onEachFeature(feature, layer) {
         areaHideTooltip(e);
       },
       click:  function(e) {
-        zoomToFeature(e);
+        // zoomToFeature(e);
         areaDisplayPopup(e);
       },
   });

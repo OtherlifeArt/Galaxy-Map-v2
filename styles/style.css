@@ -176,6 +176,10 @@ html, body {
   font-size: 18px;
 }
 
+.leaflet-popup-content pre {
+  line-height: 0px !important;
+}
+
 /* Legend */
 
 .info legend {
