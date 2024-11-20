@@ -397,40 +397,60 @@ function createInnerSystemMainObjectAsStarSystemFeatureAndAddItTofilteredData(st
  * 
  * @param {*} innerMainObjectAsStarSystemFeature initial feature object with properties.children key
  * @param {boolean} [firstChild=true] If it's the first child (default: true) we add its ID to the feature
+ * @param {boolean} [onlyCapital=false] If "IS_CAPITAL" feature property is found on any children
  * @returns feature properties
  */
-function getInnerSystemMainObjectFeatureProperties(innerMainObjectAsStarSystemFeature, firstChild = true) {
+function getInnerSystemMainObjectFeatureProperties(innerMainObjectAsStarSystemFeature, firstChild = true, onlyCapital = false) {
+  const sfp = innerMainObjectAsStarSystemFeature.properties;
   let newProperties = {
-    ID: [], // Need to change this property for it to remain unique
-    PARENT_ID: [], // Need to change this property to find parent object on map
     NAME: [],
     TYPE: [],
-    PARENT: [],
     ["URLS (sources)"]: [],
   };
-  const sfp = innerMainObjectAsStarSystemFeature.properties;
+  // Only first child
+  if(firstChild) {
+    newProperties.ID = [generateUUIDv7()], // ID need to remain unique
+    newProperties.PARENT_ID = [sfp.ID], // Need to change this property to find parent object on map
+    newProperties.PARENT = [sfp.NAME+" < "+ sfp.PARENT];
+    firstChild = false;
+  }
+  // Searching for main objects
   if(sfp.childrenFeatures && sfp.childrenFeatures.length > 0) {
     for (const child of sfp.childrenFeatures) {
-      if(firstChild) {
-        newProperties.ID.push(generateUUIDv7());
-        newProperties.PARENT_ID.push(sfp.ID);
-        newProperties.PARENT.push(sfp.NAME+" < "+ sfp.PARENT);
-        firstChild = false;
-      }
       const cfp = child.properties;
-      if(cfp.IS_CAPITAL.toLowerCase() === "yes" || (sfp.childrenFeatures.length === 1 && cfp.childrenFeatures === undefined)) { // Object is capital or (alone and has no child)
-        newProperties.NAME.push(cfp["ALT_NAMES (/ separated)"] && cfp["ALT_NAMES (/ separated)"] !== "" ?
-          cfp.NAME + "/" + cfp["ALT_NAMES (/ separated)"] : cfp.NAME
-        );
-        newProperties.TYPE.push(cfp.TYPE_CLASSES || cfp.TYPE_CLASSES !== "" ? 
-          cfp.TYPE_CLASSES + " (" + cfp.TYPE + ")" : cfp.TYPE
-        );
-        if(cfp["URLS (sources)"] && cfp["URLS (sources)"] !== "") {
-          newProperties["URLS (sources)"].push(cfp["URLS (sources)"]);
+      if(cfp.IS_CAPITAL.toLowerCase() === "yes") {
+        onlyCapital = true;
+      }
+      if(onlyCapital) { // Only "capital" children are selected
+        if(cfp.IS_CAPITAL.toLowerCase() === "yes") {
+          newProperties.NAME.push(cfp["ALT_NAMES (/ separated)"] && cfp["ALT_NAMES (/ separated)"] !== "" ?
+            cfp.NAME + "/" + cfp["ALT_NAMES (/ separated)"] : cfp.NAME
+          );
+          newProperties.TYPE.push(cfp.TYPE_CLASSES || cfp.TYPE_CLASSES !== "" ? 
+            cfp.TYPE_CLASSES + " (" + cfp.TYPE + ")" : cfp.TYPE
+          );
+          if(cfp["URLS (sources)"] && cfp["URLS (sources)"] !== "") {
+            newProperties["URLS (sources)"].push(cfp["URLS (sources)"]);
+          }
+        }
+      } else {
+        if(sfp.childrenFeatures.length === 1 && cfp.childrenFeatures === undefined) { // Object is not capital, is alone and has no child
+          newProperties.NAME.push(cfp["ALT_NAMES (/ separated)"] && cfp["ALT_NAMES (/ separated)"] !== "" ?
+            cfp.NAME + "/" + cfp["ALT_NAMES (/ separated)"] : cfp.NAME
+          );
+          newProperties.TYPE.push(cfp.TYPE_CLASSES || cfp.TYPE_CLASSES !== "" ? 
+            cfp.TYPE_CLASSES + " (" + cfp.TYPE + ")" : cfp.TYPE
+          );
+          if(cfp["URLS (sources)"] && cfp["URLS (sources)"] !== "") {
+            newProperties["URLS (sources)"].push(cfp["URLS (sources)"]);
+          }
         }
       }
+      if(newProperties["URLS (sources)"].length > 0) {
+        console.log("Found URLs:", newProperties["URLS (sources)"]);
+      }
       // Add childrenFeatures of child properties to new properties
-      const childrenNewProperties = getInnerSystemMainObjectFeatureProperties(child, firstChild);
+      const childrenNewProperties = getInnerSystemMainObjectFeatureProperties(child, firstChild, onlyCapital);
       console.log("before:");
       console.log("PARENT:", sfp.NAME, "CURRENT:", cfp.NAME);
       console.log(newProperties);
@@ -438,7 +458,10 @@ function getInnerSystemMainObjectFeatureProperties(innerMainObjectAsStarSystemFe
       console.log("after");
       newProperties.NAME = [...newProperties.NAME, ...childrenNewProperties.NAME]; // "..." spread operator to merge small arrays
       newProperties.TYPE = [...newProperties.TYPE, ...childrenNewProperties.TYPE]; // "..." spread operator to merge small arrays
-      newProperties["URLS (sources)"] = [([...newProperties["URLS (sources)"],...childrenNewProperties["URLS (sources)"]]).join(",")]; // "..." spread operator to merge small arrays
+      if(childrenNewProperties["URLS (sources)"].length>0) {
+        newProperties["URLS (sources)"] = [(newProperties["URLS (sources)"].concat(childrenNewProperties["URLS (sources)"])).join(",")];
+      }
+      // newProperties["URLS (sources)"] = [([...newProperties["URLS (sources)"],...childrenNewProperties["URLS (sources)"]]).join(",")]; // "..." spread operator to merge small arrays
     }
   }
   if(debug && newProperties.NAME.length > 0) {
