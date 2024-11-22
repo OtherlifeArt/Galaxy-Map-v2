@@ -257,6 +257,10 @@ const SPREADSHEET_HEADERS = {
       is_certified: 20,
       GEOM: 21,
       GEOM_TYPE: 22,
+      LOCATION_A_COORD_X: 23,
+      LOCATION_A_COORD_Y: 24,
+      LOCATION_B_COORD_X: 25,
+      LOCATION_B_COORD_Y: 26,
     },
     FIRST_COLUMN_REF: 'A',
     LAST_COLUMN_REF: () => {

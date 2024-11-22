@@ -19,7 +19,11 @@ async function loadHyperrouteArray() {
     return {
       id: sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.ID]),
       hyperrouteId: sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.HYPERROUTE_ID]),
-      text: `{${sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A]) === "" ? "?" : sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A])} <--> ${sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B])}} [${continuityString}] ${period === "" ? "" : (period)}`
+      text: `{${sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A]) === "" ? "?" : sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A])} <--> ${sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B])}} [${continuityString}] ${period === "" ? "" : (period)}`,
+      locationAId: sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_ID]),
+      locationBId: sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_ID]),
+      locationACoord: [SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_X, SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_Y],
+      locationBCoord: [SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_X, SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_Y],
     }
   });
   // Populate hyperroute list
@@ -41,6 +45,11 @@ async function loadHyperrouteArray() {
       parentName: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.PARENT_NAME]),
       dates: dates,
       continuityString: continuityString,
+      continuity: {
+        canon: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.CANON]),
+        legends: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.LEGENDS]),
+        unlicensed: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.UNLICENSED]),
+      },
       level: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.TRADE_ROUTE_LEVEL]),
       conjName: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.CONJECTURAL_NAME]),
       lastUpdated: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.updated_at]),
