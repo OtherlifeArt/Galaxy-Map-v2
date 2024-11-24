@@ -147,19 +147,56 @@ async function downloadLinesGeoJSON() {
 
 // Function to fetch data hyperroute and hyperroute section data already loaded from Google spreadsheet and return a GeoJSON object containing line objects
 function fetchDataLines() {
-  const features = [];
   // Iterate throught hyperroutes data
-  const hyperroutesDataFeatures = hyperrouteArray.map((hyperroute) => {
-
+  return hyperrouteArray.map((hyperroute) => {
     // Build hyperroute section data as MultiLineString
-    TODO!!!!
+    const hyperrouteLineSectionData = []; // Array of section forming a line (no branch)
+    const hyperrouteLineSectionCoords = []; // Array of section forming a line (no branch) (coordinates only)
+    let lastLocationBCoord;
+    for (const section of hyperroute.sections) {
+
+      if((section.locationACoord === null && section.locationAId === "") || (section.locationBCoord === null && section.locationBId === "")) {
+        continue; // Skip this hyperroute section since location A or B is not available
+      }
+
+      const locationACoord = section.locationACoord === null ? astronomicalObjectSearchArray.find((astroObject) => {
+          return astroObject.id === section.locationAId // Find astro object
+        }).map((astroObject) => {
+          return astroObject.coords // Extract astroobject coords
+        })
+        : section.locationACoord;
+      const locationBCoord = section.locationBCoord === null ? astronomicalObjectSearchArray.find((astroObject) => {
+          return astroObject.id === section.locationBId // Find astro object
+        }).map((astroObject) => {
+          return astroObject.coords // Extract astroobject coords
+        })
+        : section.locationBCoord;
+
+      // Detection of route branch
+      if(lastLocationBCoord === null || (lastLocationBCoord[0] !== locationACoord[0] && lastLocationBCoord[1] !== locationACoord[1])) {
+        // Add first route point
+        const locationACoords = [locationACoord[0], locationACoord[1]];
+        hyperrouteLineSectionData[hyperrouteLineSectionData.length] = [{coords : locationACoords}];
+        hyperrouteLineSectionCoords[hyperrouteLineSectionData.length] = [locationACoords];
+      }
+      // Add route point
+      const locationBCoords = [locationBCoord[0], locationBCoord[1]];
+      hyperrouteLineSectionData[hyperrouteLineSectionData.length-1].push({ 
+          coords : locationBCoords,
+          averageTravelTime: section.averageTravelTime,
+          continuity: section.continuity,
+          desc: section.desc,
+          placementCert: section.placementCert
+      });
+      hyperrouteLineSectionCoords[hyperrouteLineSectionData.length-1].push(locationBCoords);
+    }
 
     return {
-      // Put all data except for hyperroute section
+      // Put all together
       "type": "Feature",
       "geometry": {
           "type": "MultiLineString",
-          "coordinates": []
+          "coordinates": hyperrouteLineSectionCoords,
       },
       "properties": {
         ID: hyperroute.id,
@@ -178,7 +215,7 @@ function fetchDataLines() {
         URLS: hyperroute.urls,
         DESC: hyperroute.desc,
         // LINE_STRINGS: hyperroute.sections.map((hyperrouteSection) => ({
-          TODO!!!!
+        SECTIONS_PROPERTIES: hyperrouteLineSectionData
         // })),
       },
     }
