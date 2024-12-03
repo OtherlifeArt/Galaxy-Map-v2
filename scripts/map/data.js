@@ -2,7 +2,7 @@
 
 // URL Paths to data
 const url_points = "././data/astronomicalobjects/SW_Map_Points.geojson"
-const url_roads = "././data/astronomicalobjects/roads.geojson"
+const url_roads = "././data/astronomicalobjects/SW_Map_Lness.geojson"
 const url_areas = "././data/astronomicalobjects/SW_Map_Polygons.geojson"
 
 // Hard coded parameters to display on map

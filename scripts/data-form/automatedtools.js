@@ -120,33 +120,30 @@ async function downloadLinesGeoJSON() {
   const spreadsheetId = SPREADSHEET_ID;
   const routeSheetName = SHEETS.HYPERROUTES.NAME;
   const routeSectionSheetName = SHEETS.HYPERROUTE_SECTIONS.NAME;
-  await fetchDataLines(spreadsheetId, routeSheetName, routeSectionSheetName).then(function(geojson) {
-    // Convert GeoJSON to string
-    const geojsonStr = JSON.stringify(geojson);
+  const geojson = await fetchDataLines(spreadsheetId, routeSheetName, routeSectionSheetName)
+  // Convert GeoJSON to string
+  const geojsonStr = JSON.stringify(geojson);
 
-    // Create Blob
-    const blob = geoJSONPointDBFile = new Blob([geojsonStr], { type: 'application/json' });
+  // Create Blob
+  const blob = geoJSONPointDBFile = new Blob([geojsonStr], { type: 'application/json' });
 
-    // Create download link
-    const a = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    a.href = url;
-    a.download = 'SW_Map_Lines.geojson';
-    document.body.appendChild(a);
+  // Create download link
+  const a = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  a.href = url;
+  a.download = 'SW_Map_Lines.geojson';
+  document.body.appendChild(a);
 
-    // Trigger download
-    a.click();
+  // Trigger download
+  a.click();
 
-    // Clean up
-    window.URL.revokeObjectURL(url);
-    document.body.removeChild(a);
-  }).catch(function(error) {
-    console.error('Error generating GeoJSON:', error);
-  });
+  // Clean up
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
 }
 
 // Function to fetch data hyperroute and hyperroute section data already loaded from Google spreadsheet and return a GeoJSON object containing line objects
-function fetchDataLines() {
+async function fetchDataLines() {
   // Iterate throught hyperroutes data
   return hyperrouteArray.map((hyperroute) => {
     // Build hyperroute section data as MultiLineString
@@ -178,13 +175,13 @@ function fetchDataLines() {
       // Detection of route branch
       if(lastLocationBCoords === null || (lastLocationBCoords[0] !== locationACoord[0] && lastLocationBCoords[1] !== locationACoord[1])) {
         // Add first route point
-        const locationACoords = [locationACoord[0], locationACoord[1]];
+        const locationACoords = [parseFloat(locationACoord[0]), parseFloat(locationACoord[1])];
         hyperrouteLineSectionData[hyperrouteLineSectionData.length] = [{coords : locationACoords}];
         hyperrouteLineSectionCoords[hyperrouteLineSectionCoords.length] = [locationACoords];
       }
       
       // Add route point
-      const locationBCoords = [locationBCoord[0], locationBCoord[1]];
+      const locationBCoords = [parseFloat(locationBCoord[0]), parseFloat(locationBCoord[1])];
       lastLocationBCoords = locationBCoords;
       hyperrouteLineSectionData[hyperrouteLineSectionData.length-1].push({ 
           coords : locationBCoords,
