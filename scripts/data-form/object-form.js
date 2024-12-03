@@ -39,14 +39,7 @@ async function loadAstronomicalObjectArray() {
     const continuityString = canonLegendsUnlicencedToString([sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON]),sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS]),sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.UNLICENSED])]);
     const dateString = prettifyDateFromDateTo([rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO]]);
     const grid = rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID] ===  undefined || sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID]) === "" ? [] : [sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_GRID]), sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID])];
-    let coords = [];
-    if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] !== undefined && sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]) !== "") {
-      if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD] !== undefined && sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD]) !== "") {
-        coords = [sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD]), sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD])];
-      } else {
-        coords = [sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD]), sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]), sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD])];
-      }
-    }
+    let coords = [sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD]), sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]), sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD])];
     const dates = [sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM]), sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO])];
     astronomicalObjectSearchArray.push({
       id: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]),

@@ -152,7 +152,7 @@ function fetchDataLines() {
     // Build hyperroute section data as MultiLineString
     const hyperrouteLineSectionData = []; // Array of section forming a line (no branch)
     const hyperrouteLineSectionCoords = []; // Array of section forming a line (no branch) (coordinates only)
-    let lastLocationBCoord;
+    let lastLocationBCoords = null;
     for (const section of hyperroute.sections) {
 
       if((section.locationACoord === null && section.locationAId === "") || (section.locationBCoord === null && section.locationBId === "")) {
@@ -160,27 +160,32 @@ function fetchDataLines() {
       }
 
       const locationACoord = section.locationACoord === null ? astronomicalObjectSearchArray.find((astroObject) => {
-          return astroObject.id === section.locationAId // Find astro object
-        }).map((astroObject) => {
-          return astroObject.coords // Extract astroobject coords
-        })
+        // console.log(astroObject);
+        return astroObject.id === section.locationAId // Find astro object
+        }).coords
         : section.locationACoord;
-      const locationBCoord = section.locationBCoord === null ? astronomicalObjectSearchArray.find((astroObject) => {
-          return astroObject.id === section.locationBId // Find astro object
-        }).map((astroObject) => {
-          return astroObject.coords // Extract astroobject coords
-        })
-        : section.locationBCoord;
 
+      console.log(astronomicalObjectSearchArray.find((astroObject) => {
+        // console.log(astroObject);
+        return astroObject.id === section.locationBId // Find astro object
+      }));
+      const locationBCoord = section.locationBCoord === null ? astronomicalObjectSearchArray.find((astroObject) => {
+        // console.log(astroObject);
+        return astroObject.id === section.locationBId // Find astro object
+      }).coords
+      : section.locationBCoord;
+      
       // Detection of route branch
-      if(lastLocationBCoord === null || (lastLocationBCoord[0] !== locationACoord[0] && lastLocationBCoord[1] !== locationACoord[1])) {
+      if(lastLocationBCoords === null || (lastLocationBCoords[0] !== locationACoord[0] && lastLocationBCoords[1] !== locationACoord[1])) {
         // Add first route point
         const locationACoords = [locationACoord[0], locationACoord[1]];
         hyperrouteLineSectionData[hyperrouteLineSectionData.length] = [{coords : locationACoords}];
-        hyperrouteLineSectionCoords[hyperrouteLineSectionData.length] = [locationACoords];
+        hyperrouteLineSectionCoords[hyperrouteLineSectionCoords.length] = [locationACoords];
       }
+      
       // Add route point
       const locationBCoords = [locationBCoord[0], locationBCoord[1]];
+      lastLocationBCoords = locationBCoords;
       hyperrouteLineSectionData[hyperrouteLineSectionData.length-1].push({ 
           coords : locationBCoords,
           averageTravelTime: section.averageTravelTime,
@@ -188,7 +193,7 @@ function fetchDataLines() {
           desc: section.desc,
           placementCert: section.placementCert
       });
-      hyperrouteLineSectionCoords[hyperrouteLineSectionData.length-1].push(locationBCoords);
+      hyperrouteLineSectionCoords[hyperrouteLineSectionCoords.length-1].push(locationBCoords);
     }
 
     return {
