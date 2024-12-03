@@ -165,10 +165,10 @@ function fetchDataLines() {
         }).coords
         : section.locationACoord;
 
-      console.log(astronomicalObjectSearchArray.find((astroObject) => {
-        // console.log(astroObject);
-        return astroObject.id === section.locationBId // Find astro object
-      }));
+      // console.log(astronomicalObjectSearchArray.find((astroObject) => {
+      //   // console.log(astroObject);
+      //   return astroObject.id === section.locationBId // Find astro object
+      // }));
       const locationBCoord = section.locationBCoord === null ? astronomicalObjectSearchArray.find((astroObject) => {
         // console.log(astroObject);
         return astroObject.id === section.locationBId // Find astro object
