@@ -145,7 +145,7 @@ async function downloadLinesGeoJSON() {
 // Function to fetch data hyperroute and hyperroute section data already loaded from Google spreadsheet and return a GeoJSON object containing line objects
 async function fetchDataLines() {
   // Iterate throught hyperroutes data
-  return hyperrouteArray.map((hyperroute) => {
+  const hyperrouteFeatures = hyperrouteArray.map((hyperroute) => {
     // Build hyperroute section data as MultiLineString
     const hyperrouteLineSectionData = []; // Array of section forming a line (no branch)
     const hyperrouteLineSectionCoords = []; // Array of section forming a line (no branch) (coordinates only)
@@ -222,6 +222,12 @@ async function fetchDataLines() {
       },
     }
   });
+
+  return {
+    "type": "FeatureCollection",
+    "name": "roads",
+    "features": hyperrouteFeatures
+  }  
 }
 
 
