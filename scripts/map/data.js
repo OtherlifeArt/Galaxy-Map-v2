@@ -21,7 +21,7 @@ const mapStartZoomLevel = -2;
 const mapStartCenterCoordinates = [-450.0,0];
 
 // Road paam
-const roadZoomLevelStep = 3;
+const roadZoomLevelStep = 2;
 
 /************* DATA POINTS  ************/
 // Downloaded data from geojson files
@@ -38,6 +38,7 @@ var userOptions = {
   },
   display: {
     points: true,
+    roads: true,
     starSystems: false,
     ignoreObjectZoomLevelRestriction: false,
   }
@@ -97,7 +98,9 @@ function lineStyle(feature){
     color: color,
     weight: weight,
     opacity: opacity,
-    smoothFactor: smoothFactor
+    smoothFactor: smoothFactor,
+    dashArray: feature.properties.weight === 1 || parseInt(feature.properties.LEVEL) >= 4 ? '20, 20' : '20, 0', // Dotted lines on level 4 roads
+    dashOffset: '0'
   }
 }
 
@@ -110,6 +113,7 @@ function initializeZoomLayerRoadGroup(zoomLayerGroup){
       style: lineStyle,
       snapIgnore : true,
       pmIgnore: true,
+      onEachFeature: onEachFeatureRoads
     }));
   }
 }
@@ -135,7 +139,7 @@ function filterRoadData(roadData, filteredData) {
     const fp = feature.properties;
     const fpZoomLevel = fp.ZOOM_LEVEL !== "" ? parseInt(fp.ZOOM_LEVEL) : (parseInt(fp.LEVEL) - 1) * roadZoomLevelStep;
     if(!fpZoomLevel && fpZoomLevel !== 0) {
-      console.error(feature.propertie);
+      console.warn(feature.properties);
       alert("ZOOM_LEVEL or LEVEL data missing for route " + fp.NAME + " !! Check console !!");
       return; // we ignore this road
     }
@@ -176,128 +180,150 @@ function filterRoads() {
   if(debug) {
     console.log("-------------- STARTS FILTERING ROADS -----------------");
   }
-  /* Continuity */
-  // Unlicensed
-  if(userOptions.continuity.unlicensed) {
-    if(debug) {
-      console.log("(+) unlicensed");
-    }
-    if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+  // Check road layer display option before filtering
+  if(!userOptions.display.roads) {
+    map.removeLayer(roads);
+  } else {
+    /* Continuity */
+    // Unlicensed
+    if(userOptions.continuity.unlicensed) {
       if(debug) {
-        console.log("(+) Ignore zoom restriction");
+        console.log("(+) unlicensed");
       }
-      // Ignore zoom restriction (show all objects)
-      filterHighEndLayersByZoomLevel(roadUnlicencedLG, mapTotalZoomLevel);
+      if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+        if(debug) {
+          console.log("(+) Ignore zoom restriction");
+        }
+        // Ignore zoom restriction (show all objects)
+        filterHighEndLayersByZoomLevel(roadUnlicencedLG, mapTotalZoomLevel);
+        if(debug) {
+          console.log("[X] Roads - unlicensed - all zoom level");
+        }
+      } else {
+        filterHighEndLayersByZoomLevel(roadUnlicencedLG);
+        if(debug) {
+          console.log("[X] Roads - unlicensed - filtered zoom level");
+        }
+      }
       if(debug) {
-        console.log("[X] Roads - unlicensed - all zoom level");
+        console.log("[X] Roads slayer group - unlicensed");
       }
     } else {
-      filterHighEndLayersByZoomLevel(roadUnlicencedLG);
+      map.removeLayer(roadUnlicencedLG);
       if(debug) {
-        console.log("[X] Roads - unlicensed - filtered zoom level");
+        console.log("[ ] Roads layer group - unlicensed");
       }
     }
-    if(debug) {
-      console.log("[X] Roads slayer group - unlicensed");
-    }
-  } else {
-    map.removeLayer(roadUnlicencedLG);
-    if(debug) {
-      console.log("[ ] Roads layer group - unlicensed");
-    }
-  }
-  // Legends
-  if (userOptions.continuity.legends) {
-    if(debug) {
-      console.log("(+) legends");
-    }
-    if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+    // Legends
+    if (userOptions.continuity.legends) {
       if(debug) {
-        console.log("(+) Ignore zoom restriction");
+        console.log("(+) legends");
       }
-      // Ignore zoom restriction (show all objects)
-      filterHighEndLayersByZoomLevel(roadLegendsOnlyLG, mapTotalZoomLevel);
-      if(debug) {
-        console.log("[X] Roads - legends - all zoom level");
+      if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+        if(debug) {
+          console.log("(+) Ignore zoom restriction");
+        }
+        // Ignore zoom restriction (show all objects)
+        filterHighEndLayersByZoomLevel(roadLegendsOnlyLG, mapTotalZoomLevel);
+        if(debug) {
+          console.log("[X] Roads - legends - all zoom level");
+        }
+      } else {
+        filterHighEndLayersByZoomLevel(roadLegendsOnlyLG);
+        if(debug) {
+          console.log("[X] Roads - legends - filtered zoom level");
+        }
       }
-    } else {
-      filterHighEndLayersByZoomLevel(roadLegendsOnlyLG);
       if(debug) {
-        console.log("[X] Roads - legends - filtered zoom level");
-      }
-    }
-    if(debug) {
-      console.log("[X] Roads layer group - legends");
-    }
-  } else {
-    map.removeLayer(roadLegendsOnlyLG);
-    if(debug) {
-      console.log("[ ] Roads layer group - legends");
-    }
-  }
-  // Canon
-  if (userOptions.continuity.canon) {
-    if(debug) {
-      console.log("(+) canon");
-    }
-    if (userOptions.display.ignoreObjectZoomLevelRestriction) {
-      if(debug) {
-        console.log("(+) Ignore zoom restriction");
-      }
-      // Ignore zoom restriction (show all objects)
-      filterHighEndLayersByZoomLevel(roadCanonOlyLG, mapTotalZoomLevel);
-      if(debug) {
-        console.log("[X] Roads - canon - all zoom level");
+        console.log("[X] Roads layer group - legends");
       }
     } else {
-      filterHighEndLayersByZoomLevel(roadCanonOlyLG);
+      map.removeLayer(roadLegendsOnlyLG);
       if(debug) {
-        console.log("[X] Roads - canon - filtered zoom level");
+        console.log("[ ] Roads layer group - legends");
       }
     }
-    if(debug) {
-      console.log("[X] Roads layer group - canon");
-    }
-  } else {
-    map.removeLayer(roadCanonOlyLG);
-    if(debug) {
-      console.log("[ ] Roads layer group - canon");
-    }
-  }
-  // Canon or Legends
-  if (userOptions.continuity.legends || userOptions.continuity.canon) {
-    if(debug) {
-      console.log("(+) canon/legends");
-    }
-    if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+    // Canon
+    if (userOptions.continuity.canon) {
       if(debug) {
-        console.log("(+) Ignore zoom restriction");
+        console.log("(+) canon");
       }
-      // Ignore zoom restriction (show all objects)
-      filterHighEndLayersByZoomLevel(roadCanonAndLegendsLG, mapTotalZoomLevel);
+      if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+        if(debug) {
+          console.log("(+) Ignore zoom restriction");
+        }
+        // Ignore zoom restriction (show all objects)
+        filterHighEndLayersByZoomLevel(roadCanonOlyLG, mapTotalZoomLevel);
+        if(debug) {
+          console.log("[X] Roads - canon - all zoom level");
+        }
+      } else {
+        filterHighEndLayersByZoomLevel(roadCanonOlyLG);
+        if(debug) {
+          console.log("[X] Roads - canon - filtered zoom level");
+        }
+      }
       if(debug) {
-        console.log("[X] Roads - canon/legends - all zoom level");
+        console.log("[X] Roads layer group - canon");
       }
     } else {
-      filterHighEndLayersByZoomLevel(roadCanonAndLegendsLG);
+      map.removeLayer(roadCanonOlyLG);
       if(debug) {
-        console.log("[X] Roads - canon/legends - filtered zoom level");
+        console.log("[ ] Roads layer group - canon");
       }
     }
-    if(debug) {
-      console.log("[X] Roads layer group - canon/legends");
+    // Canon or Legends
+    if (userOptions.continuity.legends || userOptions.continuity.canon) {
+      if(debug) {
+        console.log("(+) canon/legends");
+      }
+      if (userOptions.display.ignoreObjectZoomLevelRestriction) {
+        if(debug) {
+          console.log("(+) Ignore zoom restriction");
+        }
+        // Ignore zoom restriction (show all objects)
+        filterHighEndLayersByZoomLevel(roadCanonAndLegendsLG, mapTotalZoomLevel);
+        if(debug) {
+          console.log("[X] Roads - canon/legends - all zoom level");
+        }
+      } else {
+        filterHighEndLayersByZoomLevel(roadCanonAndLegendsLG);
+        if(debug) {
+          console.log("[X] Roads - canon/legends - filtered zoom level");
+        }
+      }
+      if(debug) {
+        console.log("[X] Roads layer group - canon/legends");
+      }
+    } else {
+      map.removeLayer(roadCanonAndLegendsLG);
+      if(debug) {
+        console.log("[ ] Roads layer group - canon/legends");
+      }
     }
-  } else {
-    map.removeLayer(roadCanonAndLegendsLG);
-    if(debug) {
-      console.log("[ ] Roads layer group - canon/legends");
-    }
+    map.addLayer(roads);
   }
   if(debug) {
     console.log("-------------- ENDS FILTERING ROADS -----------------");
   }
   const styles = ['color: black', 'background: lightgreen','font-weight: bold'].join(';');
   console.log("%c[RUN] Roads displayed", styles);
+}
+
+function onEachFeatureRoads(feature, layer) {
+  layer.bindTooltip(feature.properties.NAME, { sticky: true });
+  layer.on({
+    mouseover: function(e) {
+      roadDisplayTooltip(e);
+    },
+    mouseout: function(e) {
+      roadHideTooltip(e);
+      // resetCircleMarkerStyle(e);
+    },
+    click: function(e) {
+      roadDisplayPopup(e);
+    },
+  });
 }
 
 // const roads = L.geoJSON(null,{
@@ -853,7 +879,10 @@ function filterPoints() {
   if(debug) {
     console.log("-------------- STARTS FILTERING POINTS -----------------");
   }
-
+  // Check point layer display option before filtering
+  if(!userOptions.display.points) {
+    map.removeLayer(points);
+  } else {
     /** Inner star system objects **/
     if(map.getZoom() > mapStarSystemMaxZoomLevel) { // Display only inner objects at max star system zoom level
       if(debug) {
@@ -1415,10 +1444,12 @@ function filterPoints() {
     map.addLayer(otherObjectLG);
     if(debug) {
       console.log("[X] Other objects layer group");
-      console.log("-------------- ENDS FILTERING POINTS -----------------");
     }
-    const styles = ['color: black', 'background: lightgreen','font-weight: bold'].join(';');
-    console.log("%c[RUN] Point displayed", styles);
+    map.addLayer(points);
+  }
+  console.log("-------------- ENDS FILTERING POINTS -----------------");
+  const styles = ['color: black', 'background: lightgreen','font-weight: bold'].join(';');
+  console.log("%c[RUN] Point displayed", styles);
 }
 
 /**

@@ -36,8 +36,8 @@ function stringListToURL(stringList, UrlText) {
   return urlList;
 }
 
-/* Return full continuity for object (Canon/Legends/Unlicensed) */
-function getContinuity(properties) {
+/* Return full continuity formatted string for object (Canon/Legends/Unlicensed) */
+function getContinuityString(properties) {
   let continuity = "";
   if(properties.CANON === "YES") {
     continuity += "Canon";
@@ -55,6 +55,20 @@ function getContinuity(properties) {
     continuity += "Unlicensed";
   }
   return continuity;
+}
+
+/* Return full date formatted string for object */
+function getDateString(properties) {
+  let dates = "";
+  if(properties.DATE_FROM !== "") {
+    let dateFrom = parseFloat(properties.DATE_FROM) >= 0 ? `${Math.abs(parseFloat(properties.DATE_FROM))} ABY` : `${Math.abs(parseFloat(properties.DATE_FROM))} BBY`;
+    dates += "From " + dateFrom + " ";
+  }
+  if(properties.DATE_TO !== "") {
+    let dateTo = parseFloat(properties.DATE_TO) >= 0 ? `${Math.abs(parseFloat(properties.DATE_TO))} ABY` : `${Math.abs(parseFloat(properties.DATE_TO))} BBY`;
+    dates += "To " + dateTo;
+  }
+  return dates;
 }
 
 /**

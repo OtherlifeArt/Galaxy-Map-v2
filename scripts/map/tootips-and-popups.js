@@ -2,66 +2,138 @@
  * Here we display tooltips and popups
  */
 
+function roadDisplayPopup(e) {
+  const layer = e.target;
+  const feature = layer.feature;
+  const fp = feature.properties;
+
+  let fullName = "";
+  // Conjectural Name
+  if(fp.CONJECTURAL_NAME && fp.CONJECTURAL_NAME === "YES") {
+    if (debug) {
+      console.log(fp.NAME);
+    }
+    fullName += '(?) ';
+  }
+  // Name
+  fullName += fp.NAME;
+  let continuity = getContinuityString(fp);
+  // ALT NAMES
+  if (fp['ALT_NAMES']){
+    console.log(fp['ALT_NAMES']);
+    fullName = fullName + "/" + fp['ALT_NAMES'];
+  }
+  // URL
+  if(fp["URLS"]) {
+    fullName = stringListToURL(fp["URLS"], fullName);
+  }
+  let text = '<h2>'+fullName+'</h2><div>';
+  // DATES
+  if (fp.DATE_FROM !== "" || fp.DATE_TO != "") {
+    text+= '<p><b>Period : </b>' + getDateString(fp) + '</p>';
+  }
+  // PARENT
+  if (fp.PARENT){
+    text+= '<p><b>Parent : </b>'+ fp.PARENT.replace(" < The Galaxy < The Galaxy local group < The universe", "") + '</p>';
+  }
+  // Continuity
+  text+= '<p><b>Continuity : </b>'+ continuity + '</p>';
+
+  let zoomLevel = map.getZoom();
+  let latLng;
+  if(e.latlng) { // On map click
+    // console.log(e.latlng);
+    latLng = e.latlng;
+  } else { // On map search
+    console.log(e.target.feature);
+    latLng = e.target.feature;
+  }
+  let popupDisplacement = [latLng.lat + 380 / Math.pow(2, zoomLevel+4), latLng.lng - 125 / Math.pow(2, zoomLevel+4)];
+  text+='</div>'
+  L.popup()
+    .setLatLng(popupDisplacement)
+    .setContent(text)
+    .openOn(map);
+}
+
+// Display label on mouseover
+function roadDisplayTooltip(e) {
+  // console.log(e);
+  let layer = e.target;
+  // Update tooltip visibility
+  layer.openTooltip();
+}
+
+// Remove label on mouseout
+function roadHideTooltip(e) {
+  e.target.layer?.closeTooltip(); // Hide tooltip
+}
+
 // Display tooltip on click
 function pointDisplayPopup(e) {
   let layer = e.target;
   let feature = layer.feature;
+  const fp = feature.properties;
   
   let fullName = "";
   // Conjectural Name
-  if(feature.properties.CONJECTURAL_NAME && feature.properties.CONJECTURAL_NAME === "YES") {
-    console.log(feature.properties.NAME);
+  if(fp.CONJECTURAL_NAME && fp.CONJECTURAL_NAME === "YES") {
+    console.log(fp.NAME);
     fullName += '(?) ';
   }
   // Name
-  fullName += feature.properties.NAME;
-  let continuity = getContinuity(feature.properties);
+  fullName += fp.NAME;
+  let continuity = getContinuityString(fp);
   // ALT NAMES
-  if (feature.properties['ALT_NAMES (/ separated']){
-    console.log(feature.properties['ALT_NAMES (/ separated']);
-    fullName = fullName + "/" + feature.properties['ALT_NAMES (/ separated'];
+  if (fp['ALT_NAMES (/ separated']){
+    console.log(fp['ALT_NAMES (/ separated']);
+    fullName = fullName + "/" + fp['ALT_NAMES (/ separated'];
   }
   // URL
-  if(feature.properties["URLS (sources)"]) {
-    fullName = stringListToURL(feature.properties["URLS (sources)"], fullName);
+  if(fp["URLS (sources)"]) {
+    fullName = stringListToURL(fp["URLS (sources)"], fullName);
   }
   let text = '<h2>'+fullName+'</h2><div>';
 
-  if (feature.properties.GEOM_TYPE){
-    text+= '<p><i>'+ feature.properties.GEOM_TYPE + '</i></p>';
+  if (fp.GEOM_TYPE){
+    text+= '<p><i>'+ fp.GEOM_TYPE + '</i></p>';
   }
   // TYPE and TYPE class
-  if (feature.properties.TYPE){
-    if (feature.properties.TYPE_CLASSES){
-      if(feature.properties.CONJECTURAL_TYPE && feature.properties.CONJECTURAL_TYPE === "YES") {
-        text+= '<p><b>Type : </b>(?) ' + feature.properties.TYPE_CLASSES + ' (' + (feature.properties.TYPE) + ')' + '</p>';
+  if (fp.TYPE){
+    if (fp.TYPE_CLASSES){
+      if(fp.CONJECTURAL_TYPE && fp.CONJECTURAL_TYPE === "YES") {
+        text+= '<p><b>Type : </b>(?) ' + fp.TYPE_CLASSES + ' (' + (fp.TYPE) + ')' + '</p>';
       } else {
-        text+= '<p><b>Type : </b>' + feature.properties.TYPE_CLASSES + ' (' + (feature.properties.TYPE) + ')' + '</p>';
+        text+= '<p><b>Type : </b>' + fp.TYPE_CLASSES + ' (' + (fp.TYPE) + ')' + '</p>';
       }
     } else {
-      if(feature.properties.CONJECTURAL_TYPE && feature.properties.CONJECTURAL_TYPE === "YES") {
-        text+= '<p><b>Type : </b>(?) '+ feature.properties.TYPE + '</p>';
+      if(fp.CONJECTURAL_TYPE && fp.CONJECTURAL_TYPE === "YES") {
+        text+= '<p><b>Type : </b>(?) '+ fp.TYPE + '</p>';
         
       } else {
-        text+= '<p><b>Type : </b>'+ feature.properties.TYPE + '</p>';
+        text+= '<p><b>Type : </b>'+ fp.TYPE + '</p>';
       }
     }
-    // console.log(feature.properties);
+    // console.log(fp);
+  }
+  // DATES
+  if (fp.DATE_FROM !== "" || fp.DATE_TO != "") {
+    text+= '<p><b>Period : </b>' + getDateString(fp) + '</p>';
   }
   // PARENT
-  if (feature.properties.PARENT){
-    text+= '<p><b>Parent : </b>'+ feature.properties.PARENT.replace(" < The Galaxy < The Galaxy local group < The universe", "") + '</p>';
+  if (fp.PARENT){
+    text+= '<p><b>Parent : </b>'+ fp.PARENT.replace(" < The Galaxy < The Galaxy local group < The universe", "") + '</p>';
   }
   // Continuity
   text+= '<p><b>Continuity : </b>'+ continuity + '</p>';
   // Grid
-  if (feature.properties.X_GRID !== "" && feature.properties.Y_GRID){
-    text+= '<p><b>Grid : </b>'+ feature.properties.X_GRID + '-' + feature.properties.Y_GRID + '</p>';
+  if (fp.X_GRID !== "" && fp.Y_GRID){
+    text+= '<p><b>Grid : </b>'+ fp.X_GRID + '-' + fp.Y_GRID + '</p>';
   }
   // Star system details
-  if(feature.properties.starSystemHierarchy?.length > 0){
+  if(fp.starSystemHierarchy?.length > 0){
     text += '<p><b>Star system details: </b>';
-    text += popupFormatStarSystemHierarchy(feature.properties.starSystemHierarchy);
+    text += popupFormatStarSystemHierarchy(fp.starSystemHierarchy);
     text += '</p>';
   }
   text+='</div>'
@@ -99,51 +171,52 @@ function areaDisplayPopup(e) {
   console.log(e);
   let layer = e.target;
   let feature = layer.feature;
+  const fp = feature.properties;
 
   let fullName = "";
   // Conjectural Name
-  if(feature.properties.CONJECTURAL_NAME && feature.properties.CONJECTURAL_NAME === "YES") {
-    console.log(feature.properties.NAME);
+  if(fp.CONJECTURAL_NAME && fp.CONJECTURAL_NAME === "YES") {
+    console.log(fp.NAME);
     fullName += '(?) ';
   }
-  fullName += feature.properties.NAME;
+  fullName += fp.NAME;
 
   // ALT NAMES
-  if (feature.properties['ALT_NAMES (/ separated']){
-    console.log(feature.properties['ALT_NAMES (/ separated']);
-    fullName = fullName + "/" + feature.properties['ALT_NAMES (/ separated'];
+  if (fp['ALT_NAMES (/ separated']){
+    console.log(fp['ALT_NAMES (/ separated']);
+    fullName = fullName + "/" + fp['ALT_NAMES (/ separated'];
   }
   // URL
-  if(feature.properties["URLS (sources)"]) {
-    fullName = stringListToURL(feature.properties["URLS (sources)"], fullName);
+  if(fp["URLS (sources)"]) {
+    fullName = stringListToURL(fp["URLS (sources)"], fullName);
   }
   let text = '<h2>'+fullName+'</h2><div>';
 
-  if (feature.properties.GEOM_TYPE){
-    text+= '<p><i>'+ feature.properties.GEOM_TYPE + '</i></p>';
+  if (fp.GEOM_TYPE){
+    text+= '<p><i>'+ fp.GEOM_TYPE + '</i></p>';
   }
   // TYPE and TYPE class
-  if (feature.properties.TYPE){
-    if (feature.properties.TYPE_CLASSES){
-      if(feature.properties.CONJECTURAL_TYPE && feature.properties.CONJECTURAL_TYPE === "YES") {
-        text+= '<p><b>Type : </b>(?) ' + feature.properties.TYPE_CLASSES + ' (' + (feature.properties.TYPE) + ')' + '</p>';
+  if (fp.TYPE){
+    if (fp.TYPE_CLASSES){
+      if(fp.CONJECTURAL_TYPE && fp.CONJECTURAL_TYPE === "YES") {
+        text+= '<p><b>Type : </b>(?) ' + fp.TYPE_CLASSES + ' (' + (fp.TYPE) + ')' + '</p>';
       } else {
-        text+= '<p><b>Type : </b>' + feature.properties.TYPE_CLASSES + ' (' + (feature.properties.TYPE) + ')' + '</p>';
+        text+= '<p><b>Type : </b>' + fp.TYPE_CLASSES + ' (' + (fp.TYPE) + ')' + '</p>';
       }
     } else {
-      if(feature.properties.CONJECTURAL_TYPE && feature.properties.CONJECTURAL_TYPE === "YES") {
-        text+= '<p><b>Type : </b>(?) '+ feature.properties.TYPE + '</p>';
+      if(fp.CONJECTURAL_TYPE && fp.CONJECTURAL_TYPE === "YES") {
+        text+= '<p><b>Type : </b>(?) '+ fp.TYPE + '</p>';
       } else {
-        text+= '<p><b>Type : </b>'+ feature.properties.TYPE + '</p>';
+        text+= '<p><b>Type : </b>'+ fp.TYPE + '</p>';
       }
     }
   }
   // PARENT
-  if (feature.properties.PARENT){
-    text+= '<p><b>Parent : </b>'+ feature.properties.PARENT.replace(" < The Galaxy local group < The universe", "") + '</p>';
+  if (fp.PARENT){
+    text+= '<p><b>Parent : </b>'+ fp.PARENT.replace(" < The Galaxy local group < The universe", "") + '</p>';
   }
   // Continuity
-  text+= '<p><b>Continuity : </b>'+ getContinuity(feature.properties) + '</p>';
+  text+= '<p><b>Continuity : </b>'+ getContinuityString(fp) + '</p>';
 
   let zoomLevel = map.getZoom();
   let latLng;

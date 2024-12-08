@@ -310,7 +310,7 @@ var overLayers = [
       {label: 'Grid', layer: completegrid, name: 'Grid'},
       {label: "Areas", layer: areas},
       {label: '<div><input type="checkbox" id="display-point-layer" checked="checked">Points</div>', layer: null},
-      {label: "Hyperlanes", layer: roads},
+      {label: '<div><input type="checkbox" id="display-road-layer" checked="checked">Hyperlanes</div>', layer: null},
     ]
   },
 ];
@@ -376,18 +376,21 @@ document.querySelectorAll(".continuity-checkbox-group").forEach(function(continu
       userOptions.continuity.unlicensed = this.checked ? true : false;
     }
     filterPoints();
+    filterRoads();
 })});
 
 // Filter by zoom restriction
 document.getElementById("display-zoom-restriction-checkbox").addEventListener("change", function () {
   userOptions.display.ignoreObjectZoomLevelRestriction = this.checked;
   filterPoints();
+  filterRoads();
 });
 
 // Filter by star system objects
 document.getElementById("display-prefer-star-systems-checkbox").addEventListener("change", function () {
   userOptions.display.starSystems = this.checked;
   filterPoints();
+  filterRoads();
 });
 
 // On zoom event
@@ -395,18 +398,28 @@ map.on('zoomend', function() {
   // Rebuild point layer if necessary
   if(!userOptions.display.ignoreObjectZoomLevelRestriction) {
     filterPoints();
+    filterRoads();
   }
 });
 
 // Filter by point layer
 document.getElementById("display-point-layer").addEventListener("change", function () {
+  userOptions.display.points = this.checked;
+  filterPoints();
   if(this.checked) {
-    map.addLayer(points);
-    filterPoints();
     console.log("[X] All point objects layer group");
   } else {
-    map.removeLayer(points);
     console.log("[ ] All point objects layer group");
+  }
+});
 
+// Filter by road layer
+document.getElementById("display-road-layer").addEventListener("change", function () {
+  userOptions.display.roads = this.checked;
+  filterRoads();
+  if(this.checked) {
+    console.log("[X] All road objects layer group");
+  } else {
+    console.log("[ ] All road objects layer group");
   }
 });

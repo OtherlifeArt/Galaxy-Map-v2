@@ -112,6 +112,7 @@ var overLayers = [
               {label: 'Other sources', collapsed:true, 
               children: [
                 {label: "Tapani sector (WEG)",layer:TapaniOverlay},
+                {label: "Secrets of the Sisar run (WEG)",layer:SisarRunOverlay},
               ]}
             ]
           },

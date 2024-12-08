@@ -9,7 +9,7 @@ async function listHyperroutes() {
 
 async function loadHyperrouteArray() {
   // Get hyperroute data
-  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.HYPERROUTES.NAME, '!A2:M');
+  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.HYPERROUTES.NAME, `!${SPREADSHEET_HEADERS.HYPERROUTES.FIRST_COLUMN_REF}2:${SPREADSHEET_HEADERS.HYPERROUTES.LAST_COLUMN_REF()}`);
   //  Get hyperroute section data
   const sectionSheetRange = `!${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.LAST_COLUMN_REF()}`;
   const sectionResult = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.HYPERROUTE_SECTIONS.NAME, sectionSheetRange);

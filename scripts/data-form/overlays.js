@@ -223,6 +223,18 @@ var TapaniOverlay = L.imageOverlay(TapaniUrl, TapaniBounds, {
     snapIgnore: true
 });
 
+// var SisarRunUrl = EApath + 'WEG_Sisar_run.png';
+// var SisarRunBounds = L.latLngBounds([[115,763], [98,785]]);
+// var SisarRunOverlay = L.imageOverlay(SisarRunUrl, SisarRunBounds, {
+//     opacity: 1,
+//     errorOverlayUrl: errorOverlayUrl,
+//     alt: altText,
+//     interactive: true,
+//     //pane:'sector_overlays',
+//     pmIgnore:true,
+//     snapIgnore: true
+// });
+
 /******** The Essential Atlas Extra parts*******/
 
 var ExpensionRegionSUrl = EApath + 'ExpansionRegionS_6.png';

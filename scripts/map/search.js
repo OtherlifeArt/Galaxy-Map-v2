@@ -2,6 +2,7 @@
 const flyToLocationDuration = {
   areas: 2,
   points: 3,
+  roads: 2,
 }
 
 const flyToLocationZoomLevel = {
@@ -12,6 +13,7 @@ const flyToLocationZoomLevel = {
 
 /******** SEARCH CONTROL *********/
 
+// var searchLayer = L.layerGroup([points, areas, roads]); // Adding "roads" pane make search crash. To DEBUG !
 var searchLayer = L.layerGroup([points, areas]);
 
 var searchControl = new L.Control.Search({
@@ -27,12 +29,18 @@ var searchControl = new L.Control.Search({
         animate: true,
         duration: flyToLocationDuration.areas
       });
+    } else if(latlng.layer.options.pane == "roads") {
+      // let zoom = flyToLocationZoomLevel.default;
+      // map.flyTo(latlng, zoom, { // Use flyTo for smooth zooming
+      //   animate: true,
+      //   duration: flyToLocationDuration.roads
+      // });
     } else {
       // map.setView(latlng, 4);
       let zoom = flyToLocationZoomLevel.default;
       // Get working zoom function of object type
       // Inner system objects
-      if(latlng.layer.feature.properties.TYPE.toLowerCase() !== 'star system' && !latlng.layer.feature.properties.innerObjectAsStarSystem && getParentStarSystemCoordinatesIfAstroObjectFeatureIsInAStarSystem(pointData, latlng.layer.feature.properties).length > 0){
+      if(latlng.layer.feature.properties.TYPE.toLowerCase() !== 'star system' && !latlng.layer.feature.properties.innerObjectAsStarSystem && getParentStarSystemCoordinatesIfAstroObjectFeatureIsInAStarSystem(pointData.features, latlng.layer.feature.properties).length > 0){
         zoom = flyToLocationZoomLevel.starSystemInnerObjects; // Set zoom for inner star system objects
       } 
       map.flyTo(latlng, zoom, { // Use flyTo for smooth zooming
@@ -62,6 +70,8 @@ searchControl.on('search:locationfound', function(e) {
         e.layer.fire('click'); // Open popup and tooltip on object (I don't know why tooltip opens though)
         e.layer.fire('mouseout'); // Fix : close tooltip
       });
+    } else if (e.layer.feature.geometry.type == 'MultiLineSring'){
+      alert("OK");
     }
 }).on('search:collapsed', function(e) {
   searchLayer.eachLayer(function(layer) {	//restore feature color

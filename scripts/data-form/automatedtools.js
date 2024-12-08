@@ -144,6 +144,9 @@ async function downloadLinesGeoJSON() {
 
 // Function to fetch data hyperroute and hyperroute section data already loaded from Google spreadsheet and return a GeoJSON object containing line objects
 async function fetchDataLines() {
+  // refresh data
+  await refreshForm();
+  await refreshHyperrouteForm();
   // Iterate throught hyperroutes data
   const hyperrouteFeatures = hyperrouteArray.map((hyperroute) => {
     // Build hyperroute section data as MultiLineString
@@ -173,11 +176,11 @@ async function fetchDataLines() {
       : section.locationBCoord;
       
       // Detection of route branch
-      if(lastLocationBCoords === null || (lastLocationBCoords[0] !== locationACoord[0] && lastLocationBCoords[1] !== locationACoord[1])) {
+      if(lastLocationBCoords === null || (lastLocationBCoords[0] !== parseFloat(locationACoord[0]) && lastLocationBCoords[1] !== parseFloat(locationACoord[1]))) {
         // Add first route point
         const locationACoords = [parseFloat(locationACoord[0]), parseFloat(locationACoord[1])];
         hyperrouteLineSectionData[hyperrouteLineSectionData.length] = [{coords : locationACoords}];
-        hyperrouteLineSectionCoords[hyperrouteLineSectionCoords.length] = [locationACoords];
+        hyperrouteLineSectionCoords[hyperrouteLineSectionCoords.length] = [locationACoords]; // New linestring
       }
       
       // Add route point
@@ -190,7 +193,7 @@ async function fetchDataLines() {
           desc: section.desc,
           placementCert: section.placementCert
       });
-      hyperrouteLineSectionCoords[hyperrouteLineSectionCoords.length-1].push(locationBCoords);
+      hyperrouteLineSectionCoords[hyperrouteLineSectionCoords.length-1].push(locationBCoords); // Append to linestring
     }
 
     return {
