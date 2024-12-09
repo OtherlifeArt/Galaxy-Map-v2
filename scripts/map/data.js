@@ -20,7 +20,7 @@ const mapMaxZoomLevel = mapStarSystemMaxZoomLevel + 3;
 const mapStartZoomLevel = -2;
 const mapStartCenterCoordinates = [-450.0,0];
 
-// Road paam
+// Road param
 const roadZoomLevelStep = 2;
 
 /************* DATA POINTS  ************/
@@ -88,7 +88,7 @@ function* roadColorGenerator() {
   }
 }
 
-function lineStyle(feature){
+function styleLines(feature){
   let color = feature.properties.color ? feature.properties.color : roadColorGen.next().value;
   let weight = feature.properties.weight ?? 5 - parseInt(feature.properties.LEVEL); // From 4 to 1
   let opacity = feature.properties.opacity ?? 0.9;
@@ -110,7 +110,7 @@ function initializeZoomLayerRoadGroup(zoomLayerGroup){
     zoomLayerGroup.addLayer(L.geoJSON(null,{
       pane:'roads',
       title: `${zoomLayerGroup.options.title} - zoom level ${index}`,
-      style: lineStyle,
+      style: styleLines,
       snapIgnore : true,
       pmIgnore: true,
       onEachFeature: onEachFeatureRoads

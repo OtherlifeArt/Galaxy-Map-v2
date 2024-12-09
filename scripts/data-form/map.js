@@ -83,14 +83,13 @@ var overLayers = [
           {label:"Current",
             children: [
               {label: "Points (load from db)", layer: points},
-              {label: "Areas", layer: areas}
+              {label: "Areas", layer: areas},
+              {label: "Hyperlanes", layer: roads},
             ]
           },
           {label:"Deprecated",collapsed:true,
           children:[
             //{label: "Points (last export)", layer: points},
-            {label: "Hyperlanes", layer: roads},
-            
           ]
         }
         ]
@@ -112,7 +111,7 @@ var overLayers = [
               {label: 'Other sources', collapsed:true, 
               children: [
                 {label: "Tapani sector (WEG)",layer:TapaniOverlay},
-                {label: "Secrets of the Sisar run (WEG)",layer:SisarRunOverlay},
+                // {label: "Secrets of the Sisar run (WEG)",layer:SisarRunOverlay},
               ]}
             ]
           },

@@ -120,7 +120,7 @@ async function downloadLinesGeoJSON() {
   const spreadsheetId = SPREADSHEET_ID;
   const routeSheetName = SHEETS.HYPERROUTES.NAME;
   const routeSectionSheetName = SHEETS.HYPERROUTE_SECTIONS.NAME;
-  const geojson = await fetchDataLines(spreadsheetId, routeSheetName, routeSectionSheetName)
+  const geojson = await fetchDataLines(spreadsheetId, routeSheetName, routeSectionSheetName);
   // Convert GeoJSON to string
   const geojsonStr = JSON.stringify(geojson);
 

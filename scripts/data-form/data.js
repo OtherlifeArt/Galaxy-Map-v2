@@ -2,21 +2,55 @@
 
 // Paths to data
 var url_points = "././data/astronomicalobjects/SW_Map_Points.geojson"
-var url_roads = "././data/astronomicalobjects/roads.geojson"
+var url_roads = "././data/astronomicalobjects/SW_Map_Lines.geojson"
 var url_areas = "././data/astronomicalobjects/SW_Map_Polygons.geojson"
 
 /************** ROADS ***************/
 
-function styleLines(feature) {
-  /*Set roads style depending on properties*/
-  return {
-              color: feature.properties.color,
-              weight: feature.properties.weight,
-              opacity: feature.properties.opacity,
-              smoothFactor: feature.properties.smoothFactor
-          };
+function* roadColorGenerator() {
+  while(true) {
+    yield "#262673"; // Navy
+    yield "#ffd8b1"; // Apricot
+    yield "#C98B5E"; // Orange
+    yield "#DCA3D9"; // Magenta
+    yield "#AAFFC3"; // Mint
+    yield "#F58231"; // Orange
+    yield "#42d4f4"; // Cyan
+    yield "#3cb44b"; // Green
+    yield "#800000"; // Maroon
+    yield "#4363d8"; // Blue
+    yield "#AFCC66"; // Lime
+    yield "#EEEECD"; // Pale
+    yield "#94A5DB"; // Lavander
+    yield "#fffac8"; // Beige
+    yield "#ff8080"; // Light Red
+    yield "#FF0000"; // Red
+    yield "#b09cc8"; // Purple
+    yield "#93e98e"; // Green 2
+    yield "#FCB001"; // Yellow
+    yield "#00bfff"; // Blue 2
+  }
 }
 
+function styleLines(feature) {
+  /*Set roads style depending on properties*/
+  let color = feature.properties.color ? feature.properties.color : roadColorGen.next().value;
+  let weight = feature.properties.weight ?? 5 - parseInt(feature.properties.LEVEL); // From 4 to 1
+  let opacity = feature.properties.opacity ?? 0.9;
+  let smoothFactor = feature.properties.smoothFactor ?? 1.0;
+  
+  return {
+    color: color,
+    weight: weight,
+    opacity: opacity,
+    smoothFactor: smoothFactor,
+    dashArray: feature.properties.weight === 1 || parseInt(feature.properties.LEVEL) >= 4 ? '20, 20' : '20, 0', // Dotted lines on level 4 roads
+    dashOffset: '0'
+  }
+}
+
+// Load data from local geojson and initialize the road layer
+const roadColorGen = roadColorGenerator();
 var roads = L.geoJSON(null,{
     pane:'roads',
     style:styleLines,
@@ -27,6 +61,17 @@ $.getJSON(url_roads, function(data) {
     roads.addData(data);
 });
 
+/// Re.load data (roads only) from the DB and display them on the map
+var roadsgeojson;
+async function getRoadsGeoJSON() {
+  const spreadsheetId = SPREADSHEET_ID;
+  const routeSheetName = SHEETS.HYPERROUTES.NAME;
+  const routeSectionSheetName = SHEETS.HYPERROUTE_SECTIONS.NAME;
+  const geojson = await fetchDataLines(spreadsheetId, routeSheetName, routeSectionSheetName);
+  roads.clearLayers();
+  roadsgeojson = geojson;
+  roads.addData(roadsgeojson);
+}
 
 /************** POINTS ***************/
 function getPointColor(type) {
