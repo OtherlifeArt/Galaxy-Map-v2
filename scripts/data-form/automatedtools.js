@@ -179,14 +179,18 @@ async function fetchDataLines() {
       if(lastLocationBCoords === null || (lastLocationBCoords[0] !== parseFloat(locationACoord[0]) && lastLocationBCoords[1] !== parseFloat(locationACoord[1]))) {
         // Add first route point
         const locationACoords = [parseFloat(locationACoord[0]), parseFloat(locationACoord[1])];
-        hyperrouteLineSectionData[hyperrouteLineSectionData.length] = [{coords : locationACoords}];
+        hyperrouteLineSectionData[hyperrouteLineSectionData.length] = [{
+          text: section.locationAText,
+          coords : locationACoords,
+        }];
         hyperrouteLineSectionCoords[hyperrouteLineSectionCoords.length] = [locationACoords]; // New linestring
       }
       
       // Add route point
       const locationBCoords = [parseFloat(locationBCoord[0]), parseFloat(locationBCoord[1])];
       lastLocationBCoords = locationBCoords;
-      hyperrouteLineSectionData[hyperrouteLineSectionData.length-1].push({ 
+      hyperrouteLineSectionData[hyperrouteLineSectionData.length-1].push({
+          text: section.locationBText,
           coords : locationBCoords,
           averageTravelTime: section.averageTravelTime,
           continuity: section.continuity,
@@ -219,6 +223,10 @@ async function fetchDataLines() {
         CONJECTURAL_NAME: hyperroute.conjName,
         URLS: hyperroute.urls,
         DESC: hyperroute.desc,
+        color: hyperroute.color,
+        weight: hyperroute.weight,
+        opacity: hyperroute.opacity,
+        smoothFactor: hyperroute.smoothFactor,
         // LINE_STRINGS: hyperroute.sections.map((hyperrouteSection) => ({
         SECTIONS_PROPERTIES: hyperrouteLineSectionData
         // })),

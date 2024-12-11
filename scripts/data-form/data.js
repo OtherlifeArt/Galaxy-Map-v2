@@ -33,11 +33,12 @@ function* roadColorGenerator() {
 }
 
 function styleLines(feature) {
+  console.log("Mapping "+ feature.properties.NAME +" road");
   /*Set roads style depending on properties*/
-  let color = feature.properties.color ? feature.properties.color : roadColorGen.next().value;
-  let weight = feature.properties.weight ?? 5 - parseInt(feature.properties.LEVEL); // From 4 to 1
-  let opacity = feature.properties.opacity ?? 0.9;
-  let smoothFactor = feature.properties.smoothFactor ?? 1.0;
+  let color = feature.properties.color && feature.properties.color !== "" ? feature.properties.color : roadColorGen.next().value;
+  let weight = feature.properties.weight && feature.properties.weight !== "" ? parseFloat(feature.properties.weight) : 5 - parseInt(feature.properties.LEVEL); // From 4 to 1
+  let opacity = feature.properties.opacity && feature.properties.opacity !== "" ? parseFloat(feature.properties.opacity) :  0.9;
+  let smoothFactor = feature.properties.smoothFactor && feature.properties.smoothFactor !== "" ? feature.properties.smoothFactor : 1.0;
   
   return {
     color: color,
@@ -55,8 +56,36 @@ var roads = L.geoJSON(null,{
     pane:'roads',
     style:styleLines,
     snapIgnore: true,
-    pmIgnore:true
+    pmIgnore:true,
+    onEachFeature: onEachFeatureRoads
 });
+function onEachFeatureRoads(feature, layer) {  
+  layer.bindTooltip(feature.properties.NAME, { sticky: true });
+  layer.on({
+    mouseover: function(e) {
+      roadDisplayTooltip(e);
+    },
+    mouseout: function(e) {
+      roadHideTooltip(e);
+      // resetCircleMarkerStyle(e);
+    },
+    click: function(e) {
+      roadDisplayPopup(e);
+    },
+  });
+}
+// Display label on mouseover
+function roadDisplayTooltip(e) {
+  // console.log(e);
+  let layer = e.target;
+  // Update tooltip visibility
+  layer.openTooltip();
+}
+
+// Remove label on mouseout
+function roadHideTooltip(e) {
+  e.target.layer?.closeTooltip(); // Hide tooltip
+}
 $.getJSON(url_roads, function(data) {
     roads.addData(data);
 });
@@ -138,10 +167,27 @@ function resetCircleMarkerStyle(e) {
 }
 
 function onEachFeaturePoints(feature, layer) {
+  layer.bindTooltip(feature.properties.NAME, { sticky: true });
   layer.on({
-      mouseover: highlightCircleMarker,
-      mouseout: resetCircleMarkerStyle
+      mouseover: function(e) {
+        highlightCircleMarker(e);
+        pointDisplayTooltip(e);
+      },
+      mouseout: function(e) {
+        pointHideTooltip(e);
+        resetCircleMarkerStyle(e);
+      },
   });
+}
+function pointDisplayTooltip(e) {
+  // console.log(e);
+  let layer = e.target;
+  // Update tooltip visibility
+  layer.openTooltip();
+}
+// Remove label on mouseout
+function pointHideTooltip(e) {
+  e.target.layer?.closeTooltip(); // Hide tooltip
 }
 
 points = L.geoJSON(null,{
@@ -240,13 +286,31 @@ function zoomToFeature(e) {
 }
 
 function onEachFeature(feature, layer) {
+  layer.bindTooltip(feature.properties.NAME, { sticky: true });
   layer.on({
-      mouseover: highlightFeature,
-      mouseout: resetHighlight,
+      mouseover: function (e) {
+        highlightFeature(e);
+        areaDisplayTooltip(e);
+      },
+      mouseout: function (e) {
+        resetHighlight(e);
+        areaHideTooltip(e);
+      },
       //click: zoomToFeature
   });
 }
+// Display label on mouseover
+function areaDisplayTooltip(e) {
+  // console.log(e);
+  let layer = e.target;
+  // Update tooltip visibility
+  layer.openTooltip();
+}
 
+// Remove label on mouseout
+function areaHideTooltip(e) {
+  e.target.layer?.closeTooltip(); // Hide tooltip
+}
 // Create layers
 areas = L.geoJSON(null,{
   pane:'areas',
@@ -276,6 +340,12 @@ $.getJSON(url_areas, function(data) {
       }
       if (features.properties.PARENT){
         texte+= '<p><b>Parent : </b>'+ features.properties.PARENT + '</p>';
+      }
+      if (features.properties.X_GRID){
+        texte+= '<p><b>Grid : </b>'+ features.properties.X_GRID+"-"+features.properties.Y_GRID + '</p>';
+      }
+      if (features.properties.X_COORD){
+        texte+= '<p><b>Coords : </b>'+ features.properties.X_COORD+", "+features.properties.Y_COORD +", "+features.properties.Z_COORD+ '</p>';
       }
       texte+='</div>'
     L.popup()
@@ -307,25 +377,36 @@ $.getJSON(url_areas, function(data) {
         .setContent(texte)
         .openOn(map);
   });
-  /*
+
 points.on('mouseover'), function(e) {
   var feature = e.layer.feature;
   var tooltip = L.tooltip({
     permanent: false, // Show the tooltip permanently
     direction: 'top', // Position the tooltip above the marker
 })
-.setContent(features.properties.NAME); // Set the content of the tooltip
+.setContent(feature.properties.NAME); // Set the content of the tooltip
 
 this.bindTooltip(tooltip).openTooltip(); // Bind and open the tooltip
 }
 
-areas.on('mouseover'), function(e) {
-  var feature = e.layer.feature;
-  var tooltip = L.tooltip({
-    permanent: false, // Show the tooltip permanently
-    direction: 'top', // Position the tooltip above the marker
-})
-.setContent(features.properties.NAME); // Set the content of the tooltip
+// areas.on('mouseover'), function(e) {
+//   var feature = e.layer.feature;
+//   var tooltip = L.tooltip({
+//     permanent: false, // Show the tooltip permanently
+//     direction: 'top', // Position the tooltip above the marker
+// })
+// .setContent(feature.properties.NAME); // Set the content of the tooltip
 
-this.bindTooltip(tooltip).openTooltip(); // Bind and open the tooltip
-}*/
+// this.bindTooltip(tooltip).openTooltip(); // Bind and open the tooltip
+// }
+
+// roads.on('mouseover'), function(e) {
+//   var feature = e.layer.feature;
+//   var tooltip = L.tooltip({
+//     permanent: false, // Show the tooltip permanently
+//     direction: 'top', // Position the tooltip above the marker
+// })
+// .setContent(feature.properties.NAME); // Set the content of the tooltip
+
+// this.bindTooltip(tooltip).openTooltip(); // Bind and open the tooltip
+// }

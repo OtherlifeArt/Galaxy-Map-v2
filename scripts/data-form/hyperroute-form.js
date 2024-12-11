@@ -21,7 +21,9 @@ async function loadHyperrouteArray() {
       hyperrouteId: sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.HYPERROUTE_ID]),
       text: `{${sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A]) === "" ? "?" : sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A])} <--> ${sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B])}} [${continuityString}] ${period === "" ? "" : (period)}`,
       locationAId: sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_ID]),
+      locationAText: sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A]),
       locationBId: sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_ID]),
+      locationBText: sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B]),
       locationACoord: sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_X]) === "" ? null : 
         [
           sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_X]),
@@ -81,6 +83,10 @@ async function loadHyperrouteArray() {
       notes: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.NOTES]),
       interesting: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.INTERESTING]),
       isCertified: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.is_certified]),
+      color: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.color]),
+      weight: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.weight]),
+      opacity: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.opacity]),
+      smoothFactor: sanitizeText(rowValues[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.smooth_factor]),
       sections: sectionArray.filter(section => section.hyperrouteId === id),
     });
   }

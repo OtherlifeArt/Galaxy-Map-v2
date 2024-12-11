@@ -89,10 +89,10 @@ function* roadColorGenerator() {
 }
 
 function styleLines(feature){
-  let color = feature.properties.color ? feature.properties.color : roadColorGen.next().value;
-  let weight = feature.properties.weight ?? 5 - parseInt(feature.properties.LEVEL); // From 4 to 1
-  let opacity = feature.properties.opacity ?? 0.9;
-  let smoothFactor = feature.properties.smoothFactor ?? 1.0;
+  let color = feature.properties.color && feature.properties.color !== "" ? feature.properties.color : roadColorGen.next().value;
+  let weight = feature.properties.weight && feature.properties.weight !== "" ? parseFloat(feature.properties.weight) : 5 - parseInt(feature.properties.LEVEL); // From 4 to 1
+  let opacity = feature.properties.opacity && feature.properties.opacity !== "" ? parseFloat(feature.properties.opacity) :  0.9;
+  let smoothFactor = feature.properties.smoothFactor && feature.properties.smoothFactor !== "" ? feature.properties.smoothFactor : 1.0;
   
   return {
     color: color,
@@ -1772,7 +1772,17 @@ function onEachFeature(feature, layer) {
       },
   });
 }
+// Display tooltip on mouseover
+function areaDisplayTooltip(e) {
+  let layer = e.target;
+  // Update tooltip visibility
+  layer.openTooltip();
+}
 
+// Hide tooltip on mouseout
+function areaHideTooltip(e) {
+  e.target.layer?.closeTooltip(); // Hide tooltip
+}
 // Create layers
 const areas = L.geoJSON(null,{
   pane:'areas',

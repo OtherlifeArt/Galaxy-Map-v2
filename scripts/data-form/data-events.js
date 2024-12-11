@@ -56,7 +56,7 @@ if (selectedType === 'geom-edit-roads') {
         permanent: false, // Show the tooltip permanently
         direction: 'top', // Position the tooltip above the marker
     })
-    .setContent(features.properties.NAME); // Set the content of the tooltip
+    .setContent(feature.properties.NAME); // Set the content of the tooltip
   
     this.bindTooltip(tooltip).openTooltip(); // Bind and open the tooltip
     }
@@ -67,7 +67,7 @@ if (selectedType === 'geom-edit-roads') {
         permanent: false, // Show the tooltip permanently
         direction: 'top', // Position the tooltip above the marker
     })
-    .setContent(features.properties.NAME); // Set the content of the tooltip
+    .setContent(feature.properties.NAME); // Set the content of the tooltip
   
     this.bindTooltip(tooltip).openTooltip(); // Bind and open the tooltip
     }

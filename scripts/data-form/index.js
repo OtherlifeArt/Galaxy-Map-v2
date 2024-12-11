@@ -221,6 +221,10 @@ const SPREADSHEET_HEADERS = {
       is_certified: 21,
       GEOM: 22,
       GEOM_TYPE: 23,
+      color: 24,
+      weight: 25,
+      opacity: 26,
+      smooth_factor: 27,
     },
     FIRST_COLUMN_REF: 'A',
     LAST_COLUMN_REF: () => {
