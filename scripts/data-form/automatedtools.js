@@ -27,7 +27,7 @@ const GEOJSON_EXPORT_PARAMETERS = {
 function fetchSheetDataPoints(spreadsheetId, sheetName) {
 
   return new Promise((resolve, reject) => {
-    const sheetRange = `!A:BD`;
+    const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}`;
     gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: spreadsheetId,
       range: sheetName + sheetRange
@@ -159,8 +159,8 @@ async function fetchDataLines() {
         continue; // Skip this hyperroute section since location A or B is not available
       }
 
+      console.log(section.locationAText);
       const locationACoord = section.locationACoord === null ? astronomicalObjectSearchArray.find((astroObject) => {
-        // console.log(astroObject);
         return astroObject.id === section.locationAId // Find astro object
         }).coords
         : section.locationACoord;
@@ -169,8 +169,8 @@ async function fetchDataLines() {
       //   // console.log(astroObject);
       //   return astroObject.id === section.locationBId // Find astro object
       // }));
+      console.log(section.locationBText);
       const locationBCoord = section.locationBCoord === null ? astronomicalObjectSearchArray.find((astroObject) => {
-        // console.log(astroObject);
         return astroObject.id === section.locationBId // Find astro object
       }).coords
       : section.locationBCoord;

@@ -74,6 +74,8 @@ function onEachFeatureRoads(feature, layer) {
     },
   });
 }
+
+
 // Display label on mouseover
 function roadDisplayTooltip(e) {
   // console.log(e);
@@ -89,6 +91,21 @@ function roadHideTooltip(e) {
 $.getJSON(url_roads, function(data) {
     roads.addData(data);
 });
+
+function roadDisplayPopup(e) {
+  var feature = e.target.feature;
+  
+  var text = '<h2>'+feature.properties.NAME+'</h2><div>'
+  text+= '<p><i>'+ feature.properties.ID + '</i></p>';
+  if (feature.properties.PARENT){
+    text+= '<p><b>Parent : </b>'+ feature.properties.PARENT + '</p>';
+  }
+  text+='</div>'
+L.popup()
+    .setLatLng(e.latlng)
+    .setContent(text)
+    .openOn(map);
+}
 
 /// Re.load data (roads only) from the DB and display them on the map
 var roadsgeojson;
@@ -328,29 +345,38 @@ $.getJSON(url_areas, function(data) {
   points.on('click', function(e) {
     var features = e.layer.feature;
       // Do something with the properties, e.g., display in a popup
-      var texte = '<h2>'+features.properties.NAME+'</h2><div>'
+      var text = '<h2>'+features.properties.NAME+'</h2><div>'
       if (features.properties.GEOM_TYPE){
-        texte+= '<p><i>'+ features.properties.GEOM_TYPE + '</i></p>';
-    }
+        text+= '<p><i>'+ features.properties.GEOM_TYPE + '</i></p>';
+      }
+      text+= '<p><i>'+ features.properties.ID + '</i></p>';
       if (features.properties.TYPE){
-          texte+= '<p><b>Type : </b>'+ features.properties.TYPE + '</p>';
+          text+= '<p><b>Type : </b>'+ features.properties.TYPE + '</p>';
       }
       if (features.properties.CLASSE){
-        texte+= '<p><b>Type classe : </b>'+ features.properties.TYPE_CLASSE + '</p>';
+        text+= '<p><b>Type classe : </b>'+ features.properties.TYPE_CLASSE + '</p>';
       }
       if (features.properties.PARENT){
-        texte+= '<p><b>Parent : </b>'+ features.properties.PARENT + '</p>';
+        text+= '<p><b>Parent : </b>'+ features.properties.PARENT + '</p>';
       }
       if (features.properties.X_GRID){
-        texte+= '<p><b>Grid : </b>'+ features.properties.X_GRID+"-"+features.properties.Y_GRID + '</p>';
+        text+= '<p><b>Grid : </b>'+ features.properties.X_GRID+"-"+features.properties.Y_GRID + '</p>';
       }
       if (features.properties.X_COORD){
-        texte+= '<p><b>Coords : </b>'+ features.properties.X_COORD+", "+features.properties.Y_COORD +", "+features.properties.Z_COORD+ '</p>';
+        text+= '<p><b>Coords : </b>'+ features.properties.X_COORD+", "+features.properties.Y_COORD +", "+features.properties.Z_COORD+ '</p>';
       }
-      texte+='</div>'
+      if (features.properties.CONJECTURAL_NAME){
+        text+= '<p><b>Conj. Name : </b>'+ features.properties.CONJECTURAL_NAME + '</p>';
+      }
+      if (features.properties.CONJECTURAL_TYPE){
+        text+= '<p><b>Conj. Type : </b>'+ features.properties.CONJECTURAL_TYPE + '</p>';
+      }
+      text+= '<p><b>Placement cert. Type : </b>'+ features.properties["PLACEMENT_CERT."] + '</p>';
+      text+= '<p><b>Placement logic : </b>'+ features.properties.PLACEMENT_LOGIC + '</p>';
+      text+='</div>'
     L.popup()
         .setLatLng([features.geometry.coordinates[1],features.geometry.coordinates[0]])
-        .setContent(texte)
+        .setContent(text)
         .openOn(map);
   });
 
