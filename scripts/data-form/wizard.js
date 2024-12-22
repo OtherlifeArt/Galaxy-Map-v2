@@ -483,13 +483,13 @@ async function objectParentWizardSaveFilledObjects() {
       let object = [];
       object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] = key;
       object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID] = value;
-      // object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN] = await getParentHierarchy(key);  // Doest work since spreadsheet isn't updated yet, must be done with automated tools
+      object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN] = await getParentHierarchy(value); // Display parent hierarchy including parent
       objectArrayToUpdate.push(object);
     }
   }
   // update array
   const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}`;
-  const cellRangeToUpdate = [ SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID, SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID];
+  const cellRangeToUpdate = [ SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID, SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN];
   const updateResult = await updateSpreadSheetBatchCellRangeData(SPREADSHEET_ID, SHEETS.OBJECTS, sheetRange, SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID, objectArrayToUpdate, cellRangeToUpdate);
   if(updateResult) {
     alert(`Object parents are sucessfully updated into spreadsheet ! Reloading form`);
