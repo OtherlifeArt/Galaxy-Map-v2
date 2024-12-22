@@ -94,10 +94,6 @@ function pointDisplayPopup(e) {
     fullName = stringListToURL(fp["URLS (sources)"], fullName);
   }
   let text = '<h2>'+fullName+'</h2><div>';
-
-  if (fp.GEOM_TYPE){
-    text+= '<p><i>'+ fp.GEOM_TYPE + '</i></p>';
-  }
   // TYPE and TYPE class
   if (fp.TYPE){
     if (fp.TYPE_CLASSES){
@@ -191,10 +187,6 @@ function areaDisplayPopup(e) {
     fullName = stringListToURL(fp["URLS (sources)"], fullName);
   }
   let text = '<h2>'+fullName+'</h2><div>';
-
-  if (fp.GEOM_TYPE){
-    text+= '<p><i>'+ fp.GEOM_TYPE + '</i></p>';
-  }
   // TYPE and TYPE class
   if (fp.TYPE){
     if (fp.TYPE_CLASSES){
