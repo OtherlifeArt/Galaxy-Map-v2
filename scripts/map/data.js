@@ -22,6 +22,8 @@ const mapStartCenterCoordinates = [-450.0,0];
 
 // Road param
 const roadZoomLevelStep = 2;
+const roadGlowWidthFactor = 3;
+const roadGlowOpacity = 0.3;
 
 /************* DATA POINTS  ************/
 // Downloaded data from geojson files
@@ -99,12 +101,13 @@ function styleLines(feature){
     weight: weight,
     opacity: opacity,
     smoothFactor: smoothFactor,
-    dashArray: feature.properties.weight === 1 || parseInt(feature.properties.LEVEL) >= 4 ? '20, 20' : '20, 0', // Dotted lines on level 4 roads
+    dashArray: feature.properties.weight === 1 || parseInt(feature.properties.LEVEL) >= 4 ? '20, 20' : '20, 0', // Dotted lines on level 4+ roads
     dashOffset: '0'
   }
 }
 
 function initializeZoomLayerRoadGroup(zoomLayerGroup){
+
   const zoomLayerIndexCount = mapMaxZoomLevel - mapMinZoomLevel;
   for (let index = 0; index < zoomLayerIndexCount; index++) {
     zoomLayerGroup.addLayer(L.geoJSON(null,{
@@ -134,6 +137,12 @@ function initFilteredRoadDataObject() {
   return filteredData;
 }
 
+/**
+ * 
+ * @param {*} roadData 
+ * @param {*} filteredData 
+ * @returns 
+ */
 function filterRoadData(roadData, filteredData) {
   roadData.features.forEach(function(feature) {
     const fp = feature.properties;
@@ -819,23 +828,37 @@ function findChildrenMainObjectFeatures(pointData, parentId) {
 /**
  * Add feature to right zoom level feature collection
  * 
- * @param {*} FeatureCollections Parent of zoom level feature collection
+ * @param {*} featureCollections Parent of zoom level feature collection
  * @param {*} feature From unfiltered featurecollection
  * @param {number|null} [forcedFeatureZoomLevelIndex] force feature collection to be added to this zoom level; Default null
  */
-function addDataToZoomLevelFilteredFeatureCollection(FeatureCollections, feature, forcedFeatureZoomLevelIndex = null) {
+function addDataToZoomLevelFilteredFeatureCollection(featureCollections, feature, forcedFeatureZoomLevelIndex = null) {
   // console.log(feature);
+  let featureZoomLevelIndex;
   if(forcedFeatureZoomLevelIndex === null){
-    let featureZoomLevelIndex;
     if(feature.ZOOM_LEVEL === undefined || feature.ZOOM_LEVEL === null || feature.ZOOM_LEVEL === "") {
       featureZoomLevelIndex = 0;
     } else {
       featureZoomLevelIndex = parseInt(feature.ZOOM_LEVEL);
     }
-    FeatureCollections[featureZoomLevelIndex].features.push(feature);
   } else {
-    FeatureCollections[forcedFeatureZoomLevelIndex].features.push(feature);
+    featureZoomLevelIndex = forcedFeatureZoomLevelIndex;
   }
+  // Duplicate level 1 feature collection to add "glow background" with a deep copy
+  if (feature.properties.LEVEL === "1" || feature.properties.LEVEL === 1) {
+    const DEEP_COPIED_FEATURE = JSON.parse(JSON.stringify(feature));
+    let F_WEIGHT = DEEP_COPIED_FEATURE.properties.weight;
+    if(DEEP_COPIED_FEATURE.properties.weight === undefined || DEEP_COPIED_FEATURE.properties.weight === "") {
+      DEEP_COPIED_FEATURE.properties.weight = 4 * roadGlowWidthFactor;
+    } else {
+      DEEP_COPIED_FEATURE.properties.weight = parseInt(DEEP_COPIED_FEATURE.properties.weight) * roadGlowWidthFactor;
+    }
+    DEEP_COPIED_FEATURE.properties.opacity = roadGlowOpacity;
+    // Add glow route before route
+    featureCollections[featureZoomLevelIndex].features.push(DEEP_COPIED_FEATURE);
+  }
+  // Push feature into feature collection according to its zoom level
+  featureCollections[featureZoomLevelIndex].features.push(feature);
 }
 
 /**
