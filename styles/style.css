@@ -27,6 +27,11 @@ html, body {
 .multipolygon.leaflet-marker-icon {
 	background: #66f
 }
+.multilinestring.search-tip b,
+.multilinestring.leaflet-marker-icon {
+	background: rgb(0, 219, 84)
+}
+
 .search-tip {
 	white-space: nowrap;
 }

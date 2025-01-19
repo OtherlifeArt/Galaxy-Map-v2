@@ -148,7 +148,9 @@ async function fetchDataLines() {
   await refreshForm();
   await refreshHyperrouteForm();
   // Iterate throught hyperroutes data
-  const hyperrouteFeatures = hyperrouteArray.map((hyperroute) => {
+  // const hyperrouteFeatures = hyperrouteArray.map((hyperroute) => {
+  let hyperrouteFeatures = [];
+  for (const hyperroute of hyperrouteArray) {
     // Build hyperroute section data as MultiLineString
     const hyperrouteLineSectionData = []; // Array of section forming a line (no branch)
     const hyperrouteLineSectionCoords = []; // Array of section forming a line (no branch) (coordinates only)
@@ -200,39 +202,43 @@ async function fetchDataLines() {
       hyperrouteLineSectionCoords[hyperrouteLineSectionCoords.length-1].push(locationBCoords); // Append to linestring
     }
 
-    return {
-      // Put all together
-      "type": "Feature",
-      "geometry": {
-          "type": "MultiLineString",
-          "coordinates": hyperrouteLineSectionCoords,
-      },
-      "properties": {
-        ID: hyperroute.id,
-        NAME: hyperroute.name,
-        ALT_NAMES: hyperroute.altNames,
-        PARENT_ID: hyperroute.parentId,
-        PARENT_NAME: hyperroute.parentName,
-        DATE_FROM: hyperroute.dates[0],
-        DATE_TO: hyperroute.dates[1],
-        CANON: hyperroute.continuity.canon,
-        LEGENDS: hyperroute.continuity.legends,
-        UNLICENSED: hyperroute.continuity.unlicensed,
-        LEVEL: hyperroute.level,
-        ZOOM_LEVEL: hyperroute.zoomLevel,
-        CONJECTURAL_NAME: hyperroute.conjName,
-        URLS: hyperroute.urls,
-        DESC: hyperroute.desc,
-        color: hyperroute.color,
-        weight: hyperroute.weight,
-        opacity: hyperroute.opacity,
-        smoothFactor: hyperroute.smoothFactor,
-        // LINE_STRINGS: hyperroute.sections.map((hyperrouteSection) => ({
-        SECTIONS_PROPERTIES: hyperrouteLineSectionData
-        // })),
-      },
+    // Return if coordinate array is not empty (i.e. road has at least a point)
+    if(hyperrouteLineSectionCoords.length > 0) {
+      hyperrouteFeatures.push({
+        // Put all together
+        "type": "Feature",
+        "geometry": {
+            "type": "MultiLineString",
+            "coordinates": hyperrouteLineSectionCoords,
+        },
+        "properties": {
+          ID: hyperroute.id,
+          NAME: hyperroute.name,
+          ALT_NAMES: hyperroute.altNames,
+          TYPE: "Hyperspace Route",
+          PARENT_ID: hyperroute.parentId,
+          PARENT_NAME: hyperroute.parentName,
+          DATE_FROM: hyperroute.dates[0],
+          DATE_TO: hyperroute.dates[1],
+          CANON: hyperroute.continuity.canon,
+          LEGENDS: hyperroute.continuity.legends,
+          UNLICENSED: hyperroute.continuity.unlicensed,
+          LEVEL: hyperroute.level,
+          ZOOM_LEVEL: hyperroute.zoomLevel,
+          CONJECTURAL_NAME: hyperroute.conjName,
+          URLS: hyperroute.urls,
+          DESC: hyperroute.desc,
+          color: hyperroute.color,
+          weight: hyperroute.weight,
+          opacity: hyperroute.opacity,
+          smoothFactor: hyperroute.smoothFactor,
+          // LINE_STRINGS: hyperroute.sections.map((hyperrouteSection) => ({
+          SECTIONS_PROPERTIES: hyperrouteLineSectionData
+          // })),
+        },
+      });
     }
-  });
+  };
 
   return {
     "type": "FeatureCollection",

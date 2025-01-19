@@ -12,9 +12,7 @@ const flyToLocationZoomLevel = {
 }
 
 /******** SEARCH CONTROL *********/
-
-// var searchLayer = L.layerGroup([points, areas, roads]); // Adding "roads" pane make search crash. To DEBUG !
-var searchLayer = L.layerGroup([points, areas]);
+var searchLayer = L.layerGroup([points, areas, roads]);
 
 var searchControl = new L.Control.Search({
   layer: searchLayer,
@@ -35,6 +33,13 @@ var searchControl = new L.Control.Search({
       //   animate: true,
       //   duration: flyToLocationDuration.roads
       // });
+      // Get the bounds of the MultiLineString object
+      const bounds = latlng.layer.getBounds();
+      // Fit the map to the bounds, automatically adjusting zoom level
+      map.fitBounds(bounds, {
+        padding: [50, 50],  // Optional: Adds some padding around the bounds
+        duration: flyToLocationDuration.roads // Optional: Duration of the animation in seconds
+      });
     } else {
       // map.setView(latlng, 4);
       let zoom = flyToLocationZoomLevel.default;
@@ -71,7 +76,9 @@ searchControl.on('search:locationfound', function(e) {
         e.layer.fire('mouseout'); // Fix : close tooltip
       });
     } else if (e.layer.feature.geometry.type == 'MultiLineSring'){
-      alert("OK");
+      // if(!!e.layer.setStyle) {
+        // e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
+      // }
     }
 }).on('search:collapsed', function(e) {
   searchLayer.eachLayer(function(layer) {	//restore feature color
