@@ -423,3 +423,12 @@ document.getElementById("display-road-layer").addEventListener("change", functio
     console.log("[ ] All road objects layer group");
   }
 });
+
+// Display performance data
+// let time = performance.timing;
+// let pageloadTime = time.loadEventStart - time.navigationStart;
+console.log(PerformanceEntry.duration);
+// console.log(pageloadTime);
+if(debug) {
+  console.log(window.performance);
+}

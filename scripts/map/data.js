@@ -324,7 +324,16 @@ function filterRoads() {
 }
 
 function onEachFeatureRoads(feature, layer) {
-  layer.bindTooltip(feature.properties.NAME, { sticky: true });
+  layer.bindTooltip(
+    () => {
+      let fullName = "";
+      // Conjectural Name
+      if(feature.properties.CONJECTURAL_NAME && feature.properties.CONJECTURAL_NAME === "YES") {
+        // console.log(feature.properties.NAME);
+        fullName += '(?) ';
+      }
+      return fullName + feature.properties.NAME;
+    }, { sticky: true });
   layer.on({
     mouseover: function(e) {
       roadDisplayTooltip(e);
@@ -1477,7 +1486,9 @@ function filterPoints() {
     }
     //map.addLayer(points);
   }
-  console.log("-------------- ENDS FILTERING POINTS -----------------");
+  if(debug) {
+    console.log("-------------- ENDS FILTERING POINTS -----------------");
+  }
   const styles = ['color: black', 'background: lightgreen','font-weight: bold'].join(';');
   console.log("%c[RUN] Point displayed", styles);
 }
@@ -1495,12 +1506,16 @@ function filterHighEndLayersByZoomLevel(zoomParentGroupLayer, mapZoom = map.getZ
   for (let index = 0; index < groupLayers.length; index++) {
     if(index <= mapZoom) {
       map.addLayer(groupLayers[index]);
-      console.log("Adding layer: " + groupLayers[index].options.title + " ("+groupLayers[index].getLayers().length+" objects)");
-      console.log(groupLayers[index].getLayers());
+      if(debug) {
+        console.log("Adding layer: " + groupLayers[index].options.title + " ("+groupLayers[index].getLayers().length+" objects)");
+        console.log(groupLayers[index].getLayers());
+      }
     } else {
       map.removeLayer(groupLayers[index]);
-      console.log("Removing layer: " + groupLayers[index].options.title + " ("+groupLayers[index].getLayers().length+" objects)");
-      console.log(groupLayers[index].getLayers());
+      if(debug) {
+        console.log("Removing layer: " + groupLayers[index].options.title + " ("+groupLayers[index].getLayers().length+" objects)");
+        console.log(groupLayers[index].getLayers());
+      }
     }
   }
 }
@@ -1673,7 +1688,15 @@ function getPointColor(type) {
 }
 
 function onEachFeaturePoints(feature, layer) {
-  layer.bindTooltip(feature.properties.NAME);
+  layer.bindTooltip(() => {
+    let fullName = "";
+    // Conjectural Name
+    if(feature.properties.CONJECTURAL_NAME && feature.properties.CONJECTURAL_NAME === "YES") {
+      // console.log(feature.properties.NAME);
+      fullName += '(?) ';
+    }
+    return fullName + feature.properties.NAME;
+  });
   layer.on({
     mouseover: function(e) {
       pointDisplayTooltip(e);
@@ -1789,7 +1812,15 @@ function zoomToFeature(e) {
 }
 
 function onEachFeature(feature, layer) {
-  layer.bindTooltip(feature.properties.NAME, { sticky: true });
+  layer.bindTooltip(() => {
+    let fullName = "";
+    // Conjectural Name
+    if(feature.properties.CONJECTURAL_NAME && feature.properties.CONJECTURAL_NAME === "YES") {
+      // console.log(feature.properties.NAME);
+      fullName += '(?) ';
+    }
+    return fullName + feature.properties.NAME;
+  }, { sticky: true });
   layer.on({
       mouseover: function(e) {
         highlightFeature(e);

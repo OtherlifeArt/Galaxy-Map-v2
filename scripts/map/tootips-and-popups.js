@@ -10,10 +10,10 @@ function roadDisplayPopup(e) {
   let fullName = "";
   // Conjectural Name
   if(fp.CONJECTURAL_NAME && fp.CONJECTURAL_NAME === "YES") {
+    fullName += '(?) ';
     if (debug) {
       console.log(fp.NAME);
     }
-    fullName += '(?) ';
   }
   // Name
   fullName += fp.NAME;
@@ -34,7 +34,7 @@ function roadDisplayPopup(e) {
   }
   // PARENT
   if (fp.PARENT){
-    text+= '<p><b>Parent : </b>'+ fp.PARENT.replace(" < The Galaxy < The Galaxy local group < The universe", "") + '</p>';
+    text+= '<p><b>Parent : </b>'+ fp.PARENT + '</p>';
   }
   // Continuity
   text+= '<p><b>Continuity : </b>'+ continuity + '</p>';
