@@ -424,6 +424,25 @@ document.getElementById("display-road-layer").addEventListener("change", functio
   }
 });
 
+if(debug) {
+  // Add event listeners to the map
+  map.on('move', () => {
+    console.log('Map is moving...');
+  });
+
+  map.on('moveend', () => {
+    console.log('Map finished moving.');
+  });
+
+  map.on('zoom', () => {
+    console.log('Map is zooming...');
+  });
+
+  map.on('zoomend', () => {
+    console.log('Map finished zooming.');
+  });
+}
+
 // Display performance data
 // let time = performance.timing;
 // let pageloadTime = time.loadEventStart - time.navigationStart;

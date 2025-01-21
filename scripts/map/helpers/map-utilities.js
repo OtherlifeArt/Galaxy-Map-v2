@@ -211,3 +211,28 @@ function generateUUIDv7() {
     return unixtimestamp.slice(0, 8) + '-' + unixtimestamp.slice(8);
   });
 }
+
+// Function to calculate midpoint of the middle segment
+function getMidpointOfMiddleSegment(multiLineString) {
+  const segments = [];
+  
+  // Collect all segments into an array
+  multiLineString.coordinates.forEach(line => {
+    for (let i = 0; i < line.length - 1; i++) {
+      segments.push([line[i], line[i + 1]]);
+    }
+  });
+
+  // Find the middle segment
+  const middleSegmentIndex = Math.floor(segments.length / 2);
+  const middleSegment = segments[middleSegmentIndex];
+
+  // Calculate midpoint
+  const midpoint = [
+    (middleSegment[0][0] + middleSegment[1][0]) / 2,
+    (middleSegment[0][1] + middleSegment[1][1]) / 2
+  ];
+
+  return midpoint;
+}
+

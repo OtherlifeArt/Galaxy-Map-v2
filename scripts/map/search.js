@@ -65,13 +65,19 @@ searchControl.on('search:locationfound', function(e) {
       }
       // Fire popup on search end
       map.once('moveend zoomend', function() {
+        // console.log("POPUP",e.layer);
         e.layer.fire('click'); // Open popup and tooltip on object (I don't know why tooltip opens though)
         e.layer.fire('mouseout'); // Fix : close tooltip
       });
-    } else if (e.layer.feature.geometry.type == 'MultiLineSring'){
+    } else if (e.layer.feature.geometry.type == 'MultiLineString'){
       // if(!!e.layer.setStyle) {
-        // e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
+      //   e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
       // }
+      map.once('zoomend moveend', function() {
+        // e.layer.openPopup(L.latLng(midpoint[1], midpoint[0]));
+        e.layer.fire('click'); // Open popup and tooltip on object (I don't know why tooltip opens though)
+        e.layer.fire('mouseout'); // Fix : close tooltip
+      });
     }
 }).on('search:collapsed', function(e) {
   searchLayer.eachLayer(function(layer) {	//restore feature color

@@ -46,7 +46,8 @@ function roadDisplayPopup(e) {
     latLng = e.latlng;
   } else { // On map search
     console.log(e.target.feature);
-    latLng = e.target.feature;
+    const midpoint = getMidpointOfMiddleSegment(e.target.feature.geometry);
+    latLng = L.latLng(midpoint[1], midpoint[0])
   }
   let popupDisplacement = [latLng.lat + 380 / Math.pow(2, zoomLevel+4), latLng.lng - 125 / Math.pow(2, zoomLevel+4)];
   text+='</div>'
