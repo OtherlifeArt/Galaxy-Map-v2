@@ -21,20 +21,15 @@ var searchControl = new L.Control.Search({
   textPlaceholder:"Search an object by name",
   moveToLocation: function(latlng, title, map) {
     if (latlng.layer.options.pane == "areas"){
-      var zoom = map.getBoundsZoom(latlng.layer.getBounds());
-      // map.setView(latlng, zoom);
-      map.flyTo(latlng, zoom, { // Use flyTo for smooth zooming
+      map.flyToBounds(latlng.layer.getBounds(), { // Use flyTo for smooth zooming
         animate: true,
+        padding: [25, 25],  // Optional: Adds some padding around the bounds
         duration: flyToLocationDuration.areas
       });
     } else if(latlng.layer.options.pane == "roads") {
-      // let zoom = flyToLocationZoomLevel.default;
-      // map.flyTo(latlng, zoom, { // Use flyTo for smooth zooming
-      //   animate: true,
-      //   duration: flyToLocationDuration.roads
-      // });
       // Fit the map to the bounds, automatically adjusting zoom level
       map.flyToBounds(latlng.layer.getBounds(), {
+        animate: true,
         padding: [25, 25],  // Optional: Adds some padding around the bounds
         duration: flyToLocationDuration.roads // Optional: Duration of the animation in seconds
       });
