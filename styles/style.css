@@ -200,6 +200,13 @@ html, body {
   margin-right: 5px;
 }
 
+.legend-icon {
+  width: 13px;
+  height: 13px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .legend-label {
   vertical-align: middle;
   padding-left: 2px;

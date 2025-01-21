@@ -6,26 +6,35 @@
 var legend = L.control({ position: 'bottomright' });
 
 legend.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'info legend');
+    let div = L.DomUtil.create('div', 'info legend');
     div.style.backgroundColor = 'rgba(255, 255, 255, 0.5)'; // White background with 0.8% opacity
     
-    var types = ["Planet", "Moon", "Star System", "Artificial object", "Asteroid", "Star",  "Comet",  "Nebula", "Location", "Exotic", "Unknown"];
-    var labels = ["Planet / Dwarf Planet / Planet Barycenter", "Moon / Dwarf Moon", "Star System", "Artificial object", "Asteroid Field / Asteroid", "Star / Star Barycenter / Star Cluster", "Comet / Comet Cluster / Cometary Cloud", "Nebula", "Location", "Exotic", "Unknown"];
+    let types = [
+      ASTRO_ICONS['PLANET']['CANON']['DEFAULT'], // Canon
+      ASTRO_ICONS['PLANET']['LEGENDS']['DEFAULT'], // Legends
+      ASTRO_ICONS['PLANET']['CANON_AND_LEGENDS']['DEFAULT'], // Canon & Legends
+      ASTRO_ICONS['PLANET']['DEFAULT']['DEFAULT'], // Star System
+      ASTRO_ICONS['NEBULA']['DEFAULT']['DEFAULT'], // Nebula
+      ASTRO_ICONS['CLUSTER']['DEFAULT']['DEFAULT'], // Star Cluster
+      ASTRO_ICONS['BLACKHOLE']['DEFAULT']['DEFAULT'], // Back Hole
+      ASTRO_ICONS['STATION']['DEFAULT']['MOVIE'], // Artificial object
+      ASTRO_ICONS['PHENOMENA']['DEFAULT']['DEFAULT'], // Phenomena
+      ASTRO_ICONS['UNKNOWN']['DEFAULT']['DEFAULT'], // Unknown
+    ];
+    let labels = ["Canon", "Legends", "Canon & Legends","Planet / Moon / Asteroid / Comet / Star / Star System", "Nebula", "Star Cluster", "Back Hole", "Artificial object", "Phenomena", "Unknown"];
     // Loop through all types and generate a label with corresponding color and circle symbol
-    for (var i = 0; i < types.length; i++) {
-        var type = types[i];
-        var color = getPointColor(type);
-
-        // Create a circle symbol
-        var circle = L.DomUtil.create('div', 'legend-circle');
-        circle.style.backgroundColor = color;
+    for (let i = 0; i < types.length; i++) {
+        // Create an icon symbol
+        let iconDiv = L.DomUtil.create('div', 'legend-circle');
+        let icon = L.DomUtil.create('img', 'legend-icon');
+        icon.src = types[i].options.iconUrl;
         
         // Create label text
-        var label = L.DomUtil.create('span', 'legend-label');
+        let label = L.DomUtil.create('span', 'legend-label');
         label.innerHTML = labels[i];
 
-        // Append circle and label to the legend div
-        div.appendChild(circle);
+        div.appendChild(iconDiv);
+        iconDiv.appendChild(icon);
         div.appendChild(label);
         div.innerHTML += '<br>';
     }
