@@ -33,11 +33,9 @@ var searchControl = new L.Control.Search({
       //   animate: true,
       //   duration: flyToLocationDuration.roads
       // });
-      // Get the bounds of the MultiLineString object
-      const bounds = latlng.layer.getBounds();
       // Fit the map to the bounds, automatically adjusting zoom level
-      map.fitBounds(bounds, {
-        padding: [50, 50],  // Optional: Adds some padding around the bounds
+      map.flyToBounds(latlng.layer.getBounds(), {
+        padding: [25, 25],  // Optional: Adds some padding around the bounds
         duration: flyToLocationDuration.roads // Optional: Duration of the animation in seconds
       });
     } else {
