@@ -6,14 +6,15 @@ function roadDisplayPopup(e) {
   const layer = e.target;
   const feature = layer.feature;
   const fp = feature.properties;
-
+  const sectionProperties = fp.SECTIONS_PROPERTIES;
+  if (debug) {
+    console.log(fp);
+  }
   let fullName = "";
   // Conjectural Name
   if(fp.CONJECTURAL_NAME && fp.CONJECTURAL_NAME === "YES") {
     fullName += '(?) ';
-    if (debug) {
-      console.log(fp.NAME);
-    }
+    
   }
   // Name
   fullName += fp.NAME;
@@ -38,6 +39,34 @@ function roadDisplayPopup(e) {
   }
   // Continuity
   text+= '<p><b>Continuity : </b>'+ continuity + '</p>';
+
+  // Road wih travel time
+  let roadSectionDetails = "";
+  for (let index = 0; index < sectionProperties.length; index++) {
+    const roadSection = sectionProperties[index];
+    for (let index2 = 0; index2 < roadSection.length; index2++) {
+      const roadLocation = roadSection[index2];
+      if(index2 === 0) {
+        roadSectionDetails += `<pre>${roadLocation.text}`;
+      } else if (index2 < roadSection.length - 1) {
+        if(roadLocation.averageTravelTime != "") {
+          roadSectionDetails += ` <=> ${roadLocation.text} (${(travelTimeToString(roadLocation.averageTravelTime))})<pre/><br/><pre>${roadLocation.text}`;
+        } else {
+          roadSectionDetails += ` <=> ${roadLocation.text}<pre/><br/><pre>${roadLocation.text}`;
+        }
+      } else {
+        if(roadLocation.averageTravelTime) {
+          roadSectionDetails += ` <=> ${roadLocation.text} (${(travelTimeToString(roadLocation.averageTravelTime))})<pre/>`;
+        } else {
+          roadSectionDetails += ` <=> ${roadLocation.text}<pre/>`;
+        }
+      }
+    }
+    if(index < sectionProperties.length - 1) {
+      roadSectionDetails += '<br/>';
+    }
+  }
+  text+= '<p><b>Road sections : </b><br/>'+ roadSectionDetails + '</p>';
 
   let zoomLevel = map.getZoom();
   let latLng;

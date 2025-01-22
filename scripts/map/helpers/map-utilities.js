@@ -236,3 +236,25 @@ function getMidpointOfMiddleSegment(multiLineString) {
   return midpoint;
 }
 
+/**
+ * Convert : searated travl time in readable text.
+ * @param {*} travelTime 
+ */
+function travelTimeToString(travelTime) {
+  const durationArray = travelTime.split(":");
+  let text = "";
+  for (let index = 0; index < durationArray.length; index++) {
+    const element = durationArray[index];
+    if(index === 0 && element !== "0") {
+      text += `${element} d `;
+    } else if (index === 1 && element !== "0") {
+      text += `${element} h `;
+    } else if (index === 2 && element !== "0") {
+      text += `${element} min `
+    } else if (index === 3 && element !== "0") {
+      text += `${element} s `
+    }
+  }
+  return text;
+}
+
