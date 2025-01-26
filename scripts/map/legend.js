@@ -119,7 +119,7 @@ legend.onAdd = function (map) {
     ];
     let labels = [
       "<b>Continuity</b>",
-      "None, Canon / Legends / Canon & Legends",
+      "None / Canon / Legends / Canon & Legends",
       "<b>Planet / Moon / Asteroid / Comet / Star / Star System</b>", "Present in Movies/Series", "Not in Movies/Series",
       "<b>Nebula</b>", "Present in Movies/Series", "Not in Movies/Series",
       "<b>Star Cluster</b>", "Present in Movies/Series", "Not in Movies/Series",
