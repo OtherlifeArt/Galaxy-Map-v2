@@ -246,15 +246,16 @@ function travelTimeToString(travelTime) {
   for (let index = 0; index < durationArray.length; index++) {
     const element = durationArray[index];
     if(index === 0 && element !== "0") {
-      text += `${element} d `;
+      text += `${element}d `;
     } else if (index === 1 && element !== "0") {
-      text += `${element} h `;
+      text += `${element}h `;
     } else if (index === 2 && element !== "0") {
-      text += `${element} min `
+      text += `${element}min `
     } else if (index === 3 && element !== "0") {
-      text += `${element} s `
+      text += `${element}s `
     }
   }
+  text = text.slice(0, -1) // Remove last (space) character
   return text;
 }
 
