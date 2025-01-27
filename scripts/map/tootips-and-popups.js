@@ -50,20 +50,17 @@ function roadDisplayPopup(e) {
         roadSectionDetails += `<pre>${roadLocation.text}`;
       } else if (index2 < roadSection.length - 1) {
         if(roadLocation.averageTravelTime != "") {
-          roadSectionDetails += ` <=> ${roadLocation.text} (${(travelTimeToString(roadLocation.averageTravelTime))})<pre/><br/><pre>${roadLocation.text}`;
+          roadSectionDetails += ` <=> ${roadLocation.text} (${(travelTimeToString(roadLocation.averageTravelTime))})</pre><pre>${roadLocation.text}`;
         } else {
-          roadSectionDetails += ` <=> ${roadLocation.text}<pre/><br/><pre>${roadLocation.text}`;
+          roadSectionDetails += ` <=> ${roadLocation.text}</pre><pre>${roadLocation.text}`;
         }
       } else {
         if(roadLocation.averageTravelTime) {
-          roadSectionDetails += ` <=> ${roadLocation.text} (${(travelTimeToString(roadLocation.averageTravelTime))})<pre/>`;
+          roadSectionDetails += ` <=> ${roadLocation.text} (${(travelTimeToString(roadLocation.averageTravelTime))})</pre>`;
         } else {
-          roadSectionDetails += ` <=> ${roadLocation.text}<pre/>`;
+          roadSectionDetails += ` <=> ${roadLocation.text}</pre>`;
         }
       }
-    }
-    if(index < sectionProperties.length - 1) {
-      roadSectionDetails += '<br/>';
     }
   }
   text+= '<p><b>Road sections : </b><br/>'+ roadSectionDetails + '</p>';
