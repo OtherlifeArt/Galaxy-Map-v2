@@ -15,6 +15,27 @@ html, body {
   display: none;
 }
 
+/********* Home button **********/
+.home-button {
+  background: white;
+  /* border: 2px solid #ccc; */
+  border-radius: 2px;
+  padding: 0px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  margin-left: 12px !important;
+}
+.home-button svg {
+  width: 25px;
+  height: 25px;
+  fill: #555;
+}
+
 /********* Map ******************/
 .search-tip b {
 	color: #fff;

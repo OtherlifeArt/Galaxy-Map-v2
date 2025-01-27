@@ -325,6 +325,12 @@ L.control.layers.tree(baseLayers, overLayers, {
 
 measureTool.addTo(map); // Add measure tool
 
+/////////////// HOME BUTTON //////////////////////
+map.addControl(new HomeControl({
+  homeCoordinates: mapStartCenterCoordinates,
+  homeZoom: mapStartZoomLevel
+}));
+
 ////////////////////// SEARCH CONTROL //////////////////////
 
 map.addControl(searchControl);  //inizialize search control
