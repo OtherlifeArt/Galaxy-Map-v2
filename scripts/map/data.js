@@ -19,7 +19,11 @@ const mapStarSystemMaxZoomLevel = 7;
 const mapMaxZoomLevel = mapStarSystemMaxZoomLevel + 3;
 const defaultObjectZoomIndex = 6;
 const mapStartZoomLevel = -2;
-const mapStartCenterCoordinates = [-450.0,0];
+const mapStartCenterCoordinates = [-450,0];
+// Boundaries
+const southWest = [-450 + 1530, -1300]; // Top-left corner
+const northEast = [-450 - 1160, 1412]; // Bottom-right corner
+const bounds = L.latLngBounds(southWest, northEast);
 
 // Road param
 const roadZoomLevelStep = 2;

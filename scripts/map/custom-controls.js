@@ -20,8 +20,7 @@ var spatialScaleBar = new L.Control.SpatialScalebar();
 /**
  * Custom home button
  */
-// Create a custom "Home" button
-// Create a custom "Home" button control
+// Custom "Home" button with button control
 const HomeControl = L.Control.extend({
 options: {
     position: 'topleft', // Default position of the control

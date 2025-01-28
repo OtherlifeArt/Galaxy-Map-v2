@@ -237,13 +237,14 @@
 /******** CONSTANTS ********/
 const debug = true;
 
-/******** VARIABLES /********
+/******** VARIABLES /********/
 
 /******** MAP *********/
 var map = L.map('map', {
   crs: L.CRS.Simple,
   minZoom: mapMinZoomLevel,
   maxZoom: mapMaxZoomLevel,
+  maxBounds: bounds,
   fullscreenControl: true,
   fullscreenControlOptions: {
       position: 'topleft'
