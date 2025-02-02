@@ -400,13 +400,19 @@ document.getElementById("display-prefer-star-systems-checkbox").addEventListener
   filterRoads();
 });
 
-// On zoom event
+// On zoom end event
 map.on('zoomend', function() {
   // Rebuild point layer if necessary
   if(!userOptions.display.ignoreObjectZoomLevelRestriction) {
     filterPoints();
     filterRoads();
   }
+});
+
+// On zoom+move end event
+map.on('zoomend moveend', function(e) {
+  // Adjust grid labels
+  displayDynamicGridLabels(e.target.getBounds());
 });
 
 // Filter by point layer

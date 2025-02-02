@@ -144,6 +144,25 @@ for (var j = 900; j >= -1400; j -= 1) {
     ));
 }
 
+/* Dynamic grid labels */
+function displayDynamicGridLabels(currentMapBounds) {
+//   console.log(currentMapBounds);
+const GRID_STEP = 100;
+  if(currentMapBounds.getSouth > -1300) { // Display South label
+    
+  }
+  if(currentMapBounds.getNorth < 900) { // Display North label
+
+  }
+  if(currentMapBounds.getEast > -1100) { // Display East label
+    
+  }
+  if(currentMapBounds.getWest < 900) { // Display West label
+
+  }
+}
+
+
 //Function to highlight a grid square on the map according to its coordinates
 var select = L.geoJSON()
 function zoomOn(){
