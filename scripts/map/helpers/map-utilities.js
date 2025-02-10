@@ -197,6 +197,24 @@ function calculatePointInMultiPolygon(feature) {
   return null;
 }
 
+
+/**
+ * Calculate centroid of a polygon (MultiPolygon)
+ * @param {Object} polygon GeoJSON Polygon
+ * @returns {L.LatLng} centroid coordinates
+  */
+function getPolygonCentroid(polygon) {
+  var coords = polygon.geometry.coordinates[0]; // Outer ring
+  var sumX = 0, sumY = 0, n = coords.length;
+
+  coords.forEach(coord => {
+      sumX += coord[0];
+      sumY += coord[1];
+  });
+
+  return L.latLng(sumY / n, sumX / n);
+}
+
 /**
  * Generate UUID v7
  */

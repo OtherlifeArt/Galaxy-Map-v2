@@ -410,9 +410,9 @@ map.on('zoomend', function() {
 });
 
 // On zoom+move end event
-map.on('zoomend moveend', function(e) {
+map.on('zoomend moveend', function() {
   // Adjust grid labels
-  displayDynamicGridLabels(e.target.getBounds());
+  updateGridLabels();
 });
 
 // Filter by point layer
