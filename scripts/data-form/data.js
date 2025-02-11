@@ -184,14 +184,14 @@ function resetCircleMarkerStyle(e) {
 }
 
 function onEachFeaturePoints(feature, layer) {
-  layer.bindTooltip(feature.properties.NAME, { sticky: true });
+  layer.bindTooltip(feature.properties.NAME, { sticky: false, direction: 'right' });
   layer.on({
       mouseover: function(e) {
         highlightCircleMarker(e);
-        pointDisplayTooltip(e);
+        //pointDisplayTooltip(e);
       },
       mouseout: function(e) {
-        pointHideTooltip(e);
+        //pointHideTooltip(e);
         resetCircleMarkerStyle(e);
       },
   });
@@ -211,7 +211,7 @@ points = L.geoJSON(null,{
     pane:'points',
     style:pointStyle,
     pointToLayer:pointToLayerPoints,
-    onEachFeature:onEachFeaturePoints
+    //onEachFeature:onEachFeaturePoints
 });
 //Load data from local geojson
 /*
