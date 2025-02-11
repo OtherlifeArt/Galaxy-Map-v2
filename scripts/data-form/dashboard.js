@@ -382,6 +382,65 @@ function objectWithDuplicatedDataTable(parentDiv) {
   generateCollapsibleWidget(parentDiv, collapsibleButtonInnerHTML, table, containerDivId);
 }
 
+/**
+ * Build a table showing mandatory data misssing by object
+ */
+function objectWithoutChildrenFromListDataTable(parentDiv) {
+  let emptyCount = 0;
+  // Build table
+  let table = document.createElement('table');
+  table.classList.add("dashboard-table");
+  // Table headers
+  let tableHeader = table.createTHead();
+  let tableHeaderRow = tableHeader.insertRow(0);
+  let objectNameCell = tableHeaderRow.insertCell(0);
+  objectNameCell.innerHTML = "<b>Name</b>";
+  let typeCell = tableHeaderRow.insertCell(1);
+  typeCell.innerHTML = "<b>Type</b>";
+  let technicalIdCell = tableHeaderRow.insertCell(2);
+  technicalIdCell.innerHTML = "<b>Technical ID</b>";
+  let sortingIdCell = tableHeaderRow.insertCell(3);
+  sortingIdCell.innerHTML = "<b>Sorting/Human ID</b>";
+  // Add table body
+  let tableBody = table.createTBody();
+  // Build table content from object ids
+  for (let index = 0; index < astronomicalObjectSearchArray.length; index++) {
+    // Ignore other types
+    const astroObject = astronomicalObjectSearchArray[index];
+    if(astroObject.objectType !== "Region" && astroObject.objectType !== "Sector" 
+      && astroObject.objectType !== "Star System" && astroObject.objectType !== "Star Cluster") {
+        continue 
+      }
+    let childFound = false;
+    // Optimized by starting iteration with next index2 = index +1 (avoid reiterating previous objects and speed processing)
+    for (let index2 = index+1; index2 < astronomicalObjectSearchArray.length; index2++) {
+      const astroObjectToCompare = astronomicalObjectSearchArray[index2];
+      if(astroObjectToCompare.parentId === astroObject.id) {
+        childFound = true;
+        break; // Is child of object
+      }
+    }
+    if(!childFound) {
+      emptyCount++;
+      // Add row to table
+      let row = tableBody.insertRow();
+      let objectNameCell = row.insertCell();
+      objectNameCell.innerHTML = astroObject.name;
+      let objectTypeCell = row.insertCell();
+      objectTypeCell.innerHTML = astroObject.objectType;
+      let objectIdCell = row.insertCell();
+      objectIdCell.innerHTML = astroObject.id;
+      let objectHumanIdCell = row.insertCell();
+      objectHumanIdCell.innerHTML = astroObject.sortId;
+    }
+
+  }
+  // generate widget
+  const collapsibleButtonInnerHTML = `${emptyCount} empty star system, star cluster, region or sector`;
+  const containerDivId = "dashboard-table-object-empty-star-systems";
+  generateCollapsibleWidget(parentDiv, collapsibleButtonInnerHTML, table, containerDivId);
+}
+
 /* Init dashboard functions */
 function initDashboard() {
   // Empty dashboard content
@@ -394,6 +453,7 @@ function initDashboard() {
   displayObjectHavingThemselvesAsParent(DASHBOARD_DIVS[0]);
   objectWithMissingMandatoryDataTable(DASHBOARD_DIVS[0]);
   objectWithDuplicatedDataTable(DASHBOARD_DIVS[0]);
+  objectWithoutChildrenFromListDataTable(DASHBOARD_DIVS[0]);
 }
 
 /**********/
