@@ -404,7 +404,6 @@ document.getElementById("display-prefer-star-systems-checkbox").addEventListener
 map.on('zoomend', function() {
   // Rebuild point layer if necessary
   if(!userOptions.display.ignoreObjectZoomLevelRestriction) {
-    filterPoints();
     filterRoads();
   }
 });
@@ -413,6 +412,7 @@ map.on('zoomend', function() {
 map.on('zoomend moveend', function() {
   // Adjust grid labels
   updateGridLabels();
+  filterPoints();
 });
 
 // Filter by point layer

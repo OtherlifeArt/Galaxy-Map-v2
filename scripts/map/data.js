@@ -15,7 +15,7 @@ const OBJECT_TYPES_TO_IGNORE = [
 
 // Map param
 const mapMinZoomLevel = -2;
-const mapStarSystemMaxZoomLevel = 7;
+const mapStarSystemMaxZoomLevel = 11;
 const mapMaxZoomLevel = mapStarSystemMaxZoomLevel + 3;
 const defaultObjectZoomIndex = 6;
 const mapStartZoomLevel = -2;
@@ -189,9 +189,10 @@ function addFilteredRoadData(filteredData) {
   }
 }
 
-function filterRoads() {
+async function filterRoads() {
   const mapTotalZoomLevel = mapMaxZoomLevel - mapMinZoomLevel;
   const alwaysShowTooltips = false;
+  const useMapBounds = false;
   if(debug) {
     console.log("-------------- STARTS FILTERING ROADS -----------------");
   }
@@ -213,7 +214,7 @@ function filterRoads() {
           console.log("(+) Ignore zoom restriction");
         }
         // Ignore zoom restriction (show all objects)
-        filterHighEndLayersByZoomLevel(roadUnlicencedLG, alwaysShowTooltips, mapTotalZoomLevel);
+        filterHighEndLayersByZoomLevel(roadUnlicencedLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
         if(debug) {
           console.log("[X] Roads - unlicensed - all zoom level");
         }
@@ -242,7 +243,7 @@ function filterRoads() {
           console.log("(+) Ignore zoom restriction");
         }
         // Ignore zoom restriction (show all objects)
-        filterHighEndLayersByZoomLevel(roadLegendsOnlyLG, alwaysShowTooltips, mapTotalZoomLevel);
+        filterHighEndLayersByZoomLevel(roadLegendsOnlyLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
         if(debug) {
           console.log("[X] Roads - legends - all zoom level");
         }
@@ -271,7 +272,7 @@ function filterRoads() {
           console.log("(+) Ignore zoom restriction");
         }
         // Ignore zoom restriction (show all objects)
-        filterHighEndLayersByZoomLevel(roadCanonOlyLG, alwaysShowTooltips, mapTotalZoomLevel);
+        filterHighEndLayersByZoomLevel(roadCanonOlyLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
         if(debug) {
           console.log("[X] Roads - canon - all zoom level");
         }
@@ -300,7 +301,7 @@ function filterRoads() {
           console.log("(+) Ignore zoom restriction");
         }
         // Ignore zoom restriction (show all objects)
-        filterHighEndLayersByZoomLevel(roadCanonAndLegendsLG, alwaysShowTooltips, mapTotalZoomLevel);
+        filterHighEndLayersByZoomLevel(roadCanonAndLegendsLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
         if(debug) {
           console.log("[X] Roads - canon/legends - all zoom level");
         }
@@ -916,9 +917,10 @@ function addFilteredData(filteredData) {
 /**
  * Display or hide layers function of user options/parameters
  */
-function filterPoints() {
+async function filterPoints() {
   const mapTotalZoomLevel = mapMaxZoomLevel - mapMinZoomLevel;
   const alwaysShowTooltips = true;
+  const useMapBounds = true;
   if(debug) {
     console.log("-------------- STARTS FILTERING POINTS -----------------");
   }
@@ -950,12 +952,12 @@ function filterPoints() {
             console.log("(+) Ignore zoom restriction");
           }
           // Ignore zoom restriction (show all objects)
-          filterHighEndLayersByZoomLevel(innerStarSystemObjectUnlicencedLG, alwaysShowTooltips, mapTotalZoomLevel);
+          filterHighEndLayersByZoomLevel(innerStarSystemObjectUnlicencedLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
           if(debug) {
             console.log("[X] Inner objects - unlicensed - all zoom level");
           }
         } else {
-          filterHighEndLayersByZoomLevel(innerStarSystemObjectUnlicencedLG, alwaysShowTooltips);
+          filterHighEndLayersByZoomLevel(innerStarSystemObjectUnlicencedLG, alwaysShowTooltips, useMapBounds);
           if(debug) {
             console.log("[X] Inner objects - unlicensed - filtered zoom level");
           }
@@ -981,12 +983,12 @@ function filterPoints() {
             console.log("(+) Ignore zoom restriction");
           }
           // Ignore zoom restriction (show all objects)
-          filterHighEndLayersByZoomLevel(innerStarSystemObjectLegendsOnlyLG, alwaysShowTooltips, mapTotalZoomLevel);
+          filterHighEndLayersByZoomLevel(innerStarSystemObjectLegendsOnlyLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
           if(debug) {
             console.log("[X] Inner objects - legends - all zoom level");
           }
         } else {
-          filterHighEndLayersByZoomLevel(innerStarSystemObjectLegendsOnlyLG, alwaysShowTooltips);
+          filterHighEndLayersByZoomLevel(innerStarSystemObjectLegendsOnlyLG, alwaysShowTooltips, useMapBounds);
           if(debug) {
             console.log("[X] Inner objects - legends - filtered zoom level");
           }
@@ -1012,12 +1014,12 @@ function filterPoints() {
             console.log("(+) Ignore zoom restriction");
           }
           // Ignore zoom restriction (show all objects)
-          filterHighEndLayersByZoomLevel(innerStarSystemObjectCanonOnlyLG, alwaysShowTooltips, mapTotalZoomLevel);
+          filterHighEndLayersByZoomLevel(innerStarSystemObjectCanonOnlyLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
           if(debug) {
             console.log("[X] Inner objects - canon - all zoom level");
           }
         } else {
-          filterHighEndLayersByZoomLevel(innerStarSystemObjectCanonOnlyLG, alwaysShowTooltips);
+          filterHighEndLayersByZoomLevel(innerStarSystemObjectCanonOnlyLG, alwaysShowTooltips, useMapBounds);
           if(debug) {
             console.log("[X] Inner objects - canon - filtered zoom level");
           }
@@ -1043,12 +1045,12 @@ function filterPoints() {
             console.log("(+) Ignore zoom restriction");
           }
           // Ignore zoom restriction (show all objects)
-          filterHighEndLayersByZoomLevel(innerStarSystemObjectCanonAndLegendsLG, alwaysShowTooltips, mapTotalZoomLevel);
+          filterHighEndLayersByZoomLevel(innerStarSystemObjectCanonAndLegendsLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
           if(debug) {
             console.log("[X] Inner objects - canon/legends - all zoom level");
           }
         } else {
-          filterHighEndLayersByZoomLevel(innerStarSystemObjectCanonAndLegendsLG, alwaysShowTooltips);
+          filterHighEndLayersByZoomLevel(innerStarSystemObjectCanonAndLegendsLG, alwaysShowTooltips, useMapBounds);
           if(debug) {
             console.log("[X] Inner objects - canon/legends - filtered zoom level");
           }
@@ -1092,12 +1094,12 @@ function filterPoints() {
             console.log("(+) Ignore zoom restriction");
           }
           // Ignore zoom restriction (show all objects)
-          filterHighEndLayersByZoomLevel(starSystemUnlicencedLG, alwaysShowTooltips, mapTotalZoomLevel);
+          filterHighEndLayersByZoomLevel(starSystemUnlicencedLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
           if(debug) {
             console.log("[X] Star system objects - unlicensed - all zoom level");
           }
         } else {
-          filterHighEndLayersByZoomLevel(starSystemUnlicencedLG, alwaysShowTooltips);
+          filterHighEndLayersByZoomLevel(starSystemUnlicencedLG, alwaysShowTooltips, useMapBounds);
           if(debug) {
             console.log("[X] Star system objects - unlicensed - filtered zoom level");
           }
@@ -1123,12 +1125,12 @@ function filterPoints() {
             console.log("(+) Ignore zoom restriction");
           }
           // Ignore zoom restriction (show all objects)
-          filterHighEndLayersByZoomLevel(starSystemLegendsOnlyLG, alwaysShowTooltips, mapTotalZoomLevel);
+          filterHighEndLayersByZoomLevel(starSystemLegendsOnlyLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
           if(debug) {
             console.log("[X] Star system objects - legends - all zoom level");
           }
         } else {
-          filterHighEndLayersByZoomLevel(starSystemLegendsOnlyLG, alwaysShowTooltips);
+          filterHighEndLayersByZoomLevel(starSystemLegendsOnlyLG, alwaysShowTooltips, useMapBounds);
           if(debug) {
             console.log("[X] Star system objects - legends - filtered zoom level");
           }
@@ -1154,12 +1156,12 @@ function filterPoints() {
             console.log("(+) Ignore zoom restriction");
           }
           // Ignore zoom restriction (show all objects)
-          filterHighEndLayersByZoomLevel(starSystemCanonOnlyLG, alwaysShowTooltips, mapTotalZoomLevel);
+          filterHighEndLayersByZoomLevel(starSystemCanonOnlyLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
           if(debug) {
             console.log("[X] Star system - canon - all zoom level");
           }
         } else {
-          filterHighEndLayersByZoomLevel(starSystemCanonOnlyLG, alwaysShowTooltips);
+          filterHighEndLayersByZoomLevel(starSystemCanonOnlyLG, alwaysShowTooltips, useMapBounds);
           if(debug) {
             console.log("[X] Star system - canon - filtered zoom level");
           }
@@ -1185,12 +1187,12 @@ function filterPoints() {
             console.log("(+) Ignore zoom restriction");
           }
           // Ignore zoom restriction (show all objects)
-          filterHighEndLayersByZoomLevel(starSystemCanonAndLegendsLG, alwaysShowTooltips, mapTotalZoomLevel);
+          filterHighEndLayersByZoomLevel(starSystemCanonAndLegendsLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
           if(debug) {
             console.log("[X] Star system - canon/legends - all zoom level");
           }
         } else {
-          filterHighEndLayersByZoomLevel(starSystemCanonAndLegendsLG, alwaysShowTooltips);
+          filterHighEndLayersByZoomLevel(starSystemCanonAndLegendsLG, alwaysShowTooltips, useMapBounds);
           if(debug) {
             console.log("[X] Star system - canon/legends - filtered zoom level");
           }
@@ -1234,12 +1236,12 @@ function filterPoints() {
             console.log("(+) Ignore zoom restriction");
           }
           // Ignore zoom restriction (show all objects)
-          filterHighEndLayersByZoomLevel(innerMainObjectAsStarSystemUnlicencedLG, alwaysShowTooltips, mapTotalZoomLevel);
+          filterHighEndLayersByZoomLevel(innerMainObjectAsStarSystemUnlicencedLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
           if(debug) {
             console.log("[X] Inner main objects as star systems - unlicensed - all zoom level");
           }
         } else {
-          filterHighEndLayersByZoomLevel(innerMainObjectAsStarSystemUnlicencedLG, alwaysShowTooltips);
+          filterHighEndLayersByZoomLevel(innerMainObjectAsStarSystemUnlicencedLG, alwaysShowTooltips, useMapBounds);
           if(debug) {
             console.log("[X] Inner main objects as star systems - unlicensed - filtered zoom level");
           }
@@ -1265,12 +1267,12 @@ function filterPoints() {
             console.log("(+) Ignore zoom restriction");
           }
           // Ignore zoom restriction (show all objects)
-          filterHighEndLayersByZoomLevel(innerMainObjectAsStarSystemLegendsOnlyLG, alwaysShowTooltips, mapTotalZoomLevel);
+          filterHighEndLayersByZoomLevel(innerMainObjectAsStarSystemLegendsOnlyLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
           if(debug) {
             console.log("[X] Inner main objects as star systems - legends - all zoom level");
           }
         } else {
-          filterHighEndLayersByZoomLevel(innerMainObjectAsStarSystemLegendsOnlyLG, alwaysShowTooltips);
+          filterHighEndLayersByZoomLevel(innerMainObjectAsStarSystemLegendsOnlyLG, alwaysShowTooltips, useMapBounds);
           if(debug) {
             console.log("[X] Inner main objects as star systems - legends - filtered zoom level");
           }
@@ -1296,12 +1298,12 @@ function filterPoints() {
             console.log("(+) Ignore zoom restriction");
           }
           // Ignore zoom restriction (show all objects)
-          filterHighEndLayersByZoomLevel(innerMainObjectAsStarSystemCanonOnlyLG, alwaysShowTooltips, mapTotalZoomLevel);
+          filterHighEndLayersByZoomLevel(innerMainObjectAsStarSystemCanonOnlyLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
           if(debug) {
             console.log("[X] Star system - canon - all zoom level");
           }
         } else {
-          filterHighEndLayersByZoomLevel(innerMainObjectAsStarSystemCanonOnlyLG, alwaysShowTooltips);
+          filterHighEndLayersByZoomLevel(innerMainObjectAsStarSystemCanonOnlyLG, alwaysShowTooltips, useMapBounds);
           if(debug) {
             console.log("[X] Star system - canon - filtered zoom level");
           }
@@ -1327,12 +1329,12 @@ function filterPoints() {
             console.log("(+) Ignore zoom restriction");
           }
           // Ignore zoom restriction (show all objects)
-          filterHighEndLayersByZoomLevel(innerMainObjectAsStarSystemCanonAndLegendsLG, alwaysShowTooltips, mapTotalZoomLevel);
+          filterHighEndLayersByZoomLevel(innerMainObjectAsStarSystemCanonAndLegendsLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
           if(debug) {
             console.log("[X] Inner main objects as star systems layer group - canon/legends - all zoom level");
           }
         } else {
-          filterHighEndLayersByZoomLevel(innerMainObjectAsStarSystemCanonAndLegendsLG, alwaysShowTooltips);
+          filterHighEndLayersByZoomLevel(innerMainObjectAsStarSystemCanonAndLegendsLG, alwaysShowTooltips, useMapBounds);
           if(debug) {
             console.log("[X] Inner main objects as star systems layer group - canon/legends - filtered zoom level");
           }
@@ -1371,12 +1373,12 @@ function filterPoints() {
           console.log("(+) Ignore zoom restriction");
         }
         // Ignore zoom restriction (show all objects)
-        filterHighEndLayersByZoomLevel(otherObjectUnlicencedLG, alwaysShowTooltips, mapTotalZoomLevel);
+        filterHighEndLayersByZoomLevel(otherObjectUnlicencedLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
         if(debug) {
           console.log("[X] Other objects - unlicensed - all zoom level");
         }
       } else {
-        filterHighEndLayersByZoomLevel(otherObjectUnlicencedLG, alwaysShowTooltips);
+        filterHighEndLayersByZoomLevel(otherObjectUnlicencedLG, alwaysShowTooltips, useMapBounds);
         if(debug) {
           console.log("[X] Other objects - unlicensed - filtered zoom level");
         }
@@ -1402,12 +1404,12 @@ function filterPoints() {
           console.log("(+) Ignore zoom restriction");
         }
         // Ignore zoom restriction (show all objects)
-        filterHighEndLayersByZoomLevel(otherObjectLegendsOnlyLG, alwaysShowTooltips, mapTotalZoomLevel);
+        filterHighEndLayersByZoomLevel(otherObjectLegendsOnlyLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
         if(debug) {
           console.log("[X] Other objects - legends - all zoom level");
         }
       } else {
-        filterHighEndLayersByZoomLevel(otherObjectLegendsOnlyLG, alwaysShowTooltips);
+        filterHighEndLayersByZoomLevel(otherObjectLegendsOnlyLG, alwaysShowTooltips, useMapBounds);
         if(debug) {
           console.log("[X] Other objects - legends - filtered zoom level");
         }
@@ -1433,12 +1435,12 @@ function filterPoints() {
           console.log("(+) Ignore zoom restriction");
         }
         // Ignore zoom restriction (show all objects)
-        filterHighEndLayersByZoomLevel(otherObjectCanonOnlyLG, alwaysShowTooltips, mapTotalZoomLevel);
+        filterHighEndLayersByZoomLevel(otherObjectCanonOnlyLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
         if(debug) {
           console.log("[X] Other objects - canon - all zoom level");
         }
       } else {
-        filterHighEndLayersByZoomLevel(otherObjectCanonOnlyLG, alwaysShowTooltips);
+        filterHighEndLayersByZoomLevel(otherObjectCanonOnlyLG, alwaysShowTooltips, useMapBounds);
         if(debug) {
           console.log("[X] Other objects - canon - filtered zoom level");
         }
@@ -1464,12 +1466,12 @@ function filterPoints() {
           console.log("(+) Ignore zoom restriction");
         }
         // Ignore zoom restriction (show all objects)
-        filterHighEndLayersByZoomLevel(otherObjectCanonAndLegendsLG, alwaysShowTooltips, mapTotalZoomLevel);
+        filterHighEndLayersByZoomLevel(otherObjectCanonAndLegendsLG, alwaysShowTooltips, useMapBounds, mapTotalZoomLevel);
         if(debug) {
           console.log("[X] Other objects - canon/legends - all zoom level");
         }
       } else {
-        filterHighEndLayersByZoomLevel(otherObjectCanonAndLegendsLG, alwaysShowTooltips);
+        filterHighEndLayersByZoomLevel(otherObjectCanonAndLegendsLG, alwaysShowTooltips, useMapBounds);
         if(debug) {
           console.log("[X] Other objects - canon/legends - filtered zoom level");
         }
@@ -1505,15 +1507,31 @@ function filterPoints() {
  * @param {*} zoomParentGroupLayer parent zoom layer array
  * @param {*} mapZoom zoom level you want to filter. Default : current zoom level
  */
-function filterHighEndLayersByZoomLevel(zoomParentGroupLayer, alwaysShowTooltips = false, mapZoom = map.getZoom() - mapMinZoomLevel) {
+async function filterHighEndLayersByZoomLevel(zoomParentGroupLayer, alwaysShowTooltips = false, useMapBounds = false, mapZoom = map.getZoom() - mapMinZoomLevel) {
   // console.log("MAPZOOM : "+mapZoom);
+  const bounds = map.getBounds(); // Optimization : we only display points
   const groupLayers = zoomParentGroupLayer.getLayers();
   // console.log(groupLayers); 
   for (let index = 0; index < groupLayers.length; index++) {
     if(index <= mapZoom) {
-      map.addLayer(groupLayers[index]);
-      if(alwaysShowTooltips) {
-        groupLayers[index].getLayers().forEach(async (layer) => layer.openTooltip()); // made async to not wait for tooltips
+      if(useMapBounds) {
+        groupLayers[index].getLayers().forEach(async (layer) => {
+          if(bounds.contains(layer.getLatLng())) {
+            map.addLayer(layer);
+          }
+        });
+        if(alwaysShowTooltips) {
+          groupLayers[index].getLayers().forEach(async (layer) => {
+            if(bounds.contains(layer.getLatLng())) {
+              layer.openTooltip();
+            }
+          }); // made async to speed up processing
+        }
+      } else {
+        map.addLayer(groupLayers[index]);
+        if(alwaysShowTooltips) {
+          groupLayers[index].getLayers().forEach(async (layer) => layer.openTooltip()); // made async to speed up processing
+        }
       }
       if(debug) {
         console.log("Adding layer: " + groupLayers[index].options.title + " ("+groupLayers[index].getLayers().length+" objects)");
@@ -1526,7 +1544,7 @@ function filterHighEndLayersByZoomLevel(zoomParentGroupLayer, alwaysShowTooltips
       }
       if(debug) {
         console.log("Removing layer: " + groupLayers[index].options.title + " ("+groupLayers[index].getLayers().length+" objects)");
-        console.log(groupLayers[index].getLayers()); // made async to not wait for tooltips
+        console.log(groupLayers[index].getLayers()); // made async to speed up processing
       }
     }
   }
