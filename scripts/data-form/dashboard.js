@@ -9,6 +9,14 @@ const OBJECT_TYPE_WITH_MANDATORY_COORD = [
   "Anomaly", "Void Space", "Rings", "Star Cluster", "Galaxy"
 ];
 
+const OBJECT_MADATORY_DATA = [
+  "id", "name", "sortId",
+];
+
+const OBJECT_DUPLICATED_DATA = [
+  "id", "sortId", "name",
+];
+
 /**
  * Build a table showing object by type even if they are not in Object Types database
  */
@@ -217,7 +225,6 @@ function displayObjectHavingThemselvesAsParent(parentDiv) {
   let tableBody = table.createTBody();
   // Build table content from object ids
   const foundObjects = astronomicalObjectSearchArray.filter((object) => object.id === object.parentId);
-  let totalIncorrectValues = foundObjects.length;
   for (const object of foundObjects) {
     let row = tableBody.insertRow();
     let objectIdCell = row.insertCell();
@@ -228,8 +235,150 @@ function displayObjectHavingThemselvesAsParent(parentDiv) {
     objectReadableNameCell.innerHTML = object.humanName; 
   }
   // generate widget
-  const collapsibleButtonInnerHTML = `${totalIncorrectValues} objects referencing themselves as parent`;
+  const collapsibleButtonInnerHTML = `${foundObjects.length} objects referencing themselves as parent`;
   const containerDivId = "dashboard-table-object-as-parent";
+  generateCollapsibleWidget(parentDiv, collapsibleButtonInnerHTML, table, containerDivId);
+}
+
+/**
+ * Build a table showing mandatory data misssing by object
+ */
+function objectWithMissingMandatoryDataTable(parentDiv) {
+  // Build table
+  let table = document.createElement('table');
+  table.classList.add("dashboard-table");
+  // Table headers
+  let tableHeader = table.createTHead();
+  let tableHeaderRow = tableHeader.insertRow(0);
+  let objectNameCell = tableHeaderRow.insertCell(0);
+  objectNameCell.innerHTML = "<b>Name</b>";
+  let technicalIdCell = tableHeaderRow.insertCell(1);
+  technicalIdCell.innerHTML = "<b>Technical ID</b>";
+  let sortingIdCell = tableHeaderRow.insertCell(2);
+  sortingIdCell.innerHTML = "<b>Sorting/Human ID</b>";
+  // Add table body
+  let tableBody = table.createTBody();
+  // Build table content from object ids
+  const foundObjects = astronomicalObjectSearchArray.filter((object) => {
+    for (let index = 0; index < OBJECT_MADATORY_DATA.length; index++) {
+      const mandatoryElement = OBJECT_MADATORY_DATA[index];
+      if(object && object[mandatoryElement] === "") return object;
+    }
+  });
+  for (const object of foundObjects) {
+    let row = tableBody.insertRow();
+    let objectNameCell = row.insertCell();
+    objectNameCell.innerHTML = object.name;
+    let objectIdCell = row.insertCell();
+    objectIdCell.innerHTML = object.id;
+    let objectHumanIdCell = row.insertCell();
+    objectHumanIdCell.innerHTML = object.sortId;
+  }
+  // generate widget
+  const collapsibleButtonInnerHTML = `${foundObjects.length} object with missing mandatory value(s)`;
+  const containerDivId = "dashboard-table-object-with-mandatory-values";
+  generateCollapsibleWidget(parentDiv, collapsibleButtonInnerHTML, table, containerDivId);
+}
+
+/**
+ * Build a table showing forbidden duplicated data by object
+ */
+function objectWithDuplicatedDataTable(parentDiv) {
+  let duplicatedValuesFound = 0;
+  // Build table
+  let table = document.createElement('table');
+  table.classList.add("dashboard-table");
+  // Table headers
+  let tableHeader = table.createTHead();
+  let tableHeaderRow = tableHeader.insertRow(0);
+  let objectNameCell1 = tableHeaderRow.insertCell(0);
+  objectNameCell1.innerHTML = "<b>Obj1 Name</b>";
+  let objectTypeCell1 = tableHeaderRow.insertCell(1);
+  objectTypeCell1.innerHTML = "<b>Obj1 Type</b>";
+  let technicalIdCell1 = tableHeaderRow.insertCell(2);
+  technicalIdCell1.innerHTML = "<b>Obj1 Technical ID</b>";
+  let sortingIdCell1 = tableHeaderRow.insertCell(3);
+  sortingIdCell1.innerHTML = "<b>Obj1 Sorting/Human ID</b>";
+  let objectNameCell2 = tableHeaderRow.insertCell(4);
+  objectNameCell2.innerHTML = "<b>Obj2 Name</b>";
+  let objectTypeCell2 = tableHeaderRow.insertCell(5);
+  objectTypeCell2.innerHTML = "<b>Obj1 Type</b>";
+  let technicalIdCell2 = tableHeaderRow.insertCell(6);
+  technicalIdCell2.innerHTML = "<b>Obj2 Technical ID</b>";
+  let sortingIdCell2 = tableHeaderRow.insertCell(7);
+  sortingIdCell2.innerHTML = "<b>Obj2 Sorting/Human ID</b>";
+  // Add table body
+  let tableBody = table.createTBody();
+  // Build table content from object ids
+  for (let index = 0; index < astronomicalObjectSearchArray.length; index++) {
+    const astroObject = astronomicalObjectSearchArray[index];
+    // Optimized by starting iteration with next index2 = index +1 (avoid reiterating previous objects and speed processing)
+    for (let index2 = index+1; index2 < astronomicalObjectSearchArray.length; index2++) {
+      const astroObjectToCompare = astronomicalObjectSearchArray[index2];
+      const duplicatedElements = [];
+      for (let elementIndex = 0; elementIndex < OBJECT_DUPLICATED_DATA.length; elementIndex++) {
+        const element = OBJECT_DUPLICATED_DATA[elementIndex];
+        // Don't compare same object
+        if(astroObjectToCompare === astroObject) continue;
+        // Search for duplicated elements
+        if(astroObject[element] === astroObjectToCompare[element]) {
+          duplicatedValuesFound++;
+          duplicatedElements.push(element);
+        }
+      }
+      // Build table with duplicated elements
+      if(duplicatedElements.length > 0) {
+        let row = tableBody.insertRow();
+        // Object 1
+        // Name
+        let objectNameCell1 = row.insertCell();
+        objectNameCell1.innerHTML = astroObject.name;
+        if(duplicatedElements.includes('name')) {
+          objectNameCell1.classList.add("dashboard-warning-value");
+        }
+        // Type
+        let objectTypeCell1 = row.insertCell();
+        objectTypeCell1.innerHTML = astroObject.objectType;
+        // Tech ID
+        let objectIdCell1 = row.insertCell();
+        objectIdCell1.innerHTML = astroObject.id;
+        if(duplicatedElements.includes('id')) {
+          objectIdCell1.classList.add("dashboard-incorrect-value");
+        }
+        // Sort Id
+        let objectHumanIdCell1 = row.insertCell();
+        objectHumanIdCell1.innerHTML = astroObject.sortId;
+        if(duplicatedElements.includes('sortId')) {
+          objectHumanIdCell1.classList.add("dashboard-incorrect-value");
+        }
+        // Object 2
+        // Name
+        let objectNameCell2 = row.insertCell();
+        objectNameCell2.innerHTML = astroObjectToCompare.name;
+        if(duplicatedElements.includes('name')) {
+          objectNameCell2.classList.add("dashboard-warning-value");
+        }
+        // Type
+        let objectTypeCell2 = row.insertCell();
+        objectTypeCell2.innerHTML = astroObjectToCompare.objectType;
+        // Tech ID
+        let objectIdCell2 = row.insertCell();
+        objectIdCell2.innerHTML = astroObjectToCompare.id;
+        if(duplicatedElements.includes('id')) {
+          objectIdCell2.classList.add("dashboard-incorrect-value");
+        }
+        // Sort Id
+        let objectHumanIdCell2 = row.insertCell();
+        objectHumanIdCell2.innerHTML = astroObjectToCompare.sortId;
+        if(duplicatedElements.includes('sortId')) {
+          objectHumanIdCell2.classList.add("dashboard-incorrect-value");
+        }
+      }
+    }
+  };
+  // generate widget
+  const collapsibleButtonInnerHTML = `${duplicatedValuesFound} duplicated mandatory value(s) (in red), and possible duplicated values (in yellow/gold)`;
+  const containerDivId = "dashboard-table-object-with-duplicated-values";
   generateCollapsibleWidget(parentDiv, collapsibleButtonInnerHTML, table, containerDivId);
 }
 
@@ -243,6 +392,8 @@ function initDashboard() {
   objectByParentTable(DASHBOARD_DIVS[0]);
   objectCoordinateByType(DASHBOARD_DIVS[0]);
   displayObjectHavingThemselvesAsParent(DASHBOARD_DIVS[0]);
+  objectWithMissingMandatoryDataTable(DASHBOARD_DIVS[0]);
+  objectWithDuplicatedDataTable(DASHBOARD_DIVS[0]);
 }
 
 /**********/
