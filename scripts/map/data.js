@@ -1732,14 +1732,21 @@ function onEachFeaturePoints(feature, layer) {
       //pointDisplayTooltip(e);
       highlightCircleMarker(e);
     },
-    mouseout: function(e) {
-      //pointHideTooltip(e);
-      // resetCircleMarkerStyle(e);
-    },
+    // mouseout: function(e) {
+    //   e.target._events.mouseout[0] = undefined;
+    //   if(e.target)
+    //   console.log(e);
+    //   // e.preventDefault();
+    //   e.stopPropagation();
+    //   //pointHideTooltip(e);
+    //   // resetCircleMarkerStyle(e);
+    // },
     click: function(e) {
       pointDisplayPopup(e);
     },
   });
+  // Unbind the mouseout event to prevent the tooltip from closing
+  layer.off('mouseout');
 }
 
 function highlightCircleMarker(e) {

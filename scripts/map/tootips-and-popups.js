@@ -185,9 +185,9 @@ function pointDisplayTooltip(e) {
 }
 
 // Remove label on mouseout
-function pointHideTooltip(e) {
-  e.target.layer?.closeTooltip(); // Hide tooltip
-}
+// function pointHideTooltip(e) {
+//   e.target.layer?.closeTooltip(); // Hide tooltip
+// }
 
 // Display popup on mouse click
 function areaDisplayPopup(e) {
