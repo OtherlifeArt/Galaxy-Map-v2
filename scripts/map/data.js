@@ -1523,6 +1523,7 @@ async function filterHighEndLayersByZoomLevel(zoomParentGroupLayer, alwaysShowTo
         if(alwaysShowTooltips) {
           groupLayers[index].getLayers().forEach(async (layer) => {
             if(bounds.contains(layer.getLatLng())) {
+              layer.getTooltip().options.permanent = true; // Prevent tooltip from closing when clicking on any map layer
               layer.openTooltip();
             }
           }); // made async to speed up processing
@@ -1540,7 +1541,10 @@ async function filterHighEndLayersByZoomLevel(zoomParentGroupLayer, alwaysShowTo
     } else {
       map.removeLayer(groupLayers[index]);
       if(alwaysShowTooltips) {
-        groupLayers[index].getLayers().forEach(async (layer) => layer.closeTooltip());
+        groupLayers[index].getLayers().forEach(async (layer) => {
+          layer.getTooltip().options.permanent = false;
+          layer.closeTooltip();
+        });
       }
       if(debug) {
         console.log("Removing layer: " + groupLayers[index].options.title + " ("+groupLayers[index].getLayers().length+" objects)");
@@ -1726,7 +1730,7 @@ function onEachFeaturePoints(feature, layer) {
       fullName += '(?) ';
     }
     return fullName + feature.properties.NAME;
-  }, { sticky: false });
+  }, { sticky: false, interactive: true });
   layer.on({
     mouseover: function(e) {
       //pointDisplayTooltip(e);
@@ -1742,6 +1746,7 @@ function onEachFeaturePoints(feature, layer) {
     //   // resetCircleMarkerStyle(e);
     // },
     click: function(e) {
+      // L.DomEvent.stopPropagation(e);
       pointDisplayPopup(e);
     },
   });

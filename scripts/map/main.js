@@ -415,12 +415,6 @@ map.on('zoomend moveend', function() {
   filterPoints();
 });
 
-// On mouseout event
-// map.on('mouseout', function(e) {
-//   e.preventDefault();
-//   e.stopPropagation();
-// });
-
 // Filter by point layer
 document.getElementById("display-point-layer").addEventListener("change", function () {
   userOptions.display.points = this.checked;
