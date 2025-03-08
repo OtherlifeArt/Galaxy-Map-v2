@@ -249,6 +249,7 @@ var map = L.map('map', {
   fullscreenControlOptions: {
       position: 'topleft'
   },
+  dragging: true,
   //preferCanvas: true, // It disable interaction with multiple layers (point and areas)...
 }).setView(mapStartCenterCoordinates, mapStartZoomLevel);
 

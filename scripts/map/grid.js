@@ -158,7 +158,7 @@ function updateGridLabels() {
   const mapHeight = map.getSize().y;
 
   // Create new grid labels within visible bounds
-  console.log(defaultGridLabel);
+  // console.log(defaultGridLabel);
   grid_labels.eachLayer(function(layer) {
     const labelPosition = layer.feature.properties.layer;
     if (labelPosition.startsWith("col")) { // column / letters
