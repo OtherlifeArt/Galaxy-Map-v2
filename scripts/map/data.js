@@ -1543,7 +1543,9 @@ async function filterHighEndLayersByZoomLevel(zoomParentGroupLayer, alwaysShowTo
       if(alwaysShowTooltips) {
         groupLayers[index].getLayers().forEach(async (layer) => {
           layer.getTooltip().options.permanent = false;
-          layer.closeTooltip();
+          if (layer.isTooltipOpen()) { // Prevent leflet error "Uncaught (in promise) TypeError: this._map is null" error when tooltip is already closed
+            layer.closeTooltip();
+          }
         });
       }
       if(debug) {
@@ -1730,7 +1732,7 @@ function onEachFeaturePoints(feature, layer) {
       fullName += '(?) ';
     }
     return fullName + feature.properties.NAME;
-  }, { sticky: false, interactive: true });
+  }, { sticky: false, interactive: true, permanent: false }); // Init options (permanent will be changed when displaying of hiding tooltips)
   layer.on({
     mouseover: function(e) {
       //pointDisplayTooltip(e);

@@ -408,11 +408,16 @@ map.on('zoomend', function() {
   }
 });
 
+let eventTimeout; // Store timeout reference
 // On zoom+move end event
-map.on('zoomend moveend', function() {
-  // Adjust grid labels
-  updateGridLabels();
-  filterPoints();
+map.on('zoomend moveend', function () {
+    clearTimeout(eventTimeout); // Clear previous timeout if still running
+
+    eventTimeout = setTimeout(() => {
+        // Execute only once after the last event
+        updateGridLabels();
+        filterPoints();
+    }, 100); // Adjust delay if needed
 });
 
 // Filter by point layer
