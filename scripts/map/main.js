@@ -417,7 +417,7 @@ map.on('zoomend moveend', function () {
         // Execute only once after the last event
         updateGridLabels();
         filterPoints();
-    }, 100); // Adjust delay if needed
+    }, 50); // Adjust delay if needed
 });
 
 // Filter by point layer

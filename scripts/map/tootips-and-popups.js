@@ -191,7 +191,7 @@ function pointDisplayTooltip(e) {
 
 // Display popup on mouse click
 function areaDisplayPopup(e) {
-  console.log(e);
+  // console.log(e);
   let layer = e.target;
   let feature = layer.feature;
   const fp = feature.properties;
