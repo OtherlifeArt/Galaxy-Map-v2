@@ -69,7 +69,7 @@ map.getPane("colonies_EA").style.zIndex = "397";
 /******** LAYERS CONTROL *********/
 
 completegrid.addTo(map);
-var searchLayer = L.layerGroup([points,areas]);
+var searchLayer = L.layerGroup([points,areas,roads]);
 roads.addTo(map);
 points.addTo(map)
 areas.addTo(map)
