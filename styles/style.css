@@ -15,6 +15,26 @@ html, body {
   display: none;
 }
 
+/********* Grid Labels **********/
+.leaflet-tooltip-crd {
+  border: transparent;
+  font-size: 1.8em;
+}
+
+/********* Other Tooltips **********/
+.leaflet-tooltip {
+  border: transparent;
+}
+
+.leaflet-tooltip-left::before, .leaflet-tooltip-right::before {
+  display: none;
+}
+
+/********* Popups **********/
+.leaflet-popup-tip {
+  background: #65748E;
+}
+
 /********* Home button **********/
 .home-button {
   background: white;
