@@ -334,16 +334,165 @@ async function batchUpdateAllObjectParentReadableNames() {
     alert("Error encoutered on Object parent name update ! Check console (F12) for more details");
   }
   document.getElementById('spreadsheet-data-batch-update-object-redable-parent-names-button').disabled = false;
-} 
+}
+
+/**
+ * Format and download CSV for location designer tool 
+ */
+async function formatAndDownloadDATAForLocationDesigner() {
+  // get all objects
+
+  // Object spreadsheet
+  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, `!${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID)}2:${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL)}`);
+  const data = spreadSheetData.values;
+  // Hyperroute section spreadsheet
+  const hyperrouteSectionSpreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.HYPERROUTE_SECTIONS.NAME, `!${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.ID)}2:${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_Z)}`);
+  const hyperrouteSectionData = hyperrouteSectionSpreadSheetData.values;
+
+  // Unammed route section point index counter
+  let unnamedRouteSectionIndexCounter = 0;
+  
+  // Table structure
+  const locationDesignerDataTable = [];
+  locationDesignerDataTable.push(['Region', 'Sector', 'System', 'Object', 'X', 'Y', 'Z', 'Object link', 'Region link', 'System link', 'Sector link', 'Grid', 'technicalId', 'Connections']);
+  // Format
+  for (let index = 1; index < data.length; index++) {
+    const object = data[index];
+    // Only include object with coordinates
+    // X
+    const xCoord = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD]);
+    // Y
+    const yCoord = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]);
+    // Z
+    const zCoord = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD]);
+
+    // We check only objects withh coordinates
+    if(xCoord !== "" && zCoord !== "") {
+      const objectID = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]);
+      const parentID = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]);
+      const parentObject = data.find(object => sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]) === parentID);
+      const grandParentObject = parentObject !== undefined  && sanitizeText(parentObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]) !== "" ?
+        data.find(object => object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] === sanitizeText(parentObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID])) : undefined;
+
+      // Object Name
+      const astroObject = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]);
+      // System (ignored)
+      const system = "";
+      // Sector or parent object
+      const sector = parentObject !== undefined ? sanitizeText(parentObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]) : "";
+      // Region or sector parent object
+      const region = grandParentObject !== undefined ? sanitizeText(grandParentObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]) : "";
+      // Object link
+      const link = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL]).split(",")[0];
+      // System link (ignored)
+      const systemLink = "";
+      // Sector link
+      const sectorLink = parentObject !== undefined ? sanitizeText(parentObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL]).split(",")[0] : "";
+      // Region link
+      const regionLink = grandParentObject !== undefined ? sanitizeText(grandParentObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL]).split(",")[0] : "";
+      // Grid
+      const grid = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID]) === "" ?
+        "" : sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_GRID]) + "-" + sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID]);
+      // Technical ID
+      const techId = objectID;
+      // Connections (comma separated list of object connexion to other objects)
+      const connections = hyperrouteSectionData.filter((section) => 
+        sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_ID]) === techId || sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_ID]) === techId)
+      .map(filteredSection => {
+        if(sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_ID]) === techId) {
+          if(sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_ID]) !== "") {
+            return sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_ID]);
+          } else if (
+            sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_X]) !== "" 
+            && sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_Y]) !== ""
+          ) {
+            locationDesignerDataTable.push(["", "", "", "", 
+              sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_X]),
+              sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_Y]),
+              "", "", "", "", "", "", unnamedRouteSectionIndexCounter, ""
+            ]);
+            return unnamedRouteSectionIndexCounter++; // Returns index counter then increment it
+          }
+        } else {
+          if(sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_ID]) !== "") {
+            return sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_ID]);
+          } else if (
+            sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_X]) !== "" 
+            && sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_Y]) !== ""
+          ) {
+            locationDesignerDataTable.push(["", "", "", "", 
+              sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_X]),
+              sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_Y]),
+              "", "", "", "", "", "", unnamedRouteSectionIndexCounter, ""
+            ]);
+            return unnamedRouteSectionIndexCounter++; // Returns index counter then increment it
+          }
+        }}).join(",");
+      // Append to table
+      locationDesignerDataTable.push([region, sector, system, astroObject, xCoord, yCoord, zCoord, link, regionLink, systemLink, sectorLink, grid, techId, connections]);
+    }
+  }
+
+  // We add coordinates from sections with object coordiantes and no object ID
+  for (let index = 1; index < hyperrouteSectionData.length; index++) {
+    const section = hyperrouteSectionData[index];
+    if(
+      sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_ID]) === ""
+      && sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_ID]) === ""
+      && sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_X]) !== ""
+      && sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_Y]) !== ""
+      && sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_X]) !== ""
+      && sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_Y]) !== ""
+    ) {
+      locationDesignerDataTable.push(["", "", "", "", 
+        sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_X]),
+        sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_Y]),
+        "", "", "", "", "", "", unnamedRouteSectionIndexCounter, (unnamedRouteSectionIndexCounter+1)
+      ]);
+      unnamedRouteSectionIndexCounter++;
+      locationDesignerDataTable.push(["", "", "", "", 
+        sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_X]),
+        sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_Y]),
+        "", "", "", "", "", "", unnamedRouteSectionIndexCounter, (unnamedRouteSectionIndexCounter-1)
+      ]);
+      unnamedRouteSectionIndexCounter++;
+    }
+  }
+
+  console.log(locationDesignerDataTable);
+  // Convert data to CSV
+  const csvData = locationDesignerDataTable.map(row => row.join(';').join('\n'));
+
+  // Create Blob
+  const blob = new Blob([csvData], { type: 'text/csv' });
+
+  // Create download link
+  const a = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  a.href = url;
+  const d = new Date();
+  const datestring = d.getFullYear()+""+("0"+(d.getMonth()+1)).slice(-2)+""+("0" + d.getDate()).slice(-2);
+  a.download = 'location_designer_objects_raw_data_'+datestring+'_v2.csv';
+  document.body.appendChild(a);
+
+  // Trigger download
+  a.click();
+}
 
 /**
  * Spreadsheet DATA EVENT LISTENERS
  */
 // Event listener to batch update object parent name into spreadsheet
 document.getElementById('spreadsheet-data-batch-update-object-readable-names-button').addEventListener('click', function() {
-  batchUpdateAllObjectReadableNames()
+  batchUpdateAllObjectReadableNames();
 });
 // Event listener to batch update object human readable name into spreadsheet
 document.getElementById('spreadsheet-data-batch-update-object-redable-parent-names-button').addEventListener('click', function() {
-  batchUpdateAllObjectParentReadableNames()
+  batchUpdateAllObjectParentReadableNames();
+});
+
+// EXTERNAL TOOLS
+// Event listener to format and download CSV for location designer tool
+document.getElementById('format-to-location-designer-and-download').addEventListener('click', function() {
+  formatAndDownloadDATAForLocationDesigner();
 });
