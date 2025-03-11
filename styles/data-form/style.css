@@ -534,6 +534,11 @@ input[readonly], textarea[readonly] {
   border-top: none;
 }
 
+/********** Attribution **********/
+.leaflet-attribution-flag { 
+  display: none !important;
+}
+
 /********************/
 /**** DASHBOARD *****/
 /********************/

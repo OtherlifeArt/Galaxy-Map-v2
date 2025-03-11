@@ -84,6 +84,11 @@ html, body {
 	margin-left: 4px;
 }
 
+/********** Attribution **********/
+.leaflet-attribution-flag {
+  display: none !important;
+}
+
 /********** Map specific *********/
 
 .leaflet-tooltip {
