@@ -354,7 +354,7 @@ async function formatAndDownloadDATAForLocationDesigner() {
   
   // Table structure
   const locationDesignerDataTable = [];
-  locationDesignerDataTable.push(['Region', 'Sector', 'System', 'Object', 'X', 'Y', 'Z', 'Object link', 'Region link', 'System link', 'Sector link', 'Grid', 'technicalId', 'Connections']);
+  locationDesignerDataTable.push(['Region', 'Sector', 'System', 'Planet', 'X', 'Y', 'Z', 'Planet link', 'Region link', 'System link', 'Sector link', 'Grid', 'technicalId', 'Connections']);
   // Format
   for (let index = 1; index < data.length; index++) {
     const object = data[index];
@@ -367,7 +367,7 @@ async function formatAndDownloadDATAForLocationDesigner() {
     const zCoord = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD]);
 
     // We check only objects withh coordinates
-    if(xCoord !== "" && zCoord !== "") {
+    if(xCoord !== "" && yCoord !== "") {
       const objectID = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]);
       const parentID = sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]);
       const parentObject = data.find(object => sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]) === parentID);
@@ -406,7 +406,8 @@ async function formatAndDownloadDATAForLocationDesigner() {
             sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_X]) !== "" 
             && sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_Y]) !== ""
           ) {
-            locationDesignerDataTable.push(["", "", "", "", 
+            locationDesignerDataTable.push(["", "", "", 
+              sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B]), 
               sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_X]),
               sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_Y]),
               "", "", "", "", "", "", unnamedRouteSectionIndexCounter, ""
@@ -420,7 +421,8 @@ async function formatAndDownloadDATAForLocationDesigner() {
             sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_X]) !== "" 
             && sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_Y]) !== ""
           ) {
-            locationDesignerDataTable.push(["", "", "", "", 
+            locationDesignerDataTable.push(["", "", "", 
+              sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A]), 
               sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_X]),
               sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_Y]),
               "", "", "", "", "", "", unnamedRouteSectionIndexCounter, ""
@@ -444,13 +446,15 @@ async function formatAndDownloadDATAForLocationDesigner() {
       && sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_X]) !== ""
       && sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_Y]) !== ""
     ) {
-      locationDesignerDataTable.push(["", "", "", "", 
+      locationDesignerDataTable.push(["", "", "", 
+        sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A]), 
         sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_X]),
         sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_Y]),
         "", "", "", "", "", "", unnamedRouteSectionIndexCounter, (unnamedRouteSectionIndexCounter+1)
       ]);
       unnamedRouteSectionIndexCounter++;
-      locationDesignerDataTable.push(["", "", "", "", 
+      locationDesignerDataTable.push(["", "", "", 
+        sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B]), 
         sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_X]),
         sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_Y]),
         "", "", "", "", "", "", unnamedRouteSectionIndexCounter, (unnamedRouteSectionIndexCounter-1)
@@ -461,8 +465,7 @@ async function formatAndDownloadDATAForLocationDesigner() {
 
   console.log(locationDesignerDataTable);
   // Convert data to CSV
-  const csvData = locationDesignerDataTable.map(row => row.join(';').join('\n'));
-
+  const csvData = locationDesignerDataTable.map(row => row.join(';')).join('\n');
   // Create Blob
   const blob = new Blob([csvData], { type: 'text/csv' });
 
