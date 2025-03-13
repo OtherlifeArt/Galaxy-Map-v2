@@ -348,6 +348,9 @@ async function formatAndDownloadDATAForLocationDesigner() {
   // Hyperroute section spreadsheet
   const hyperrouteSectionSpreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.HYPERROUTE_SECTIONS.NAME, `!${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.ID)}2:${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_Z)}`);
   const hyperrouteSectionData = hyperrouteSectionSpreadSheetData.values;
+  // Hyperroute spreadsheet
+  const hyperrouteSpreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.HYPERROUTES.NAME, `!${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ID)}2:${convertSpreadsheetColumnNumberToLetters(SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.TRADE_ROUTE_LEVEL)}`);
+  const hyperrouteData = hyperrouteSpreadSheetData.values;
 
   // Unammed route section point index counter
   let unnamedRouteSectionIndexCounter = 0;
@@ -395,13 +398,17 @@ async function formatAndDownloadDATAForLocationDesigner() {
         "" : sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_GRID]) + "-" + sanitizeText(object[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID]);
       // Technical ID
       const techId = objectID;
-      // Connections (comma separated list of object connexion to other objects)
+      // Connections (comma separated list of object connexion to other objects with route level between parentheses)
       const connections = hyperrouteSectionData.filter((section) => 
         sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_ID]) === techId || sanitizeText(section[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_ID]) === techId)
       .map(filteredSection => {
+        const hyperrouteLevel = hyperrouteData.find((hyperroute) => 
+          sanitizeText(hyperroute[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.ID]) === sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.HYPERROUTE_ID])
+        )[SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS.TRADE_ROUTE_LEVEL];
+        // Location A
         if(sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_ID]) === techId) {
           if(sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_ID]) !== "") {
-            return sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_ID]);
+            return `${sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_ID])}(${hyperrouteLevel})`;
           } else if (
             sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_X]) !== "" 
             && sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_Y]) !== ""
@@ -412,11 +419,12 @@ async function formatAndDownloadDATAForLocationDesigner() {
               sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_B_COORD_Y]),
               "", "", "", "", "", "", unnamedRouteSectionIndexCounter, ""
             ]);
-            return unnamedRouteSectionIndexCounter++; // Returns index counter then increment it
+            return `${unnamedRouteSectionIndexCounter++}(${hyperrouteLevel})`; // Returns index counter then increment it
           }
+        // Or location B
         } else {
           if(sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_ID]) !== "") {
-            return sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_ID]);
+            return `${sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_ID])}(${hyperrouteLevel})`;
           } else if (
             sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_X]) !== "" 
             && sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_Y]) !== ""
@@ -427,7 +435,7 @@ async function formatAndDownloadDATAForLocationDesigner() {
               sanitizeText(filteredSection[SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS.LOCATION_A_COORD_Y]),
               "", "", "", "", "", "", unnamedRouteSectionIndexCounter, ""
             ]);
-            return unnamedRouteSectionIndexCounter++; // Returns index counter then increment it
+            return `${unnamedRouteSectionIndexCounter++}(${hyperrouteLevel})`; // Returns index counter then increment it
           }
         }}).join(",");
       // Append to table
