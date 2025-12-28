@@ -1,0 +1,76 @@
+#!/bin/bash
+# ============================================
+# Full asset minification script for website
+# ============================================
+
+# Create output directory and all other directories
+mkdir -p dist /tmp/src/scripts/map /tmp/src/scripts/vendor
+
+echo "✅ Starting asset optimization..."
+
+# ------------------------
+# 1️⃣ JavaScript
+# ------------------------
+echo "📦 Processing JavaScript..."
+
+# Copy all used files to /tmp folder preserving directory structure and concatenate them
+RUN cat src/scripts/map/loading-overlay.js \
+    src/scripts/map/helpers/map-utilities.js \
+    src/scripts/map/icons.js \
+    src/scripts/map/tootips-and-popups.js \
+    src/scripts/map/data.js \
+    src/scripts/map/grid.js \
+    src/scripts/map/custom-controls.js \
+    src/scripts/map/tools.js \
+    src/scripts/map/legend.js \
+    src/scripts/map/search.js \
+    src/scripts/map/main.js \
+    /tmp/src/scripts/map/map.js
+
+RUN cat src/scripts/vendor/jquery/jquery-3.7.1.min.js \
+    src/scripts/vendor/leaflet-canvas-markers/leaflet.canvas-markers.js \
+    src/scripts/vendor/leaflet.fullscreen-3.0.1/Control.FullScreen.js \
+    src/scripts/vendor/leaflet-search-4.0.0/dist/leaflet-search.src.js \
+    src/scripts/vendor/leaflet-geoman-free-2.17.0/leaflet-geoman.js \
+    src/scripts/vendor/aprilandjan.leaflet.mesure/leaflet.measure.js \
+    /tmp/src/scripts/vendor/vendor.js
+
+# Minify concatenated JS
+uglifyjs /tmp/src/scripts/map/map.js -o dist/scripts/map/map.min.js -c -m
+uglifyjs /tmp/src/scripts/map/map.js -o dist/scripts/map/map.min.js -c -m
+echo "✔ JS done"
+
+# ------------------------
+# 2️⃣ CSS
+# ------------------------
+echo "🎨 Processing CSS..."
+csso src/styles/style.css -o "dist/style.min.css"
+echo "✔ CSS done"
+
+# ------------------------
+# 3️⃣ HTML
+# ------------------------
+echo "📝 Processing HTML..."
+index.html -o "dist/index.min.html)"
+echo "✔ HTML done"
+
+# ------------------------
+# 4️⃣ SVG
+# ------------------------
+echo "🖼 Processing SVG..."
+for f in src/svg/*.svg; do
+    [ "$f" != "*.min.svg" ] && svgo "$f" -o "dist/$(basename ${f%.svg}.min.svg)"
+done
+echo "✔ SVG done"
+
+# ------------------------
+# 5️⃣ GEOJSON
+# ------------------------
+echo "🌌 Processing GEOJSON..."
+# Combine all FeatureCollections
+jq -s '{ type: "FeatureCollection", features: map(.features) | add }' src/data/astronomicalobjects/*.geojson src/data/grid/*.geojson > dist/combined.geojson
+# Minify combined GEOJSON
+jsonminify dist/combined.geojson > dist/combined.min.geojson
+echo "✔ GEOJSON done"
+
+echo "🎉 All assets optimized! Output in dist/ folder."

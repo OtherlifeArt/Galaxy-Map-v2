@@ -5,13 +5,27 @@ networks:
     name: ${APP_NAME}-frontend
 
 services:
-  web:
+  web-dev:
     image: ${IMAGE_NAME}
-    container_name: ${APP_NAME}-web
+    container_name: ${APP_NAME}-web-dev
     restart: ${RESTART_POLICY}
     ports:
-    - '${HOST_PORT}:${CONTAINER_PORT}'
+      - '${HOST_PORT}:80'
     volumes:
-    - ./:/usr/local/apache2/htdocs
+      - ./:/usr/local/apache2/htdocs
+    networks:
+      - frontend
+  
+  web-prod:
+    image: swgalaxymap-prod:latest
+    container_name: ${APP_NAME}-web-prod
+    restart: ${RESTART_POLICY}
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    volumes:
+      - ./:/app/src
+    ports:
+      - '${HOST_PROD_PORT}:80'
     networks:
       - frontend
