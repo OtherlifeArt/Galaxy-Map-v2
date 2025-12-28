@@ -100,7 +100,7 @@ html, body {
 
 /********* Leaflet control ******************/
 .leaflet-control-container .leaflet-top.leaflet-left {
-  top: 50px;
+  top: 50px; /* Margin for gridsearch button */
 }
 
 /********* Map ******************/
