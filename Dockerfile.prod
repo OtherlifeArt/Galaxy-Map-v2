@@ -23,5 +23,5 @@ EXPOSE 8080
 VOLUME [ "/app" ]
 
 # Default command : process code into prod ready files
-CMD ./scripts/source-to-prod.sh
+CMD ./prod-pipeline/source-to-prod.sh
 
