@@ -255,6 +255,9 @@ var map = L.map('map', {
   //preferCanvas: true, // It disable interaction with multiple layers (point and areas)...
 }).setView(mapStartCenterCoordinates, mapStartZoomLevel);
 
+/******** ATTRIBUTION ********/
+map.attributionControl.addAttribution("<a href='mailto:galaxymapteam@gmail.com'>Contact galaxy map team !</a>");
+
 /******** GRID PANES *********/
 
 map.createPane("grid");
