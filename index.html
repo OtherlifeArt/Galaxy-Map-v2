@@ -29,27 +29,34 @@
 		<div id="container" class="container">
 			<!-- <div id="sidebar" class="sidebar"></div> -->
 			<!-- Grid search -->
-			<div id="GridSearch" class="tabgeomcontent">
-				<div class="gridsearch">
+			<div id="GridSearch" class="tabgeomcontent tabgeomcontent-wrapper">
+				<!-- Collapse button -->
+				<!-- GridSearch display button -->
+				<button type="button" class="tabgeomcontent-toggle-btn" aria-expanded="true">
+					Show grid search
+				</button>
+				<!-- Div content -->
+				<div class="gridsearch tabgeomcontent-collapsible gridsearch-is-collapsed">
 					<fieldset>
-					<legend>Grid search</legend>
-					<form action="" method="get" class="form-grid-f">
-						<div class="form-grid">
-							<label id="col_label" for="col">Column</label>
-							<input type="text" maxlength=1 name="col_letter" id="col_letter" placeholder="Letter from A to W" required>
-						</div>
-						<div class="form-grid">
-							<label id="line_label" for="line">Line</label>
-							<input type="number" maxlength=1 name="line_num" id="line_num" placeholder="Number from 1 to 23" required>
-						</div>
-					</form>
-					<button id="gridsearchbut">Go to grid area</button>
-					<button id="gridsearchreset">Reset grid search tool</button>
-				</fieldset>
+						<legend>Grid search</legend>
+						<form action="" method="get" class="form-grid-f">
+							<div class="form-grid">
+								<label id="col_label" for="col">Column</label>
+								<input type="text" maxlength=1 name="col_letter" id="col_letter" placeholder="Letter from A to W" required>
+							</div>
+							<div class="form-grid">
+								<label id="line_label" for="line">Line</label>
+								<input type="number" maxlength=1 name="line_num" id="line_num" placeholder="Number from 1 to 23" required>
+							</div>
+						</form>
+						<button id="gridsearchbut">Go to grid area</button>
+						<button id="gridsearchreset">Reset grid search tool</button>
+					</fieldset>
 				</div>
 			</div>
 			<!-- Map -->
-			<div id="map" class="map"></div>
+			<div id="map" class="map">
+			</div>
 		</div>
 	
 		<!-- SCRIPTS -->

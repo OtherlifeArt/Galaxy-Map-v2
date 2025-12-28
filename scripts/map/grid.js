@@ -218,6 +218,20 @@ var completegrid = L.layerGroup([grid_labels, grid100], {
 
 /************* GRID SEARCH *************/
 
+// Grid search collapse button
+const gridSearchWrapper = document.querySelector('.tabgeomcontent-wrapper');
+const gridSearchButton = gridSearchWrapper.querySelector('.tabgeomcontent-toggle-btn');
+const fieldset = gridSearchWrapper.querySelector('.tabgeomcontent-collapsible');
+
+gridSearchButton.addEventListener('click', () => {
+  const collapsed = fieldset.classList.toggle('gridsearch-is-collapsed');
+  gridSearchWrapper.classList.toggle('gridsearch-is-collapsed', collapsed);
+
+  gridSearchButton.textContent = collapsed ? 'Show grid search' : 'Hide grid search';
+  gridSearchButton.setAttribute('aria-expanded', !collapsed);
+  gridSearchButton.classList.toggle('gridsearch-is-collapsed', !collapsed);
+});
+
 // Grid squares for grid search
 var grid = L.geoJSON(null, {
   pane: 'grid_search',

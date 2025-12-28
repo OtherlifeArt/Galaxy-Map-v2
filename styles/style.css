@@ -15,6 +15,48 @@ html, body {
   display: none;
 }
 
+/********* Top wrapper **********/
+.tabgeomcontent-wrapper {
+  position: relative;
+}
+
+/* Button always visible */
+.tabgeomcontent-toggle-btn {
+  position: absolute;
+  z-index: 5;
+  display: static;
+  width: auto;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  left: 0%;
+  top: 0%;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.tabgeomcontent-toggle-btn.gridsearch-is-collapsed {
+  position: relative;
+}
+
+/* Collapsible behavior */
+.tabgeomcontent-collapsible {
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.2s ease;
+  max-height: 100vh;
+  opacity: 1;
+}
+
+/* Collapsed state */
+.tabgeomcontent-collapsible.gridsearch-is-collapsed {
+  display: none
+}
+
+.gridsearch {
+  color: #dddddd;
+}
+
+
 /********* Grid Labels **********/
 .leaflet-tooltip-crd {
   border: transparent;
@@ -54,6 +96,11 @@ html, body {
   width: 25px;
   height: 25px;
   fill: #555;
+}
+
+/********* Leaflet control ******************/
+.leaflet-control-container .leaflet-top.leaflet-left {
+  top: 50px;
 }
 
 /********* Map ******************/
