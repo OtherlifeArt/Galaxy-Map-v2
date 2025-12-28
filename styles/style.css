@@ -301,6 +301,8 @@ html, body {
 	padding: 1px;
 	text-align: left;
 	border-radius: 12px;
+  overflow: auto; /* Add a horizontal scrollbar if overflow */
+  max-height: 30em; /* Limit popup height */
 }
 
 .leaflet-popup-content {
