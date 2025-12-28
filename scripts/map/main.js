@@ -238,7 +238,7 @@
 const debug = true;
 
 /******** VARIABLES /********/
-
+  
 /******** MAP *********/
 var map = L.map('map', {
   crs: L.CRS.Simple,

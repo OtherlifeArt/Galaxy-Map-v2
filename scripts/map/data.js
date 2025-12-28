@@ -1786,6 +1786,8 @@ $.getJSON(url_points, function(data) {
   filterPoints();
   // Show points on map
   // points.addData(data);
+  // Hide spinner
+  hideLoadingOverlay();
 });
 
 /************** POLYGONS ***************/

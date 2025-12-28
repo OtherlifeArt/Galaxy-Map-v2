@@ -26,6 +26,14 @@
 	
 	<!-- HTML -->
 	<body style="height: 100%;margin: 0;background-color:grey;">
+		<!-- Loading box -->
+		<div id="loading-overlay" aria-hidden="true">
+			<div class="loading-box">
+				<div class="spinner"></div>
+				<p>Loading the galaxy map....</p>
+			</div>
+		</div>
+
 		<div id="container" class="container">
 			<!-- <div id="sidebar" class="sidebar"></div> -->
 			<!-- Grid search -->
@@ -60,6 +68,8 @@
 		</div>
 	
 		<!-- SCRIPTS -->
+		<!-- Loading overlay spinner -->
+		<script src="scripts/map/loading-overlay.js"></script>
 		<!-- Jquery -->
 		<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
 		<script src="scripts/vendor/jquery/jquery-3.7.1.min.js"></script>
