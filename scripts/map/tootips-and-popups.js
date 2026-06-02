@@ -1,6 +1,4 @@
-/**
- * Here we display tooltips and popups
- */
+/* Tooltips and popups */
 
 function roadDisplayPopup(e) {
   const layer = e.target;

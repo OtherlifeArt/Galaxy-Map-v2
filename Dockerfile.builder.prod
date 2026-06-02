@@ -1,0 +1,30 @@
+# Use a lightweight, LTS Node.js environment based on Alpine Linux
+FROM node:20-alpine
+
+# Install bash, jq, and build tools needed for some npm packages
+RUN apk add --no-cache bash jq
+
+# Set working directory inside container
+WORKDIR /app
+
+# Install the minification tools globally
+RUN npm install -g uglify-js csso-cli html-minifier-terser svgo jsonminify
+
+# Copy optimizer script
+COPY ./prod-pipeline/source-to-prod.sh /app/
+
+# Ensure the script has executable permissions
+RUN chmod +x /app/source-to-prod.sh 
+
+# Copy sources
+COPY . ./src/
+
+# Run optimizer script
+RUN ./source-to-prod.sh
+
+# Copy optimized sources to mounted directory
+CMD rm -rf /dist/* && \
+    cp -R /app/dist/* /dist/
+
+
+

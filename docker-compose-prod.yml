@@ -1,0 +1,37 @@
+# Build APP : 
+# docker compose -f docker-compose-prod.yml build web-prod-builder && docker compose -f docker-compose-prod.yml run --rm web-prod-builder
+# Run containerized :
+# docker compose -f docker-compose-prod.yml build  web-prod && docker compose -f docker-compose-prod.yml up -d
+
+networks:
+  frontend:
+    name: swgalaxymap-prod-frontend
+  tools:
+    name: swgalaxymap-tools
+
+services:
+  web-prod:
+    image: swgalaxymap-prod:latest
+    container_name: ${APP_NAME}-web-prod
+    restart: ${RESTART_POLICY}
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - '${PROD_HOST_PORT}:80'
+    networks:
+      - frontend
+  
+  # This service will NOT run automatically
+  web-prod-builder:
+    image: swgalaxymap-prod-builder:latest
+    container_name: ${APP_NAME}-web-prod-builder
+    build:
+      context: .
+      dockerfile: Dockerfile.builder.prod
+    profiles:
+      - manual
+    volumes:
+      - ./dist:/dist
+    networks:
+      - tools
