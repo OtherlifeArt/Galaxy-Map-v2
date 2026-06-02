@@ -12,5 +12,5 @@ data/astronomicalobjects/sectors_origin.qmd
 qgisproject/
 scripts/data-form/gridv2.js
 
-# Dist directory (afcter concatenation and minify)
+# Dist directory (after concatenation, obfuscation and minify)
 /dist
