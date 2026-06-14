@@ -13,26 +13,40 @@ DIST_DIR="./dist"
 # Remove and recreate dist folder cleanly
 rm -rf "$DIST_DIR" && mkdir -p "$DIST_DIR"
 
+# ------------------------------------------------------------------------------
+# 1️⃣ Adding Graphical assets
+# ------------------------------------------------------------------------------
+echo "🖼️ Adding graphical assets..."
+
+cp -R "$SRC_DIR/images" "$DIST_DIR/" && rm -rf "$DIST_DIR/LgLocationImages" "$DIST_DIR/SmLocationImages"
+
 echo "🚀 Starting asset optimization..."
 
 # ------------------------------------------------------------------------------
-# 1️⃣ JavaScript Optimization
+# 2️⃣ JavaScript Optimization
 # ------------------------------------------------------------------------------
 echo "📦 Processing JavaScript..."
+
 JS_VENDOR_SRC="$SRC_DIR/scripts/vendor"
 JS_MAP_LOADING_SRC="$SRC_DIR/scripts/map/loading"
 JS_MAP_SRC="$SRC_DIR/scripts/map"
-JS_MAP_HELPER_SRC="$SRC_DIR/scripts/map/helpers"
 
 JS_VENDOR_DIST="$DIST_DIR/scripts/vendor"
 JS_MAP_DIST="$DIST_DIR/scripts/map"
 JS_MAP_LOADING_DIST="$DIST_DIR/scripts/map/loading"
-JS_MAP_HELPER_DIST="$DIST_DIR/scripts/map/helpers"
 
-mkdir -p "$JS_VENDOR_DIST"/jquery "$JS_MAP_DIST" "$JS_MAP_HELPER_DIST" "$JS_MAP_LOADING_DIST"
+# Change debug value
+perl -0777 -i -pe '
+s|const debug = true;|const debug = false;|gs;
+' "$JS_MAP_SRC"/main.js
+
+mkdir -p "$JS_VENDOR_DIST" "$JS_MAP_DIST" "$JS_MAP_LOADING_DIST"
 
 # Concatenate Vendor JS
-cat "$JS_VENDOR_SRC"/leaflet-canvas-markers/leaflet.canvas-markers.js \
+cat "$JS_VENDOR_SRC"/leaflet-1.9.4/leaflet.js \
+    "$JS_VENDOR_SRC"/Leaflet.Control.Layers.Tree/L.Control.Layers.Tree.js \
+    "$JS_VENDOR_SRC"/Leaflet.Control.Opacity/L.Control.Opacity.js \
+    "$JS_VENDOR_SRC"/leaflet-canvas-markers/leaflet.canvas-markers.js \
     "$JS_VENDOR_SRC"/leaflet.fullscreen-3.0.1/Control.FullScreen.js \
     "$JS_VENDOR_SRC"/leaflet-search-4.0.0/dist/leaflet-search.src.js \
     "$JS_VENDOR_SRC"/leaflet-geoman-free-2.17.0/leaflet-geoman.js \
@@ -40,7 +54,10 @@ cat "$JS_VENDOR_SRC"/leaflet-canvas-markers/leaflet.canvas-markers.js \
     > "$JS_VENDOR_DIST"/all.js
 
 # Copy third-party pre-minified assets directly
-cp "$JS_VENDOR_SRC"/jquery/jquery-3.7.1.min.js "$JS_VENDOR_DIST"/jquery/
+cp "$JS_VENDOR_SRC"/jquery/jquery-3.7.1.min.js "$JS_VENDOR_DIST"/jquery.min.js
+
+# Concatenate Loading
+cat "$JS_MAP_LOADING_SRC"/loading-overlay.js > "$JS_MAP_LOADING_DIST"/all.js
 
 # Concatenate Map Core JS (Fixed order sequence)
 cat "$JS_MAP_SRC"/helpers/map-utilities.js \
@@ -55,20 +72,15 @@ cat "$JS_MAP_SRC"/helpers/map-utilities.js \
     "$JS_MAP_SRC"/main.js \
     > "$JS_MAP_DIST"/all.js
 
-# Concatenate Helpers
-cat "$JS_MAP_HELPER_SRC"/map-utilities.js > "$JS_MAP_HELPER_DIST"/all.js
-
-# Concatenate Loading
-cat "$JS_MAP_LOADING_SRC"/loading-overlay.js > "$JS_MAP_LOADING_DIST"/all.js
-
-# Minify JS in Parallel using Background Jobs (&)
-uglifyjs "$JS_MAP_LOADING_DIST"/all.js -o "$JS_MAP_LOADING_DIST"/all.min.js -c -m &
-uglifyjs "$JS_VENDOR_DIST"/all.js -o "$JS_VENDOR_DIST"/all.min.js -c -m &
-uglifyjs "$JS_MAP_DIST"/all.js -o "$JS_MAP_DIST"/all.min.js -c -m &
-uglifyjs "$JS_MAP_HELPER_DIST"/all.js -o "$JS_MAP_HELPER_DIST"/all.min.js -c -m &
+# Minify JS in Parallel using Background Jobs (&) (-m=mangling removed until stable)
+uglifyjs "$JS_MAP_LOADING_DIST"/all.js -o "$JS_MAP_LOADING_DIST"/all.min.js -c &
+uglifyjs "$JS_VENDOR_DIST"/all.js -o "$JS_VENDOR_DIST"/all.min.js -c &
+uglifyjs "$JS_MAP_DIST"/all.js -o "$JS_MAP_DIST"/all.min.js -c &
+# uglifyjs "$JS_MAP_LOADING_DIST"/all.js -o "$JS_MAP_LOADING_DIST"/all.min.js -c -m &
+# uglifyjs "$JS_MAP_DIST"/all.js -o "$JS_MAP_DIST"/all.min.js -c -m &
 
 # ------------------------------------------------------------------------------
-# 2️⃣ CSS & HTML Optimization
+# 3️⃣ CSS & HTML Optimization
 # ------------------------------------------------------------------------------
 echo "🎨 Processing CSS & 📝 HTML..."
 CSS_SRC="$SRC_DIR/styles"
@@ -79,7 +91,7 @@ mkdir -p "$CSS_DIST"
 cp $SRC_DIR/index.html $DIST_DIR/index.html
 perl -0777 -i -pe '
 s|<!-- STYLE -->.*?<!-- STYLE:END -->|<link rel="stylesheet" href="styles/style.min.css"><link rel="stylesheet" href="styles/vendor.min.css">|gs;
-s|<!-- SCRIPTS -->.*?<!-- SCRIPTS:END -->|<script src="scripts/map/loading/all.min.js"></script><script src="scripts/vendor/all.min.js"></script><script src="scripts/map/all.min.js"></script><script src="scripts/map/helpers/all.min.js"></script>|gs;
+s|<!-- SCRIPTS -->.*?<!-- SCRIPTS:END -->|<script src="scripts/map/loading/all.min.js"></script><script src="scripts/vendor/jquery.min.js"></script><script src="scripts/vendor/all.min.js"></script><script src="scripts/map/all.min.js"></script>|gs;
 ' $DIST_DIR/index.html
 
 # Run CSS and HTML minification in background
@@ -109,7 +121,7 @@ html-minifier-terser \
     "$DIST_DIR"/index.html -o "$DIST_DIR/index.html" &
 
 # ------------------------------------------------------------------------------
-# 3️⃣ GEOJSON Optimization & Obfuscation
+# 4️⃣ GEOJSON Optimization & Obfuscation
 # ------------------------------------------------------------------------------
 echo "🌌 Processing & Obfuscating GEOJSON..."
 GEO_ASTRO_OBJ_SRC="$SRC_DIR/data/astronomicalobjects"
