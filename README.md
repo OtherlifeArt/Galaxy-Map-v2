@@ -36,3 +36,12 @@ Application should be now available at http://localhost:8080 with default enviro
 ## Other commands
 
 - Stop application : `docker compose down`
+
+## Deploy and run to production
+
+- Minify and compress sources : `docker compose -f docker-compose-prod.yml build web-prod-builder`  
+- Run to get sources in *dist* directory : `docker compose -f docker-compose-prod.yml build web-prod`  
+Once sources are available you may copy inner *dist* directory to any web server source directory
+- To deploy with docker  : 
+  - Build Docker prod container `docker compose -f docker-compose-prod.yml build web-prod`
+  - Run container : `docker compose -f docker-compose-prod.yml up  web-prod`  
