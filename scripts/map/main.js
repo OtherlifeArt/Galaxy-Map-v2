@@ -256,7 +256,7 @@ var map = L.map('map', {
 }).setView(mapStartCenterCoordinates, mapStartZoomLevel);
 
 /******** ATTRIBUTION ********/
-map.attributionControl.addAttribution("<a href='mailto:swgalaxymapteam@gmail.com'>Contact galaxy map team !</a>");
+map.attributionControl.addAttribution("<a href='mailto:swgalaxymap.team@gmail.com'>Contact galaxy map team !</a>");
 
 /******** GRID PANES *********/
 
