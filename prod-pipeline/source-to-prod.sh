@@ -11,7 +11,7 @@ SRC_DIR="./src"
 DIST_DIR="./dist"
 
 # Remove and recreate dist folder cleanly
-rm -rf "$DIST_DIR" && mkdir -p "$DIST_DIR"
+rm -rf "$DIST_DIR" && mkdir -p "$DIST_DIR/styles"
 
 # ------------------------------------------------------------------------------
 # 1️⃣ Adding Graphical assets
@@ -19,6 +19,8 @@ rm -rf "$DIST_DIR" && mkdir -p "$DIST_DIR"
 echo "🖼️ Adding graphical assets..."
 
 cp -R "$SRC_DIR/images" "$DIST_DIR/" && rm -rf "$DIST_DIR/LgLocationImages" "$DIST_DIR/SmLocationImages"
+cp "$SRC_DIR/scripts/vendor/leaflet.fullscreen-3.0.1/icon-fullscreen.svg" "$DIST_DIR/styles/"
+cp $SRC_DIR/scripts/vendor/leaflet-search-4.0.0/images/{loader.gif,search-icon-mobile.png,search-icon.png} "$DIST_DIR/images/"
 
 echo "🚀 Starting asset optimization..."
 
@@ -90,7 +92,7 @@ mkdir -p "$CSS_DIST"
 # Change HTML style and script locations
 cp $SRC_DIR/index.html $DIST_DIR/index.html
 perl -0777 -i -pe '
-s|<!-- STYLE -->.*?<!-- STYLE:END -->|<link rel="stylesheet" href="styles/style.min.css"><link rel="stylesheet" href="styles/vendor.min.css">|gs;
+s|<!-- STYLE -->.*?<!-- STYLE:END -->|<link rel="stylesheet" href="styles/vendor.min.css"><link rel="stylesheet" href="styles/style.min.css">|gs;
 s|<!-- SCRIPTS -->.*?<!-- SCRIPTS:END -->|<script src="scripts/map/loading/all.min.js"></script><script src="scripts/vendor/jquery.min.js"></script><script src="scripts/vendor/all.min.js"></script><script src="scripts/map/all.min.js"></script>|gs;
 ' $DIST_DIR/index.html
 
@@ -194,11 +196,17 @@ JQ_POLYGON_OBFUSCATE_FILTER='
 '
 
 # Combine, Obfuscate, and Minify in parallel
-jq -c -s "$JQ_LINE_OBFUSCATE_FILTER" "$GEO_ASTRO_OBJ_SRC"/SW_Map_Lines.geojson > "$GEO_ASTRO_OBJ_DIST"/combined.min.geojson &
-jq -c -s "$JQ_POINT_OBFUSCATE_FILTER" "$GEO_ASTRO_OBJ_SRC"/SW_Map_Points.geojson > "$GEO_ASTRO_OBJ_DIST"/combined.min.geojson &
-jq -c -s "$JQ_POLYGON_OBFUSCATE_FILTER" "$GEO_ASTRO_OBJ_SRC"/SW_Map_Polygons.geojson > "$GEO_ASTRO_OBJ_DIST"/combined.min.geojson &
-jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/roads.geojson > "$GEO_GRID_DIST"/combined.min.geojson &
-jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_GRID_SRC"/*.geojson > "$GEO_GRID_DIST"/combined.min.geojson &
+# jq -c -s "$JQ_LINE_OBFUSCATE_FILTER" "$GEO_ASTRO_OBJ_SRC"/SW_Map_Lines.geojson > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Lines.geojson &
+# jq -c -s "$JQ_POINT_OBFUSCATE_FILTER" "$GEO_ASTRO_OBJ_SRC"/SW_Map_Points.geojson > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Points.geojson &
+# jq -c -s "$JQ_POLYGON_OBFUSCATE_FILTER" "$GEO_ASTRO_OBJ_SRC"/SW_Map_Polygons.geojson > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Polygons.geojson &
+
+# Combine, and Minify in parallel
+jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/SW_Map_Lines.geojson > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Lines.geojson &
+jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/SW_Map_Points.geojson > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Points.geojson &
+jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/SW_Map_Polygons.geojson > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Polygons.geojson &
+jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/roads.geojson > "$GEO_ASTRO_OBJ_DIST"/roads.geojson &
+jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_GRID_SRC"/grid.geojson > "$GEO_GRID_DIST"/grid.geojson &
+jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_GRID_SRC"/grid_labels.geojson > "$GEO_GRID_DIST"/grid_labels.geojson &
 
 # ------------------------------------------------------------------------------
 # ⏳ Sync & Cleanup
