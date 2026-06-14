@@ -2,7 +2,7 @@
 FROM node:20-alpine
 
 # Install bash, jq, and build tools needed for some npm packages
-RUN apk add --no-cache bash jq
+RUN apk add --no-cache bash jq perl
 
 # Set working directory inside container
 WORKDIR /app

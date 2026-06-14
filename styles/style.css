@@ -111,6 +111,7 @@ html, body {
 .leaflet-tooltip-crd {
   border: transparent;
   font-size: 1.8em;
+  color:rgba(255, 98, 0, 0.77) !important;
 }
 
 /********* Other Tooltips **********/
@@ -191,11 +192,13 @@ html, body {
 .leaflet-tooltip {
   /* color:Green; */
   /*color:rgba(255, 98, 0, 0.77);*/
-  color:rgba(255, 98, 0, 100);
+  color:rgba(255, 255, 255, 1);
   padding: 2px;
   /*background-color: #000;*/
-  background-color:rgba(0, 0, 0, 0.4);
+  background-color:transparent;
   border-radius: 4px;
+  box-shadow: none !important;
+  text-shadow: 2px 2px 0.5px rgba(0, 0, 0, 0.6);
 }
 
 .route-tooltip {

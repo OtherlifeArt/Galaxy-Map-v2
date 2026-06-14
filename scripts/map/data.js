@@ -1794,7 +1794,7 @@ $.getJSON(url_points, function(data) {
 
 function getRegionsColor(name,area) {
   if (name == 'Deep Core') {
-    color = "#e0e0d7"
+    color = "#e0e0d7";
   } else if (name == "Core Worlds") {
     color = "#e0cd4f"
   } else if (name == "Inner Rim"){
@@ -1834,7 +1834,7 @@ function getRegionsStyle(feature) {
       fillColor: getRegionsColor(feature.properties.NAME,feature.properties.PARENT),
       weight: 1,
       opacity: 1,
-      color: 'white',
+      color: '#224c7a',
       dashArray: '1',
       fillOpacity: 0.4
   };

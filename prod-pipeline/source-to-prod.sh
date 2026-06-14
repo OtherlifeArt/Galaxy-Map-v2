@@ -20,14 +20,16 @@ echo "🚀 Starting asset optimization..."
 # ------------------------------------------------------------------------------
 echo "📦 Processing JavaScript..."
 JS_VENDOR_SRC="$SRC_DIR/scripts/vendor"
+JS_MAP_LOADING_SRC="$SRC_DIR/scripts/map/loading"
 JS_MAP_SRC="$SRC_DIR/scripts/map"
 JS_MAP_HELPER_SRC="$SRC_DIR/scripts/map/helpers"
 
 JS_VENDOR_DIST="$DIST_DIR/scripts/vendor"
 JS_MAP_DIST="$DIST_DIR/scripts/map"
+JS_MAP_LOADING_DIST="$DIST_DIR/scripts/map/loading"
 JS_MAP_HELPER_DIST="$DIST_DIR/scripts/map/helpers"
 
-mkdir -p "$JS_VENDOR_DIST"/jquery "$JS_MAP_DIST" "$JS_MAP_HELPER_DIST"
+mkdir -p "$JS_VENDOR_DIST"/jquery "$JS_MAP_DIST" "$JS_MAP_HELPER_DIST" "$JS_MAP_LOADING_DIST"
 
 # Concatenate Vendor JS
 cat "$JS_VENDOR_SRC"/leaflet-canvas-markers/leaflet.canvas-markers.js \
@@ -41,8 +43,7 @@ cat "$JS_VENDOR_SRC"/leaflet-canvas-markers/leaflet.canvas-markers.js \
 cp "$JS_VENDOR_SRC"/jquery/jquery-3.7.1.min.js "$JS_VENDOR_DIST"/jquery/
 
 # Concatenate Map Core JS (Fixed order sequence)
-cat "$JS_MAP_SRC"/loading-overlay.js \
-    "$JS_MAP_SRC"/helpers/map-utilities.js \
+cat "$JS_MAP_SRC"/helpers/map-utilities.js \
     "$JS_MAP_SRC"/icons.js \
     "$JS_MAP_SRC"/tootips-and-popups.js \
     "$JS_MAP_SRC"/data.js \
@@ -57,7 +58,11 @@ cat "$JS_MAP_SRC"/loading-overlay.js \
 # Concatenate Helpers
 cat "$JS_MAP_HELPER_SRC"/map-utilities.js > "$JS_MAP_HELPER_DIST"/all.js
 
+# Concatenate Loading
+cat "$JS_MAP_LOADING_SRC"/loading-overlay.js > "$JS_MAP_LOADING_DIST"/all.js
+
 # Minify JS in Parallel using Background Jobs (&)
+uglifyjs "$JS_MAP_LOADING_DIST"/all.js -o "$JS_MAP_LOADING_DIST"/all.min.js -c -m &
 uglifyjs "$JS_VENDOR_DIST"/all.js -o "$JS_VENDOR_DIST"/all.min.js -c -m &
 uglifyjs "$JS_MAP_DIST"/all.js -o "$JS_MAP_DIST"/all.min.js -c -m &
 uglifyjs "$JS_MAP_HELPER_DIST"/all.js -o "$JS_MAP_HELPER_DIST"/all.min.js -c -m &
@@ -70,8 +75,28 @@ CSS_SRC="$SRC_DIR/styles"
 CSS_DIST="$DIST_DIR/styles"
 mkdir -p "$CSS_DIST"
 
+# Change HTML style and script locations
+cp $SRC_DIR/index.html $DIST_DIR/index.html
+perl -0777 -i -pe '
+s|<!-- STYLE -->.*?<!-- STYLE:END -->|<link rel="stylesheet" href="styles/style.min.css"><link rel="stylesheet" href="styles/vendor.min.css">|gs;
+s|<!-- SCRIPTS -->.*?<!-- SCRIPTS:END -->|<script src="scripts/map/loading/all.min.js"></script><script src="scripts/vendor/all.min.js"></script><script src="scripts/map/all.min.js"></script><script src="scripts/map/helpers/all.min.js"></script>|gs;
+' $DIST_DIR/index.html
+
 # Run CSS and HTML minification in background
 csso "$CSS_SRC"/style.css -o "$CSS_DIST/style.min.css" &
+
+# Concatenate Vendor CSS
+cat \
+  "$SRC_DIR/scripts/vendor/leaflet-1.9.4/leaflet.css" \
+  "$SRC_DIR/scripts/vendor/Leaflet.Control.Layers.Tree/L.Control.Layers.Tree.css" \
+  "$SRC_DIR/scripts/vendor/Leaflet.Control.Opacity/L.Control.Opacity.css" \
+  "$SRC_DIR/scripts/vendor/leaflet.fullscreen-3.0.1/Control.FullScreen.css" \
+  "$SRC_DIR/scripts/vendor/leaflet-search-4.0.0/dist/leaflet-search.min.css" \
+  "$SRC_DIR/scripts/vendor/leaflet-geoman-free-2.17.0/leaflet-geoman.css" \
+  "$SRC_DIR/scripts/vendor/aprilandjan.leaflet.mesure/leaflet.measure.css" \
+> "$CSS_DIST/vendor.min.css" &
+
+csso "$CSS_DIST"/vendor.min.css -o "$CSS_DIST/vendor.min.css" &
 
 # NOTE: If your index.html points to "style.min.css" and "all.min.js", 
 # the output filename should match what your production HTML expects. 
@@ -81,7 +106,7 @@ html-minifier-terser \
     --remove-comments \
     --minify-css true \
     --minify-js true \
-    "$SRC_DIR"/index.html -o "$DIST_DIR/index.html" &
+    "$DIST_DIR"/index.html -o "$DIST_DIR/index.html" &
 
 # ------------------------------------------------------------------------------
 # 3️⃣ GEOJSON Optimization & Obfuscation
