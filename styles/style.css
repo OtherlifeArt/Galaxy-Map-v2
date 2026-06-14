@@ -190,9 +190,11 @@ html, body {
 
 .leaflet-tooltip {
   /* color:Green; */
-  color:rgba(255, 98, 0, 0.77);
+  /*color:rgba(255, 98, 0, 0.77);*/
+  color:rgba(255, 98, 0, 100);
   padding: 2px;
-  background-color: #000;
+  /*background-color: #000;*/
+  background-color:rgba(0, 0, 0, 0.4);
   border-radius: 4px;
 }
 
