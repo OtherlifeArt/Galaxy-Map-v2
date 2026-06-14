@@ -27,10 +27,10 @@ function stringListToURL(stringList, UrlText) {
   const arrayList = stringList.split(",");
   for (let index = 0; index < arrayList.length; index++) {
     if(index === 0) {
-      urlList += '<a href="'+arrayList[index]+'">'+UrlText+'</a>';
+      urlList += '<a href="'+arrayList[index]+'" target="_blank">'+UrlText+'</a>';
     } else {
       // urlList += ' <a href="'+arrayList[index]+'">(source '+(index+1)+')</a>';
-      urlList += ' <a href="'+arrayList[index]+'">('+(index+1)+')</a>';
+      urlList += ' <a href="'+arrayList[index]+'" target="_blank">('+(index+1)+')</a>';
     }
   }
   return urlList;
