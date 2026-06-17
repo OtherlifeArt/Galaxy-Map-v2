@@ -75,7 +75,7 @@ cat "$JS_MAP_SRC"/helpers/map-utilities.js \
     > "$JS_MAP_DIST"/all.js
 
 # Minify JS in Parallel using Background Jobs (&) (-m=mangling removed until stable)
-uglifyjs "$JS_MAP_LOADING_DIST"/all.js -o "$JS_MAP_LOADING_DIST"/all.min.js -c &
+uglifyjs "$JS_MAP_LOADING_DIST"/all.js -o "$JS_MAP_LOADING_DIST"/all.min.js -c -m &
 uglifyjs "$JS_VENDOR_DIST"/all.js -o "$JS_VENDOR_DIST"/all.min.js -c &
 uglifyjs "$JS_MAP_DIST"/all.js -o "$JS_MAP_DIST"/all.min.js -c &
 # uglifyjs "$JS_MAP_LOADING_DIST"/all.js -o "$JS_MAP_LOADING_DIST"/all.min.js -c -m &
