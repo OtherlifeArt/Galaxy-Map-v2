@@ -14,3 +14,4 @@ scripts/data-form/gridv2.js
 
 # Dist directory (after concatenation, obfuscation and minify)
 /dist
+/htdocs

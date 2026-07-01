@@ -40,8 +40,11 @@ Application should be now available at http://localhost:8080 with default enviro
 ## Deploy and run to production
 
 - Minify and compress sources : `docker compose -f docker-compose-prod.yml build web-prod-builder`  
-- Run to get sources in *dist* directory : `docker compose -f docker-compose-prod.yml build web-prod`  
-Once sources are available you may copy inner *dist* directory to any web server source directory
+- Build to compile sources : `docker compose -f docker-compose-prod.yml build web-prod`
+- Run to get sources from *dist* directory
+- Once sources are available you may copy inner *dist* directory to any web server source directory :
+  - `rm -rf dist`
+  - `docker compose cp web-prod:htdocs . && mv htdocs dist`
 - To deploy with docker  : 
   - Build Docker prod container `docker compose -f docker-compose-prod.yml build web-prod`
   - Run container : `docker compose -f docker-compose-prod.yml up  web-prod`  
