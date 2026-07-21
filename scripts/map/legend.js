@@ -7,7 +7,7 @@ var legend = L.control({ position: 'bottomright' });
 
 legend.onAdd = function (map) {
     let div = L.DomUtil.create('div', 'info legend');
-    div.style.backgroundColor = 'rgba(255, 255, 255, 0.5)'; // White background with 0.8% opacity
+    div.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; // White background with 0.8% opacity
     
     let types = [
       [], // Empty line
