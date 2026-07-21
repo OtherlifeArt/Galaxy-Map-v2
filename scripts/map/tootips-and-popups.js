@@ -163,10 +163,34 @@ function pointDisplayPopup(e) {
   let zoomLevel = map.getZoom();
   let popupDisplacement = [feature.geometry.coordinates[1] + 380 / Math.pow(2, zoomLevel+4), feature.geometry.coordinates[0] - 125 / Math.pow(2, zoomLevel+4)];
 
-  L.popup()
+  let popup = L.popup()
     .setLatLng(popupDisplacement)
     .setContent(text)
     .openOn(map);
+
+  // // Readd marker on popup close
+  // popup.on("remove", function(){
+  //   // alert("Popup removed");
+  //   // e.originalEvent?.preventDefault();
+  //   // e.originalEvent?.stopPropagation();
+  //   pointDisplayTooltip(e);
+  // });
+  // popup.on("click", function(){
+  //   alert("Popup clicked");
+  //   // e.originalEvent?.preventDefault();
+  //   // e.originalEvent?.stopPropagation();
+  //   pointDisplayTooltip(e);
+  // });
+
+  // Re-add marker on popup click ; not perfect but working
+  L.DomEvent.on(
+      popup.getElement(),
+      "click",
+      function (event) {
+        // console.log("Popup clicked");
+        pointDisplayTooltip(e);
+      }
+  );
 }
 
 // points.on('click', function(e) {
@@ -263,6 +287,9 @@ function areaDisplayTooltip(e) {
 function areaHideTooltip(e) {
   e.target.layer?.closeTooltip(); // Hide tooltip
 }
+
+// Show system tooltip on popup close (Tooltip diseappear by default, needs to be redisplayed)
+
 
 // Format star system hierarchy
 function popupFormatStarSystemHierarchy(starSystemHierarchyArray) {

@@ -1733,6 +1733,7 @@ function onEachFeaturePoints(feature, layer) {
     }
     return fullName + feature.properties.NAME;
   }, { sticky: false, interactive: true, permanent: false }); // Init options (permanent will be changed when displaying of hiding tooltips)
+  
   layer.on({
     mouseover: function(e) {
       //pointDisplayTooltip(e);
@@ -1752,6 +1753,7 @@ function onEachFeaturePoints(feature, layer) {
       pointDisplayPopup(e);
     },
   });
+  
   // Unbind the mouseout event to prevent the tooltip from closing
   layer.off('mouseout');
 }
@@ -1882,17 +1884,7 @@ function onEachFeature(feature, layer) {
       },
   });
 }
-// Display tooltip on mouseover
-function areaDisplayTooltip(e) {
-  let layer = e.target;
-  // Update tooltip visibility
-  layer.openTooltip();
-}
 
-// Hide tooltip on mouseout
-function areaHideTooltip(e) {
-  e.target.layer?.closeTooltip(); // Hide tooltip
-}
 // Create layers
 const areas = L.geoJSON(null,{
   pane:'areas',
