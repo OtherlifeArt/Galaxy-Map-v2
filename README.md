@@ -37,8 +37,17 @@ Application should be now available at http://localhost:8080 with default enviro
 
 - Stop application : `docker compose down`
 
+## Update data on main app
+
+- Authenticate with the Google API into backend (data-form/index-data-form.html)
+- Once DATA are loaded, got to "Automated Tools" tab (left part of the screen)
+- Download all DATA by clicking on each button of the section (Map Data fieldset)
+- Move all downloaded files to data/astronomicalobjects directory (replace old ones)
+- Reload map application on browser to check the result (refresh/F5 or cache delete refresh/CTRL+F5)
+
 ## Deploy and run to production
 
+- Update data on main application (cf. previous section)
 - Compile (minify and compress) sources : `docker compose -f docker-compose-prod.yml build web-prod-builder --no-cache`  
 - Copy sources to local dist directory (into current/sources directory) : `docker compose -f docker-compose-prod.yml up -d web-prod-builder`
 - Clean running processes : `docker compose -f docker-compose-prod.yml down` 
