@@ -55,4 +55,4 @@ Application should be now available at http://localhost:8080 with default enviro
 
 - Extra steps to deploy with docker : 
   - Build Docker prod container `docker compose -f docker-compose-prod.yml build web-prod --no-cache`
-  - Run container : `docker compose -f docker-compose-prod.yml up  web-prod`  
+  - Run container : `docker compose -f docker-compose-prod.yml up -d web-prod`  
