@@ -1,41 +1,324 @@
 <!DOCTYPE html>
-<html style="height: 100%;">
+<html style="height: 100%;" lang="en">
 
 <head>
 	<title>The Ultimate Star Wars Galaxy Map | Otherlife Art</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+	<!-- DO not remove/change below STYLE tag (used for production compilation) -->
 	<!-- STYLE -->
-	<link rel="stylesheet" href="scripts/vendor/leaflet/leaflet.css">
-	<link rel="stylesheet" href="scripts/vendor/leaflet-fullscreen/leaflet.fullscreen.css">
-	<link rel="stylesheet" href="style/style.css">
+	<!--Leaflet-->
+	<link rel="stylesheet" href="scripts/vendor/leaflet-1.9.4/leaflet.css">
+	<!-- Leaflet Additions -->
+	<link rel="stylesheet" href="scripts/vendor/Leaflet.Control.Layers.Tree/L.Control.Layers.Tree.css"/>  <!-- Controls-->
+    <link rel="stylesheet" href="scripts/vendor/Leaflet.Control.Opacity/L.Control.Opacity.css"/>  <!-- Controls-->
+	<link rel="stylesheet" href="scripts/vendor/leaflet.fullscreen-3.0.1/Control.FullScreen.css" /> <!-- FullScreen-->
+	<link rel="stylesheet" href="scripts/vendor/leaflet-search-4.0.0/dist/leaflet-search.min.css" /> <!-- Search -->
+	<link rel="stylesheet" href="scripts/vendor/leaflet-geoman-free-2.17.0/leaflet-geoman.css"/>
+	<link rel="stylesheet" href="scripts/vendor/aprilandjan.leaflet.mesure/leaflet.measure.css" />
+	<!-- Custom -->
+	<link rel="stylesheet" href="styles/style.css">
+	<!-- DO not remove/change below STYLE:END tag (used for production compilation) -->
+	<!-- STYLE:END -->
+
+	<!-- JSON LD for SEO -->
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Dataset",
+		"name": "Star Wars Galaxy Map",
+		"description": "An interactive map visualizing planets, regions, secors, and hyperspace routes in the Star Wars galaxy.",
+		"keywords": [
+			"Star Wars galaxy",
+			"Star Wars map",
+			"Star Wars planets",
+			"Star Wars regions",
+			"Star Wars sectors"
+		],
+			"creator": {
+			"@type": "Person",
+			"name": "OtherlifeArt"
+		}
+	}
+	</script>
 	
 	<!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-		integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
-		<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-		integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>-->
-	</head>
-	
-	<!-- HTML -->
-	<body style="height: 100%;margin: 0;background-color:grey;">
+	integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+	<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+	integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>-->
+</head>
+
+<!-- HTML -->
+<body style="height: 100%;margin: 0;background-color:grey;">
+	<!-- NOSCRIPT for SEO -->
+	<noscript>
+		<section>
+			<h2>Star Wars Galaxy Map (Text Version)</h2>
+			<p>
+			This page presents an interactive map of the Star Wars galaxy,
+			showing the locations of major planets and regions such as the Core Worlds
+			and Outer Rim.
+			</p>
+		</section>
+	</noscript>
+		<!-- Loading box -->
+		<div id="loading-overlay" aria-hidden="true">
+			<div class="loading-box">
+				<div class="spinner"></div>
+				<h1>Interactive Map of the Star Wars Galaxy</h1>
+				<p>
+					Find planets, regions, sectors and hyperspace routes from the Star Wars universe,
+					including Coruscant, Tatooine, the Core Worlds, and the Outer Rim.
+				</p>
+				<p>Loading the galaxy map....</p>
+			</div>
+		</div>
+
+		<!-- SEO -->
+		 <section class="visually-hidden">
+			<h2>Star Wars Galaxy Overview</h2>
+			<p>
+				The Star Wars galaxy is divided into regions such as the, Deep Core, Core Worlds,
+				Colonies, Inner Rim, Expansion Region, Mid Rim, Outer Rim, and Unknown Regions.
+				This map visualizes the relative positions of major planets, systems, sectors, regions
+				and hyperspace lanes.
+			</p>
+		</section>
+
+		<section class="visually-hidden">
+			<h2>Planets Included on This Map</h2>
+			<ul>
+				<li>Coruscant – Galactic capital in the Core Worlds</li>
+				<li>Tatooine – Desert planet in the Outer Rim</li>
+				<li>Naboo – Lush Mid Rim planet and homeworld of Padmé Amidala</li>
+				<li>Alderaan – Peaceful Core World destroyed by the Death Star</li>
+				<li>Corellia – Industrial Core World known for starship construction</li>
+				<li>Kuat – Core World famous for massive shipyards</li>
+				<li>Hosnian Prime – Capital of the New Republic</li>
+				<li>Chandrila – Core World and political center of the New Republic</li>
+				<li>Brentaal IV – Trade hub in the Core Worlds</li>
+				<li>Alsakan – Ancient rival of Coruscant in the Core</li>
+
+				<li>Mustafar – Volcanic planet associated with Sith history</li>
+				<li>Geonosis – Rocky world known for droid factories</li>
+				<li>Kamino – Ocean planet and cloning facility world</li>
+				<li>Utapau – Sinkhole world in the Outer Rim</li>
+				<li>Dagobah – Swamp planet strong in the Force</li>
+				<li>Hoth – Icy Outer Rim planet</li>
+				<li>Endor – Forest moon in the Outer Rim</li>
+				<li>Bespin – Gas giant home to Cloud City</li>
+				<li>Yavin IV – Jungle moon and Rebel Alliance base</li>
+				<li>Scarif – Tropical Imperial data vault world</li>
+
+				<li>Lothal – Outer Rim planet tied to early rebellion</li>
+				<li>Mandalore – Desert planet home of Mandalorians</li>
+				<li>Concord Dawn – Mandalorian system world</li>
+				<li>Dathomir – Dark Side planet of the Nightsisters</li>
+				<li>Ryloth – Twi’lek homeworld in the Outer Rim</li>
+				<li>Malachor – Ancient Sith battleground world</li>
+				<li>Jedha – Holy moon connected to the Force</li>
+				<li>Ilum – Ice world sacred to Jedi</li>
+				<li>Ahch-To – Remote ocean world of ancient Jedi temples</li>
+				<li>Exegol – Hidden Sith world in the Unknown Regions</li>
+
+				<li>Jakku – Desert planet and Imperial battleground</li>
+				<li>Takodana – Forest world home to Maz Kanata’s castle</li>
+				<li>D’Qar – Rebel base planet</li>
+				<li>Crait – Salt-covered mineral world</li>
+				<li>Starkiller Base – Weaponized ice planet</li>
+				<li>Castilon – Ocean planet with pirate activity</li>
+				<li>Mon Cala – Aquatic homeworld of the Mon Calamari</li>
+				<li>Felucia – Fungal jungle world</li>
+				<li>Kashyyyk – Forest planet home of the Wookiees</li>
+				<li>Saleucami – Arid Outer Rim world</li>
+
+				<li>Mygeeto – Cold crystalline world</li>
+				<li>Umbara – Shadowy planet with hostile terrain</li>
+				<li>Ord Mantell – Scrapyard world in the Mid Rim</li>
+				<li>Ord Radama – Strategic Mid Rim planet</li>
+				<li>Bothawui – Bothan homeworld</li>
+				<li>Rodia – Swampy homeworld of the Rodians</li>
+				<li>Sullust – Volcanic world of the Sullustans</li>
+				<li>Trandosha – Dathomir-adjacent reptilian homeworld</li>
+				<li>Duro – Polluted Core World</li>
+				<li>Fondor – Imperial shipbuilding world</li>
+
+				<li>Onderon – Jungle world with ancient cities</li>
+				<li>Dxun – Moon of Onderon with dangerous wildlife</li>
+				<li>Haruun Kal – Volcanic jungle planet</li>
+				<li>Serenno – Aristocratic world of Count Dooku</li>
+				<li>Saleucami – Strategic Outer Rim world</li>
+				<li>Eriadu – Industrial capital of the Outer Rim</li>
+				<li>Raxus Prime – Junk world and Separatist center</li>
+				<li>Polis Massa – Asteroid medical facility</li>
+				<li>Csilla – Ice world home of the Chiss</li>
+				<li>Unknown Regions – Largely unexplored galactic territory</li>
+
+				<li>Peridea – Distant galaxy world tied to ancient legends</li>
+				<li>Seatos – Ancient planet with mysterious ruins</li>
+				<li>Kessel – Spice-mining world</li>
+				<li>Moraband – Ancient Sith homeworld</li>
+				<li>Tython – Birthplace of the Jedi Order</li>
+				<li>Byss – Dark Side world of the Emperor</li>
+				<li>Rhen Var – Frozen ancient Jedi world</li>
+				<li>Telos IV – Rebuilt ecologically restored planet</li>
+				<li>Onderon – World with recurring civil conflicts</li>
+				<li>Ziost – Sith-controlled world</li>
+
+				<li>Anaxes – Military-oriented Core World</li>
+				<li>Arkania – Advanced science-focused Core World</li>
+				<li>Balmorra – Industrial manufacturing planet</li>
+				<li>Bestine IV – Political capital of Tatooine sector</li>
+				<li>Bogano – Remote frontier world rich in the Force</li>
+				<li>Borleias – Strategic Mid Rim world</li>
+				<li>Cantonica – Casino world home to Canto Bight</li>
+				<li>Carida – Imperial military academy world</li>
+				<li>Cato Neimoidia – Cliffside world of the Neimoidians</li>
+				<li>Christophsis – Crystalline city planet</li>
+
+				<li>Commenor – Wealthy Core World with strong trade ties</li>
+				<li>Corulag – Urbanized Core World</li>
+				<li>Dac – Alternate name for Mon Cala</li>
+				<li>Denon – Ecumenopolis Core World</li>
+				<li>Dorin – Gas giant homeworld of the Kel Dor</li>
+				<li>Empress Teta – Core World system with ancient Sith ties</li>
+				<li>Felucia Orbit – Strategic Clone Wars battleground</li>
+				<li>Garel – Outer Rim supply world</li>
+				<li>Glee Ansel – Core World cultural center</li>
+
+				<li>Iridonia – Harsh Zabrak homeworld</li>
+				<li>Ithor – Floating jungle world of the Ithorians</li>
+				<li>Jabiim – Rain-soaked Outer Rim world</li>
+				<li>Jelucan – Isolated mining world</li>
+				<li>Kafrene – Asteroid trading outpost</li>
+				<li>Kalee – Warrior homeworld of General Grievous</li>
+				<li>Kashyyyk Shadowlands – Dangerous lower ecosystem region</li>
+				<li>Korriban – Ancient Sith burial world</li>
+				<li>Kotab – Mid Rim trade planet</li>
+				<li>Lokori – Frontier world with native species conflicts</li>
+
+				<li>Lola Sayu – Remote prison facility world</li>
+				<li>Lotho Minor – Junkyard planet</li>
+				<li>Malastare – Dug homeworld and fuel producer</li>
+				<li>Maridun – Pastoral world hidden from conflict</li>
+				<li>Mimban – Muddy war-torn planet</li>
+				<li>Mortis – Mysterious Force-realm location</li>
+				<li>Muunilinst – Banking Clan homeworld</li>
+				<li>Najra-Va – Mustafar system mining world</li>
+				<li>Nerfherder Station – Smuggler outpost</li>
+				<li>Nimban – Volcanic industrial world</li>
+
+				<li>Obroa-skai – Knowledge-rich Inner Rim world</li>
+				<li>Orto Plutonia – Frozen Pantoran moon</li>
+				<li>Pantora – Ice-covered political world</li>
+				<li>Pasaana – Desert festival planet</li>
+				<li>Qi’ra’s Crimson Dawn Base – Crime syndicate stronghold</li>
+				<li>Rishi – Jungle moon and listening post</li>
+				<li>Rodia Prime – Political center of Rodian space</li>
+				<li>Rothana – Clone Army shipbuilding world</li>
+				<li>Ruusan – Battlefield world of ancient Jedi-Sith wars</li>
+
+				<li>Skako Minor – Techno Union world</li>
+				<li>Sorgan – Quiet farming planet</li>
+				<li>Subterrel – Lightless subterranean world</li>
+				<li>Takobo – Forest world tied to First Order origins</li>
+				<li>Taris – Ecumenopolis world later devastated</li>
+				<li>Teth – Rocky moon with ancient monasteries</li>
+				<li>Thyferra – Bacta-producing world</li>
+				<li>Umbara Shadow World – Perpetually dark planetary region</li>
+				<li>Vardos – Imperial loyalty world</li>
+				<li>Wayland – Remote storehouse world</li>
+
+				<li>Wobani – Imperial labor camp planet</li>
+				<li>Xagobah – Forest moon in Dagobah system</li>
+				<li>Yaga Minor – Imperial military logistics world</li>
+				<li>Zeffo – Ancient Force-sensitive civilization world</li>
+				<li>Zeltros – Pleasure-focused Core-adjacent world</li>
+				<li>Zonama Sekot – Living, sentient world</li>
+				<li>Zygerria – Slaver empire homeworld</li>
+				<li>Rakata Prime – Ancient Infinite Empire capital</li>
+				<li>Lehon System – Birthplace of Rakatan technology</li>
+				<li>Deep Core – Heavily fortified galactic region</li>
+			</ul>
+		</section>
+
+		<section class="visually-hidden">
+			<h2>Galactic Regions</h2>
+
+			<h3>Core Worlds</h3>
+			<p>Includes Coruscant, Corellia, and Kuat.</p>
+
+			<h3>Outer Rim Territories</h3>
+			<p>Includes Tatooine, Endor, and Hoth.</p>
+		</section>
+
+		<!-- SEO end -->
+
 		<div id="container" class="container">
 			<!-- <div id="sidebar" class="sidebar"></div> -->
-			<div id="map" class="map"></div>
+			<!-- Grid search -->
+			<div id="GridSearch" class="tabgeomcontent tabgeomcontent-wrapper">
+				<!-- Collapse button -->
+				<!-- GridSearch display button -->
+				<button type="button" class="tabgeomcontent-toggle-btn" aria-expanded="true">
+					Show grid search
+				</button>
+				<!-- Div content -->
+				<div class="gridsearch tabgeomcontent-collapsible gridsearch-is-collapsed">
+					<fieldset>
+						<legend>Grid search</legend>
+						<form action="" method="get" class="form-grid-f">
+							<div class="form-grid">
+								<label id="col_label" for="col">Column</label>
+								<input type="text" maxlength=1 name="col_letter" id="col_letter" placeholder="Letter from A to W" required>
+							</div>
+							<div class="form-grid">
+								<label id="line_label" for="line">Line</label>
+								<input type="number" maxlength=1 name="line_num" id="line_num" placeholder="Number from 1 to 23" required>
+							</div>
+						</form>
+						<button id="gridsearchbut">Go to grid area</button>
+						<button id="gridsearchreset">Reset grid search tool</button>
+					</fieldset>
+				</div>
+			</div>
+			<!-- Map -->
+			<div id="map" class="map">
+			</div>
 		</div>
 	
+		<!-- DO not remove/change below SCRIPTS tag (used for production compilation) -->
 		<!-- SCRIPTS -->
-		<script src="scripts/vendor/leaflet/leaflet.js"></script>
-		<script src="scripts/vendor/leaflet-fullscreen/Leaflet.fullscreen.min.js"></script>
+		<!-- Loading overlay spinner -->
+		<script src="scripts/map/loading/loading-overlay.js"></script>
+		<!-- Jquery -->
+		<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
+		<script src="scripts/vendor/jquery/jquery-3.7.1.min.js"></script>
+		<!--  -->
+		<script src="scripts/vendor/leaflet-1.9.4/leaflet.js"></script>
+		<!-- Leaflet Additions -->
+		<script src="scripts/vendor/Leaflet.Control.Layers.Tree/L.Control.Layers.Tree.js"></script> <!-- Controls -->
+		<script src="scripts/vendor/Leaflet.Control.Opacity/L.Control.Opacity.js"></script> <!-- Controls -->
 		<script src="scripts/vendor/leaflet-canvas-markers/leaflet.canvas-markers.js"></script>
+		<script src="scripts/vendor/leaflet.fullscreen-3.0.1/Control.FullScreen.js"></script> <!-- FullScreen -->
+		<script src="scripts/vendor/leaflet-search-4.0.0/dist/leaflet-search.src.js"></script> <!-- Search -->
+		<!-- <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.js"></script> -->
+		<script src="scripts/vendor/leaflet-geoman-free-2.17.0/leaflet-geoman.js"></script>
+    	<script src="scripts/vendor/aprilandjan.leaflet.mesure/leaflet.measure.js"></script>
 		<script src="scripts/map/helpers/map-utilities.js"></script>
-		<script src="scripts/map/astronomical-scale-bar.js"></script>
+		<!-- <script src="scripts/map/locations.js"></script> -->
 		<script src="scripts/map/icons.js"></script>
-		<script src="scripts/map/locations.js"></script>
-		<script src="scripts/map/main.js"></script>
-		<script src="scripts/map/routes.js"></script>
-		<script src="scripts/map/astronomical-objetcs.js"></script>
 		<script src="scripts/map/tootips-and-popups.js"></script>
+		<script src="scripts/map/data.js"></script>
 		<script src="scripts/map/grid.js"></script>
+		<script src="scripts/map/custom-controls.js"></script>
+		<script src="scripts/map/tools.js"></script>
+		<script src="scripts/map/legend.js"></script>
+		<script src="scripts/map/search.js"></script>
+		<script src="scripts/map/main.js"></script>
+		<!-- <script src="scripts/map/routes.js"></script> -->
+		<!-- <script src="scripts/map/astronomical-objetcs.js"></script> -->
+		<!-- SCRIPTS:END -->
 </body>
 
 </html>

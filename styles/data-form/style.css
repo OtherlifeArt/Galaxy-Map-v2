@@ -18,66 +18,155 @@ body {
   margin-right: 10px;
 }
 
+/* GRID DISPLAY */
+
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-row-gap: 2px;
+  grid-column-gap: 10px;
+  grid-auto-rows: minmax(1px, auto);
+}
+
+.grid-wrapper-fixed-3-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-row-gap: 2px;
+  grid-column-gap: 10px;
+  grid-auto-rows: minmax(1px, auto);
+}
+
+
+/* Media query for wider screens to switch to 4 columns */
+@media (min-width: 2475px) {
+  .grid-wrapper{
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Apply fixed 100% width for select 2 */
+.select2-wrapper > select, .select2-wrapper > span {
+width: 100% !important;
+}
+
+/* .select2-select-wrapper {
+
+} */
+
+/* .field-wrapper {
+  
+} */
+
+/*.field-wrapper:first-child > label {
+  flex: 0 0 191px;
+  text-align: right;
+}*/
+
+ /* Fixed width for the label */
+.field-wrapper > label{
+  flex: 0 0 100px;
+  text-align: right;
+}
+
+.field-wrapper > input[type=text], 
+.field-wrapper > input[type=number],
+.field-wrapper > select,
+.field-wrapper > textarea {
+  flex: 1;
+  margin-left: 5px; /* Space between label and input */
+  width: 100%;
+  /* max-width: calc(100% - 160px); /* Adjust width considering the label width and margin */
+  /*max-width: 100%; /* Adjust width considering the label width and margin */
+  /* width: -moz-available; /* Firefox-specific */
+  /* width: -webkit-fill-available; WebKit-specific */
+  /* width: fill-available; Standardized version, not widely supported */
+  /* width: fit-content; Widely supported */
+  /*max-width: calc(100% - 160px); /* Adjust width considering the label width and margin */
+}
+
+/* .field-wrapper > input[type=checkbox] {
+} */
+
+
+.grid-column-one {
+  grid-column: 1
+}
+
+.grid-column-one-to-two {
+  grid-column: 1 / 3;
+}
+
+.grid-column-one-to-three {
+  grid-column: 1 / 4;
+}
+
+.grid-column-one-to-four {
+  grid-column: 1 / 5;
+}
+
+.grid-column-two {
+  grid-column: 2;
+}
+
+.grid-column-two-to-three {
+  grid-column: 2 / 4;
+}
+
+.grid-column-two-to-four {
+  grid-column: 2 / 5;
+}
+
+.grid-column-three {
+  grid-column: 3;
+}
+
+.grid-column-three-to-four {
+  grid-column: 3 / 5;
+}
+
+.grid-column-four {
+  grid-column: 4;
+}
+
+.grid-column-media-queries-one-or-four {
+  grid-column: 1;
+}
+
+/* Media query for wider screens to switch to 4 columns */
+@media (min-width: 2475px) {
+  .grid-column-media-queries-one-or-four {
+    grid-column: 4;
+  }
+}
+
+.grid-line-one {
+  grid-row: 1;
+}
+
+.grid-line-two {
+  grid-row: 2;
+}
+
+.grid-line-three {
+  grid-row: 3;
+}
+
+.grid-line-four {
+  grid-row: 4;
+}
+
+/****************/
+
+
 /* Select2 */
-#object-search {
+/* #object-search, #hyperroute-search {
   width: 100% !important;
 }
 
-#object-name-span {
+#object-alt-name-span, #hyperroute-alt-name-span {
   width: 100%;
-}
+} */
 
-#object-name-span > input {
-  width: 71%;
-}
-
-#object-alt-name-span {
-  width: 100%;
-}
-
-#object-alt-name-span > input {
-  width: 68%;
-}
-
-#object-type-raw-span {
-  width: 100%;
-}
-
-#object-type-raw-span > input {
-  width: 68%;
-}
-
-#object-type-span {
-  width: 84%;
-}
-
-#object-type {
-  width: 90%;
-}
-
-#object-type-classes-raw-span {
-  width: 100%;
-}
-
-#object-type-classes-raw-span > input {
-  width: 72%;
-}
-
-#object-type-classes-span {
-  width: 100%;
-}
-
-#object-type-classes {
-  width: 80%;
-}
-
-#object-parent-span {
-  width: 100%;
-}
-
-#object-parent {
-  width: 87%;
-}
 
 /* Form */
 #form {
@@ -166,28 +255,49 @@ input[readonly], textarea[readonly] {
   table-layout: auto;
 }
 
-#source-modal-table th {
+#source-modal-table > div:first-child {
   background-color: #ddd;
 }
 
-#source-modal-table td, #source-modal-table th {
+#source-modal-table > div:first-child > span, #source-modal-table-body > div > span {
   border: 1px solid grey; 
   /* width: min-content !important; */
 }
 
 /* #source-modal-table td > * {
-  width: max-content !important;
-} */
-
-#source-modal-table td > * {
   word-wrap: break-word;
   width: 100%;
-  max-width: 100%; 
+  max-width: 100%;
+} */
+ 
+#source-modal-table > div:first-child, #source-modal-table-body > div {
+  display: grid;
+  border-collapse: collapse;
+  width: 100%;
+  grid-auto-flow: column;
+  grid-template-columns: 70px 25% 25% 17% 70px 80px;
 }
 
-.modal-source-id {
+#source-modal-table > div:first-child > span, #source-modal-table-body > div > span {
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+
+#source-modal-table > div:first-child > span > * {
+  flex: 1;
+  text-align: center;
+}
+
+#source-modal-table-body > div > span > * {
+  flex: 1;
   width: 100%;
 }
+
+
+/* #source-modal-table thead, #source-modal-table tbody, #source-modal-table tr {
+  display: contents;
+} */
 
 /********/
 /* TABS */
@@ -229,6 +339,31 @@ input[readonly], textarea[readonly] {
   border-top: none;
 }
 
+/* Hyper route section  */
+
+#hyperroute-section-form {
+  max-height: 400px;
+  overflow-y: auto;
+  min-height: 0px;
+}
+
+/* #hyperroute-section-form-content {
+  overflow-y: auto;
+} */
+
+.hyperroute-section-row {
+  border: #292929 1px solid;
+  display: grid;
+  grid-template-columns: repeat(14, 1fr);
+}
+
+.hyperroute-section-row > div:first-child {
+  grid-column: 1
+}
+
+.hyperroute-section-row > div:last-child {
+  grid-column: 2 / 15;
+}
 
 /************/
 /* TOOLTIPS */
@@ -236,7 +371,8 @@ input[readonly], textarea[readonly] {
 
 .tooltip {
   position: relative;
-  display: inline-block;
+  display: flex;
+  align-items: center;
   /* margin:10rem; */
   /* border-bottom: 1px dotted black; */
 }
@@ -251,7 +387,7 @@ input[readonly], textarea[readonly] {
   border-radius: 6px;
   padding: .5rem;
   position: absolute;
-  z-index: 1;
+  z-index: 10000;
   bottom: 115%;
   left: 50%;
   margin-left: -60px;
@@ -272,6 +408,49 @@ input[readonly], textarea[readonly] {
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+/***************/
+/* COLLAPSIBLE */
+/***************/
+ /* Style the button that is used to open and close the collapsible content */
+ .collapsible {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.collapsible-active, .collapsible:hover {
+  background-color: #ccc;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.collapsible-content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+
+
+.collapsible:after {
+  content: '\02795'; /* Unicode character for "plus" sign (+) */
+  font-size: 13px;
+  color: white;
+  float: right;
+  margin-left: 5px;
+}
+
+.collapsible-active:after {
+  content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+
 
 /***************/
 /***** MAP *****/
@@ -355,6 +534,11 @@ input[readonly], textarea[readonly] {
   border-top: none;
 }
 
+/********** Attribution **********/
+.leaflet-attribution-flag { 
+  display: none !important;
+}
+
 /********************/
 /**** DASHBOARD *****/
 /********************/
@@ -370,4 +554,112 @@ input[readonly], textarea[readonly] {
 
 .dashboard-incorrect-value {
   background-color: #EE4B2B;
+}
+
+.dashboard-warning-value {
+  background-color: #e1a900;
+}
+
+.dashboard-modified-value {
+  background-color: lightcyan;
+}
+
+/*****************/
+/**** WIZARD *****/
+/*****************/
+
+#object-parent-wizard-content {
+  display: grid;
+  grid-template-columns: 1fr, 2fr;
+  grid-auto-rows: minmax(1px, auto);
+  grid-auto-flow: column;
+}
+
+#object-parent-wizard-content > div:first-child {
+  display: flex;
+  flex-direction: column;
+}
+
+#object-parent-wizard-content > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+}
+
+#object-parent-wizard-content > div:nth-child(2) select {
+  width: 100%;
+}
+
+#system-builder-wizard-table {
+  border: 1px solid #888;
+  border-collapse: collapse;
+  table-layout: auto;
+  background-color: white;
+}
+
+#system-builder-wizard-table td, 
+#system-builder-wizard-table th {
+  border: 1px solid #888;
+  white-space: pre-wrap; /* Keep leading/trailing white spaces for hierarchy */
+}
+
+#system-builder-wizard-table th {
+  background-color: #ddd;
+}
+
+
+/********************/
+/**** DATATABLE *****/
+/********************/
+
+.datatable-child-row-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-auto-rows: minmax(1px, auto);
+}
+
+.datatable-child-row-element-data {
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-row-gap: 2px;
+  grid-column-gap: 10px;
+}
+
+.datatable-child-row-tech-data {
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-row-gap: 2px;
+  grid-column-gap: 10px;
+}
+
+.datatable-child-row-3 {
+  grid-row: 3;
+}
+
+.datatable-child-row-4 {
+  grid-row: 4;
+}
+
+.datatable-child-row-5 {
+  grid-row: 5;
+}
+
+.datatable-child-row-6 {
+  grid-row: 6;
+}
+
+.datatable-child-row-hyperspace-sections {
+  grid-row: 7;
+  display: grid;
+}
+
+.datatable-child-row-hyperspace-sections > div {
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-row-gap: 2px;
+  grid-column-gap: 10px;
+  margin-left: 1%;
+  margin-right: 1%;
 }

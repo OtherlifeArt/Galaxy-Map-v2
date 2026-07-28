@@ -2,42 +2,13 @@
 /**
  * Load all data lists, refresh/init dashboard
  */
-async function initDataLoad() {
+async function initAstronomicalObjects() {
   
   // List objects
   await listObjects();
   await listTypes();
   await listTypeClasses();
   await listSources();
-  // Dashboard
-  initDashboard();
-}
-
-/**
- * Create or recreate astromical array
- */
-async function loadAstronomicalObjectArray() {
-  // Get data
-  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, '!A2:Z');
-  // Populate select2 search array
-  astronomicalObjectSearchArray = [];
-  // console.log(spreadSheetData.values[0]);
-  for(i=0; i<spreadSheetData.values.length; i++){
-    const rowValues = spreadSheetData.values[i];
-    const namesString = `${rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]}${rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES] === "" ? "" : "/"+rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES]}`;
-    let typeString = rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE];
-    if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES] !== undefined && rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES] !== "") {
-      typeString += " - "+rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES];
-    }
-    const canonLegendsString = canonLegendsToString([rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS]]);
-    const dateString = prettifyDateFromDateTo([rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO]]);
-    astronomicalObjectSearchArray.push({
-      id: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID],
-      text: `${namesString} (${typeString}) [${canonLegendsString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
-      objectType: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE],
-      objectTypeClass: rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES],
-    });
-  }
 }
 
 /**
@@ -50,9 +21,99 @@ async function listObjects() {
 }
 
 /**
- * List Astronomical types
+ * Create or recreate astromical array
  */
-async function listTypes() {
+async function loadAstronomicalObjectArray() {
+  // Get data
+  const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}2:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}`;
+  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, sheetRange);
+  // Populate select2 search array
+  astronomicalObjectSearchArray = [];
+  for(i=0; i<spreadSheetData.values.length; i++){
+    const rowValues = spreadSheetData.values[i];
+    const namesString = `${sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME])}${sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES]) === "" ? "" : "/"+sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES])}`;
+    let typeString = sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE]);
+    if(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES] !== undefined && sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES]) !== "") {
+      typeString += " - "+sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES]);
+    }
+    const continuityString = canonLegendsUnlicencedToString([sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CANON]),sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LEGENDS]),sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.UNLICENSED])]);
+    const dateString = prettifyDateFromDateTo([rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM],rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO]]);
+    const grid = rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID] ===  undefined || sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID]) === "" ? [] : [sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_GRID]), sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_GRID])];
+    let coords = [sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD]), sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]), sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD])];
+    const dates = [sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_FROM]), sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DATE_TO])];
+    astronomicalObjectSearchArray.push({
+      id: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]),
+      humanName: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_NAME]),
+      name: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]),
+      altNames: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES]),
+      text: `${namesString} (${typeString}) [${continuityString}] ${dateString === "" ? "" : "("+(dateString)+")"}`,
+      objectType: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE]),
+      objectTypeClass: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE_CLASSES]),
+      parentId: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]),
+      humanParent: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_HUMAN]),
+      dates: dates,
+      grid: grid,
+      coords: coords,
+      continuityString: continuityString,
+      inMovie: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IN_MOVIES]),
+      conjName: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_NAME]),
+      conjType: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CONJECTURAL_TYPE]),
+      orbitalRank: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ORBITAL_RANK]),
+      sortId: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_ID]),
+      isCapital: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IS_CAPITAL]),
+      placementCertitude: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_CERTITUDE]),
+      placementLogic: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_LOGIC]),
+      nativeSpecies: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NATIVE_SAPIENTS]),
+      knownEnvironments: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ENVIRONMENTS]),
+      interesting: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING]),
+      notes: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES]),
+      zoomLevel: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ZOOM_LEVEL]),
+      lastUpdated: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.updated_at]),
+      appearance: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.APPEARANCE_FROM_ORBIT]),
+      immigrantSpecies: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IMMIGRANT_SAPIENTS]),
+      fauna: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.FAUNA]),
+      flora: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.FLORA]),
+      population: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POPULATION]),
+      size: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.SIZE]),
+      gravity: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GRAVITY]),
+      government: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GOVERNMENT]),
+      techLevel: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TECH_LEVEL]),
+      knownClimates: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_CLIMATES]),
+      knownAtmosphere: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ATMOSPHERE]),
+      knownSurfaceWater: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_SURFACE_WATER]),
+      knownResources: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_RESOURCES]),
+      knownExports: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_EXPORTS]),
+      knownImports: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_IMPORTS]),
+      pointsOfInterest: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POINTS_OF_INTEREST]),
+      capital: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CAPITAL]),
+      starports: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.STARPORTS]),
+      lengthOfDay: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_DAY]),
+      lengthOfYear: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_YEAR]),
+      urls: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL]).split(","),
+      wikidataId: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.WIKI_DATA_ID]),
+      isCertified: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.is_certified]),
+      distanceToParent: sanitizeText(rowValues[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DISTANCE_TO_PARENT]),
+    });
+  }
+  console.log("Astro Object List",astronomicalObjectSearchArray);
+}
+
+/**
+ * Init search and parent Select2
+ * Bind events when element are selected
+ */
+async function initAstroObjectsSelect2AndLinkedEvents() {
+  $(document).ready(async function() {
+    // Create select 2
+    initFormSelect2();
+    // Populate search form on select
+    loadFormOnAstroObjectSelect();
+    // Populate (human) parent on parent select
+    generateHierarchicalStringOnAstroObjectParentSelect();
+  });
+}
+
+async function listTypeArray() {
   // Get data
   const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECT_TYPES.NAME, '!A2:D');
   // Populate select2 search array
@@ -60,14 +121,36 @@ async function listTypes() {
   // console.log(spreadSheetData.values[0]);
   for(i=0; i<spreadSheetData.values.length; i++){
     const rowValues = spreadSheetData.values[i];
-    const labelString = rowValues[0];
-    const typeString = rowValues[2] ? `(${rowValues[2]})` : "";
+    const labelString = sanitizeText(rowValues[0]);
+    const typeString = rowValues[2] ? `(${sanitizeText(rowValues[2])})` : "";
     astronomicalObjectTypes.push({
       id: labelString,
       text: `${labelString} ${typeString}`,
-      parentId: rowValues[2],
+      parentId: sanitizeText(rowValues[2]),
     });
   }
+}
+
+/**
+ * List Astronomical types
+ */
+async function listTypes() {
+  // Get data
+  // const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECT_TYPES.NAME, '!A2:D');
+  // // Populate select2 search array
+  // astronomicalObjectTypes = [];
+  // // console.log(spreadSheetData.values[0]);
+  // for(i=0; i<spreadSheetData.values.length; i++){
+  //   const rowValues = spreadSheetData.values[i];
+  //   const labelString = rowValues[0];
+  //   const typeString = rowValues[2] ? `(${rowValues[2]})` : "";
+  //   astronomicalObjectTypes.push({
+  //     id: labelString,
+  //     text: `${labelString} ${typeString}`,
+  //     parentId: rowValues[2],
+  //   });
+  // }
+  await listTypeArray();
   // console.log("OBJECT TYPE List : ", astronomicalObjectTypes);
   // Load select2
   loadTypeSelect2();
@@ -99,74 +182,6 @@ async function listTypeClasses() {
 }
 
 /**
- * List Sources
- */
-async function listSources() {
-  // Get data
-  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.SOURCES.NAME, '!A2:T');
-  // Populate select2 search array
-  astronomicalObjectSourceSearchArray = [];
-  for(i=0; i<spreadSheetData.values.length; i++){
-    const rowValues = spreadSheetData.values[i];
-
-    const NAME = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.NAME]);
-    const CONTINUITY = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.CONTINUITY]);
-    const ERA = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.ERA]);
-    const TIMELINE_DATE = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.TIMELINE_DATE]).replace(/ *\[[^)]*\] */g, "");
-    const TYPE = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.TYPE]);
-    const RELEASED = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.RELEASED]);
-    const AUTHORS = sanitizeText(rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.AUTHORS]);
-    
-    // Don't push if line is empty (used as separator for presentation)
-    if(NAME !== "") {
-
-      let text = `${NAME} [${CONTINUITY}`;
-      if (ERA !== "") {
-        text += `/${ERA}`;
-      }
-      if (TIMELINE_DATE !== "") {
-        text += `/${TIMELINE_DATE}`;
-      }
-      text += `] (${TYPE}`;
-      if (RELEASED !== "") {
-        text += `|${RELEASED}`;
-      }
-      if (AUTHORS !== "") {
-        text += `|${AUTHORS}`;
-      }
-      text += `)`;
-
-      astronomicalObjectSourceSearchArray.push({
-        id: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.ID],
-        name: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.NAME],
-        continuity: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.CONTINUITY],
-        url: rowValues[SPREADSHEET_HEADERS.SOURCES.COLUMNS.URL],
-        // Select 2 display
-        text: text,
-      });
-    }
-  }
-  console.log(astronomicalObjectSourceSearchArray);
-}
-
-
-
-/**
- * Init search and parent Select2
- * Bind events when element are selected
- */
-async function initAstroObjectsSelect2AndLinkedEvents() {
-  $(document).ready(async function() {
-    // Create select 2
-    initFormSelect2();
-    // Populate search form on select
-    loadFormOnAstroObjectSelect();
-    // Populate (human) parent on parent select
-    generateHierarchicalStringOnAstroObjectParentSelect();
-  });
-}
-
-/**
  * Init form select2
  */
 async function initFormSelect2() {
@@ -180,6 +195,7 @@ async function initFormSelect2() {
  * Reload form content (data) and refresh display
  */
 async function refreshForm() {
+  document.getElementById("refresh-astro-objects-button").disabled = true;
   await loadAstronomicalObjectArray();
   $(document).ready(function() {
     // Object
@@ -197,6 +213,12 @@ async function refreshForm() {
     // $('#object-parent').select2({
     //     data: astronomicalObjectSearchArray
     // });
+    document.getElementById("refresh-astro-objects-button").disabled = false;
+    // Reload previously loaded object
+    const objectId = document.getElementById("object-tech-id").value;
+    if(objectId !== undefined && objectId !== ""){
+      $("#object-search").val(objectId).trigger('change');
+    }
   });
 }
 
@@ -209,7 +231,8 @@ function loadAstroObjectsSelect2() {
   $("#object-search").select2({
     data: astronomicalObjectSearchArray,
     placeholder: 'Astronomical object search....',
-    allowClear: true
+    allowClear: true,
+    // width: 'style',
   });
 }
 
@@ -222,7 +245,8 @@ function loadAstroObjectParentsSelect2() {
   $("#object-parent").select2({
     data: astronomicalObjectSearchArray,
     placeholder: 'Parent ....',
-    allowClear: true
+    allowClear: true,
+    // width: 'style',
   });
 }
 
@@ -230,7 +254,7 @@ function loadAstroObjectParentsSelect2() {
  * Populate search form on astro object select and hightlight sources button if exists
  */
 function loadFormOnAstroObjectSelect() {
-  $("#object-search").on('change', function() {
+  $("#object-search").on('change', async function() {
     const objectId = $("#object-search").val();
     console.log(`Selected value (objectId) : ${objectId}`);
     loadObjectForm(objectId);
@@ -254,13 +278,13 @@ function generateHierarchicalStringOnAstroObjectParentSelect() {
  */
 async function loadObjectForm(objectID) {
   const foundObjects = astronomicalObjectSearchArray.filter((element) => element.id === objectID);
-  console.log(foundObjects);
+  // console.log(foundObjects);
   // Alert if several object meet conditions (i.e. duplicated technical ID !!!!!)
   if(foundObjects > 1) {
-    alert(`Same ID ${objectID} for multiple object !!! Must be corrected manually in spreadsheet `);
+    alert(`Same ID ${objectID} for multiple astronomical object !!! Must be corrected manually in spreadsheet `);
     return;
   } else if(foundObjects == 0 && objectID) {
-    alert(`Bug alert - ID ${objectID} doesn't exist !!! Fix source code`);
+    alert(`Bug alert - ID ${objectID} for astronomical object doesn't exist !!! Fix source code`);
     return;
   } else if (!objectID) {
     console.log("No object selected !");
@@ -270,22 +294,25 @@ async function loadObjectForm(objectID) {
     // Search matching row
     const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}`;
     const results = await getSpreadSheetRowFromColumnKeyValuePairs(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, sheetRange, [{key:SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID, value:objectID}]);
-    console.log(results);
+    // console.log(results);
     // ID must be unique
     if(results.length > 1) {
       alert("ID must be unique ! Check console (F12)");
       return;
     }
     const rowValues = results[0];
+    console.log("Object loading ...", rowValues);
     // Populate form
     let astroObject = rowValues;
     window.selectedAstronomicalObject = rowValues;
+    // Fields
     document.getElementById('object-tech-id').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]); // Tech ID
     document.getElementById('object-human-id').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_ID]); // Human ID
     let updateDate = new Date(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.updated_at]).toLocaleString();
     document.getElementById('object-updated-at').value = updateDate; // Updated At
     setCheckboxStateFromValue('object-data-certified', sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.is_certified]), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY); // Data certified ?
     document.getElementById('object-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]); // Name
+    document.getElementById('object-name-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_NAME]); // Human Name
     document.getElementById('object-alt-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES]); // Alt Names
     setCheckboxStateFromValue('object-capital', sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IS_CAPITAL]), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY); // Capital
     document.getElementById('object-type-raw').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE]); // Type RAW DATA
@@ -316,10 +343,12 @@ async function loadObjectForm(objectID) {
     document.getElementById('object-coord-x').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD]); // X Coordinate
     document.getElementById('object-coord-y').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD]); // Y Coordinate
     document.getElementById('object-coord-z').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD]); // Z Coordinate
-    document.getElementById('object-desc').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DESC]); // Description
     document.getElementById('object-placement-certitude').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_CERTITUDE]); // Placement certitude
     document.getElementById('object-placement-logic').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_LOGIC]); // Placement logic
-    document.getElementById('object-native-species').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NATIVE_SPECIES]); // Native species
+    document.getElementById('object-native-sapients').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NATIVE_SAPIENTS]); // Native species
+    document.getElementById('object-immigrant-sapients').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IMMIGRANT_SAPIENTS]); // Immigrant species
+    document.getElementById('object-fauna').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.FAUNA]);// Fauna
+    document.getElementById('object-flora').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.FLORA]);// Flora
     document.getElementById('object-orbit-appearance').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.APPEARANCE_FROM_ORBIT]); // Appearance from orbit
     document.getElementById('object-known-climate').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_CLIMATES]); // Known Climates
     document.getElementById('object-known-atmosphere').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ATMOSPHERE]); // Known Atmosphere
@@ -328,13 +357,16 @@ async function loadObjectForm(objectID) {
     document.getElementById('object-known-resources').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_RESOURCES]); // Known Resources
     document.getElementById('object-known-exports').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_EXPORTS]); // Known Exports
     document.getElementById('object-known-imports').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_IMPORTS]); // Known Imports
-    document.getElementById('object-point-of-interest').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POINT_OF_INTEREST]); // Point of interest
+    document.getElementById('object-point-of-interest').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POINTS_OF_INTEREST]); // Point of interest
     document.getElementById('object-length-of-day').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_DAY]); // Length of day
     document.getElementById('object-length-of-year').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_YEAR]); // Length of year
     document.getElementById('object-capital-city').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CAPITAL]); // Capital
     document.getElementById('object-starports').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.STARPORTS]); // Starports
     document.getElementById('object-notes').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES]); // Notes
     document.getElementById('object-interesting').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING]); // Interesting
+    document.getElementById('object-distance-to-parent').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DISTANCE_TO_PARENT]); // Distance to parent
+    document.getElementById('object-gravity').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GRAVITY]); // GRAVITY
+
     document.getElementById('object-sources').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL]); // Sources
     let urlList = separateStringToLinkList(sanitizeText(document.getElementById('object-sources').value), ",");
     console.log(urlList);
@@ -345,18 +377,19 @@ async function loadObjectForm(objectID) {
       let div = urlDisplayerSpan.appendChild(document.createElement("div"));
       div.appendChild(element);
     }
-
     document.getElementById('object-wikidata-id').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.WIKI_DATA_ID]); // WikidataID
     // Wiki DATA display
-    let div = urlDisplayerSpan.appendChild(document.createElement("div"));
-    div.appendChild(separateStringToLinkList(WIKIDATA_PAGE_PREFIX + sanitizeText(document.getElementById('object-wikidata-id').value), ",")[0]);
+    if(sanitizeText(document.getElementById('object-wikidata-id').value) !== "") {
+      let div = urlDisplayerSpan.appendChild(document.createElement("div"));
+      div.appendChild(separateStringToLinkList(WIKIDATA_PAGE_PREFIX + sanitizeText(document.getElementById('object-wikidata-id').value), ",")[0]);
+    }
 
     document.getElementById('object-zoom-level').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ZOOM_LEVEL]); // Zoom level
     document.getElementById('object-tooltip-permanent').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.tooltip_permanent]); // Tooltip permanent
     document.getElementById('object-tooltip-direction').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.tooltip_direction]); // Tooltip direction
     document.getElementById('object-class-name').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.className]); // Tooltip Class Name
     document.getElementById('object-index-geo').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.index_geo]); // Index Geo
-    document.getElementById('object-geom').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GEOM]); // Index Geo
+    document.getElementById('object-geom').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GEOM]); // Complex geometry
     document.getElementById('object-geom-type').value = sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GEOM_TYPE]); // Geom Type
     setCheckboxStateFromValue('object-punctual', sanitizeText(astroObject[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PUNCTUAL]), PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY); // Punctual
   }
@@ -390,6 +423,21 @@ function loadTypeSelect2() {
   });
 }
 
+async function refreshTypeSelect2() {
+  document.getElementById("refresh-types-button").disabled = true;
+  await listTypeArray();
+  $(document).ready(function() {
+    // Reset select2
+    $("#object-type").empty().trigger('change');
+    $("#object-type").select2({
+      data: astronomicalObjectTypes,
+      placeholder: 'Astronomical Type ...',
+      allowClear: false
+    });
+  });
+  document.getElementById("refresh-types-button").disabled = false;
+}
+
 /**
  * Load type class selects function of type
  */
@@ -418,6 +466,16 @@ function loadTypeClassesSelect2(matchingTypes) {
       placeholder: 'Astronomical Type Class ...',
       templateResult: formatTypeClassResult,
     });
+  });
+}
+
+async function refreshTypeClassesSelect2() {
+  document.getElementById("refresh-type-classes-button").disabled = true;
+  await listTypeClasses();
+  $(document).ready(function() {
+    $("#object-type").trigger('change');
+    loadTypeClasses();
+    document.getElementById("refresh-type-classes-button").disabled = false;
   });
 }
 
@@ -453,6 +511,7 @@ async function showObjectDataChange () {
   // Populate Validation Table
   await populateValidationTable(window.selectedAstronomicalObject, window.dataToUpdate);
   // Display modal
+  document.getElementById("modal-sheet-data-id-to-update").value = SHEETS.OBJECTS.ID;
   displayModal();
 }
 
@@ -467,7 +526,9 @@ async function convertFormValuesToData() {
   window.dataToUpdate.length = 0; // reset array
   let orbitalRank = sanitizeText(document.getElementById('object-orbital-rank').value);
   let name = sanitizeText(document.getElementById('object-name').value);
-  let humanName = (orbitalRank !== "" ? "  "+orbitalRank.toString()+". " : "") + name;
+  let altNames = window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES] = sanitizeText(document.getElementById('object-alt-name').value);
+  const objectId = sanitizeText(document.getElementById('object-tech-id').value);
+  let humanName = convertObjectNameToHumanReadableName(name, altNames, orbitalRank, objectId);
   // let humanParent = getParentHierarchy(window.selectedAstronomicalObject[SPREADSHEET_HEADERS.ID]);
   
   // Making sure document.ready is ready before continuing....
@@ -482,11 +543,11 @@ async function convertFormValuesToData() {
     // Below will only run after document is ready
 
     // Data array populating
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] = sanitizeText(document.getElementById('object-tech-id').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] = objectId;
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_ID] = sanitizeText(document.getElementById('object-human-id').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.HUMAN_NAME] = humanName;
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME] = name;
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES] = sanitizeText(document.getElementById('object-alt-name').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ALT_NAMES] = altNames;
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.is_certified] = getValueFromCheckboxState('object-data-certified', PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IS_CAPITAL] = getValueFromCheckboxState('object-capital', PREFORMATED_VALUES.YES_NO_EMPTY_ARRAY);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.TYPE] = sanitizeText(document.getElementById('object-type').value);
@@ -508,10 +569,12 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.X_COORD] = sanitizeText(document.getElementById('object-coord-x').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Y_COORD] = sanitizeText(document.getElementById('object-coord-y').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.Z_COORD] = sanitizeText(document.getElementById('object-coord-z').value);
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DESC] = sanitizeText(document.getElementById('object-desc').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_CERTITUDE] = sanitizeText(document.getElementById('object-placement-certitude').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PLACEMENT_LOGIC] = sanitizeText(document.getElementById('object-placement-logic').value);
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NATIVE_SPECIES] = sanitizeText(document.getElementById('object-native-species').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NATIVE_SAPIENTS] = sanitizeText(document.getElementById('object-native-sapients').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.IMMIGRANT_SAPIENTS] = sanitizeText(document.getElementById('object-immigrant-sapients').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.FAUNA] = sanitizeText(document.getElementById('object-fauna').value); // Fauna
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.FLORA] = sanitizeText(document.getElementById('object-flora').value); // Flora
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.APPEARANCE_FROM_ORBIT] = sanitizeText(document.getElementById('object-orbit-appearance').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_CLIMATES] = sanitizeText(document.getElementById('object-known-climate').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_ATMOSPHERE] = sanitizeText(document.getElementById('object-known-atmosphere').value);
@@ -520,13 +583,15 @@ async function convertFormValuesToData() {
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_RESOURCES] = sanitizeText(document.getElementById('object-known-resources').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_EXPORTS] = sanitizeText(document.getElementById('object-known-exports').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.KNOWN_IMPORTS] = sanitizeText(document.getElementById('object-known-imports').value);
-    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POINT_OF_INTEREST] = sanitizeText(document.getElementById('object-point-of-interest').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.POINTS_OF_INTEREST] = sanitizeText(document.getElementById('object-point-of-interest').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_DAY] = sanitizeText(document.getElementById('object-length-of-day').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.LENGTH_OF_YEAR] = sanitizeText(document.getElementById('object-length-of-year').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.CAPITAL] = sanitizeText(document.getElementById('object-capital-city').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.STARPORTS] = sanitizeText(document.getElementById('object-starports').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NOTES] = sanitizeText(document.getElementById('object-notes').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.INTERESTING] = sanitizeText(document.getElementById('object-interesting').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.DISTANCE_TO_PARENT] = sanitizeText(document.getElementById('object-distance-to-parent').value);
+    window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.GRAVITY] = sanitizeText(document.getElementById('object-gravity').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.URL] = sanitizeText(document.getElementById('object-sources').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ZOOM_LEVEL] = sanitizeText(document.getElementById('object-zoom-level').value);
     window.dataToUpdate[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.tooltip_permanent] = sanitizeText(document.getElementById('object-tooltip-permanent').value);
@@ -590,11 +655,16 @@ async function populateValidationTable(currentData, newData) {
  * Example : Dolduur sector < Mid Rim < The Galaxy
  * 
  * @param objectID UUID
+ * @param parentObjectId UUID (default null) Used only for first parent level
+ * @param data spreadSheetData.values | null (default null)
+ * @param displayObject display object in parent hierarchy ? (default true)
  */
-async function getParentHierarchy(objectID) {
+async function getParentHierarchy(objectID, parentObjectId=null, data=null, displayObject=true) {
   const previousParentValue = document.getElementById('object-parent-raw').value;
-  const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, '!A2:F');
-  const data = spreadSheetData.values;
+  if(data === null) {
+    const spreadSheetData = await getSpreadSheetData(SPREADSHEET_ID, SHEETS.OBJECTS.NAME, '!A2:F');
+    data = spreadSheetData.values;
+  }
   // Get parents recursively
   let currentObjectID = objectID;
   // console.log("objectID : ", objectID);
@@ -606,7 +676,7 @@ async function getParentHierarchy(objectID) {
     // if(currentDataRow !== undefined && currentDataRow !== null && currentDataRow !== "") {
     if(currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID] === currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID]) {
       alert(
-        `Can't display parent hierarchy cause of object referencing itself :
+        `Can't generate parent hierarchy cause of object referencing itself :
         Object ID : ${currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]}
         Object Name : ${currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME]}
         Object Parent ID : ${currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]}`
@@ -616,21 +686,32 @@ async function getParentHierarchy(objectID) {
     if(parentString !== "") {
       parentString += " < ";
     }
-    parentString += currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME];
+    // Permit to display or not first object in parent hierarchy
+    if(displayObject) {
+      parentString += currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.NAME];
+    }
+    displayObject = true; // We want next level object to be displayed
     // Parent ID is missing
     if(currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID] === "") {
       break;
     }
     // }
-    currentDataRow = data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] === currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]); // parentID
+    if(parentObjectId) {
+      currentDataRow = data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] === parentObjectId); // parentID
+      parentObjectId = null; // Only usefull for 1st level
+    } else {
+      currentDataRow = data.find((row) => row[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID] === currentDataRow[SPREADSHEET_HEADERS.OBJECTS.COLUMNS.PARENT_ID]); // parentID
+    }
   }
   if(parentString === undefined || parentString === null || parentString === "") {
-    console.log("parent string : ", parentString);
+    // console.log("parent string : ", parentString);
     return previousParentValue;
   } else {
     return parentString;
   }
 }
+
+
 
 /**
  * Hightlight source button if object data is sourced
@@ -668,9 +749,39 @@ async function highlightSourceButtonsIfSourced (objectId) {
   });
 }
 
+function updateHumanReadableFormField() {
+  const name = document.getElementById('object-name').value;
+  const altNames = document.getElementById('object-alt-name').value;
+  const orbitalRank = document.getElementById('object-orbital-rank').value;
+  const objectId = document.getElementById('object-tech-id').value;
+  document.getElementById('object-name-raw').value = convertObjectNameToHumanReadableName(name, altNames, orbitalRank, objectId);
+}
+
 /**********/
 /* EVENTS */
 /**********/
+
+/**
+ * Fill human readable ID
+ */
+document.getElementById("object-name-raw").addEventListener('change', function() {
+  updateHumanReadableFormField();
+});
+
+/**
+ * Fill human readable ID
+ */
+document.getElementById("object-name").addEventListener('change', function() {
+  updateHumanReadableFormField();
+});
+
+/**
+ * Fill human readable ID
+ */
+document.getElementById("object-orbital-rank").addEventListener('change', function() {
+  updateHumanReadableFormField();
+});
+
 
 async function showDataAndUpdate() {
   // Convertion work
@@ -678,7 +789,7 @@ async function showDataAndUpdate() {
   showObjectDataChange();
 }
 
-async function updateData() {
+async function updateObjectData() {
   await convertFormValuesToData();
   const sheetRange = `!${SPREADSHEET_HEADERS.OBJECTS.FIRST_COLUMN_REF}:${SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF()}`;
   let returnCode = await updateSpreadSheetRowData(SPREADSHEET_ID, SHEETS.OBJECTS, sheetRange, SPREADSHEET_HEADERS.OBJECTS.COLUMNS.ID, window.dataToUpdate);
@@ -687,8 +798,11 @@ async function updateData() {
     closeModal();
     // Reload object array
     refreshForm();
+    // Reload datatables
+    refreshDatatable("objectDatatable");
+    refreshDatatable("hyperrouteDatatable"); // for sections
   } else {
-    alert("Error encoutered ! Check console (F12) for more details");
+    alert("Error encoutered on astronomical object update ! Check console (F12) for more details");
   }
 }
 
@@ -704,8 +818,11 @@ async function addNewData() {
     alert("Object has been successfully created at the end of the spreadsheet ! Add/reorganize human index manually ");
     // Reload select 2 arrays
     refreshForm();
+    // Reload datatables
+    refreshDatatable("objectDatatable");
+    refreshDatatable("hyperrouteDatatable"); // for sections
   } else {
-    alert("Error encoutered ! Check console (F12) for more details");
+    alert("Error encoutered on astronomical object creation ! Check console (F12) for more details");
   }
 }
 
@@ -720,8 +837,11 @@ async function deleteData() {
       alert("Object has been successfully deleted ! Add/reorganize human index manually");
       // Reload object array
       refreshForm();
+      // Reload datatables
+      refreshDatatable("objectDatatable");
+      refreshDatatable("hyperrouteDatatable"); // for sections  
     } else {
-      alert("Error encoutered ! Check console (F12) for more details");
+      alert("Error encoutered on astronomical object deletion ! Check console (F12) for more details");
     }
   }
 }

@@ -2,15 +2,203 @@ body {
 	margin: 0;
 }
 
-html, body, #leaflet {
+html, body {
 	height: 100%
 }
 
+/*Legend specific*/
+.popupdiv .p{
+  font-size: 10px;
+}
+
+.hide-point-layer .point-layer {
+  display: none;
+}
+
+/********* Loading overlay ********/
+#loading-overlay {
+  position: fixed;
+  inset: 0;                 /* top:0 right:0 bottom:0 left:0 */
+  background: rgba(0, 0, 0, 0.4);
+  display: none;            /* hidden by default */
+  align-items: center;
+  justify-content: center;
+  z-index: 99999 !important;           /* very high */
+}
+
+/******** SEO ********/
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* visible state */
+#loading-overlay.active {
+  display: flex;
+}
+
+/* popup box */
+.loading-box {
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 200px;
+}
+
+/* spinner */
+.spinner {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 1rem;
+  border: 4px solid #ddd;
+  border-top-color: #333;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/********* Top wrapper **********/
+.tabgeomcontent-wrapper {
+  position: relative;
+}
+
+/* Button always visible */
+.tabgeomcontent-toggle-btn {
+  position: absolute;
+  z-index: 99999 !important; 
+  display: static;
+  width: auto;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  left: 0%;
+  top: 0%;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.tabgeomcontent-toggle-btn.gridsearch-is-collapsed {
+  position: relative;
+}
+
+/* Collapsible behavior */
+.tabgeomcontent-collapsible {
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.2s ease;
+  max-height: 100vh;
+  opacity: 1;
+}
+
+/* Collapsed state */
+.tabgeomcontent-collapsible.gridsearch-is-collapsed {
+  display: none
+}
+
+.gridsearch {
+  color: #dddddd;
+}
+
+
+/********* Grid Labels **********/
+.leaflet-tooltip-crd {
+  border: transparent;
+  font-size: 1.8em;
+  color:rgba(255, 98, 0, 0.77) !important;
+}
+
+/********* Other Tooltips **********/
 .leaflet-tooltip {
-  color:Green;
+  border: transparent;
+}
+
+.leaflet-tooltip-left::before, .leaflet-tooltip-right::before {
+  display: none;
+}
+
+/********* Popups **********/
+.leaflet-popup-tip {
+  background: #65748E;
+}
+
+/********* Home button **********/
+.home-button {
+  background: white;
+  /* border: 2px solid #ccc; */
+  border-radius: 2px;
+  padding: 0px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  margin-left: 12px !important;
+}
+.home-button svg {
+  width: 25px;
+  height: 25px;
+  fill: #555;
+}
+
+/********* Leaflet control ******************/
+.leaflet-control-container .leaflet-top.leaflet-left {
+  top: 50px; /* Margin for gridsearch button */
+}
+
+/********* Map ******************/
+.search-tip b {
+	color: #fff;
+}
+.point.search-tip b,
+.point.leaflet-marker-icon {
+	background: #f66
+}
+.multipolygon.search-tip b,
+.multipolygon.leaflet-marker-icon {
+	background: #66f
+}
+.multilinestring.search-tip b,
+.multilinestring.leaflet-marker-icon {
+	background: rgb(0, 219, 84)
+}
+
+.search-tip {
+	white-space: nowrap;
+}
+.search-tip b {
+	display: inline-block;
+	clear: left;
+	float: right;
+	padding: 0 4px;
+	margin-left: 4px;
+}
+
+/********** Attribution **********/
+.leaflet-attribution-flag {
+  display: none !important;
+}
+
+/********** Map specific *********/
+
+.leaflet-tooltip {
+  /* color:Green; */
+  /*color:rgba(255, 98, 0, 0.77);*/
+  color:rgba(255, 255, 255, 1);
   padding: 2px;
-  background-color: #000;
+  /*background-color: #000;*/
+  background-color:transparent;
   border-radius: 4px;
+  box-shadow: none !important;
+  text-shadow: 2px 2px 0.5px rgba(0, 0, 0, 0.6);
 }
 
 .route-tooltip {
@@ -31,112 +219,77 @@ html, body, #leaflet {
   border: none;
 }
 
-/*Legend specific*/
-.popupdiv .p{
-  font-size: 10px;
-}
-
-.hide-point-layer .point-layer {
-  display: none;
-}
-
-/********* Map ******************/
-.search-tip b {
-	color: #fff;
-}
-.point.search-tip b,
-.point.leaflet-marker-icon {
-	background: #f66
-}
-.multipolygon.search-tip b,
-.multipolygon.leaflet-marker-icon {
-	background: #66f
-}
-.search-tip {
-	white-space: nowrap;
-}
-.search-tip b {
-	display: inline-block;
-	clear: left;
-	float: right;
-	padding: 0 4px;
-	margin-left: 4px;
-}
-
-/********** Map specific *********/
-/*Overwrite Leaflet native classes by David version*/
+/* Overwrite of Leaflet native classes (David version) */
 .container {
   width:100%;
   height:100%;
   border:0px solid;
   background: #000000;
-
 }
+
 .map {
   width:auto;
   height:100%;
   background: #000000;
   overflow:hidden;
 }
+
 .sidebar {
   height:100%;
   width:200px;
   background: #192841;
   float:right;
 }
+
 .leaflet-container {
 	overflow: hidden;
 	background: #000;
-	}
+}
+
 .leaflet-container .leaflet-overlay-pane svg,
 .leaflet-container .leaflet-tile {
 	max-width: none !important;
 	max-height: none !important;
 	width: auto;
 	padding: 0;
-	}
+}
+
 .leaflet-container img.leaflet-tile,
 .leaflet-fade-anim .leaflet-tile {
 	will-change: transform !important;
-	}
+}
+
 .leaflet-zoom-anim .leaflet-zoom-animated {
     will-change: transform !important;
-  }
+}
+
 .leaflet-container {
-  background: #475A73; /*MAP BACKGROUND COLOR============================================================================*/
+  background: #000000; /*MAP BACKGROUND COLOR============================================================================*/
   outline: 0;
 }
+
 .leaflet-container a.leaflet-active {
 	outline: 2px solid orange;
-	}
+}
+
 .leaflet-container {
   font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
   margin-top: 0;
   margin-bottom: 0;
-  }
-  .leaflet-bar a,
+}
 
-  .leaflet-bar a:hover {
-  
+.leaflet-bar a,
+.leaflet-bar a:hover {
     background-color: #fff;
-  
     border-bottom: 1px solid #ccc;
-  
     width: 26px;
-  
     height: 26px;
-  
     line-height: 26px;
-  
     display: block;
-  
     text-align: center;
-  
     text-decoration: none;
-  
     color: black;
-  
-    }
+}
 
 .leaflet-bar a,
 
@@ -144,7 +297,7 @@ html, body, #leaflet {
   background-position: 50% 50%;
   background-repeat: no-repeat;
   display: block;
-  }
+}
 
 .leaflet-bar a:hover {
   background-color: #f4f4f4;
@@ -155,7 +308,7 @@ html, body, #leaflet {
 	text-align: center;
 	margin-bottom: 5px; /* Vertical alignment of popup in relation to marker */
 	margin-left: 8px; /* Horizontal alignment of popup in relation to marker */
-	}
+}
 
 .leaflet-popup-content-wrapper {
 	border: 5px solid #65748E; /* Popup border options */
@@ -163,13 +316,49 @@ html, body, #leaflet {
 	padding: 1px;
 	text-align: left;
 	border-radius: 12px;
-	}
+  overflow: auto; /* Add a horizontal scrollbar if overflow */
+  max-height: 30em; /* Limit popup height */
+}
+
 .leaflet-popup-content {
   margin: 10px 10px; /* 1st value is popup's top/bottom margin; 2nd value is L/R margin */
   line-height: 1.4;
   color: #ffffff; /* Text color in popups */
-  }
+}
+
 .leaflet-popup-content p {
   margin: 0px 0;
   font-size: 18px;
-  }
+}
+
+.leaflet-popup-content pre {
+  line-height: 0px !important;
+}
+
+/* Legend */
+
+.info legend {
+  border-radius: 50px; 
+}
+
+.legend-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.legend-icon {
+  width: 13px;
+  height: 13px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.legend-label {
+  vertical-align: middle;
+  padding-left: 2px;
+  padding-right: 2px;
+}

@@ -13,7 +13,6 @@ var DeepCoreOverlay = L.imageOverlay(DeepCoreUrl, DeepCoreBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:"deep_core_EA",
     pmIgnore:true,
     snapIgnore: true
 });
@@ -25,7 +24,6 @@ var CoreOverlay = L.imageOverlay(CoreUrl, CoreBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:"core_EA",
     pmIgnore:true,
     snapIgnore: true
 });
@@ -37,7 +35,6 @@ var ColoniesOverlay = L.imageOverlay(ColoniesUrl, ColoniesBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:"colonies_EA",
     pmIgnore:true,
     snapIgnore: true
 });
@@ -137,7 +134,7 @@ var ArkanisOverlay = L.imageOverlay(ArkanisUrl, ArkanisBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'arkanis_EA',
+    //pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -149,7 +146,7 @@ var KashyyykOverlay = L.imageOverlay(KashyyykUrl, KashyyykBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'kashyyyk_EA',
+    //pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -161,7 +158,7 @@ var YavinOverlay = L.imageOverlay(YavinUrl, YavinBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'yavin_EA',
+    //pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -173,19 +170,19 @@ var CorporateOverlay = L.imageOverlay(CorporateUrl, CorporateBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'yavin_EA',
+    //pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
 
 var HapesUrl = EApath + 'TEA_hapes_freehand.png';
-var HapesBounds = L.latLngBounds([[38.50,343.59], [71.77,374.94]]);
+var HapesBounds = L.latLngBounds([[49.43,352.69], [62.42,364.93]]);
 var HapesOverlay = L.imageOverlay(HapesUrl, HapesBounds, {
     opacity: 1,
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'yavin_EA',
+    //pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -197,7 +194,7 @@ var CentralityOverlay = L.imageOverlay(CentralityUrl, CentralityBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'yavin_EA',
+    //pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
@@ -209,10 +206,34 @@ var TionOverlay = L.imageOverlay(TionUrl, TionBounds, {
     errorOverlayUrl: errorOverlayUrl,
     alt: altText,
     interactive: true,
-    pane:'yavin_EA',
+    //pane:'sector_overlays',
     pmIgnore:true,
     snapIgnore: true
 });
+
+var TapaniUrl = EApath + 'WEG_Tapani_move_rotate_scale.png';
+var TapaniBounds = L.latLngBounds([[-384.09,8.59], [-336.06,61.30]]);
+var TapaniOverlay = L.imageOverlay(TapaniUrl, TapaniBounds, {
+    opacity: 1,
+    errorOverlayUrl: errorOverlayUrl,
+    alt: altText,
+    interactive: true,
+    //pane:'sector_overlays',
+    pmIgnore:true,
+    snapIgnore: true
+});
+
+// var SisarRunUrl = EApath + 'WEG_Sisar_run.png';
+// var SisarRunBounds = L.latLngBounds([[115,763], [98,785]]);
+// var SisarRunOverlay = L.imageOverlay(SisarRunUrl, SisarRunBounds, {
+//     opacity: 1,
+//     errorOverlayUrl: errorOverlayUrl,
+//     alt: altText,
+//     interactive: true,
+//     //pane:'sector_overlays',
+//     pmIgnore:true,
+//     snapIgnore: true
+// });
 
 /******** The Essential Atlas Extra parts*******/
 

@@ -11,3 +11,7 @@ data/astronomicalobjects/sectors_origin.geojson
 data/astronomicalobjects/sectors_origin.qmd
 qgisproject/
 scripts/data-form/gridv2.js
+
+# Dist directory (after concatenation, obfuscation and minify)
+/dist
+/htdocs

@@ -22,9 +22,12 @@ const SHEETS = {
   OBJECT_SOURCES: {
     ID: "288489171", NAME: "Object Sources",
   },
+  HYPERROUTE_SOURCES: {
+    ID: "551196436", NAME: "Hyperroute Sources",
+  },
   SOURCES: {
     ID: "1968171245", NAME: "Sources",
-  }
+  },
 }
 
 // SPREADSHEET COLUMNS
@@ -54,40 +57,48 @@ const SPREADSHEET_HEADERS = {
       Y_COORD: 19,
       Z_COORD: 20,
       ORBITAL_RANK: 21,
-      DESC: 22,
-      CONJECTURAL_NAME: 23,
-      CONJECTURAL_TYPE: 24,
-      PLACEMENT_CERTITUDE: 25,
-      PLACEMENT_LOGIC: 26,
-      NATIVE_SPECIES: 27,
-      KNOWN_ENVIRONMENTS: 28,
-      NOTES: 29,
-      INTERESTING: 30,
-      URL: 31,
-      ZOOM_LEVEL: 32,
-      tooltip_permanent: 33,
-      tooltip_direction: 34,
-      className: 35,
-      index_geo: 36,
-      updated_at: 37,
-      is_certified: 38,
-      WIKI_DATA_ID: 39,
-      GEOM: 40,
-      GEOM_TYPE: 41,
-      PUNCTUAL: 42,
-      SIZE: 43,
-      APPEARANCE_FROM_ORBIT: 44,
-      KNOWN_CLIMATES: 45,
-      KNOWN_ATMOSPHERE: 46,
-      KNOWN_SURFACE_WATER: 47,
-      KNOWN_RESOURCES: 48,
-      KNOWN_EXPORTS: 49,
-      KNOWN_IMPORTS: 50,
-      POINT_OF_INTEREST: 51,
-      LENGTH_OF_DAY: 52,
-      LENGTH_OF_YEAR: 53,
-      CAPITAL: 54,
-      STARPORTS: 55
+      ZOOM_LEVEL: 22,
+      tooltip_permanent: 23,
+      tooltip_direction: 24,
+      className: 25,
+      index_geo: 26,
+      DISTANCE_TO_PARENT: 27,
+      SIZE: 28,
+      MOONS: 29,
+      GRAVITY: 30,
+      LENGTH_OF_DAY: 31,
+      LENGTH_OF_YEAR: 32,
+      KNOWN_ATMOSPHERE: 33,
+      KNOWN_CLIMATES: 34,
+      KNOWN_ENVIRONMENTS: 35,
+      KNOWN_SURFACE_WATER: 36,
+      APPEARANCE_FROM_ORBIT: 37,
+      NATIVE_SAPIENTS: 38,
+      IMMIGRANT_SAPIENTS: 39,
+      FAUNA: 40,
+      FLORA: 41,
+      POPULATION: 42,
+      GOVERNMENT: 43,
+      TECH_LEVEL: 44,
+      KNOWN_EXPORTS: 45,
+      KNOWN_IMPORTS: 46,
+      KNOWN_RESOURCES: 47,
+      CAPITAL: 48,
+      STARPORTS: 49,
+      POINTS_OF_INTEREST: 50,
+      NOTES: 51,
+      INTERESTING: 52,
+      URL: 53,
+      CONJECTURAL_NAME: 54,
+      CONJECTURAL_TYPE: 55,
+      PLACEMENT_CERTITUDE: 56,
+      PLACEMENT_LOGIC: 57,
+      updated_at: 58,
+      is_certified: 59,
+      WIKI_DATA_ID: 60,
+      GEOM: 61,
+      GEOM_TYPE: 62,
+      PUNCTUAL: 63,
     },
     FIRST_COLUMN_REF: 'A',
     LAST_COLUMN_REF: () => {
@@ -126,15 +137,33 @@ const SPREADSHEET_HEADERS = {
   "SOURCES": {
     COLUMNS : {
       ID: 0,
-      NAME: 1,
-      CONTINUITY: 2,
-      RELEASED: 3,
-      TYPE: 4,
-      ERA: 5,
-      TIMELINE_DATE: 6,
-      TIMELINE_NOTES: 7,
-      AUTHORS: 8,
-      WOOKIEPEDIA: 9,
+      MINED: 1,
+      PHYSICAL: 2,
+      DIGITAL: 3,
+      SEARCHABLE: 4,
+      NAME: 5,
+      TYPE: 6,
+      ADAPTATION: 7,
+      RELEASED: 8,
+      DATE_FROM: 9,
+      DATE_TO: 10,
+      ERA: 11,
+      TIMELINE_NOTES: 12,
+      // CONTINUITY: 2,
+      CANON: 13,
+      LEGENDS: 14,
+      UNLICENSED: 15,
+      // AUTHORS: 8,
+      AUTHOR_1: 16,
+      AUTHOR_2: 17,
+      AUTHOR_3: 18,
+      AUTHOR_4: 19,
+      AUTHOR_5: 20,
+      AUTHOR_6: 21,
+      AUTHOR_7: 22,
+      WOOKIEPEDIA: 23,
+      URL: 24,
+      //TIMELINE_DATE: 6,
     },
     FIRST_COLUMN_REF: 'A',
     LAST_COLUMN_REF: () => {
@@ -165,7 +194,114 @@ const SPREADSHEET_HEADERS = {
       return FIRST_CHAR + LAST_CHAR;
     },
     LAST_COLUMN_INDEX_NUMBER: () => { return Object.keys(SPREADSHEET_HEADERS.OBJECT_TYPE_CLASSES.COLUMNS).length -1},
-  }
+  },
+  "HYPERROUTES":{
+    COLUMNS : {
+      ID: 0,
+      HUMAN_ID: 1,
+      NAME: 2,
+      ALT_NAMES: 3,
+      PARENT_ID: 4,
+      PARENT_NAME: 5,
+      DATE_FROM: 6,
+      DATE_TO: 7,
+      CANON: 8,
+      LEGENDS: 9,
+      UNLICENSED: 10,
+      TYPE: 11,
+      TRADE_ROUTE_LEVEL: 12,
+      URLS: 13,
+      WIKI_DATA_ID: 14,
+      DESC: 15,
+      ZOOM_LEVEL: 16,
+      CONJECTURAL_NAME: 17,
+      NOTES: 18,
+      INTERESTING: 19,
+      updated_at: 20,
+      is_certified: 21,
+      GEOM: 22,
+      GEOM_TYPE: 23,
+      color: 24,
+      weight: 25,
+      opacity: 26,
+      smooth_factor: 27,
+    },
+    FIRST_COLUMN_REF: 'A',
+    LAST_COLUMN_REF: () => {
+      // Search of column index (2 letters limit - 676 columns should be enough) 
+      const COLUMN_NUMBER = SPREADSHEET_HEADERS.HYPERROUTES.LAST_COLUMN_INDEX_NUMBER();
+      const FIRST_CHAR = COLUMN_NUMBER / 26 >= 1 ? String.fromCharCode(64 + parseInt(COLUMN_NUMBER / 26)) : "";
+      const LAST_CHAR = String.fromCharCode(65 + COLUMN_NUMBER % 26);
+      return FIRST_CHAR + LAST_CHAR;
+    },
+    LAST_COLUMN_INDEX_NUMBER: () => { return Object.keys(SPREADSHEET_HEADERS.HYPERROUTES.COLUMNS).length -1},
+  },
+  "HYPERROUTE_SECTIONS":{
+    COLUMNS : {
+      ID: 0,
+      HUMAN_ID: 1,
+      LOCATION_A_ID: 2,
+      LOCATION_A: 3,
+      LOCATION_B_ID: 4,
+      LOCATION_B: 5,
+      HYPERROUTE_ID: 6,
+      HYPERROUTE: 7,
+      DATE_FROM: 8,
+      DATE_TO: 9,
+      CANON: 10,
+      LEGENDS: 11,
+      UNLICENSED: 12,
+      AVERAGE_TRAVEL_TIME: 13,
+      DESC: 14,
+      PLACEMENT_CERTITUDE: 15,
+      PLACEMENT_LOGIC: 16,
+      NOTES: 17,
+      INTERESTING: 18,
+      updated_at: 19,
+      is_certified: 20,
+      GEOM: 21,
+      GEOM_TYPE: 22,
+      LOCATION_A_COORD_X: 23,
+      LOCATION_A_COORD_Y: 24,
+      LOCATION_A_COORD_Z: 25,
+      LOCATION_B_COORD_X: 26,
+      LOCATION_B_COORD_Y: 27,
+      LOCATION_B_COORD_Z: 28,
+    },
+    FIRST_COLUMN_REF: 'A',
+    LAST_COLUMN_REF: () => {
+      // Search of column index (2 letters limit - 676 columns should be enough) 
+      const COLUMN_NUMBER = SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.LAST_COLUMN_INDEX_NUMBER();
+      const FIRST_CHAR = COLUMN_NUMBER / 26 >= 1 ? String.fromCharCode(64 + parseInt(COLUMN_NUMBER / 26)) : "";
+      const LAST_CHAR = String.fromCharCode(65 + COLUMN_NUMBER % 26);
+      return FIRST_CHAR + LAST_CHAR;
+    },
+    LAST_COLUMN_INDEX_NUMBER: () => { return Object.keys(SPREADSHEET_HEADERS.HYPERROUTE_SECTIONS.COLUMNS).length -1},
+  },
+  "HYPERROUTE_SOURCES": {
+    COLUMNS : {
+      ID: 0,
+      HYPERROUTE_ID: 1,
+      HYPERROUTE_NAME: 2,
+      SOURCE_ID: 3,
+      SOURCE_NAME: 4,
+      SOURCE_PATH: 5,
+      TARGET_COLUMN: 6,
+      URL: 7,
+      CANON: 8,
+      LEGENDS: 9,
+      NOTE: 10,
+    },
+    FIRST_COLUMN_REF: 'A',
+    LAST_COLUMN_REF: () => {
+      // Search of column index (2 letters limit - 676 columns should be enough) 
+      const COLUMN_NUMBER = SPREADSHEET_HEADERS.HYPERROUTE_SOURCES.LAST_COLUMN_INDEX_NUMBER();
+      const FIRST_CHAR = COLUMN_NUMBER / 26 >= 1 ? String.fromCharCode(64 + parseInt(COLUMN_NUMBER / 26)) : "";
+      const LAST_CHAR = String.fromCharCode(65 + COLUMN_NUMBER % 26);
+      return FIRST_CHAR + LAST_CHAR;
+    },
+    LAST_COLUMN_INDEX_NUMBER: () => { return Object.keys(SPREADSHEET_HEADERS.HYPERROUTE_SOURCES.COLUMNS).length -1},
+  },
 }
 
 // console.log(SPREADSHEET_HEADERS.OBJECTS.LAST_COLUMN_REF());
@@ -215,18 +351,71 @@ let astronomicalObjectSearchArray = [];
 let selectedAstronomicalObject;
 let astronomicalObjectTypes = [];
 let astronomicalObjectTypeClasses = [];
-let astronomicalObjectSourceSearchArray = [];
+let sourceSearchArray = [];
+
+let hyperrouteArray = [];
+let selectedHyperroute;
 
 // Trick to export some values from other scopes
 window.dataToUpdate = [];
 window.fromJQuery = {
 };
+// Trick to make leaflet search control work on the first try
+let isLeafletSearchControlAlreadyInitialized = false;
+
+// Datatable
+let objectDatatable;
+let hyperrouteDatatable;
+
+// Wizard
+let objectParentWizard;
+let objectSystemWizard;
+let wizardObjectSystemStore;
+
+/* FUNCTIONS */
+/**
+ * Load all data lists, refresh/init dashboard
+ */
+async function initDataLoad() {
+  
+  // Init Astronomical Objects
+  await initAstronomicalObjects(); // Object, type, type classes, object sources
+  document.getElementById("refresh-astro-objects-button").disabled = false;
+  // document.getElementById("refresh-types-button").disabled = false;
+  // document.getElementById("refresh-type-classes-button").disabled = false;
+  // Init hyper routes
+  await initHyperroutes();
+  document.getElementById("refresh-hyperroute-and-sections-button").disabled = false;
+  // Dashboard
+  initDashboard();
+  document.getElementById("refresh-dashboard-button").disabled = false;
+  // Widgets
+  initWidgets();
+  // Datatables
+  loadObjectDatatable();
+  document.getElementById("refresh-astro-object-datatable-button").disabled = false;
+  loadHyperrouteDatatable();
+  document.getElementById("refresh-hyperroute-datatable-button").disabled = false;
+  // Wizard
+  initWizard();
+}
 
 /* MAIN */
 
 // Activate object tab
 openSection(undefined, 'astro-object-tab');
 document.querySelector("#default-tab").className += " active";
+
+// Disable refresh buttons
+document.getElementById("refresh-astro-objects-button").disabled = true;
+// document.getElementById("refresh-types-button").disabled = true;
+// document.getElementById("refresh-type-classes-button").disabled = true;
+document.getElementById("refresh-astro-object-datatable-button").disabled = true;
+document.getElementById("refresh-hyperroute-and-sections-button").disabled = true;
+document.getElementById("refresh-hyperroute-datatable-button").disabled = true;
+document.getElementById("refresh-dashboard-button").disabled = true;
+document.getElementById("refresh-wizard-button").disabled = true;
+
 
 
 /* EVENTS */
@@ -236,13 +425,28 @@ document.querySelector("#default-tab").className += " active";
 SEARCH_INPUT.addEventListener('select2:select', loadObjectForm);
 
 /**
- * Sources button click
+ * Object Sources button click
  */
 document.querySelectorAll('.object-source-entry-button').forEach(button => {
   button.addEventListener('click', function(e) {
     e.preventDefault(); // Skip form default action
-    openDataFieldSourceModal(e.target);
+    document.getElementById("source-modal-sheet-id").value = SHEETS.OBJECT_SOURCES.ID;
+    openDataFieldObjectSourceModal(e.target);
   });
 });
+
+/**
+ * Hyperroute Sources button click
+ */
+document.querySelectorAll('.hyperroute-source-entry-button').forEach(button => {
+  button.addEventListener('click', function(e) {
+    e.preventDefault(); // Skip form default action
+    document.getElementById("source-modal-sheet-id").value = SHEETS.HYPERROUTE_SOURCES.ID;
+    openDataFieldHyperrouteSourceModal(e.target);
+  });
+});
+
+
+
 
 

@@ -1,0 +1,5 @@
+# Use a lightweight, LTS Node.js environment based on Alpine Linux
+FROM httpd:alpine
+
+# Copy optimizer script
+COPY ./dist /usr/local/apache2/htdocs

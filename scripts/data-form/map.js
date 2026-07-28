@@ -15,9 +15,6 @@ var map = L.map('map', {
   //preferCanvas: true, // It disable interaction with multiple layers (point and areas)...
 }).setView([-250.0,0], -2);
 
-//var bounds = [[-1400,-1200], [900,1100]];
-//map.fitBounds(bounds);
-
 /*********** CUSTOM SCALE BAR ********/
 L.Control.SpatialScalebar = L.Control.Scale.extend({
   _updateMetric: function (maxMeters) {
@@ -49,7 +46,8 @@ map.createPane("grid_search");
 map.getPane("grid_search").style.zIndex = "589";
 
 /******** LAYERS PANES *********/
-
+map.createPane('drawnItems');
+map.getPane('drawnItems').style.zIndex = "594";
 map.createPane("points");
 map.getPane("points").style.zIndex = "595";
 map.createPane("roads");
@@ -59,24 +57,20 @@ map.getPane('areas').style.zIndex = "593";
 
 /******** OVERLAYS PANES *********/
 
-map.createPane("arkanis_EA");
-map.getPane("arkanis_EA").style.zIndex = "454";
-map.createPane("yavin_EA");
-map.getPane("yavin_EA").style.zIndex = "453";
-map.createPane("kashyyyk_EA");
-map.getPane("kashyyyk_EA").style.zIndex = "452";
+map.createPane("sector_overlays");
+map.getPane("sector_overlays").style.zIndex = "400";
 map.createPane("deep_core_EA");
-map.getPane("deep_core_EA").style.zIndex = "451";
+map.getPane("deep_core_EA").style.zIndex = "399";
 map.createPane("core_EA");
-map.getPane("core_EA").style.zIndex = "450";
+map.getPane("core_EA").style.zIndex = "398";
 map.createPane("colonies_EA");
-map.getPane("colonies_EA").style.zIndex = "449";
+map.getPane("colonies_EA").style.zIndex = "397";
 
 /******** LAYERS CONTROL *********/
 
 completegrid.addTo(map);
+var searchLayer = L.layerGroup([points,areas,roads]);
 roads.addTo(map);
-var searchLayer = L.layerGroup([points,areas]);
 points.addTo(map)
 areas.addTo(map)
 
@@ -84,35 +78,41 @@ var baseLayers = [];
 
 var overLayers = [
   {label: 'Grid', layer: completegrid, name: 'Grid'},
-  {label: 'Data',selectAllCheckbox: false,
+  {label: 'Data',
     children: [
           {label:"Current",
-            children: [{label: "Points (load from db)", layer: points},
-            {label: "Areas", layer: areas}
+            children: [
+              {label: "Points (load from db)", layer: points},
+              {label: "Areas", layer: areas},
+              {label: "Hyperlanes", layer: roads},
             ]
           },
           {label:"Deprecated",collapsed:true,
           children:[
             //{label: "Points (last export)", layer: points},
-            {label: "Hyperlanes", layer: roads},
-            
           ]
         }
         ]
   },
   {label: 'Source maps',
     children: [
-      {label: 'Essential Atlas', collapsed:true, 
-       children: [
           {label: 'Sector scale maps',collapsed:true,
             children: [
+              {label: 'Essential Atlas', collapsed:true, 
+              children: [
               {label: "Arkanis", layer: ArkanisOverlay},
-              {label: "Kashyyyk", layer: KashyyykOverlay},
-              {label: "Yavin and the Gordian Reach",layer:YavinOverlay},
               {label: "Coporate Sector",layer:CorporateOverlay},
               {label: "Hapes Cluster",layer:HapesOverlay},
+              {label: "Kashyyyk", layer: KashyyykOverlay},
               {label: "The Centrality",layer:CentralityOverlay},
               {label: "Tion Sector",layer:TionOverlay},
+              {label: "Yavin and the Gordian Reach",layer:YavinOverlay}
+              ]},
+              {label: 'Other sources', collapsed:true, 
+              children: [
+                {label: "Tapani sector (WEG)",layer:TapaniOverlay},
+                // {label: "Secrets of the Sisar run (WEG)",layer:SisarRunOverlay},
+              ]}
             ]
           },
           {label: 'Region scale maps',collapsed:true,
@@ -142,8 +142,6 @@ var overLayers = [
       ]
     }
   ]
-  },
-];
 
 L.control.layers.tree(baseLayers, overLayers, {
   namedToggle: true,
@@ -154,11 +152,12 @@ L.control.layers.tree(baseLayers, overLayers, {
 /******** OPACITY CONTROL *********/
 const Map_AddLayer = {
   "Arkanis": ArkanisOverlay,
-  "Kashyyyk":KashyyykOverlay, //OVERLAY NEED more transformations
-  "Yavin and the Gordian Reach":YavinOverlay,
   "Coporate Sector":CorporateOverlay,
-  "Hapes":HapesOverlay,
+  "Hapes Cluster":HapesOverlay,
+  "Kashyyyk":KashyyykOverlay, //OVERLAY NEED more transformations  
   "The Centrality":CentralityOverlay,
+  "Tapani Sector":TapaniOverlay,
+  "Yavin and the Gordian Reach":YavinOverlay,
   "Tion Sector":TionOverlay,
   "Deep Core": DeepCoreOverlay,
   "Core": CoreOverlay,
@@ -221,6 +220,24 @@ searchControl.on('search:locationfound', function(e) {
 
 map.addControl(searchControl);  //inizialize search control
 
+/**
+ * Search programmatically on map by name
+ * TODO search item by id
+ * TODO search why it doesn't work on first try
+ */
+async function performSearch(query) {
+  if(!isLeafletSearchControlAlreadyInitialized) {
+    isLeafletSearchControlAlreadyInitialized = true;
+    setTimeout(function () {
+      performSearch(query) 
+    }, 500);
+  }
+  searchControl.expand(); // Open search input
+  searchControl.searchText(query); // Trigger search control search function
+  // searchControl._input.value = query; // Set the search input value
+  searchControl._handleSubmit({});// Trigger the search
+}
+
 /////////////// COLOR LEGEND //////////////////////
 
 // Define the legend control
@@ -231,7 +248,7 @@ legend.onAdd = function (map) {
     div.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; // White background with 0.8% opacity
     
     var types = ["Planet", "Moon", "Star System", "Artificial object", "Asteroid", "Star",  "Comet",  "Nebula", "Location", "Exotic", "Unknown"];
-    var labels = ["Planet / Dwarf Planet", "Moon / Dwarf Moon", "Star System", "Artificial object", "Asteroid Field / Asteroid", "Star / Star Cluster", "Comet / Comet Cluster / Cometary Cloud", "Nebula", "Location", "Exotic", "Unknown"];
+    var labels = ["Planet / Dwarf Planet / Planet Barycenter", "Moon / Dwarf Moon", "Star System", "Artificial object", "Asteroid Field / Asteroid", "Star / Star Barycenter / Star Cluster", "Comet / Comet Cluster / Cometary Cloud", "Nebula", "Location", "Exotic", "Unknown"];
     // Loop through all types and generate a label with corresponding color and circle symbol
     for (var i = 0; i < types.length; i++) {
         var type = types[i];
@@ -357,7 +374,7 @@ map.on("zoomend", function() {
       if (map.hasLayer(grid10) == false) {
           completegrid.addLayer(grid10);
       }
-  } else if (zoomlevel == 1) {
+  } else if (zoomlevel <= 1) {
       if (map.hasLayer(grid10)) {
           completegrid.removeLayer(grid10);
       }
@@ -367,7 +384,7 @@ map.on("zoomend", function() {
       if (map.hasLayer(grid1) == false) {
           completegrid.addLayer(grid1);
       }
-  } else if (zoomlevel == 4) {
+  } else if (zoomlevel <= 4) {
       if (map.hasLayer(grid1)) {
           completegrid.removeLayer(grid1);
       }

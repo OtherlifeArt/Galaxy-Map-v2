@@ -1,17 +1,17 @@
-version: '3.9'
+# version: '3.9' Obsolete
 
 networks:
   frontend:
     name: ${APP_NAME}-frontend
 
 services:
-  web:
-    image: ${IMAGE_NAME}
-    container_name: ${APP_NAME}-web
+  web-dev:
+    image: ${DEV_IMAGE_NAME}
+    container_name: ${APP_NAME}-web-dev
     restart: ${RESTART_POLICY}
     ports:
-    - '${HOST_PORT}:${CONTAINER_PORT}'
+      - '${DEV_HOST_PORT}:80'
     volumes:
-    - ./:/usr/local/apache2/htdocs
+      - ./:/usr/local/apache2/htdocs
     networks:
       - frontend
