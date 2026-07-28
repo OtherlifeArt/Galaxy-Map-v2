@@ -244,7 +244,8 @@ async function performSearch(query) {
 var legend = L.control({ position: 'bottomright' });
 
 legend.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'info legend');
+    const div = L.DomUtil.create('div', 'info legend');
+
     div.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; // White background with 0.8% opacity
     
     var types = ["Planet", "Moon", "Star System", "Artificial object", "Asteroid", "Star",  "Comet",  "Nebula", "Location", "Exotic", "Unknown"];

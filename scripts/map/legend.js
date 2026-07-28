@@ -6,10 +6,29 @@
 var legend = L.control({ position: 'bottomright' });
 
 legend.onAdd = function (map) {
-    let div = L.DomUtil.create('div', 'info legend');
+    const div = L.DomUtil.create('div', 'info legend');
     div.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; // White background with 0.8% opacity
     
-    let types = [
+    // Collapse button
+    div.innerHTML = `<div id="legend-header">
+                       <button id="legend-toggle">-</button>
+                       <b>Legend&nbsp</b>
+                     </div>
+                     <div id="legend-content"></div>`;
+    const legendContent = div.querySelector("#legend-content");
+    L.DomEvent.disableClickPropagation(div);
+    setTimeout(() => {
+        const btn = div.querySelector("#legend-toggle");
+        // const content = div.querySelector("#legend-content");
+
+        btn.onclick = () => {
+            const hidden = legendContent.style.display === "none";
+            legendContent.style.display = hidden ? "block" : "none";
+            btn.textContent = hidden ? "-" : "+";
+        };
+    });
+
+    const types = [
       [], // Empty line
       // Canon / Legends / Canon & Legends
       [ 
@@ -117,7 +136,7 @@ legend.onAdd = function (map) {
       //   ASTRO_ICONS['UNKNOWN']['CANON_AND_LEGENDS']['MOVIE'],
       // ],
     ];
-    let labels = [
+    const labels = [
       "<b>Continuity</b>",
       "None / Canon / Legends / Canon & Legends",
       "<b>Planet / Moon / Asteroid / Comet / Star / Star System</b>", "Present in Movies/Series", "Not in Movies/Series",
@@ -137,15 +156,15 @@ legend.onAdd = function (map) {
           // console.log(iconPicture.options.iconUrl);
           icon.src = iconPicture.options.iconUrl;
           iconSpan.appendChild(icon);
-          div.appendChild(iconSpan);
+          legendContent.appendChild(iconSpan);
         });
         
         // Create label text
         let legendLine = L.DomUtil.create('span', 'legend-label');
         legendLine.innerHTML = labels[i];
 
-        div.appendChild(legendLine);
-        div.innerHTML += '<br>';
+        legendContent.appendChild(legendLine);
+        legendContent.innerHTML += '<br>';
     }
 
     return div;
