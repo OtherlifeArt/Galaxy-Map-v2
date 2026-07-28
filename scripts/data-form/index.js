@@ -337,6 +337,7 @@ PREFORMATED_VALUES = {
 }
 
 /* VARIABLES */
+let debug = true;
 let tokenClient;
 let isGapiLoaded = false;
 let isGisLoaded = false;

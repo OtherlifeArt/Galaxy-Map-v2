@@ -1,9 +1,9 @@
 /********** URLS **********/
 
 // Paths to data
-var url_points = "././data/astronomicalobjects/SW_Map_Points.geojson"
-var url_roads = "././data/astronomicalobjects/SW_Map_Lines.geojson"
-var url_areas = "././data/astronomicalobjects/SW_Map_Polygons.geojson"
+// var url_points = "././data/astronomicalobjects/SW_Map_Points.geojson"
+// var url_roads = "././data/astronomicalobjects/SW_Map_Lines.geojson"
+// var url_areas = "././data/astronomicalobjects/SW_Map_Polygons.geojson"
 
 /************** ROADS ***************/
 

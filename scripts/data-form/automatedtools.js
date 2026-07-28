@@ -86,36 +86,375 @@ function fetchSheetDataPoints(spreadsheetId, sheetName) {
   });
 }
   
-// Function to trigger download of GeoJSON file
+// Function to trigger download of GeoJSON file of points
 async function downloadPointsGeoJSON() {
-    var spreadsheetId = SPREADSHEET_ID
-    var sheetName = SHEETS.OBJECTS.NAME
-    await fetchSheetDataPoints(spreadsheetId, sheetName).then(function(geojson) {
-      // Convert GeoJSON to string
-      var geojsonStr = JSON.stringify(geojson);
-  
-      // Create Blob
-      var blob = geoJSONPointDBFile = new Blob([geojsonStr], { type: 'application/json' });
-  
-      // Create download link
-      var a = document.createElement('a');
-      var url = URL.createObjectURL(blob);
-      a.href = url;
-      a.download = 'SW_Map_Points.geojson';
-      document.body.appendChild(a);
-  
-      // Trigger download
-      a.click();
-  
-      // Clean up
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-    }).catch(function(error) {
-      console.error('Error generating GeoJSON:', error);
-    });
-  }
+  // Get Blob
+  var geojsonStr = await generatePointsGeoJSON();
 
-  // Function to trigger download of GeoJSON Route file
+  // Create Blob
+  var blob = geoJSONPointDBFile = new Blob([geojsonStr], { type: 'application/json' });
+
+  // Create download link
+  var a = document.createElement('a');
+  var url = URL.createObjectURL(blob);
+  a.href = url;
+  a.download = 'SW_Map_Points.geojson';
+  document.body.appendChild(a);
+
+  // Trigger download
+  a.click();
+
+  // Clean up
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+}
+
+// Function to generate GeoJSON file of points
+async function generatePointsGeoJSON() {
+  var spreadsheetId = SPREADSHEET_ID
+  var sheetName = SHEETS.OBJECTS.NAME
+  return await fetchSheetDataPoints(spreadsheetId, sheetName).then(function(geojson) {
+    // Convert GeoJSON to string
+    var geojsonStr = JSON.stringify(geojson);
+    return geojsonStr;
+  }).catch(function(error) {
+    console.error('Error generating GeoJSON:', error);
+  });
+}
+
+// Function to trigger create and download of already filtered Point Data for map (optimization of GeoJSON)
+async function downloadPointsArray() {
+  // Get point file
+  var geojsonStr = await generatePointsGeoJSON();
+
+  // Filter point data
+  let filteredData = initFilteredDataObject();
+  filteredData = filterPointData(JSON.parse(geojsonStr), filteredData);
+
+  let filteredPointDataJSON = JSON.stringify(filteredData);
+
+  // Create Blob
+  var blob = geoJSONPointDBFile = new Blob([filteredPointDataJSON], { type: 'application/json' });
+
+  // Create download link
+  var a = document.createElement('a');
+  var url = URL.createObjectURL(blob);
+  a.href = url;
+  a.download = 'SW_Map_Optimized_Points.geojson';
+  document.body.appendChild(a);
+
+  // Trigger download
+  a.click();
+
+  // Clean up
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+}
+
+/**
+ * Create geoJSON filtered data structure in order to add data to each sub layers
+ */
+function initFilteredDataObject() {
+  const zoomLayerIndexCount = mapMaxZoomLevel - mapMinZoomLevel;
+  // First (object display category) level filter
+  let filteredData = { "innerStarSystemObjects": {}, "starSystemObjects": {}, "innerMainObjectAsStarSystems":{}, "otherObjects": {} };
+  for (const astroObjectCategory in filteredData) {
+    // console.log(`${astroObjectCategory}: ${filteredData[astroObjectCategory]}`);
+    // 2nd (continuity) level filter
+    filteredData[astroObjectCategory] = {"canon": [], "canonAndLegends": [], "legends": [], "unlicensed": [] };
+    // 3rd (zoom) level filter
+    for (const astroObjectContinuity in filteredData[astroObjectCategory]) {
+      for (let index = 0; index < zoomLayerIndexCount; index++) {
+        // Create empty feature collection for each zoom layer
+        filteredData[astroObjectCategory][astroObjectContinuity][index] = {
+          "type": "FeatureCollection",
+          "features": []
+        };
+      }
+    }
+  }
+  // console.log(filteredData);
+  return filteredData;
+}
+
+/**
+ * Filter and add Point data to GeoJSON filtered data
+ * 
+ * @param {*} pointData geoJSON feature collection for points
+ */
+function filterPointData(pointData, filteredData) {
+  //console.log(pointData);
+  // let childrenCount = 0;
+  let starSystemFeatureWithCoordinatesStore = [];
+
+  pointData.features.forEach(function(feature) {
+    // console.log(feature);
+    const fp = feature.properties;
+    /* Ignore object list */
+    if(OBJECT_TYPES_TO_IGNORE.find((typeToIgnore) => typeToIgnore === fp.TYPE)) {
+      if(debug) {
+        console.log(`Ignoring ${fp.NAME} feature as point`);
+      }
+      return;
+    };
+    // Create a link to children in feature properties
+    const parentObjectFeature = getParentObjectFeature(pointData.features, feature);
+    if(parentObjectFeature) {
+      // console.log(`Creating link to parent in feature properties for object ${fp.NAME}`);
+      // console.log(++childrenCount);
+      if(parentObjectFeature.properties.childrenFeatures === undefined) {
+        parentObjectFeature.properties.childrenFeatures = [];
+      }
+      parentObjectFeature.properties.childrenFeatures.push(feature);
+      // console.log(parentObjectFeature.properties.childrenFeatures);
+      
+    }
+    /* Object category */
+    // Star systems with coordinates
+    if(fp.TYPE.toLowerCase() === "star system") {
+      /* We add to layer only systems with coordinates */
+      if(fp.X_COORD && fp.X_COORD !== "" && fp.Y_COORD && fp.Y_COORD !== "") {
+        // Storing star system for later use as inner main object display as star system
+        starSystemFeatureWithCoordinatesStore.push(feature);
+        /* Add star system hierarchy */
+        feature.properties.starSystemHierarchy = mapStarSystemHierarchyBuilder(pointData, feature.properties); // Performance to improve (if possible)
+        // console.log(feature.properties.starSystemHierarchy);
+        /* Continuity */
+        if(fp.LEGENDS.toLowerCase() === "yes") {
+          if(fp.CANON.toLowerCase() === "yes") {
+            // CANON and LEGENDS
+            addDataToZoomLevelFilteredFeatureCollection(filteredData.starSystemObjects.canonAndLegends, feature);
+          } else {
+            // LEGENDS only
+            addDataToZoomLevelFilteredFeatureCollection(filteredData.starSystemObjects.legends, feature);
+          }
+        } else if(fp.CANON.toLowerCase() === "yes") {
+          // CANON only
+          addDataToZoomLevelFilteredFeatureCollection(filteredData.starSystemObjects.canon, feature);
+        } else if (fp.UNLICENSED.toLowerCase() === "yes") {
+          // UNLICENSED
+          addDataToZoomLevelFilteredFeatureCollection(filteredData.starSystemObjects.unlicensed, feature);
+        }
+      }
+    } else {
+      // Inner star system objects
+      let starSystemCoordinates = getParentStarSystemCoordinatesIfAstroObjectFeatureIsInAStarSystem(pointData.features, fp);
+      // We take into account only star systems with coordinates (That's why star system must have coordinates in data sheet)
+      if(starSystemCoordinates.length > 0) {
+        // Object have not its own coordinates, we add star system's ones
+        if(!fp.X_COORD || fp.X_COORD === "" || !fp.Y_COORD || fp.Y_COORD === "") {
+          // feature.properties.X_COORD = starSystemCoordinates[0];
+          // feature.properties.Y_COORD = starSystemCoordinates[1];
+          feature.geometry.coordinates = starSystemCoordinates.map((coord) => parseFloat(coord));
+          feature.geometry.type = "Point";
+        }
+        // Add object to the inner star system object's zoom level filtered feature collection at object zoom level
+        if(fp.X_COORD && fp.X_COORD !== "" && fp.Y_COORD && fp.Y_COORD !== "") {
+          /* Continuity */
+          if(fp.LEGENDS.toLowerCase() === "yes") {
+            if(fp.CANON.toLowerCase() === "yes") {
+              // CANON and LEGENDS
+              addDataToZoomLevelFilteredFeatureCollection(filteredData.innerStarSystemObjects.canonAndLegends, feature, mapStarSystemMaxZoomLevel + 1);
+            } else {
+              // LEGENDS only
+              addDataToZoomLevelFilteredFeatureCollection(filteredData.innerStarSystemObjects.legends, feature, mapStarSystemMaxZoomLevel + 1);
+            }
+          } else if(fp.CANON.toLowerCase() === "yes") {
+            // CANON only
+            addDataToZoomLevelFilteredFeatureCollection(filteredData.innerStarSystemObjects.canon, feature, mapStarSystemMaxZoomLevel + 1);
+          } else if (fp.UNLICENSED.toLowerCase() === "yes") {
+            // UNLICENSED
+            addDataToZoomLevelFilteredFeatureCollection(filteredData.innerStarSystemObjects.unlicensed, feature, mapStarSystemMaxZoomLevel + 1);
+          }
+        }
+      // Other objects with coordinates and not part of star system
+      } else if(fp.X_COORD && fp.X_COORD !== "" && fp.Y_COORD && fp.Y_COORD !== "") {
+        /* Continuity */
+        if(fp.LEGENDS.toLowerCase() === "yes") {
+          if(fp.CANON.toLowerCase() === "yes") {
+            // CANON and LEGENDS
+            addDataToZoomLevelFilteredFeatureCollection(filteredData.otherObjects.canonAndLegends, feature);
+          } else {
+            // LEGENDS only
+            addDataToZoomLevelFilteredFeatureCollection(filteredData.otherObjects.legends, feature);
+          }
+        } else if(fp.CANON.toLowerCase() === "yes") {
+          // CANON only
+          addDataToZoomLevelFilteredFeatureCollection(filteredData.otherObjects.canon, feature);
+        } else if (fp.UNLICENSED.toLowerCase() === "yes") {
+          // UNLICENSED
+          addDataToZoomLevelFilteredFeatureCollection(filteredData.otherObjects.unlicensed, feature);
+        }
+      }
+    }
+  });
+  /* Create feature collection for inner main objects as star system */
+  createInnerSystemMainObjectAsStarSystemFeatureAndAddItTofilteredData(starSystemFeatureWithCoordinatesStore, filteredData.innerMainObjectAsStarSystems);
+  // console.log(filteredData);
+  const styles = ['color: black', 'background: lightgreen','font-weight: bold'].join(';');
+  console.log("%c[INIT] Point Data filtered", styles);
+  return filteredData;
+}
+
+/**
+ * Search for a parent object feature in the feature collection by ID and return it
+ * 
+ * @param {*} featureCollection 
+ * @param {*} objectFeature 
+ * @returns {*} Feature of parent object or null if not found
+ */
+function getParentObjectFeature(featureCollection, objectFeature) {
+  // Object feature property undefined or null, parent ID undefined, null or empty
+  if(!objectFeature.properties || !objectFeature.properties.PARENT_ID || objectFeature.properties.PARENT_ID === "") {
+    return null;
+  }
+  return featureCollection.find(feature => feature.properties.ID === objectFeature.properties.PARENT_ID);
+}
+
+function createInnerSystemMainObjectAsStarSystemFeatureAndAddItTofilteredData(starSystemFeatureCollection, innerMainObjectAsStarSystemFilteredData) {
+  for (const feature of starSystemFeatureCollection) {
+    // Deep copy object
+    const innerMainObjectAsStarSystemFeature = JSON.parse(JSON.stringify(feature));
+    // Add marker to avoid search as inner system object
+    innerMainObjectAsStarSystemFeature.properties.innerObjectAsStarSystem = true;
+    const fp = feature.properties;
+    // Change properties function of inner objects
+    const innerSystemMainObjectFeatureProperties = getInnerSystemMainObjectFeatureProperties(innerMainObjectAsStarSystemFeature);
+    // Replace properties
+    for (const key in innerSystemMainObjectFeatureProperties) {
+      if (Object.prototype.hasOwnProperty.call(innerSystemMainObjectFeatureProperties, key)) {
+        // Add new properties only if not empty
+        if(innerSystemMainObjectFeatureProperties[key].length > 0) {
+          innerMainObjectAsStarSystemFeature.properties[key] = innerSystemMainObjectFeatureProperties[key].join(" & ");
+        }
+      }
+    }
+    // console.log(innerMainObjectAsStarSystemFeature);
+    
+    // Create Inner main object(s) as star system feature
+    if(fp.LEGENDS.toLowerCase() === "yes") {
+      if(fp.CANON.toLowerCase() === "yes") {
+        // CANON and LEGENDS
+        addDataToZoomLevelFilteredFeatureCollection(innerMainObjectAsStarSystemFilteredData.canonAndLegends, innerMainObjectAsStarSystemFeature);// Main inner object(s) as star system
+      } else {
+        // LEGENDS only
+        addDataToZoomLevelFilteredFeatureCollection(innerMainObjectAsStarSystemFilteredData.legends, innerMainObjectAsStarSystemFeature);// Main inner object(s) as star system
+      }
+    } else if(fp.CANON.toLowerCase() === "yes") {
+      // CANON only
+      addDataToZoomLevelFilteredFeatureCollection(innerMainObjectAsStarSystemFilteredData.canon, innerMainObjectAsStarSystemFeature);// Main inner object(s) as star system
+    } else if (fp.UNLICENSED.toLowerCase() === "yes") {
+      // UNLICENSED
+      addDataToZoomLevelFilteredFeatureCollection(innerMainObjectAsStarSystemFilteredData.unlicensed, innerMainObjectAsStarSystemFeature);// Main inner object(s) as star system
+    }
+    // TODO Remove children properties from feature to lighten feature collection
+  }
+}
+
+/**
+ * Format/alter parent object feature properties with main children feature properties
+ * 
+ * @param {*} innerMainObjectAsStarSystemFeature initial feature object with properties.children key
+ * @param {boolean} [firstChild=true] If it's the first child (default: true) we add its ID to the feature
+ * @param {boolean} [onlyCapital=false] If "IS_CAPITAL" feature property is found on any children
+ * @returns feature properties
+ */
+function getInnerSystemMainObjectFeatureProperties(innerMainObjectAsStarSystemFeature, firstChild = true, onlyCapital = false) {
+  const sfp = innerMainObjectAsStarSystemFeature.properties;
+  let newProperties = {
+    NAME: [],
+    TYPE: [],
+    ["URLS (sources)"]: [],
+  };
+  // Only first child
+  if(firstChild) {
+    newProperties.ID = [generateUUIDv7()], // ID need to remain unique
+    newProperties.PARENT_ID = [sfp.ID], // Need to change this property to find parent object on map
+    newProperties.PARENT = [sfp.NAME+" < "+ sfp.PARENT];
+    firstChild = false;
+  }
+  // Searching for main objects
+  if(sfp.childrenFeatures && sfp.childrenFeatures.length > 0) {
+    for (const child of sfp.childrenFeatures) {
+      const cfp = child.properties;
+      if(cfp.IS_CAPITAL.toLowerCase() === "yes") {
+        onlyCapital = true;
+      }
+      if(onlyCapital) { // Only "capital" children are selected
+        if(cfp.IS_CAPITAL.toLowerCase() === "yes") {
+          newProperties.NAME.push(cfp["ALT_NAMES (/ separated)"] && cfp["ALT_NAMES (/ separated)"] !== "" ?
+            cfp.NAME + "/" + cfp["ALT_NAMES (/ separated)"] : cfp.NAME
+          );
+          newProperties.TYPE.push(cfp.TYPE_CLASSES || cfp.TYPE_CLASSES !== "" ? 
+            cfp.TYPE_CLASSES + " (" + cfp.TYPE + ")" : cfp.TYPE
+          );
+          if(cfp["URLS (sources)"] && cfp["URLS (sources)"] !== "") {
+            newProperties["URLS (sources)"].push(cfp["URLS (sources)"]);
+          }
+        }
+      } else {
+        if(sfp.childrenFeatures.length === 1 && cfp.childrenFeatures === undefined) { // Object is not capital, is alone and has no child
+          newProperties.NAME.push(cfp["ALT_NAMES (/ separated)"] && cfp["ALT_NAMES (/ separated)"] !== "" ?
+            cfp.NAME + "/" + cfp["ALT_NAMES (/ separated)"] : cfp.NAME
+          );
+          newProperties.TYPE.push(cfp.TYPE_CLASSES || cfp.TYPE_CLASSES !== "" ? 
+            cfp.TYPE_CLASSES + " (" + cfp.TYPE + ")" : cfp.TYPE
+          );
+          if(cfp["URLS (sources)"] && cfp["URLS (sources)"] !== "") {
+            newProperties["URLS (sources)"].push(cfp["URLS (sources)"]);
+          }
+        }
+      }
+      // if(newProperties["URLS (sources)"].length > 0) {
+      //   console.log("Found URLs:", newProperties["URLS (sources)"]);
+      // }
+      // Add childrenFeatures of child properties to new properties
+      const childrenNewProperties = getInnerSystemMainObjectFeatureProperties(child, firstChild, onlyCapital);
+      // console.log("before:");
+      // console.log("PARENT:", sfp.NAME, "CURRENT:", cfp.NAME);
+      // console.log(newProperties);
+      // console.log(childrenNewProperties);
+      // console.log("after");
+      newProperties.NAME = [...newProperties.NAME, ...childrenNewProperties.NAME]; // "..." spread operator to merge small arrays
+      newProperties.TYPE = [...newProperties.TYPE, ...childrenNewProperties.TYPE]; // "..." spread operator to merge small arrays
+      if(childrenNewProperties["URLS (sources)"].length>0) {
+        newProperties["URLS (sources)"] = [(newProperties["URLS (sources)"].concat(childrenNewProperties["URLS (sources)"])).join(",")];
+      }
+      // newProperties["URLS (sources)"] = [([...newProperties["URLS (sources)"],...childrenNewProperties["URLS (sources)"]]).join(",")]; // "..." spread operator to merge small arrays
+    }
+  }
+  // if(debug && newProperties.NAME.length > 0) {
+  //   console.log(newProperties);
+  // }
+  return newProperties;
+}
+
+/**
+ * Concatenate all star system children objects by hierarchy level
+ * 
+ * @param {*} pointData data GeoJSON feature collection for points
+ * @param {*} featureProperty feature properties of star system
+ * @returns {Array} Array of star system children objects
+ */
+function mapStarSystemHierarchyBuilder(pointData, featureProperty) {
+  // Find all star system children objects by hierarchy level
+  let hierarchy = [];
+  const children = pointData.features.filter(feature => feature.properties.PARENT_ID === featureProperty.ID);
+  children.forEach(childrenFeature => {
+    const cFp = childrenFeature.properties;
+    let subType = cFp["TYPE_CLASSES"]!== "" ? " - " + cFp["TYPE_CLASSES"] : "";
+    hierarchy.push(`${cFp.HUMAN_READABLE_NAME} (${cFp.TYPE}${subType})`);
+    hierarchy = hierarchy.concat(mapStarSystemHierarchyBuilder(pointData, cFp));
+  });
+  // if(hierarchy !== "") { 
+  //   console.log(hierarchy)  
+  // };
+  return hierarchy;
+}
+
+/********* LINES/ROADS  *********/
+
+// Function to trigger download of GeoJSON Route file
 async function downloadLinesGeoJSON() {
   const spreadsheetId = SPREADSHEET_ID;
   const routeSheetName = SHEETS.HYPERROUTES.NAME;
@@ -253,6 +592,7 @@ async function fetchDataLines() {
    */
   // Add event listener to download button
   document.getElementById('downloadPointsButton').addEventListener('click', downloadPointsGeoJSON);
+  document.getElementById('downloadOptimizedPointsButton').addEventListener('click', downloadPointsArray);
   document.getElementById('downloadLinesButton').addEventListener('click', downloadLinesGeoJSON);
 
 

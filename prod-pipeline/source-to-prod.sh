@@ -32,6 +32,7 @@ echo "📦 Processing JavaScript..."
 JS_VENDOR_SRC="$SRC_DIR/scripts/vendor"
 JS_MAP_LOADING_SRC="$SRC_DIR/scripts/map/loading"
 JS_MAP_SRC="$SRC_DIR/scripts/map"
+JS_SHARED_SRC="$SRC_DIR/scripts/shared"
 
 JS_VENDOR_DIST="$DIST_DIR/scripts/vendor"
 JS_MAP_DIST="$DIST_DIR/scripts/map"
@@ -65,6 +66,7 @@ cat "$JS_MAP_LOADING_SRC"/loading-overlay.js > "$JS_MAP_LOADING_DIST"/all.js
 cat "$JS_MAP_SRC"/helpers/map-utilities.js \
     "$JS_MAP_SRC"/icons.js \
     "$JS_MAP_SRC"/tootips-and-popups.js \
+    "$JS_SHARED_SRC"/data.js \
     "$JS_MAP_SRC"/data.js \
     "$JS_MAP_SRC"/grid.js \
     "$JS_MAP_SRC"/custom-controls.js \
