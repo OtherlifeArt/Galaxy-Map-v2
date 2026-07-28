@@ -202,10 +202,11 @@ JQ_POLYGON_OBFUSCATE_FILTER='
 # jq -c -s "$JQ_POINT_OBFUSCATE_FILTER" "$GEO_ASTRO_OBJ_SRC"/SW_Map_Points.geojson > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Points.geojson &
 # jq -c -s "$JQ_POLYGON_OBFUSCATE_FILTER" "$GEO_ASTRO_OBJ_SRC"/SW_Map_Polygons.geojson > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Polygons.geojson &
 
-# Combine, and Minify in parallel
+# (Combine), and Minify in parallel
 jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/SW_Map_Lines.geojson > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Lines.geojson &
 jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/SW_Map_Points.geojson > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Points.geojson &
 jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/SW_Map_Polygons.geojson > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Polygons.geojson &
+jq -c . "$GEO_ASTRO_OBJ_SRC"/SW_Map_Optimized_Points.json > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Optimized_Points.json &
 jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/roads.geojson > "$GEO_ASTRO_OBJ_DIST"/roads.geojson &
 jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_GRID_SRC"/grid.geojson > "$GEO_GRID_DIST"/grid.geojson &
 jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_GRID_SRC"/grid_labels.geojson > "$GEO_GRID_DIST"/grid_labels.geojson &

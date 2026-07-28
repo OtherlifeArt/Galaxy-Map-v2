@@ -140,7 +140,7 @@ async function downloadPointsArray() {
   var a = document.createElement('a');
   var url = URL.createObjectURL(blob);
   a.href = url;
-  a.download = 'SW_Map_Optimized_Points.geojson';
+  a.download = 'SW_Map_Optimized_Points.json';
   document.body.appendChild(a);
 
   // Trigger download

@@ -2,4 +2,4 @@
 FROM httpd:alpine
 
 # Copy optimizer script
-COPY ./dist /usr/local/apache2/htdocs
+COPY  ./dist /usr/local/apache2/htdocs

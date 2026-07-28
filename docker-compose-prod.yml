@@ -4,7 +4,7 @@
 # docker compose -f docker-compose-prod.yml build  web-prod && docker compose -f docker-compose-prod.yml up -d
 
 networks:
-  frontend:
+  frontend-prod:
     name: swgalaxymap-prod-frontend
   tools:
     name: swgalaxymap-tools
@@ -22,7 +22,7 @@ services:
     depends_on:
       - web-prod-builder
     networks:
-      - frontend
+      - frontend-prod
   
   # This service will NOT run automatically
   web-prod-builder:
