@@ -28,7 +28,8 @@ const roadGlowOpacity = 0.3;
 
 /************* DATA POINTS  ************/
 // Downloaded data from geojson files
-var pointData; // Used for search functionnality only
+// var pointData; // Used for search functionnality only
+const pointFeatureIndex = new Map(); // Index for search functionnality only
 var roadData;
 
 /************* USER OPTIONS ************/
@@ -877,6 +878,36 @@ function initializeZoomLayerPointGroup(zoomLayerGroup) {
 //   // Push feature into feature collection according to its zoom level
 //   featureCollections[featureZoomLevelIndex].features.push(feature);
 // }
+
+
+/**
+ * Check if astronomical object is in star system by entering its feature
+ * 
+ * @param {*} featureProperty Feature properties of astro object
+ * @param {*} indexedFeatureCollection Indexed feature collection for points from GEOJSON/FilteredData
+ * 
+ * @returns {Array} [] if astro object is not in any star system, [x,y] star system coordinates array otherwise
+ */
+function getParentStarSystemCoordinatesIfAstroObjectFeatureIsInAStarSystem(indexedFeatureCollection, featureProperty) {
+  // Feature property undefined or null
+  if(!featureProperty) {
+    return [];
+  }
+  // Object type not belonging to star system
+  if(OBJECT_TYPES_TO_IGNORE.find((typeToIgnore) => typeToIgnore === featureProperty.TYPE)) {
+    return [];
+  };
+  const parentObject = indexedFeatureCollection.get(featureProperty.PARENT_ID)?.feature;
+  if(parentObject && parentObject.properties.TYPE.toLowerCase() === "star system") {
+    if(parentObject.properties.X_COORD && parentObject.properties.X_COORD !== "" && parentObject.properties.Y_COORD && parentObject.properties.Y_COORD !== "") {
+      return [parentObject.properties.X_COORD, parentObject.properties.Y_COORD];
+    } else {
+      return [];
+    }
+  } else {
+    return getParentStarSystemCoordinatesIfAstroObjectFeatureIsInAStarSystem(indexedFeatureCollection, parentObject);
+  }
+}
 
 /**
  * Add each filtered feature collection to right geoJSON object
@@ -1792,21 +1823,21 @@ function highlightCircleMarker(e) {
 // });
 
 // Load data from local geojson for search feature
-$.getJSON(url_points, function(data) {
-  pointData = data; // Storing data for later use
-  // console.log(data);
-  // filterPoints(data);
-  // let filteredData = initFilteredDataObject();
-  // filteredData = filterPointData(data, filteredData);
-  // // console.log(filteredData);
-  // addFilteredData(filteredData);
-  // map.addLayer(points);
-  // filterPoints();
-  // // Show points on map
-  // // points.addData(data);
-  // // Hide spinner
-  // hideLoadingOverlay();
-});
+// $.getJSON(url_points, function(data) {
+//   pointData = data; // Storing data for later use
+//   // console.log(data);
+//   // filterPoints(data);
+//   // let filteredData = initFilteredDataObject();
+//   // filteredData = filterPointData(data, filteredData);
+//   // // console.log(filteredData);
+//   // addFilteredData(filteredData);
+//   // map.addLayer(points);
+//   // filterPoints();
+//   // // Show points on map
+//   // // points.addData(data);
+//   // // Hide spinner
+//   // hideLoadingOverlay();
+// });
 
 // Load optimized data from local geojson and initialize the layer
 $.getJSON(url_optimized_points, function(data) {
@@ -1818,6 +1849,8 @@ $.getJSON(url_optimized_points, function(data) {
   filterPoints();
   // Hide spinner
   hideLoadingOverlay();
+  // Index points for search
+  indexLayers(points, pointFeatureIndex);
 });
 
 /************** POLYGONS ***************/
@@ -1924,3 +1957,17 @@ const areas = L.geoJSON(null,{
 $.getJSON(url_areas, function(data) {
   areas.addData(data);
 });
+
+// Index layers for search
+function indexLayers(layer, indexedObjectMap) {
+    if (layer.feature?.properties?.ID !== undefined) {
+      // console.log("Indexed feature properties",layer);
+        indexedObjectMap.set(layer.feature.properties.ID, layer);
+    }
+
+    if (layer.eachLayer) {
+      layer.eachLayer(child => {
+        indexLayers(child, indexedObjectMap);
+      });
+    }
+}

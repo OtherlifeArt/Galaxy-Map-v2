@@ -204,7 +204,7 @@ JQ_POLYGON_OBFUSCATE_FILTER='
 
 # (Combine), and Minify in parallel
 jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/SW_Map_Lines.geojson > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Lines.geojson &
-jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/SW_Map_Points.geojson > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Points.geojson &
+# jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/SW_Map_Points.geojson > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Points.geojson &
 jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/SW_Map_Polygons.geojson > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Polygons.geojson &
 jq -c . "$GEO_ASTRO_OBJ_SRC"/SW_Map_Optimized_Points.json > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Optimized_Points.json &
 jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/roads.geojson > "$GEO_ASTRO_OBJ_DIST"/roads.geojson &

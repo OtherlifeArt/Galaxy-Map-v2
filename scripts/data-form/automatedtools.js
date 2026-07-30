@@ -177,6 +177,36 @@ function initFilteredDataObject() {
   return filteredData;
 }
 
+
+/**
+ * Check if astronomical object is in star system by entering its feature
+ * 
+ * @param {*} featureProperty Feature properties of astro object
+ * @param {*} featureCollection GeoJSON feature collection for points
+ * 
+ * @returns {Array} [] if astro object is not in any star system, [x,y] star system coordinates array otherwise
+ */
+function getParentStarSystemCoordinatesIfAstroObjectFeatureIsInAStarSystem(featureCollection, featureProperty) {
+  // Feature property undefined or null
+  if(!featureProperty) {
+    return [];
+  }
+  // Object type not belonging to star system
+  if(OBJECT_TYPES_TO_IGNORE.find((typeToIgnore) => typeToIgnore === featureProperty.TYPE)) {
+    return [];
+  };
+  const parentObject = featureCollection.find(feature => feature.properties.ID === featureProperty.PARENT_ID);
+  if(parentObject && parentObject.properties.TYPE.toLowerCase() === "star system") {
+    if(parentObject.properties.X_COORD && parentObject.properties.X_COORD !== "" && parentObject.properties.Y_COORD && parentObject.properties.Y_COORD !== "") {
+      return [parentObject.properties.X_COORD, parentObject.properties.Y_COORD];
+    } else {
+      return [];
+    }
+  } else {
+    return getParentStarSystemCoordinatesIfAstroObjectFeatureIsInAStarSystem(featureCollection, parentObject);
+  }
+}
+
 /**
  * Filter and add Point data to GeoJSON filtered data
  * 
