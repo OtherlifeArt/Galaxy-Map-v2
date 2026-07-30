@@ -253,6 +253,9 @@ var map = L.map('map', {
   // boxZoom: true, // default - Whether the map can be zoomed to a rectangular area specified by dragging the mouse while pressing the shift key.
   // doubleClickZoom: true, // default - Whether the map can be zoomed in by double clicking on it and zoomed out by double clicking while holding shift. If passed 'center', double-click zoom will zoom to the center of the view regardless of where the mouse was.
   //preferCanvas: true, // It disable interaction with multiple layers (point and areas)...
+  markerZoomAnimation: false,
+  // zoomAnimation: false,
+  // fadeAnimation: false,
 }).setView(mapStartCenterCoordinates, mapStartZoomLevel);
 
 /******** ATTRIBUTION ********/
