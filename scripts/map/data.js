@@ -358,8 +358,8 @@ function onEachFeatureRoads(feature, layer) {
 //     pmIgnore:true
 // });
 
-// Load data from local geojson and initialize the road layer
 const roadColorGen = roadColorGenerator();
+// Load data from local geojson and initialize the road layer
 $.getJSON(url_roads, function(data) {
   roadData = data;
   // roads.addData(data);
