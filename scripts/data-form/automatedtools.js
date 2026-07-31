@@ -624,6 +624,7 @@ async function fetchDataLines() {
   document.getElementById('downloadPointsButton').addEventListener('click', downloadPointsGeoJSON);
   document.getElementById('downloadOptimizedPointsButton').addEventListener('click', downloadPointsArray);
   document.getElementById('downloadLinesButton').addEventListener('click', downloadLinesGeoJSON);
+  document.getElementById('downloadOptimizedLinesButton').addEventListener('click', downloadLinesArray);
 
 
 /**
