@@ -207,7 +207,8 @@ jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_A
 # jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/SW_Map_Points.geojson > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Points.geojson &
 jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/SW_Map_Polygons.geojson > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Polygons.geojson &
 jq -c . "$GEO_ASTRO_OBJ_SRC"/SW_Map_Optimized_Points.json > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Optimized_Points.json &
-jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/roads.geojson > "$GEO_ASTRO_OBJ_DIST"/roads.geojson &
+# jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_ASTRO_OBJ_SRC"/roads.geojson > "$GEO_ASTRO_OBJ_DIST"/roads.geojson &
+jq -c . "$GEO_ASTRO_OBJ_SRC"/SW_Map_Optimized_Lines.json > "$GEO_ASTRO_OBJ_DIST"/SW_Map_Optimized_Lines.json &
 jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_GRID_SRC"/grid.geojson > "$GEO_GRID_DIST"/grid.geojson &
 jq -c -s '{ type: "FeatureCollection", features: map(.features) | add }' "$GEO_GRID_SRC"/grid_labels.geojson > "$GEO_GRID_DIST"/grid_labels.geojson &
 

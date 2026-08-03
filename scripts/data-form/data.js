@@ -1,11 +1,13 @@
 /********** URLS **********/
 
 // Paths to data
-var url_points = "././data/astronomicalobjects/SW_Map_Points.geojson"
-// var url_roads = "././data/astronomicalobjects/SW_Map_Lines.geojson"
-// var url_areas = "././data/astronomicalobjects/SW_Map_Polygons.geojson"
+const url_points = "././data/astronomicalobjects/SW_Map_Points.geojson"
+const url_roads = "././data/astronomicalobjects/SW_Map_Lines.geojson";
 
 /************** ROADS ***************/
+
+const roadGlowWidthFactor = 3;
+const roadGlowOpacity = 0.3;
 
 function* roadColorGenerator() {
   while(true) {

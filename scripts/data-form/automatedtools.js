@@ -85,10 +85,12 @@ function fetchSheetDataPoints(spreadsheetId, sheetName) {
     });
   });
 }
-  
+
+/********* POINTS/ASTRO OBJECTS  *********/
+
 // Function to trigger download of GeoJSON file of points
 async function downloadPointsGeoJSON() {
-  // Get Blob
+  // Get GeoJSON
   var geojsonStr = await generatePointsGeoJSON();
 
   // Create Blob
@@ -111,8 +113,8 @@ async function downloadPointsGeoJSON() {
 
 // Function to generate GeoJSON file of points
 async function generatePointsGeoJSON() {
-  var spreadsheetId = SPREADSHEET_ID
-  var sheetName = SHEETS.OBJECTS.NAME
+  const spreadsheetId = SPREADSHEET_ID
+  const sheetName = SHEETS.OBJECTS.NAME
   return await fetchSheetDataPoints(spreadsheetId, sheetName).then(function(geojson) {
     // Convert GeoJSON to string
     var geojsonStr = JSON.stringify(geojson);
@@ -486,13 +488,8 @@ function mapStarSystemHierarchyBuilder(pointData, featureProperty) {
 
 // Function to trigger download of GeoJSON Route file
 async function downloadLinesGeoJSON() {
-  const spreadsheetId = SPREADSHEET_ID;
-  const routeSheetName = SHEETS.HYPERROUTES.NAME;
-  const routeSectionSheetName = SHEETS.HYPERROUTE_SECTIONS.NAME;
-  const geojson = await fetchDataLines(spreadsheetId, routeSheetName, routeSectionSheetName);
-  // Convert GeoJSON to string
-  const geojsonStr = JSON.stringify(geojson);
-
+  // Get GeoJSON
+  const geojsonStr = await generateLinesGeoJSON();
   // Create Blob
   const blob = geoJSONPointDBFile = new Blob([geojsonStr], { type: 'application/json' });
 
@@ -509,6 +506,135 @@ async function downloadLinesGeoJSON() {
   // Clean up
   window.URL.revokeObjectURL(url);
   document.body.removeChild(a);
+}
+
+// Function to generate GeoJSON file of lines
+async function generateLinesGeoJSON() {
+  const spreadsheetId = SPREADSHEET_ID;
+  const routeSheetName = SHEETS.HYPERROUTES.NAME;
+  const routeSectionSheetName = SHEETS.HYPERROUTE_SECTIONS.NAME;
+  const geojson = await fetchDataLines(spreadsheetId, routeSheetName, routeSectionSheetName);
+  // Return converted GeoJSON to string
+  return JSON.stringify(geojson);
+}
+
+// Function to trigger create and download of already filtered Point Data for map (optimization of GeoJSON)
+async function downloadLinesArray() {
+  // Get line file
+  var geojsonStr = await generateLinesGeoJSON();
+
+  // Filter lines data
+  let filteredData = initFilteredRoadDataObject();
+  filteredData = filterRoadData(JSON.parse(geojsonStr), filteredData);
+
+  let filteredRoadDataJSON = JSON.stringify(filteredData);
+
+  // Create Blob
+  var blob = geoJSONRoadDBFile = new Blob([filteredRoadDataJSON], { type: 'application/json' });
+
+  // Create download link
+  var a = document.createElement('a');
+  var url = URL.createObjectURL(blob);
+  a.href = url;
+  a.download = 'SW_Map_Optimized_Lines.json';
+  document.body.appendChild(a);
+
+  // Trigger download
+  a.click();
+
+  // Clean up
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+}
+
+function initFilteredRoadDataObject() {
+  const zoomLayerIndexCount = mapMaxZoomLevel - mapMinZoomLevel;
+  const filteredData = {"canon": [], "canonAndLegends": [], "legends": [], "unlicensed": [] };
+  for (const routeContinuity in filteredData) {
+    for (let index = 0; index < zoomLayerIndexCount; index++) {
+      // Create empty feature collection for each zoom layer
+      filteredData[routeContinuity][index] = {
+        "type": "FeatureCollection",
+        "features": []
+      };
+    }
+  }
+  // console.log(filteredData);
+  return filteredData;
+}
+
+/**
+ * 
+ * @param {*} roadData 
+ * @param {*} filteredData 
+ * @returns 
+ */
+function filterRoadData(roadData, filteredData) {
+  roadData.features.forEach(function(feature) {
+    const fp = feature.properties;
+    const fpZoomLevel = fp.ZOOM_LEVEL !== "" ? parseInt(fp.ZOOM_LEVEL) : (parseInt(fp.LEVEL) - 1) * roadZoomLevelStep;
+    if(!fpZoomLevel && fpZoomLevel !== 0) {
+      console.warn(feature.properties);
+      alert("ZOOM_LEVEL or LEVEL data missing for route " + fp.NAME + " !! Check console !!");
+      return; // we ignore this road
+    }
+    /* Continuity */
+    if(fp.LEGENDS.toLowerCase() === "yes") {
+      if(fp.CANON.toLowerCase() === "yes") {
+        // CANON and LEGENDS
+        addDataToZoomLevelFilteredFeatureCollection(filteredData.canonAndLegends, feature, fpZoomLevel);
+      } else {
+        // LEGENDS only
+        addDataToZoomLevelFilteredFeatureCollection(filteredData.legends, feature, fpZoomLevel);
+      }
+    } else if(fp.CANON.toLowerCase() === "yes") {
+      // CANON only
+      addDataToZoomLevelFilteredFeatureCollection(filteredData.canon, feature, fpZoomLevel);
+    } else if (fp.UNLICENSED.toLowerCase() === "yes") {
+      // UNLICENSED
+      addDataToZoomLevelFilteredFeatureCollection(filteredData.unlicensed, feature, fpZoomLevel);
+    }
+  });
+  const styles = ['color: black', 'background: lightgreen','font-weight: bold'].join(';');
+  console.log("%c[INIT] Road Data filtered", styles);
+  return filteredData;
+}
+
+/**
+ * Add feature to right zoom level feature collection
+ * 
+ * @param {*} featureCollections Parent of zoom level feature collection
+ * @param {*} feature From unfiltered featurecollection
+ * @param {number|null} [forcedFeatureZoomLevelIndex] force feature collection to be added to this zoom level; Default null
+ */
+function addDataToZoomLevelFilteredFeatureCollection(featureCollections, feature, forcedFeatureZoomLevelIndex = null) {
+  // console.log(feature);
+  let featureZoomLevelIndex;
+  if(forcedFeatureZoomLevelIndex === null){
+    if(feature.properties.ZOOM_LEVEL === undefined || feature.properties.ZOOM_LEVEL === null || feature.properties.ZOOM_LEVEL === "") {
+      featureZoomLevelIndex = defaultObjectZoomIndex;
+    } else {
+      featureZoomLevelIndex = parseInt(feature.properties.ZOOM_LEVEL);
+      // console.log(feature.properties.NAME, feature.properties.ZOOM_LEVEL);
+      
+    }
+  } else {
+    featureZoomLevelIndex = forcedFeatureZoomLevelIndex;
+  }
+  // Duplicate level 1 feature collection to add "glow background" with a deep copy
+  if (feature.properties.LEVEL === "1" || feature.properties.LEVEL === 1) {
+    const DEEP_COPIED_FEATURE = JSON.parse(JSON.stringify(feature));
+    if(DEEP_COPIED_FEATURE.properties.weight === undefined || DEEP_COPIED_FEATURE.properties.weight === "") {
+      DEEP_COPIED_FEATURE.properties.weight = 4 * roadGlowWidthFactor;
+    } else {
+      DEEP_COPIED_FEATURE.properties.weight = parseInt(DEEP_COPIED_FEATURE.properties.weight) * roadGlowWidthFactor;
+    }
+    DEEP_COPIED_FEATURE.properties.opacity = roadGlowOpacity;
+    // Add glow route before route
+    featureCollections[featureZoomLevelIndex].features.push(DEEP_COPIED_FEATURE);
+  }
+  // Push feature into feature collection according to its zoom level
+  featureCollections[featureZoomLevelIndex].features.push(feature);
 }
 
 // Function to fetch data hyperroute and hyperroute section data already loaded from Google spreadsheet and return a GeoJSON object containing line objects
